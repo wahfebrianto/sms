@@ -1,0 +1,49 @@
+﻿@using AdminLTE1.Controllers
+<aside class="main-sidebar">
+    <section class="sidebar">
+        @* BEGIN Menu *@
+        <ul class="sidebar-menu">
+            <li class="header">Menu</li>
+            <li class="@(ViewContext.RouteData.Values["Action"].ToString() == nameof(HomeController.Index) ? "active" : "")">
+                <a href="@Url.Action("Index", "Home")"><i class="fa fa-link"></i> <span>Dashboard</span></a>
+            </li>
+            <li class="@(ViewContext.RouteData.Values["Action"].ToString() == nameof(HomeController.AnotherLink) ? "active" : "")">
+                <a href="@Url.Action("Index", "Flow")"><i class="fa fa-link"></i> <span>Flow Diagram</span></a>
+            </li>
+            <li class="@(ViewContext.RouteData.Values["Action"].ToString() == nameof(HomeController.AnotherLink) ? "active" : "")">
+                <a href="@Url.Action("Index", "RFQ")"><i class="fa fa-link"></i> <span>Request For Quotation</span></a>
+            </li>
+            <li class="@(ViewContext.RouteData.Values["Action"].ToString() == nameof(HomeController.AnotherLink) ? "active" : "")">
+                <a href="@Url.Action("Index", "Home")"><i class="fa fa-link"></i> <span>Cari Harga</span></a>
+            </li>
+            <li class="@(ViewContext.RouteData.Values["Action"].ToString() == nameof(HomeController.AnotherLink) ? "active" : "")">
+                <a href="@Url.Action("Index", "Penawaran")"><i class="fa fa-link"></i> <span>Penawaran</span></a>
+            </li>
+            <li class="@(ViewContext.RouteData.Values["Action"].ToString() == nameof(HomeController.AnotherLink) ? "active" : "")">
+                <a href="@Url.Action("Index", "SalesOrder")"><i class="fa fa-link"></i> <span>Sales Order</span></a>
+            </li>
+            <li class="@(ViewContext.RouteData.Values["Action"].ToString() == nameof(HomeController.AnotherLink) ? "active" : "")">
+                <a href="@Url.Action("Index", "PurchaseOrder")"><i class="fa fa-link"></i> <span>Purchase Order</span></a>
+            </li>
+            <li class="@(ViewContext.RouteData.Values["Action"].ToString() == nameof(HomeController.AnotherLink) ? "active" : "")">
+                <a href="@Url.Action("Index", "Penerimaan")"><i class="fa fa-link"></i> <span>Penerimaan Barang</span></a>
+            </li>
+            <li class="@(ViewContext.RouteData.Values["Action"].ToString() == nameof(HomeController.AnotherLink) ? "active" : "")">
+                <a href="@Url.Action("Index", "PurchaseInvoice")"><i class="fa fa-link"></i> <span>Purchase Invoice</span></a>
+            </li>
+            <li class="@(ViewContext.RouteData.Values["Action"].ToString() == nameof(HomeController.AnotherLink) ? "active" : "")">
+                <a href="@Url.Action("Index", "PembayaranPurchasing")"><i class="fa fa-link"></i> <span>Pembayaran(Purchasing)</span></a>
+            </li>
+            <li class="@(ViewContext.RouteData.Values["Action"].ToString() == nameof(HomeController.AnotherLink) ? "active" : "")">
+                <a href="@Url.Action("Index", "Home")"><i class="fa fa-link"></i> <span>Surat Jalan</span></a>
+            </li>
+            <li class="@(ViewContext.RouteData.Values["Action"].ToString() == nameof(HomeController.AnotherLink) ? "active" : "")">
+                <a href="@Url.Action("Index", "SalesInvoice")"><i class="fa fa-link"></i> <span>Sales Invoice</span></a>
+            </li>
+            <li class="@(ViewContext.RouteData.Values["Action"].ToString() == nameof(HomeController.AnotherLink) ? "active" : "")">
+                <a href="@Url.Action("Index", "PembayaranSales")"><i class="fa fa-link"></i> <span>Pembayaran(Sales)</span></a>
+            </li>
+        </ul>
+        @* END Menu *@
+    </section>
+</aside>
