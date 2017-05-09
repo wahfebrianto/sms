@@ -6,14 +6,12 @@ namespace AdminLTE1.Controllers
     {
         public ActionResult Index()
         {
-            ViewBag.Title = "Home";
             return View();
         }
 
-        public ActionResult AnotherLink()
+        public ActionResult History()
         {
-            ViewBag.Title = "Home";
-            return View("Index");
+            return View("History");
         }
     }
 }

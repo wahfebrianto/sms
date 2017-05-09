@@ -13,10 +13,12 @@ namespace AdminLTE1.App_Start
                 .Include("~/Content/css/AdminLTE.css")
                 .Include("~/Content/css/skins/skin-blue.css")
                 .Include("~/Content/bootstrap.min.css")
+                .Include("~/Scripts/plugins/jquery-ui/jquery-ui.min.css")
                 .Include("~/Content/animate.css")
                 .Include("~/Content/style.css")
                 .Include("~/fonts/font-awesome/css/font-awesome.min.css")
-                .Include("~/Content/plugins/dataTables/datatables.min.css"));
+                .Include("~/Content/plugins/dataTables/datatables.min.css")
+                .Include("~/Content/plugins/sweetalert/sweetalert.css"));
 
             bundles.Add(new ScriptBundle("~/Bundles/js")
                 .Include("~/Content/js/plugins/jquery/jquery-2.2.4.js")
@@ -31,12 +33,12 @@ namespace AdminLTE1.App_Start
                 .Include("~/Content/js/plugins/inputmask/jquery.inputmask.bundle.js")
                 .Include("~/Content/js/app.js")
                 .Include("~/Content/js/init.js")
-                .Include("~/Scripts/jquery-3.1.1.min.js")
-                .Include("~/Scripts/plugins/jquery-ui/jquery-ui.min.css")
+                //.Include("~/Scripts/jquery-3.1.1.min.js")
                 .Include("~/Scripts/plugins/jquery-ui/jquery-ui.min.js")
                 .Include("~/Scripts/bootstrap.min.js")
                 .Include("~/Scripts/plugins/dataTables/datatables.min.js")
-                .Include("~/Scripts/plugins/metisMenu/metisMenu.min.js","~/Scripts/plugins/pace/pace.min.js","~/Scripts/app/inspinia.js"));
+                .Include("~/Scripts/plugins/metisMenu/metisMenu.min.js","~/Scripts/plugins/pace/pace.min.js","~/Scripts/app/inspinia.js")
+                .Include("~/Scripts/plugins/sweetalert/sweetalert.min.js"));
 
 #if DEBUG
             BundleTable.EnableOptimizations = false;

@@ -291,6 +291,7 @@
     <Content Include="Views\Login\Index.cshtml" />
     <Content Include="Views\RFQ\Index.cshtml" />
     <Content Include="Views\Flow\Index.cshtml" />
+    <Content Include="Views\Home\History.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

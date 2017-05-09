@@ -4,7 +4,7 @@
 <div class="row">
     <div class="col-xs-12 col-md-12 col-lg-12">
         <div class="box box-default panel-body">
-            <a href="@Url.Action("History","Home")"><button class="btn btn-warning">Lihat History</button></a>
+            <a href="@Url.Action("Index","Home")"><button class="btn btn-warning">Back</button></a>
             <br /><br />
             <table id="myTable" class="table table-hover">
                 <thead>
@@ -32,7 +32,7 @@
                         <td>24 Feb 2017</td>
                         <td>24 Feb 2017</td>
                         <td>Tunggu Info Harga</td>
-                        <td><a href="#"><button class="btn btn-danger btn-del">Delete</button></a></td>
+                        <td><a href="#"><button class="btn btn-danger">Delete</button></a></td>
                     </tr>
                     <tr>
                         <td>2</td>
@@ -41,10 +41,10 @@
                         <td>15 Feb 2017</td>
                         <td>23 Feb 2017</td>
                         <td></td>
-                        <td style="color:red;">23 Feb 2017</td>
+                        <td>23 Feb 2017</td>
                         <td>02 Nov 2017</td>
                         <td>Tunggu Info Harga Juga</td>
-                        <td><a href="#"><button class="btn btn-danger btn-del">Delete</button></a></td>
+                        <td><a href="#"><button class="btn btn-danger">Delete</button></a></td>
                     </tr>
                     <tr>
                         <td>3</td>
@@ -53,29 +53,13 @@
                         <td>24 Mar 2017</td>
                         <td></td>
                         <td>24 Feb 2017</td>
-                        <td style="color:green;">24 Feb 2017</td>
+                        <td>24 Feb 2017</td>
                         <td>24 Sep 2017</td>
                         <td>Test123</td>
-                        <td><a href="#"><button class="btn btn-danger btn-del">Delete</button></a></td>
+                        <td><a href="#"><button class="btn btn-danger">Delete</button></a></td>
                     </tr>
                 </tbody>
             </table>
-            <a href="@Url.Action("Index","RFQ")"><button class="btn btn-success">Add New Project</button></a>
-</div>
+        </div>
     </div>
 </div>
-<script type="text/javascript">
-    $(".btn-del").click(function () {
-        swal({
-            title: "Are you sure?",
-            text: "You will not be able to recover this data!",
-            type: "warning",
-            showCancelButton: true,
-            confirmButtonColor: "#DD6B55",
-            confirmButtonText: "Yes, delete it!",
-            closeOnConfirm: false
-        }, function () {
-            swal("Deleted!", "Your data has been deleted.", "success");
-        });
-    });
-</script>
