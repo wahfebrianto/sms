@@ -1,0 +1,77 @@
+﻿@{
+    ViewBag.Title = "Penawaran";
+    //ViewBag.Description = "List Page";
+}
+<div class="row">
+    <div class="col-xs-12 col-md-12 col-lg-12">
+        <div class="box box-default panel-body">
+            <label>List of Supplier</label>
+            <table id="myTable1" class="table table-bordered">
+                <thead>
+                    <tr>
+                        <th class="col-md-1">No</th>
+                        <th class="col-md-2">Supplier</th>
+                        <th class="col-md-2">Item</th>
+                        <th class="col-md-1">Unit Price</th>
+                        <th class="col-md-6">Description</th>
+                    </tr>
+                </thead>
+                <tbody></tbody>
+            </table>
+            <label>List Of Quotation</label>
+            <table id="myTable2" class="table table-bordered">
+                <thead>
+                    <tr>
+                        <th class="col-md-2">Item</th>
+                        <th class="col-md-2">Item Description</th>
+                        <th class="col-md-1">Qty</th>
+                        <th class="col-md-1">Unit Price</th>
+                        <th class="col-md-2">Supplier</th>
+                        <th class="col-md-1">Supplier Unit Price</th>
+                        <th class="col-md-1">Subtotal</th>
+                        <th class="col-md-2">Action</th>
+                    </tr>
+                </thead>
+                <tbody></tbody>
+            </table>
+            <div class="pull-left"><button id="addRow" class="btn btn-success">Add Row</button></div>
+            <div class="pull-right">Total : Rp 0,00</div><br /><br />
+            <div class="pull-right">Discount : <input type="number" value="0" /></div><br /><br />
+            <div class="pull-right">Grand Total : Rp 0,00</div><br />><br />
+            <button class="btn btn-success pull-right" id="btn_save">Save</button>
+        </div>
+    </div>
+</div>
+<script type="text/javascript">
+    $(document).ready(function () {
+        $("#btn_save").click(function () {
+                        swal({
+                            title: "Are you sure to save it?",
+                text: "You still can edit it later",
+                type: "warning",
+                showCancelButton: true,
+                confirmButtonColor: "success",
+                confirmButtonText: "Yes, Save It!",
+                closeOnConfirm: false
+                        }, function () {
+                            swal("Saved!", "Your data has been saved.", "success");
+
+                        });
+
+                    });
+        var s = $("#myTable1").DataTable();
+        var t = $("#myTable2").DataTable();
+        s.columns.adjust().draw();
+        t.columns.adjust().draw();
+        $('#myTable2 tbody').on('click',"button", function () {
+                        t
+                            .row($(this).parents('tr'))
+                            .remove()
+                            .draw();
+                    });
+        $("#addRow").click(function () {
+            var h = t.row.add(["<select class='newSelect col-md-12'><option value='b'>Baju</option></select>", "Baju Polo Shirt XL", "100", "Rp 0,00", "<select class='newSelect col-md-12' ><option value='a'>Supplier A</option></select>", "Rp. 0,00", "Rp. 0,00", "<button class='btn btn-danger'>Delete</button>"]).draw(false);
+            $('.newSelect').select2();
+                    });
+                });
+</script>

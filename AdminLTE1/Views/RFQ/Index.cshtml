@@ -5,7 +5,84 @@
 <div class="row">
     <div class="col-xs-12 col-md-12 col-lg-12">
         <div class="box box-default panel-body">
+            <div class="form-group col-xs-7 col-md-7 col-lg-7">
+                
+                <label for="quoteNumber">Quotation Number : </label> 
+                <input name="quoteNumber" class="form-control" type="text" />
+                <label for="quoteDate">Quotation Date : </label>
+                <input name="quoteDate" class="form-control" type="date"/>
+                <label for="orderBy">Order By : </label>
+                <select class="form-control" name="orderBy">
+                    <option value="a">A</option>
+                    <option value="b">B</option>
+                    <option value="c">C</option>
+                </select><br /><br />
+                Address :<br /> 
+                <p>...</p>
+                <label for="quoteTo">Quote To : </label><br />
+                <textarea class="col-lg-6 col-md-6 col-xs-6" readonly></textarea><br /><br /><br />
+                <input id="difAddress" type="checkbox"/>Different Address
+            </div>
+            <table id="myTable" class="table table-bordered">
+                <thead>
+                    <tr>
+                        <th>Item</th>
+                        <th>Description</th>
+                        <th class="col-md-1">Qty</th>
+                        <th class="col-md-1">Unit Price</th>
+                        <th class="col-md-1">Sub Total</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    
+                </tbody>
+            </table>
+            <br />
+            <div>
+                <button id="addRow" class="pull-left btn btn-default clearfix">Add</button>
+                <br /><p class="pull-right">Total : Rp. 0,00</p>
+            </div>
+            <br /><br />
+            <div>
+                <label>Description : </label>
+                <textarea class="form-control col-md-5 col-lg-5 col-xs-5">
+
+                </textarea>
+            </div>
+            <a href="#"><button id="btn_save" class="btn btn-success">Save</button></a>
             
         </div>
     </div>
 </div>
+<script type="text/javascript">
+    $(document).ready(function () {
+        $("#btn_save").click(function () {
+                        swal({
+                            title: "Are you sure to save it?",
+                text: "You still can edit it later",
+                type: "warning",
+                showCancelButton: true,
+                confirmButtonColor: "success",
+                confirmButtonText: "Yes, Save It!",
+                closeOnConfirm: false
+                        }, function () {
+                            swal("Saved!", "Your data has been saved.", "success");
+                            
+                        });
+
+                    });
+                    var t = $("#myTable").DataTable();
+                    t.columns.adjust().draw();
+        $('#myTable tbody').on('click',"button", function () {
+                        t
+                            .row($(this).parents('tr'))
+                            .remove()
+                            .draw();
+                    });
+        $("#addRow").click(function () {
+                        var h = t.row.add(["<select class='col-md-10 newSelect'><option value='B'>Baju</option></select>", "<input type='text'/>", "<input type='number'/>", "<input type='number'/>", "Rp 0", "<button class='btn btn-danger'>Delete</button>"]).draw(false);
+            $('.newSelect').select2();
+                    });
+                });
+</script>
