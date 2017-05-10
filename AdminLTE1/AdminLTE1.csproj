@@ -256,7 +256,6 @@
     <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="App_Start\GlobalVariables.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
-    <Compile Include="Controllers\FindPricesController.cs" />
     <Compile Include="Controllers\FlowController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\LoginController.cs" />
@@ -294,12 +293,7 @@
     <Content Include="Views\RFQ\Index.cshtml" />
     <Content Include="Views\Flow\Index.cshtml" />
     <Content Include="Views\Home\History.cshtml" />
-<<<<<<< HEAD
     <Content Include="Views\Penawaran\Index.cshtml" />
-=======
-    <Content Include="Views\Shared\_Timeline.cshtml" />
-    <Content Include="Views\FindPrices\Index.cshtml" />
->>>>>>> fd3d74c8b64f898f949ec6d5151510e5b78d31f3
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
