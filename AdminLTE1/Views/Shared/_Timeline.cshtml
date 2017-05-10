@@ -1,0 +1,72 @@
+﻿@if (Session["project"]!=null)
+{
+<section class="custom-timeline">
+    <ol>
+        <li>
+            <div>
+                RFQ
+            </div>
+        </li>
+        <li>
+            <div>
+                Find Price
+            </div>
+        </li>
+        <li>
+            <div>
+                Sales Quotation
+            </div>
+        </li>
+        <li>
+            <div>
+                Sales Order
+            </div>
+        </li>
+        <li>
+            <div>
+                Purchase Order
+            </div>
+        </li>
+        <li>
+            <div>
+                Receive Item
+            </div>
+        </li>
+        <li>
+            <div>
+                Purchase Invoice
+            </div>
+        </li>
+        <li>
+            <div>
+                Purhase Payment
+            </div>
+        </li>
+        <li>
+            <div>
+                Delivery Order
+            </div>
+        </li>
+        <li>
+            <div>
+                Sales Invoice
+            </div>
+        </li>
+        <li>
+            <div>
+                Sales Payment
+            </div>
+        </li>
+        <li>
+            <div>
+                
+            </div>
+        </li>
+    </ol>
+</section>
+<script>
+    $("li").after().click(function () {
+        document.location = "@Url.Action("index","RFQ")";
+    });
+</script>
+}
