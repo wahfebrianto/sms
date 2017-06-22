@@ -6,9 +6,9 @@ using System.Web.Mvc;
 
 namespace AdminLTE1.Controllers
 {
-    public class ReceiveItemController : Controller
+    public class PurchaseInvoiceController : Controller
     {
-        // GET: ReceiveItem
+        // GET: PurchaseInvoice
         public ActionResult Index()
         {
             return View();

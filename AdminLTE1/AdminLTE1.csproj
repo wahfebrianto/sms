@@ -261,10 +261,15 @@
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\LoginController.cs" />
     <Compile Include="Controllers\PenawaranController.cs" />
+    <Compile Include="Controllers\PurchaseInvoiceController.cs" />
+    <Compile Include="Controllers\PurchasePaymentController.cs" />
     <Compile Include="Controllers\ReceiveItemController.cs" />
     <Compile Include="Controllers\PurchaseOrderController.cs" />
     <Compile Include="Controllers\RFQController.cs" />
+    <Compile Include="Controllers\SalesInvoiceController.cs" />
     <Compile Include="Controllers\SalesOrderController.cs" />
+    <Compile Include="Controllers\SalesPaymentController.cs" />
+    <Compile Include="Controllers\SuratJalanController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -305,6 +310,15 @@
     <Content Include="Views\SalesOrder\Index.cshtml" />
     <Content Include="Views\PurchaseOrder\Transaksi.cshtml" />
     <Content Include="Views\SalesOrder\Transaksi.cshtml" />
+    <Content Include="Views\ReceiveItem\Transaksi.cshtml" />
+    <Content Include="Views\PurchaseInvoice\Index.cshtml" />
+    <Content Include="Views\PurchaseInvoice\Transaksi.cshtml" />
+    <Content Include="Views\PurchasePayment\Index.cshtml" />
+    <Content Include="Views\SuratJalan\Index.cshtml" />
+    <Content Include="Views\SuratJalan\Transaksi.cshtml" />
+    <Content Include="Views\SalesInvoice\Index.cshtml" />
+    <Content Include="Views\SalesInvoice\Transaksi.cshtml" />
+    <Content Include="Views\SalesPayment\Index.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

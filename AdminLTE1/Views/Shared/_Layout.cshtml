@@ -29,7 +29,7 @@
     </style>
 </head>
 <body class="hold-transition skin-blue sidebar-mini">
-    <div class="wrapper">
+    <div class="wrapper no-padding" >
         @Html.Partial("_Header")
         @Html.Partial("_Sidebar")
 
@@ -43,13 +43,94 @@
             </section>
 
             <section class="content">
-                @RenderBody()
+                @RenderBody() 
             </section>
         </div>
 
-        @Html.Partial("_ControlSidebar")
+        @*@Html.Partial("_ControlSidebar")*@
     </div>
 
+    @*  INI KODINGAN CHATBOX  *@
+    <div class="small-chat-box fadeInRight animated" style="z-index:1000000000">
+        <div class="heading" draggable="true">
+            Notes
+        </div>
+        <div class="content">
+            <div class="left">
+                <div class="author-name">
+                    Monica Jackson <small class="chat-date">
+                        27 Juni 2017
+                    </small>
+                </div>
+                <div class="chat-message">
+                    Lorem Ipsum is simply dummy text input.
+                </div>
+            </div>
+            <div class="left">
+                <div class="author-name">
+                    Mick Smith
+                    <small class="chat-date">
+                        27 Juni 2017
+                    </small>
+                </div>
+                <div class="chat-message">
+                    Lorem Ipsum is simpl.
+                </div>
+            </div>
+            <div class="left">
+                <div class="author-name">
+                    Alice Novak
+                    <small class="chat-date">
+                        27 Juni 2017
+                    </small>
+                </div>
+                <div class="chat-message">
+                    Check this stock char.
+                </div>
+            </div>
+            <div class="left">
+                <div class="author-name">
+                    Anna Lamson
+                    <small class="chat-date">
+                        27 Juni 2017
+                    </small>
+                </div>
+                <div class="chat-message">
+                    The standard chunk of Lorem Ipsum
+                </div>
+            </div>
+            <div class="left">
+                <div class="author-name">
+                    Mick Lane
+                    <small class="chat-date">
+                        27 Juni 2017
+                    </small>
+                </div>
+                <div class="chat-message">
+                    I belive that. Lorem Ipsum is simply dummy text.
+                </div>
+            </div>
+
+        </div>
+        <div class="form-chat">
+            <div class="input-group input-group-sm">
+                <input type="text" class="form-control"> <span class="input-group-btn">
+                    <button class="btn btn-primary" type="button">
+                        Add
+                    </button>
+                </span>
+            </div>
+        </div>
+    </div>
+
+    <div id="small-chat" >
+        <span class="badge badge-warning pull-right">5</span>
+        <a class="open-small-chat">
+            <i class="fa fa-comments"></i>
+        </a>
+    </div>
+
+    @* INI AKHIR KODINGAN CHATBOX *@
     <script src="@RouteJs.RouteJsHandler.HandlerUrl"></script>
     <script>
         $(document).ready(function () {

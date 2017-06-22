@@ -1,58 +1,58 @@
-﻿@if (Session["project"]!=null)
+﻿@if (Session["project"]==null && ViewContext.RouteData.Values["Controller"].ToString() != "Home")
 {
 <section class="custom-timeline">
     <ol>
-        <li>
-            <div>
+        <li id="rfq">
+            <div >
                 RFQ
             </div>
         </li>
-        <li>
+        <li id="findPrices">
             <div>
                 Find Price
             </div>
         </li>
-        <li>
+        <li id="penawaran">
             <div>
-                Sales Quotation
+                Penawaran
             </div>
         </li>
-        <li>
+        <li id="salesOrder">
             <div>
                 Sales Order
             </div>
         </li>
-        <li>
+        <li id="purchaseOrder">
             <div>
                 Purchase Order
             </div>
         </li>
-        <li>
+        <li id="receiveItem">
             <div>
                 Receive Item
             </div>
         </li>
-        <li>
+        <li id="purchaseInvoice">
             <div>
                 Purchase Invoice
             </div>
         </li>
-        <li>
+        <li id="purchasePayment">
             <div>
                 Purhase Payment
             </div>
         </li>
-        <li>
+        <li id="deliveryOrder">
             <div>
-                Delivery Order
+                Surat Jalan
             </div>
         </li>
-        <li>
+        <li id="salesInvoice">
             <div>
                 Sales Invoice
             </div>
         </li>
-        <li>
+        <li id="salesPayment">
             <div>
                 Sales Payment
             </div>
@@ -65,8 +65,38 @@
     </ol>
 </section>
 <script>
-    $("li").after().click(function () {
+    $("#rfq").after().click(function () {
         document.location = "@Url.Action("index","RFQ")";
+    });
+    $("#findPrices").after().click(function () {
+        document.location = "@Url.Action("index","FindPrices")";
+    });
+    $("#penawaran").after().click(function () {
+        document.location = "@Url.Action("index","Penawaran")";
+    });
+    $("#salesOrder").after().click(function () {
+        document.location = "@Url.Action("index","SalesOrder")";
+    });
+    $("#purchaseOrder").after().click(function () {
+        document.location = "@Url.Action("index","PurchaseOrder")";
+    });
+    $("#receiveItem").after().click(function () {
+        document.location = "@Url.Action("index","ReceiveItem")";
+    });
+    $("#purchaseInvoice").after().click(function () {
+        document.location = "@Url.Action("index","PurchaseInvoice")";
+    });
+    $("#purchasePayment").after().click(function () {
+        document.location = "@Url.Action("index","PurchasePayment")";
+    });
+    $("#deliveryOrder").after().click(function () {
+        document.location = "@Url.Action("index","SuratJalan")";
+    });
+    $("#salesInvoice").after().click(function () {
+        document.location = "@Url.Action("index","SalesInvoice")";
+    });
+    $("#salesPayment").after().click(function () {
+        document.location = "@Url.Action("index","SalesPayment")";
     });
 </script>
 }

@@ -6,15 +6,10 @@ using System.Web.Mvc;
 
 namespace AdminLTE1.Controllers
 {
-    public class ReceiveItemController : Controller
+    public class PurchasePaymentController : Controller
     {
-        // GET: ReceiveItem
+        // GET: PurchasePayment
         public ActionResult Index()
-        {
-            return View();
-        }
-
-        public ActionResult Transaksi()
         {
             return View();
         }

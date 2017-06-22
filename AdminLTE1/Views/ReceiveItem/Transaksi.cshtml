@@ -1,6 +1,6 @@
 ﻿
 @{
-    ViewBag.Title = "Purchase Order";
+    ViewBag.Title = "Receive Item";
 }
 <div class="row">
     <div class="col-md-12 col-lg-12 col-sm-12">
@@ -29,21 +29,6 @@
                                 <label>Qty : </label>
                                 <input type="number" min="0" class="form-control" />
                             </div>
-                            <div class="form-group">
-                                <label>Unit Price : </label>
-                                <div class="input-group">
-                                    <span class="input-group-addon">Rp</span>
-                                    <input type="number" min="0" class="form-control" />
-                                </div>
-                                
-                            </div>
-                            <div class="form-group">
-                                <label>Sub Total : </label>
-                                <div class="input-group">
-                                    <span class="input-group-addon">Rp</span>
-                                    <input type="number" min="0" class="form-control" disabled />
-                                </div>
-                            </div>
                         </div>
                         <div class="modal-footer">
                             <button type="button" class="btn btn-white" data-dismiss="modal">Cancel</button>
@@ -55,40 +40,32 @@
             <form>
                 <div class="row">
                     <div class="form-group col-md-6">
-                        <label for="PONumber">PO Number: </label>
-                        <input name="PONumber" type="text" class="form-control" />
+                        <label for="ReceiveNo">Receive No: </label>
+                        <input name="ReceiveNo" type="text" class="form-control" />
                     </div>
                     <div class="form-group  col-md-6">
-                        <label>PO Date : </label>
+                        <label>Receive Date : </label>
                         <input type="date" class="form-control" />
                     </div>
-                    <div class="form-group col-md-6">
-                        <label>Terms : </label>
+                    <div class="form-group col-md-12">
+                        <label>PONumber : </label>
                         <select class="form-control">
-                            <option value="1">C.O.D</option>
-                            <option value="2">Transfer</option>
+                            <option value="1">PO001</option>
+                            <option value="2">PO002</option>
                         </select>
                     </div>
                     <div class="form-group col-md-6">
-                        <label>Expected Date : </label>
-                        <input type="date" class="form-control" />
-                    </div>
-                    <div class="form-group col-md-6">
                         <label>Vendor : </label>
-                        <textarea class="form-control"></textarea>
+                        <textarea class="form-control" readonly rows="4"></textarea>
                     </div>
                     <div class="form-group col-md-6">
-                        <label>Ship To : </label>
-                        <textarea class="form-control"></textarea>
-                    </div>
-                    <div class="form-group col-md-12">
                         <label>Description : </label>
-                        <textarea class="form-control"></textarea>
+                        <textarea class="form-control" rows="4"></textarea>
                     </div>
                 </div>
                 <div class="row">
                     <div class="col-md-12 col-lg-12 col-sm-12">
-                        <center><h3>Detail Purchase Order</h3></center>
+                        <center><h3>Detail Receive Item</h3></center>
                         <hr />
                         <table id="myTable" class="table table-hover table-bordered">
                             <thead>
@@ -96,28 +73,19 @@
                                     <th>Item</th>
                                     <th>Description</th>
                                     <th>Qty</th>
-                                    <th>Unit Price</th>
-                                    <th>Sub Total</th>
-                                    @*<th>Action</th>*@
+                                    <th>Action</th>
                                 </tr>
                             </thead>
-                            <tfoot>
-                                <tr>
-                                    <th colspan="4" style="text-align:right">Total Order:</th>
-                                    <th @*colspan="2"*@></th>
-                                </tr>
-                            </tfoot>
                             <tbody>
                                 <tr>
                                     <td>J030</td>
                                     <td>Brosur A4 AP150 2 sisi</td>
                                     <td>10000</td>
-                                    <td>280.3</td>
-                                    <td>Rp. 170750</td>
-                                    @*<td><button type="button" class="btn btn-warning btn_edit" data-toggle="modal" data-target="#myModal">Edit</button> <button type="button" class="btn btn-danger">Delete</button></td>*@
+                                    <td class="text-center"><button type="button" class="btn btn-warning btn_edit col-md-5 pull-left" data-toggle="modal" data-target="#myModal">Edit</button> <button type="button" class="btn btn-danger col-md-5 pull-right">Delete</button></td>
                                 </tr>
                             </tbody>
                         </table>
+                        <button type="button" class="btn btn-warning btn-primary pull-right" data-toggle="modal" data-target="#myModal">Add Item</button>
                     </div>
                     <div class="col-md-12">
                         <br />
@@ -128,7 +96,7 @@
             </form>
         </div>
     </div>
-    
+
 </div>
 
 <script type="text/javascript">
@@ -140,38 +108,7 @@
             $('#myModal h4').html('Add Item');
         });
         $('#myTable').DataTable({
-            "footerCallback": function (row, data, start, end, display) {
-                var api = this.api(), data;
-
-                // Remove the formatting to get integer data for summation
-                var intVal = function (i) {
-                    return typeof i === 'string' ?
-                        i.replace('Rp. ', '') * 1 :
-                        typeof i === 'number' ?
-                        i : 0;
-                };
-
-                // Total over all pages
-                total = api
-                    .column(4)
-                    .data()
-                    .reduce(function (a, b) {
-                        return intVal(a) + intVal(b);
-                    }, 0);
-
-                //// Total over this page
-                //pageTotal = api
-                //    .column(4, { page: 'current' })
-                //    .data()
-                //    .reduce(function (a, b) {
-                //        return intVal(a) + intVal(b);
-                //    }, 0);
-
-                // Update footer
-                $(api.column(4).footer()).html(
-                    'Rp. ' + total
-                );
-            }
+            
         });
     });
 </script>

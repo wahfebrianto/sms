@@ -1,5 +1,5 @@
 ﻿@using AdminLTE1.Controllers
-<aside class="main-sidebar">
+<aside class="main-sidebar" >
     <section class="sidebar">
         @* BEGIN Menu *@
         <ul class="sidebar-menu">
@@ -7,9 +7,9 @@
             <li class="@(ViewContext.RouteData.Values["Controller"].ToString() == "Home" ? "active" : "")">
                 <a href="@Url.Action("Index", "Home")"><i class="fa fa-link"></i> <span>Dashboard</span></a>
             </li>
-            <li class="@(ViewContext.RouteData.Values["Controller"].ToString() == "Flow" ? "active" : "")">
+            <!--li class="@(ViewContext.RouteData.Values["Controller"].ToString() == "Flow" ? "active" : "")">
                 <a href="@Url.Action("Index", "Flow")"><i class="fa fa-link"></i> <span>Flow Diagram</span></a>
-            </li>
+            </li-->
         </ul>
         @* END Menu *@
     </section>

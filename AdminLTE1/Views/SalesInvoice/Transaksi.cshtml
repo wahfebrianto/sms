@@ -1,6 +1,6 @@
 ﻿
 @{
-    ViewBag.Title = "Sales Order";
+    ViewBag.Title = "Sales Invoice";
 }
 <div class="row">
     <div class="col-md-12 col-lg-12 col-sm-12">
@@ -27,7 +27,7 @@
                             </div>
                             <div class="form-group">
                                 <label>Qty : </label>
-                                <input type="number" min="0" class="form-control" disabled/>
+                                <input type="number" min="0" class="form-control" />
                             </div>
                             <div class="form-group">
                                 <label>Unit Price : </label>
@@ -55,36 +55,32 @@
             <form>
                 <div class="row">
                     <div class="form-group col-md-6">
-                        <label for="SONumber">SO Number: </label>
-                        <input name="SONumber" type="text" class="form-control" />
+                        <label for="InvoiceNo">Invoice No: </label>
+                        <input name="InvoiceNo" type="text" class="form-control" />
                     </div>
                     <div class="form-group  col-md-6">
-                        <label>SO Date : </label>
+                        <label>Invoice Date : </label>
                         <input type="date" class="form-control" />
                     </div>
-                    <div class="form-group col-md-6">
+                    <div class="form-group col-md-12">
                         <label>Terms : </label>
                         <select class="form-control">
-                            <option value="1">C.O.D</option>
+                            <option value="1">COD</option>
                             <option value="2">Transfer</option>
                         </select>
                     </div>
                     <div class="form-group col-md-6">
-                        <label>Expected Date : </label>
-                        <input type="date" class="form-control" />
+                        <label>Bill To : </label>
+                        <textarea class="form-control" readonly rows="4"></textarea>
                     </div>
                     <div class="form-group col-md-6">
-                        <label>Customer : </label>
-                        <textarea class="form-control"></textarea>
-                    </div>
-                    <div class="form-group col-md-12">
                         <label>Description : </label>
-                        <textarea class="form-control"></textarea>
+                        <textarea class="form-control" rows="4"></textarea>
                     </div>
                 </div>
                 <div class="row">
                     <div class="col-md-12 col-lg-12 col-sm-12">
-                        <center><h3>Detail Sales Order</h3></center>
+                        <center><h3>Detail Sales Invoice</h3></center>
                         <hr />
                         <table id="myTable" class="table table-hover table-bordered">
                             <thead>
@@ -94,13 +90,13 @@
                                     <th>Qty</th>
                                     <th>Unit Price</th>
                                     <th>Sub Total</th>
-                                    <th>Action</th>
+                                    @*<th>Action</th>*@
                                 </tr>
                             </thead>
                             <tfoot>
                                 <tr>
                                     <th colspan="4" style="text-align:right">Total Order:</th>
-                                    <th colspan="2"></th>
+                                    <th @*colspan="2"*@></th>
                                 </tr>
                             </tfoot>
                             <tbody>
@@ -108,17 +104,18 @@
                                     <td>J030</td>
                                     <td>Brosur A4 AP150 2 sisi</td>
                                     <td>10000</td>
-                                    <td>Rp. 280.3</td>
+                                    <td>280.3</td>
                                     <td>Rp. 170750</td>
-                                    <td class="text-center"><button type="button" class="col-md-12 btn btn-warning btn_edit" data-toggle="modal" data-target="#myModal">Edit</button> @*<button type="button" class="btn btn-danger">Delete</button>*@</td>
+                                    @*<td><button type="button" class="btn btn-warning btn_edit" data-toggle="modal" data-target="#myModal">Edit</button> <button type="button" class="btn btn-danger">Delete</button></td>*@
                                 </tr>
                             </tbody>
                         </table>
+                        <button type="button" class="btn btn-warning btn-primary pull-right" data-toggle="modal" data-target="#myModal">Add Item</button>
                     </div>
                     <div class="col-md-12">
                         <br />
-                        <a href="@Url.Action("Index","SalesOrder")"><button class="btn btn-block btn-success">Save</button></a>
-                        <a href="@Url.Action("Index","SalesOrder")"><button class="btn btn-block btn-default">Cancel</button></a>
+                        <a href="@Url.Action("Index","PurchaseOrder")"><button class="btn btn-block btn-success">Save</button></a>
+                        <a href="@Url.Action("Index","PurchaseOrder")"><button class="btn btn-block btn-default">Cancel</button></a>
                     </div>
                 </div>
             </form>
