@@ -1,0 +1,106 @@
+﻿@{
+    ViewBag.Title = "Receive Item";
+}
+
+<div class="row">
+    <div class="col-xs-12 col-md-12 col-lg-12">
+        <div class="box box-default panel-body">
+            <label>List of Receive Item</label>
+            <table id="myTable" class="table table-hover">
+                <thead>
+                    <tr>
+                        <th class="col-md-1">No</th>
+                        <th class="col-md-2">Receipt No</th>
+                        <th class="col-md-2">PO No</th>
+                        <th class="col-md-2">Receive Date</th>
+                        <th class="col-md-1">Supplier</th>
+                        <th class="col-md-2">Description</th>
+                        <th class="col-md-2">Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>1</td>
+                        <td>ABC001</td>
+                        <td>PO001</td>
+                        <td>19 May 2017</td>
+                        <td>PT Sumber Untung</td>
+                        <td>Baru setengah</td>
+                        <td><button class="btn btn-info col-md-5">Edit</button><span class="pull-right col-md-7"><button class="btn btn-danger col-md-12">Delete</button></span></td>
+                    </tr>
+                    <tr>
+                        <td>1</td>
+                        <td>ABC002</td>
+                        <td>PO002</td>
+                        <td>20 May 2017</td>
+                        <td>PT Sumber Untung</td>
+                        <td>Sisanya</td>
+                        <td><button class="btn btn-info col-md-5">Edit</button><span class="pull-right col-md-7"><button class="btn btn-danger col-md-12">Delete</button></span></td>
+                    </tr>
+                </tbody>
+            </table>
+            <div class="col-md-12"><button id="btnAdd" class="btn btn-success col-md-1 pull-right" data-toggle="modal" data-target="#myModal">Add</button></div>
+            <br /><br /><br /><br /><br /><br /><br />
+            <span id="spanSave" class="col-md-offset-5 col-md-2"><a href="#"><button id="btnSave" class="btn btn-lg btn-primary col-md-12">Save</button></a></span>
+
+
+            <!--MODAL SECTION-->
+            <div class="modal inmodal" id="myModal" tabindex="-1" role="dialog" aria-hidden="true">
+                <div class="modal-dialog modal-lg">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                            <i class="fa fa-plus-circle modal-icon"></i>
+                            <h4 class="modal-title">Add Receive Item</h4>
+                        </div>
+                        <div class="modal-body">
+                            <div class="form-horizontal">
+                                <div class="form-group">
+                                    <label for="receiptNo" class="col-md-3 control-label">Receipt No : </label>
+                                    <div class="col-md-9">
+                                        <input name="receiptNo" class="form-control" type="text" />
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="PONo" class="col-md-3 control-label">PO No : </label>
+                                    <div class="col-md-9">
+                                        <select id="PONo" class="form-control">
+                                            <option>SMS-PO/V/14/1231</option>
+                                            <option>SMS-PO/V/15/1232</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="col-md-3 control-label"></label>
+                                    <div class="col-md-9">
+                                        <textarea id="txtPO" class="form-control" cols="1" rows="4" readonly></textarea>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="col-md-3 control-label">Description : </label>
+                                    <div class="col-md-9">
+                                        <textarea id="txtDesc" class="form-control" cols="1" rows="4"></textarea>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-white" data-dismiss="modal">Close</button>
+                            <button type="button" class="btn btn-primary">Save changes</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!--CLOSE MODAL SECTION-->
+
+
+        </div>
+    </div>
+</div>
+<script>
+    $(document).ready(function () {
+        $('#PONo').select2({
+            dropdownParent: $('#myModal')
+        });
+    });
+</script>

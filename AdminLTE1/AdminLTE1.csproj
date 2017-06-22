@@ -261,6 +261,7 @@
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\LoginController.cs" />
     <Compile Include="Controllers\PenawaranController.cs" />
+    <Compile Include="Controllers\ReceiveItemController.cs" />
     <Compile Include="Controllers\RFQController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
@@ -297,6 +298,7 @@
     <Content Include="Views\Penawaran\Index.cshtml" />
     <Content Include="Views\Shared\_Timeline.cshtml" />
     <Content Include="Views\FindPrices\Index.cshtml" />
+    <Content Include="Views\ReceiveItem\Index.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
