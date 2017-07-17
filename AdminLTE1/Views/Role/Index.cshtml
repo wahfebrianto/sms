@@ -1,0 +1,217 @@
+﻿@{
+    ViewBag.Title = "Manage Role";
+}
+<div class="row">
+    <div class="col-xs-12 col-md-12 col-lg-12">
+        <div class="box box-default panel-body">
+            <div class="modal inmodal fade" id="myModal" tabindex="-1" role="dialog" aria-hidden="true">
+                <div class="modal-dialog modal-lg">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Cancel</span></button>
+                            <h4 class="modal-title"></h4>
+                            <small class="font-bold"></small>
+                        </div>
+                        @using (Html.BeginForm("save_role", "Role", FormMethod.Post))
+                        {
+                            <input name="roleId" type="hidden" class="form-control" id="roleId" />
+                            <div class="modal-body">
+                                <div class="form-group">
+                                    <label>Role Name : </label>
+                                    <input name="roleName" type="text" class="form-control" id="roleName" required />
+                                </div>
+                                <div class="form-group">
+                                    <label>Role Description : </label>
+                                    <textarea name="roleDesc" class="form-control" id="roleDesc"></textarea>
+                                </div>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-white" data-dismiss="modal">Cancel</button>
+                                <button type="submit" class="btn btn-primary">Save changes</button>
+                            </div>
+                        }
+                    </div>
+                </div>
+            </div>
+            <div class="modal inmodal fade" id="myModal1" tabindex="-1" role="dialog" aria-hidden="true">
+                <div class="modal-dialog modal-lg">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Cancel</span></button>
+                            <h4 class="modal-title">Setting Role</h4>
+                            <small class="font-bold"></small>
+                        </div>
+                        @using (Html.BeginForm("save_privilege", "Role", FormMethod.Post))
+                        {
+                            <input name="roleId1" type="hidden" class="form-control" id="roleId1" />
+                            <div class="modal-body pull-left">
+                                @{
+                                    using (var db = new dbsmsEntities())
+                                    {
+                                        List<privilege> data = (from pl in db.privileges
+                                                                select pl).OrderBy(pl => pl.id).ToList();
+                                        List<String> data1 = (from pll in data
+                                                                select pll.tablename).Distinct().ToList();
+                                        foreach (String p in data1)
+                                        {
+                                        <div class="col-md-4">
+                                            <div class="ibox float-e-margins">
+                                                <div class="ibox-content">
+                                                    <h2>@p.ToUpper().Replace('_', ' ')</h2>
+                                                    <ul class="todo-list m-t small-list">
+                                                        @{
+                                                            List<String> action = (from pl1 in db.privileges
+                                                                                    where pl1.tablename == p
+                                                                                    select pl1.action).ToList();
+                                                            foreach (String item in action)
+                                                            {
+                                                                <li>
+                                                                    <input name="@item@p" type="checkbox" id="@item@p" /><span class="m-l-xs">@item on @p.Replace('_', ' ')</span>
+                                                                </li>
+                                                            }
+                                }
+                                                        </ul>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        }
+                                    }
+                                }
+                            </div>
+                            <div class="modal-footer" style="clear:both; ">
+                                <button type="button" class="btn btn-white" data-dismiss="modal">Cancel</button>
+                                <button type="submit" class="btn btn-primary">Save changes</button>
+                            </div>
+                        }
+                    </div>
+                </div>
+            </div>
+            <table class="table table-bordered table-hover">
+                <thead>
+                    <tr>
+                        <th class="col-md-1">
+                            NO
+                        </th>
+                        <th class="col-md-1 hidden">
+                            ID
+                        </th>
+                        <th class="col-md-4">
+                            NAME
+                        </th>
+                        <th class="col-md-5">
+                            DESCRIPTION
+                        </th>
+                        <th class="col-md-2"></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @{
+                        using (var db = new dbsmsEntities())
+                        {
+                            List<role> Model = (from ik in db.roles
+                                                         select ik).ToList();
+
+                            int i = 0;
+                            foreach (role item in Model)
+                            {
+                                <tr>
+                                    <td>
+                                        @{i++;}
+                                        @i
+                                    </td>
+                                    <td class="hidden">
+                                        @item.id
+                                    </td>
+                                    <td>
+                                        @item.name
+                                    </td>
+                                    <td>
+                                        @item.description
+                                    </td>
+                                    <td class="text-center">
+                                        <button class="btn btn-info btn_setting" style="margin-right:10px;" data-toggle="modal" data-target="#myModal1">Setting</button>
+                                        <button class="btn btn-success btn_edit" style="margin-right:10px;" data-toggle="modal" data-target="#myModal">Edit</button>
+                                        <button class="btn btn-danger btn_delete">Delete</button>
+                                    </td>
+                                </tr>
+                                                }
+                                            }
+                    }
+                </tbody>
+            </table>
+            <button class="btn btn-primary pull-right" id="btn_add" data-toggle="modal" data-target="#myModal">Add New Role</button>
+        </div>
+    </div>
+</div>
+<script type="text/javascript">
+    $(document).ready(function () {
+        @if (!String.IsNullOrEmpty(ViewBag.success))
+        {
+            <text>swal("Success!", "@ViewBag.success", "success");</text>
+        }
+        $(".btn_delete").click(function () {
+            var obj = $(this).parent().parent().children().eq(1).html().trim();
+            swal({
+                title: "Are you sure to delete it?",
+                text: "You can't edit it later",
+                type: "warning",
+                showCancelButton: true,
+                confirmButtonColor: "danger",
+                confirmButtonText: "Yes, Delete It!",
+                closeOnConfirm: false
+            }, function () {
+                @{ string temp = Path.GetDirectoryName(HttpContext.Current.Request.Url.OriginalString);}
+                var temp = '@temp';
+                temp = temp.replace('\\', '/');
+                temp = temp.replace(':/', '://');
+                window.location = '/Role/delete_role?roleId=' + obj;
+            });
+
+        });
+        $('.btn_setting').click(function () {
+            var roleId = $(this).parent().parent().children().eq(1).html().trim();
+            var hasil = "";
+            $.ajax({
+                type: "GET",
+                url: "@Url.Action("getPrivileges", "Role")",
+                data: { roleId: roleId },
+                success: function (data) {
+                    hasil = data.split('-');
+                    $('.icheckbox_minimal-blue').attr('aria-checked', false);
+                    $('.icheckbox_minimal-blue').removeClass('checked');
+                    $('.icheckbox_minimal-blue').children().eq(0).attr("checked", false);
+
+                    for (var i = 0; i < hasil.length - 1; i++) {
+                        $("#" + hasil[i]).parent().attr("aria-checked", true);
+                        $("#" + hasil[i]).parent().addClass("checked");
+                        $("#" + hasil[i]).attr("checked", "true");
+                    }
+                },
+                error: function (xhr, status, error) {
+                    alert(xhr.responseText);
+                }
+            });
+        });
+        $('.btn_edit').click(function () {
+            $('#myModal h4').html('Edit Role');
+            var obj = $(this).parent().parent();
+            $('#myModal #roleId').val(obj.children().eq(1).html().trim());
+            $('#myModal #roleName').val(obj.children().eq(2).html().trim());
+            $('#myModal #roleDesc').val(obj.children().eq(3).html().trim());
+        });
+        $('#btn_add').click(function () {
+            $('#myModal h4').html('Add New Role');
+            $('#myModal #roleId').val("");
+            $('#myModal #roleName').val("");
+            $('#myModal #roleDesc').val("");
+        });
+        $('.iCheck-helper').click(function () {
+            if ($(this).parent().attr("aria-checked") == "true") {
+                $(this).parent().children().eq(0).attr("checked", $(this).parent().attr("aria-checked"));
+            } else {
+                $(this).parent().children().eq(0).removeAttr("checked");
+            }
+            
+        });
+    });
+</script>

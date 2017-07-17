@@ -5,40 +5,92 @@
 <div class="row">
     <div class="col-xs-12 col-md-12 col-lg-12">
         <div class="box box-default panel-body">
-            <label>List of Supplier</label>
-            <table id="myTable1" class="table table-bordered table-hover">
-                <thead>
-                    <tr>
-                        <th class="col-md-1">No</th>
-                        <th class="col-md-2">Supplier</th>
-                        <th class="col-md-2">Item</th>
-                        <th class="col-md-1">Unit Price</th>
-                        <th class="col-md-6">Description</th>
-                    </tr>
-                </thead>
-                <tbody></tbody>
-            </table>
-            <label>List Of Quotation</label>
-            <table id="myTable2" class="table table-bordered table-hover">
-                <thead>
-                    <tr>
-                        <th class="col-md-2">Item</th>
-                        <th class="col-md-2">Item Description</th>
-                        <th class="col-md-1">Qty</th>
-                        <th class="col-md-1">Unit Price</th>
-                        <th class="col-md-2">Supplier</th>
-                        <th class="col-md-1">Supplier Unit Price</th>
-                        <th class="col-md-1">Subtotal</th>
-                        <th class="col-md-2">Action</th>
-                    </tr>
-                </thead>
-                <tbody></tbody>
-            </table>
-            <div class="pull-left"><button id="addRow" class="btn btn-success">Add Row</button></div>
-            <div class="pull-right">Total : Rp 0,00</div><br /><br />
-            <div class="pull-right">Discount : <input type="number" value="0" /></div><br /><br />
-            <div class="pull-right">Grand Total : Rp 0,00</div><br />><br />
-            <button class="btn btn-success pull-right" id="btn_save">Save</button>
+            <form>
+                <div class="row">
+                    <div class="form-group col-md-6">
+                        <label for="pnwNumber">Quote Number: </label>
+                        <input name="pnwNumber" type="text" class="form-control" />
+                    </div>
+                    <div class="form-group  col-md-6">
+                        <label>Quote Date : </label>
+                        <input type="date" class="form-control" />
+                    </div>
+                    <div class="form-group  col-md-6">
+                        <label for="quoteTo">Quote To : </label><br />
+                        <textarea class="form-control col-lg-6 col-md-6 col-xs-6"></textarea><br /><br /><br />
+                    </div>
+                </div>
+                <label>List Of Quotation</label>
+                <table id="myTable2" class="table table-bordered table-hover">
+                    <thead>
+                        <tr>
+                            <th class="col-md-2">Item</th>
+                            <th class="col-md-2">Item Description</th>
+                            <th class="col-md-1">Qty</th>
+                            <th class="col-md-3">Unit Price</th>
+                            <th class="col-md-2">Supplier</th>
+                            <th class="col-md-2">Subtotal</th>
+                        </tr>
+                    </thead>
+                    <tbody></tbody>
+                </table>
+                <div class="pull-right">Total : Rp 0,00</div><br /><br />
+                <div class="pull-right">Discount : <input class="text-right" type="number" value="0" /></div><br /><br />
+                <div class="pull-right text-bold">Grand Total : Rp 0,00</div><br /><br />
+                <label>List of Supplier</label>
+                <table id="myTable1" class="table table-bordered table-hover">
+                    <thead>
+                        <tr>
+                            <th class="col-md-1"></th>
+                            <th class="col-md-2">Supplier</th>
+                            <th class="col-md-2">Item</th>
+                            <th class="col-md-1">Qty</th>
+                            <th class="col-md-2">Unit Price</th>
+                            <th class="col-md-2">Time Needed</th>
+                            <th class="col-md-2">Description</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td class="text-center">
+                                <input id="cmn-toggle-7" class="cmn-toggle cmn-toggle-yes-no" type="checkbox">
+                            </td>
+                            <td>PT Sumber Untung</td>
+                            <td>Kertas A5</td>
+                            <td>100</td>
+                            <td>Rp 1.000,00</td>
+                            <td>7 Days</td>
+                            <td>Beli 5 bonus 1</td>
+                        </tr>
+                        <tr>
+                            <td class="text-center">
+                                <input id="cmn-toggle-7" class="cmn-toggle cmn-toggle-yes-no" type="checkbox">
+                            </td>
+                            <td>PT Sumber Untung 2</td>
+                            <td>Kertas A5</td>
+                            <td>100</td>
+                            <td>Rp 1.000,00</td>
+                            <td>2 Days</td>
+                            <td>Beli 5 bonus 1</td>
+                        </tr>
+                        <tr>
+                            <td class="text-center">
+                                <input id="cmn-toggle-7" class="cmn-toggle cmn-toggle-yes-no" type="checkbox">
+                            </td>
+                            <td>PT Sumber Untung 3</td>
+                            <td>Kertas A5</td>
+                            <td>100</td>
+                            <td>Rp 1.000,00</td>
+                            <td>6 Days</td>
+                            <td>Beli 5 bonus 1</td>
+                        </tr>
+                    </tbody>
+                </table>
+                <button class="btn btn-foursquare pull-right" id="btn_select">Select Checked</button>
+                </br></br></br></br>
+                <button class="btn btn-lg btn-primary pull-right" id="btn_print" style="margin-left:10px;">Print</button>
+                <button class="btn btn-lg btn-success pull-right" id="btn_save">Save</button>
+            </form>
         </div>
     </div>
 </div>
@@ -69,8 +121,10 @@
                             .remove()
                             .draw();
                     });
-        $("#addRow").click(function () {
-            var h = t.row.add(["<select class='newSelect col-md-12'><option value='b'>Baju</option></select>", "Baju Polo Shirt XL", "100", "Rp 0,00", "<select class='newSelect col-md-12' ><option value='a'>Supplier A</option></select>", "Rp. 0,00", "Rp. 0,00", "<button class='btn btn-danger'>Delete</button>"]).draw(false);
+        $("#btn_select").click(function () {
+            t.clear();
+            t.row.add(["ATK", "Kertas A5", "100", "<div class='input-group'><span class='input-group-addon'>Rp</span><input id='txtprice' type='text' class='form-control text-right' value='1000'><span class='input-group-addon'>.00</span></div>", "PT Sumber Untung", "Rp. 0,00", "<button class='btn btn-danger'>Delete</button>"]).draw(false);
+            
             $('.newSelect').select2();
                     });
                 });

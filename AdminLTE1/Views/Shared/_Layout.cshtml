@@ -51,6 +51,8 @@
     </div>
 
     @*  INI KODINGAN CHATBOX  *@
+    @if (Session["project"] == null && ViewContext.RouteData.Values["Controller"].ToString() != "Role" && ViewContext.RouteData.Values["Controller"].ToString() != "Home" && ViewContext.RouteData.Values["Controller"].ToString() != "Master")
+    {
     <div class="small-chat-box fadeInRight animated" style="z-index:1000000000">
         <div class="heading" draggable="true">
             Notes
@@ -129,7 +131,7 @@
             <i class="fa fa-comments"></i>
         </a>
     </div>
-
+    }
     @* INI AKHIR KODINGAN CHATBOX *@
     <script src="@RouteJs.RouteJsHandler.HandlerUrl"></script>
     <script>

@@ -85,20 +85,31 @@
                         <table id="myTable" class="table table-hover table-bordered">
                             <thead>
                                 <tr>
-                                    <th>Item</th>
-                                    <th>Description</th>
-                                    <th>Qty</th>
-                                    <th>Unit Price</th>
-                                    <th>Sub Total</th>
-                                    @*<th>Action</th>*@
+                                    <th class="col-md-2">Item</th>
+                                    <th class="col-md-2">Description</th>
+                                    <th class="col-md-2">Qty</th>
+                                    <th class="col-md-2">Unit Price</th>
+                                    <th class="col-md-2">Sub Total</th>
+                                    <th class="col-md-2">Action</th>
                                 </tr>
                             </thead>
                             <tfoot>
                                 <tr>
                                     <th colspan="4" style="text-align:right">Total Order:</th>
-                                    <th @*colspan="2"*@></th>
+                                    <th colspan="2"></th>
                                 </tr>
-                            </tfoot>
+                                <tr>
+                                    <th colspan="4" style="text-align:right">Discount:</th>
+                                    <th colspan="2"><input class="text-left" type="number" value="0" id="discount" /></th>
+                                </tr>
+                                <tr>
+                                    <th colspan="4" style="text-align:right">Ship Fee:</th>
+                                    <th colspan="2"><input class="text-left" type="number" value="0" id="shipfee" /></th>
+                                </tr>
+                                <tr>
+                                    <th colspan="4" style="text-align:right">Grand Total:</th>
+                                    <th colspan="2" id="grandtotal"></th>
+</tfoot>
                             <tbody>
                                 <tr>
                                     <td>J030</td>
@@ -106,7 +117,7 @@
                                     <td>10000</td>
                                     <td>280.3</td>
                                     <td>Rp. 170750</td>
-                                    @*<td><button type="button" class="btn btn-warning btn_edit" data-toggle="modal" data-target="#myModal">Edit</button> <button type="button" class="btn btn-danger">Delete</button></td>*@
+                                    <td><button type="button" class="btn btn-warning btn_edit" data-toggle="modal" data-target="#myModal">Edit</button> <button type="button" class="btn btn-danger">Delete</button></td>
                                 </tr>
                             </tbody>
                         </table>
@@ -114,8 +125,8 @@
                     </div>
                     <div class="col-md-12">
                         <br />
-                        <a href="@Url.Action("Index","PurchaseOrder")"><button class="btn btn-block btn-success">Save</button></a>
-                        <a href="@Url.Action("Index","PurchaseOrder")"><button class="btn btn-block btn-default">Cancel</button></a>
+                        <a href="@Url.Action("Index","PurchaseOrder")"><button class="btn btn-lg btn-success pull-right" style="margin-left:10px;">Save</button></a>
+                        <a href="@Url.Action("Index","PurchaseOrder")"><button class="btn btn-lg btn-default pull-right">Cancel</button></a>
                     </div>
                 </div>
             </form>
@@ -152,6 +163,9 @@
                         return intVal(a) + intVal(b);
                     }, 0);
 
+                dp = $('#discount').val();
+                sf = $('#shipfee').val();
+
                 //// Total over this page
                 //pageTotal = api
                 //    .column(4, { page: 'current' })
@@ -164,6 +178,10 @@
                 $(api.column(4).footer()).html(
                     'Rp. ' + total
                 );
+
+                grandtotal = intVal(total) + intVal(sf) - dp;
+
+                $('#grandtotal').html('Rp. ' + grandtotal);
             }
         });
     });

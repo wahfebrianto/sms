@@ -20,7 +20,8 @@ namespace AdminLTE1.App_Start
                 .Include("~/Content/plugins/dataTables/datatables.min.css")
                 .Include("~/Content/plugins/sweetalert/sweetalert.css")
                 .Include("~/Content/css/datepicker3.css")
-                .Include("~/Content/css/bootstrap-datetimepicker.css"));
+                .Include("~/Content/css/bootstrap-datetimepicker.css")
+                .Include("~/Content/css/custom.css"));
 
             bundles.Add(new ScriptBundle("~/Bundles/js")
                 .Include("~/Content/js/plugins/jquery/jquery-2.2.4.js")
@@ -41,7 +42,8 @@ namespace AdminLTE1.App_Start
                 .Include("~/Scripts/plugins/dataTables/datatables.min.js")
                 .Include("~/Scripts/plugins/metisMenu/metisMenu.min.js","~/Scripts/plugins/pace/pace.min.js","~/Scripts/app/inspinia.js")
                 .Include("~/Scripts/plugins/sweetalert/sweetalert.min.js")
-                .Include("~/Content/js/plugins/datepicker/bootstrap-datetimepicker.min.js"));
+                .Include("~/Content/js/plugins/datepicker/bootstrap-datetimepicker.min.js")
+                .Include("~/Content/js/main.js"));
 
 #if DEBUG
             BundleTable.EnableOptimizations = false;

@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="ff22951f51bf44eea2d854d3b090c5e0" Name="Diagram1">
+        <EntityTypeShape EntityType="dbsmsModel.customer" Width="1.5" PointX="0.75" PointY="31.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="dbsmsModel.dpenawaran" Width="1.5" PointX="10.25" PointY="35.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="dbsmsModel.dpo" Width="1.5" PointX="12.5" PointY="23.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="dbsmsModel.dpurchaseinvoice" Width="1.5" PointX="17.75" PointY="26.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="dbsmsModel.dreceiveitem" Width="1.5" PointX="15.75" PointY="30.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="dbsmsModel.drfq" Width="1.5" PointX="11.25" PointY="31.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="dbsmsModel.dsalesinvoice" Width="1.5" PointX="7.5" PointY="19.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="dbsmsModel.dsalesorder" Width="1.5" PointX="13.25" PointY="27.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="dbsmsModel.dsuratjalan" Width="1.5" PointX="10.5" PointY="39.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="dbsmsModel.findprice" Width="1.5" PointX="10.25" PointY="15.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="dbsmsModel.findpricesnote" Width="1.5" PointX="12.5" PointY="16" IsExpanded="true" />
+        <EntityTypeShape EntityType="dbsmsModel.helper" Width="1.5" PointX="0.75" PointY="4.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="dbsmsModel.hpenawaran" Width="1.5" PointX="6" PointY="31.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="dbsmsModel.hpo" Width="1.5" PointX="10.25" PointY="26" IsExpanded="true" />
+        <EntityTypeShape EntityType="dbsmsModel.hpurchaseinvoice" Width="1.5" PointX="15.5" PointY="26.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="dbsmsModel.hreceiveitem" Width="1.5" PointX="13.5" PointY="31.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="dbsmsModel.hrfq" Width="1.5" PointX="6" PointY="27.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="dbsmsModel.hsalesinvoice" Width="1.5" PointX="5.25" PointY="22.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="dbsmsModel.hsalesorder" Width="1.5" PointX="3" PointY="31.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="dbsmsModel.hsalespayment" Width="1.5" PointX="5.25" PointY="35.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="dbsmsModel.hsuratjalan" Width="1.5" PointX="5.25" PointY="39.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="dbsmsModel.item_category" Width="1.5" PointX="5.25" PointY="18.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="dbsmsModel.penawarannote" Width="1.5" PointX="8.25" PointY="39.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="dbsmsModel.ponote" Width="1.5" PointX="12.5" PointY="36.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="dbsmsModel.privilege" Width="1.5" PointX="0.75" PointY="1.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="dbsmsModel.project" Width="1.5" PointX="3" PointY="25.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="dbsmsModel.purchaseinvoicenote" Width="1.5" PointX="17.75" PointY="34.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="dbsmsModel.purchasepayment" Width="1.5" PointX="20.75" PointY="26.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="dbsmsModel.purchasepaymentnote" Width="1.5" PointX="23" PointY="27" IsExpanded="true" />
+        <EntityTypeShape EntityType="dbsmsModel.receiveitemnote" Width="1.5" PointX="15.75" PointY="38.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="dbsmsModel.rfqnote" Width="1.5" PointX="8.25" PointY="31.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="dbsmsModel.role" Width="1.5" PointX="3" PointY="1.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="dbsmsModel.salesinvoicenote" Width="1.5" PointX="7.5" PointY="23.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="dbsmsModel.salesordernote" Width="1.5" PointX="5.25" PointY="43.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="dbsmsModel.salespaymentnote" Width="1.5" PointX="7.5" PointY="36" IsExpanded="true" />
+        <EntityTypeShape EntityType="dbsmsModel.status" Width="1.5" PointX="0.75" PointY="26.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="dbsmsModel.supplier" Width="1.5" PointX="8" PointY="15.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="dbsmsModel.suratjalannote" Width="1.5" PointX="7.5" PointY="42.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="dbsmsModel.user" Width="1.5" PointX="5.25" PointY="1" IsExpanded="true" />
+        <AssociationConnector Association="dbsmsModel.FK_hpenawaran_customers" ManuallyRouted="false" />
+        <AssociationConnector Association="dbsmsModel.FK_hrfq_customers" ManuallyRouted="false" />
+        <AssociationConnector Association="dbsmsModel.FK_hsalesorder_customers" ManuallyRouted="false" />
+        <AssociationConnector Association="dbsmsModel.FK_projects_customers" ManuallyRouted="false" />
+        <AssociationConnector Association="dbsmsModel.FK_dpenawaran_hpenawaran" ManuallyRouted="false" />
+        <AssociationConnector Association="dbsmsModel.FK_dpenawaran_item_category" ManuallyRouted="false" />
+        <AssociationConnector Association="dbsmsModel.FK_dpenawaran_suppliers" ManuallyRouted="false" />
+        <AssociationConnector Association="dbsmsModel.FK_dpo_hpo" ManuallyRouted="false" />
+        <AssociationConnector Association="dbsmsModel.FK_dpo_item_category" ManuallyRouted="false" />
+        <AssociationConnector Association="dbsmsModel.FK_dpurchaseinvoice_dpurchaseinvoice" ManuallyRouted="false" />
+        <AssociationConnector Association="dbsmsModel.FK_dpurchaseinvoice_item_category" ManuallyRouted="false" />
+        <AssociationConnector Association="dbsmsModel.FK_dreceiveitem_hreceiveitem" ManuallyRouted="false" />
+        <AssociationConnector Association="dbsmsModel.FK_dreceiveitem_item_category" ManuallyRouted="false" />
+        <AssociationConnector Association="dbsmsModel.FK_drfq_hrfq" ManuallyRouted="false" />
+        <AssociationConnector Association="dbsmsModel.FK_drfq_item_category" ManuallyRouted="false" />
+        <AssociationConnector Association="dbsmsModel.FK_dsalesinvoice_hsalesinvoice" ManuallyRouted="false" />
+        <AssociationConnector Association="dbsmsModel.FK_dsalesinvoice_item_category" ManuallyRouted="false" />
+        <AssociationConnector Association="dbsmsModel.FK_dsalesorder_hsalesorder" ManuallyRouted="false" />
+        <AssociationConnector Association="dbsmsModel.FK_dsalesorder_item_category" ManuallyRouted="false" />
+        <AssociationConnector Association="dbsmsModel.FK_dsuratjalan_hsuratjalan" ManuallyRouted="false" />
+        <AssociationConnector Association="dbsmsModel.FK_dsuratjalan_item_category" ManuallyRouted="false" />
+        <AssociationConnector Association="dbsmsModel.FK_findprices_projects" ManuallyRouted="false" />
+        <AssociationConnector Association="dbsmsModel.FK_findpricesnote_findprices" ManuallyRouted="false" />
+        <AssociationConnector Association="dbsmsModel.FK_hpenawaran_projects1" ManuallyRouted="false" />
+        <AssociationConnector Association="dbsmsModel.FK_penawarannote_hpenawaran" ManuallyRouted="false" />
+        <AssociationConnector Association="dbsmsModel.FK_hpo_projects" ManuallyRouted="false" />
+        <AssociationConnector Association="dbsmsModel.FK_hpo_suppliers" ManuallyRouted="false" />
+        <AssociationConnector Association="dbsmsModel.FK_hreceiveitem_hpo" ManuallyRouted="false" />
+        <AssociationConnector Association="dbsmsModel.FK_ponote_hpo" ManuallyRouted="false" />
+        <AssociationConnector Association="dbsmsModel.FK_purchaseinvoice_hpo" ManuallyRouted="false" />
+        <AssociationConnector Association="dbsmsModel.FK_hpurchasepayment_hpurchaseinvoice" ManuallyRouted="false" />
+        <AssociationConnector Association="dbsmsModel.FK_purchaseinvoice_projects" ManuallyRouted="false" />
+        <AssociationConnector Association="dbsmsModel.FK_purchaseinvoice_suppliers" ManuallyRouted="false" />
+        <AssociationConnector Association="dbsmsModel.FK_purchaseinvoicenote_hpurchaseinvoice" ManuallyRouted="false" />
+        <AssociationConnector Association="dbsmsModel.FK_hreceiveitem_projects" ManuallyRouted="false" />
+        <AssociationConnector Association="dbsmsModel.FK_hreceiveitem_suppliers" ManuallyRouted="false" />
+        <AssociationConnector Association="dbsmsModel.FK_receiveitemnote_hreceiveitem" ManuallyRouted="false" />
+        <AssociationConnector Association="dbsmsModel.FK_hrfq_projects" ManuallyRouted="false" />
+        <AssociationConnector Association="dbsmsModel.FK_rfqnote_hrfq" ManuallyRouted="false" />
+        <AssociationConnector Association="dbsmsModel.FK_hsalesinvoice_projects" ManuallyRouted="false" />
+        <AssociationConnector Association="dbsmsModel.FK_salesinvoicenote_hsalesinvoice" ManuallyRouted="false" />
+        <AssociationConnector Association="dbsmsModel.FK_hsalesorder_projects" ManuallyRouted="false" />
+        <AssociationConnector Association="dbsmsModel.FK_salesordernote_hsalesorder" ManuallyRouted="false" />
+        <AssociationConnector Association="dbsmsModel.FK_hsalespayment_projects" ManuallyRouted="false" />
+        <AssociationConnector Association="dbsmsModel.FK_salespaymentnote_hsalespayment" ManuallyRouted="false" />
+        <AssociationConnector Association="dbsmsModel.FK_hsuratjalan_projects" ManuallyRouted="false" />
+        <AssociationConnector Association="dbsmsModel.FK_suratjalannote_hsuratjalan" ManuallyRouted="false" />
+        <AssociationConnector Association="dbsmsModel.FK_hpurchasepayment_projects" ManuallyRouted="false" />
+        <AssociationConnector Association="dbsmsModel.FK_projects_status" ManuallyRouted="false" />
+        <AssociationConnector Association="dbsmsModel.FK_hpurchasepayment_suppliers" ManuallyRouted="false" />
+        <AssociationConnector Association="dbsmsModel.FK_purchasepaymentnote_purchasepayment" ManuallyRouted="false" />
+        <AssociationConnector Association="dbsmsModel.role_privilege" ManuallyRouted="false" />
+        <AssociationConnector Association="dbsmsModel.user_role" ManuallyRouted="false" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>

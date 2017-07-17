@@ -1,60 +1,75 @@
-﻿@if (Session["project"]==null && ViewContext.RouteData.Values["Controller"].ToString() != "Home")
+﻿@if (Session["project"]==null && ViewContext.RouteData.Values["Controller"].ToString() != "Role" && ViewContext.RouteData.Values["Controller"].ToString() != "Home" && ViewContext.RouteData.Values["Controller"].ToString() != "Master")
 {
 <section class="custom-timeline">
+    <div class="panel panel-body text-center" style="font-size:1.5em;">
+        <i class="fa fa-users"></i> - Customer | 
+        <i class="fa fa-building-o"></i> - Supplier
+    </div>
     <ol>
         <li id="rfq">
-            <div >
+            <div>
                 RFQ
+                <i class="fa fa-users pull-right"></i>
             </div>
         </li>
         <li id="findPrices">
             <div>
                 Find Price
+                <i class="fa fa-building-o pull-right"></i>
             </div>
         </li>
         <li id="penawaran">
             <div>
                 Penawaran
+                <i class="fa fa-users pull-right"></i>
             </div>
         </li>
         <li id="salesOrder">
             <div>
                 Sales Order
+                <i class="fa fa-users pull-right"></i>
             </div>
         </li>
         <li id="purchaseOrder">
             <div>
                 Purchase Order
+                <i class="fa fa-building-o pull-right"></i>
             </div>
         </li>
         <li id="receiveItem">
             <div>
                 Receive Item
+                <i class="fa fa-building-o pull-right"></i>
             </div>
         </li>
         <li id="purchaseInvoice">
             <div>
                 Purchase Invoice
+                <i class="fa fa-building-o pull-right"></i>
             </div>
         </li>
         <li id="purchasePayment">
             <div>
                 Purhase Payment
+                <i class="fa fa-building-o pull-right"></i>
             </div>
         </li>
         <li id="deliveryOrder">
             <div>
                 Surat Jalan
+                <i class="fa fa-users pull-right"></i>
             </div>
         </li>
         <li id="salesInvoice">
             <div>
                 Sales Invoice
+                <i class="fa fa-users pull-right"></i>
             </div>
         </li>
         <li id="salesPayment">
             <div>
                 Sales Payment
+                <i class="fa fa-users pull-right"></i>
             </div>
         </li>
         <li>

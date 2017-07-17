@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
-
 namespace AdminLTE1.Controllers
 {
     public class RFQController : Controller
@@ -11,6 +10,7 @@ namespace AdminLTE1.Controllers
         // GET: RFQ
         public ActionResult Index()
         {
+            
             return View();
         }
     }

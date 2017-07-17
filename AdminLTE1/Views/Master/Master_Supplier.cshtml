@@ -1,0 +1,172 @@
+﻿@{
+    ViewBag.Title = "Master Supplier";
+    //ViewBag.Description = "List Page";
+}
+
+<div class="row">
+    <div class="col-xs-12 col-md-12 col-lg-12">
+        <div class="box box-default panel-body">
+            <div class="modal inmodal fade" id="myModal" tabindex="-1" role="dialog" aria-hidden="true">
+                <div class="modal-dialog modal-lg">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Cancel</span></button>
+                            <h4 class="modal-title"></h4>
+                            <small class="font-bold"></small>
+                        </div>
+                        @using (Html.BeginForm("save_supplier", "Master", FormMethod.Post))
+                        {
+                            <input name="suppId" type="hidden" class="form-control" id="suppId" />
+                            <div class="modal-body">
+                                <div class="form-group">
+                                    <label>Supplier Name : </label>
+                                    <input name="suppName" type="text" class="form-control" id="suppName" required />
+                                </div>
+                                <div class="form-group">
+                                    <label>Supplier Address : </label>
+                                    <input name="suppAddress" type="text" class="form-control" id="suppAddress" required />
+                                </div>
+                                <div class="form-group">
+                                    <label>Supplier City : </label>
+                                    <input name="suppCity" type="text" class="form-control" id="suppCity" required />
+                                </div>
+                                <div class="form-group">
+                                    <label>Supplier Phone : </label>
+                                    <input name="suppPhone" type="text" class="form-control" id="suppPhone" required />
+                                </div>
+                                <div class="form-group">
+                                    <label>Supplier Description : </label>
+                                    <textarea name="suppDesc" class="form-control" id="suppDesc"></textarea>
+                                </div>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-white" data-dismiss="modal">Cancel</button>
+                                <button type="submit" class="btn btn-primary">Save changes</button>
+                            </div>
+                        }
+                    </div>
+                </div>
+            </div>
+            <table class="table table-bordered table-hover">
+                <thead>
+                    <tr>
+                        <th class="col-md-1">
+                            NO
+                        </th>
+                        <th class="col-md-1 hidden">
+                            ID
+                        </th>
+                        <th class="col-md-4">
+                            NAME
+                        </th>
+                        <th class="col-md-5">
+                            ADDRESS
+                        </th>
+                        <th class="col-md-5">
+                            CITY
+                        </th>
+                        <th class="col-md-5">
+                            PHONE
+                        </th>
+                        <th class="col-md-5">
+                            DESCRIPTION
+                        </th>
+                        <th class="col-md-2"></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @{
+                        using (var db = new dbsmsEntities())
+                        {
+                            List<supplier> Model = (from ik in db.suppliers
+                                                    where ik.status==1
+                                                    select ik).ToList();
+
+                            int i = 0;
+                            foreach (supplier item in Model)
+                            {
+                                <tr>
+                                    <td>
+                                        @{i++;}
+                                        @i
+                                    </td>
+                                    <td class="hidden">
+                                        @item.id
+                                    </td>
+                                    <td>
+                                        @item.name
+                                    </td>
+                                    <td>
+                                        @item.address
+                                    </td>
+                                    <td>
+                                        @item.city
+                                    </td>
+                                    <td>
+                                        @item.phone
+                                    </td>
+                                    <td>
+                                        @item.description
+                                    </td>
+                                    <td class="text-center">
+                                        <button class="btn btn-success btn_edit" style="margin-right:10px;" data-toggle="modal" data-target="#myModal">Edit</button>
+                                        <button class="btn btn-danger btn_delete">Delete</button>
+                                    </td>
+                                </tr>
+                                                }
+                                            }
+                    }
+                </tbody>
+            </table>
+            <button class="btn btn-primary pull-right" id="btn_add" data-toggle="modal" data-target="#myModal">Add New Supplier</button>
+        </div>
+    </div>
+</div>
+<script type="text/javascript">
+    $(document).ready(function () {
+        @if (!String.IsNullOrEmpty(ViewBag.success))
+        {
+                <text>swal("Success!", "@ViewBag.success", "success");</text>
+        }
+        $(".btn_delete").click(function () {
+            var obj = $(this).parent().parent().children().eq(1).html().trim();
+            swal({
+                title: "Are you sure to delete it?",
+                text: "You can't edit it later",
+                type: "warning",
+                showCancelButton: true,
+                confirmButtonColor: "danger",
+                confirmButtonText: "Yes, Delete It!",
+                closeOnConfirm: false
+            }, function () {
+                @{ string temp = Path.GetDirectoryName(HttpContext.Current.Request.Url.OriginalString);}
+                var temp = '@temp';
+                temp = temp.replace('\\', '/');
+                temp = temp.replace(':/', '://');
+                window.location = '/Master/delete_supplier?suppId=' + obj;
+            });
+
+        });
+        $('.btn_edit').click(function () {
+            $('#myModal h4').html('Edit Supplier');
+            var obj = $(this).parent().parent();
+            $('#myModal #suppId').val(obj.children().eq(1).html().trim());
+            $('#myModal #suppName').val(obj.children().eq(2).html().trim());
+            $('#myModal #suppAddress').val(obj.children().eq(3).html().trim());
+            $('#myModal #suppCity').val(obj.children().eq(4).html().trim());
+            $('#myModal #suppPhone').val(obj.children().eq(5).html().trim());
+            $('#myModal #suppDesc').val(obj.children().eq(6).html().trim());
+        });
+        $('#btn_add').click(function () {
+            $('#myModal h4').html('Add Supplier');
+            $('#myModal #suppId').val("");
+            $('#myModal #suppName').val("");
+            $('#myModal #suppAddress').val("");
+            $('#myModal #suppCity').val("");
+            $('#myModal #suppPhone').val("");
+            $('#myModal #suppDesc').val("");
+        });
+
+        $("table").DataTable();
+    });
+</script>

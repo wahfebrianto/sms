@@ -1,0 +1,3352 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="dbsmsModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="customers">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="name" Type="text" Nullable="false" />
+          <Property Name="address" Type="text" Nullable="false" />
+          <Property Name="city" Type="text" Nullable="false" />
+          <Property Name="phone" Type="text" />
+          <Property Name="description" Type="text" />
+          <Property Name="status" Type="tinyint" Nullable="false" />
+        </EntityType>
+        <EntityType Name="dpenawaran">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="penawaranid" Type="bigint" Nullable="false" />
+          <Property Name="itemcategoryid" Type="bigint" Nullable="false" />
+          <Property Name="itemdescription" Type="text" Nullable="false" />
+          <Property Name="supplierid" Type="bigint" Nullable="false" />
+          <Property Name="qty" Type="bigint" Nullable="false" />
+          <Property Name="unitprice" Type="bigint" Nullable="false" />
+          <Property Name="subtotal" Type="bigint" Nullable="false" />
+        </EntityType>
+        <EntityType Name="dpo">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="poid" Type="bigint" Nullable="false" />
+          <Property Name="itemcategoryid" Type="bigint" Nullable="false" />
+          <Property Name="itemdescription" Type="text" Nullable="false" />
+          <Property Name="qty" Type="bigint" Nullable="false" />
+          <Property Name="unitprice" Type="bigint" Nullable="false" />
+          <Property Name="subtotal" Type="bigint" Nullable="false" />
+        </EntityType>
+        <EntityType Name="dpurchaseinvoice">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="purchaseinvoiceid" Type="bigint" Nullable="false" />
+          <Property Name="itemcategoryid" Type="bigint" Nullable="false" />
+          <Property Name="itemdescription" Type="text" Nullable="false" />
+          <Property Name="qty" Type="bigint" Nullable="false" />
+          <Property Name="unitprice" Type="bigint" Nullable="false" />
+          <Property Name="subtotal" Type="bigint" Nullable="false" />
+        </EntityType>
+        <EntityType Name="dreceiveitem">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="receiveitemid" Type="bigint" />
+          <Property Name="itemcategoryid" Type="bigint" />
+          <Property Name="itemdescription" Type="text" />
+          <Property Name="qty" Type="bigint" />
+        </EntityType>
+        <EntityType Name="drfq">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="rfqid" Type="bigint" Nullable="false" />
+          <Property Name="itemcategoryid" Type="bigint" Nullable="false" />
+          <Property Name="itemdescription" Type="text" Nullable="false" />
+          <Property Name="qty" Type="bigint" Nullable="false" />
+          <Property Name="unitprice" Type="bigint" Nullable="false" />
+          <Property Name="subtotal" Type="bigint" Nullable="false" />
+        </EntityType>
+        <EntityType Name="dsalesinvoice">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="salesinvoiceid" Type="bigint" Nullable="false" />
+          <Property Name="itemcategoryid" Type="bigint" Nullable="false" />
+          <Property Name="itemdescription" Type="text" Nullable="false" />
+          <Property Name="qty" Type="bigint" Nullable="false" />
+          <Property Name="unitprice" Type="bigint" Nullable="false" />
+          <Property Name="subtotal" Type="bigint" Nullable="false" />
+        </EntityType>
+        <EntityType Name="dsalesorder">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="salesorderid" Type="bigint" Nullable="false" />
+          <Property Name="itemcategoryid" Type="bigint" Nullable="false" />
+          <Property Name="itemdescription" Type="text" Nullable="false" />
+          <Property Name="qty" Type="bigint" Nullable="false" />
+          <Property Name="unitprice" Type="bigint" Nullable="false" />
+          <Property Name="subtotal" Type="bigint" Nullable="false" />
+        </EntityType>
+        <EntityType Name="dsuratjalan">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="suratjalanid" Type="bigint" Nullable="false" />
+          <Property Name="itemcategoryid" Type="bigint" Nullable="false" />
+          <Property Name="itemdescription" Type="text" Nullable="false" />
+          <Property Name="qty" Type="bigint" Nullable="false" />
+        </EntityType>
+        <EntityType Name="findprices">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="projectid" Type="bigint" Nullable="false" />
+          <Property Name="supplierid" Type="bigint" Nullable="false" />
+          <Property Name="address" Type="text" Nullable="false" />
+          <Property Name="itemdescription" Type="text" Nullable="false" />
+          <Property Name="unitprice" Type="bigint" Nullable="false" />
+          <Property Name="timeneeded" Type="bigint" Nullable="false" />
+          <Property Name="description" Type="text" />
+          <Property Name="status" Type="tinyint" Nullable="false" />
+        </EntityType>
+        <EntityType Name="findpricesnote">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="findpricesid" Type="bigint" Nullable="false" />
+          <Property Name="username" Type="text" Nullable="false" />
+          <Property Name="date" Type="date" Nullable="false" />
+          <Property Name="text" Type="text" Nullable="false" />
+        </EntityType>
+        <EntityType Name="helper">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="key" Type="text" Nullable="false" />
+          <Property Name="value" Type="text" Nullable="false" />
+        </EntityType>
+        <EntityType Name="hpenawaran">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="projectid" Type="bigint" Nullable="false" />
+          <Property Name="number" Type="text" Nullable="false" />
+          <Property Name="customerid" Type="bigint" Nullable="false" />
+          <Property Name="date" Type="date" Nullable="false" />
+          <Property Name="to" Type="text" Nullable="false" />
+          <Property Name="description" Type="text" />
+        </EntityType>
+        <EntityType Name="hpo">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="projectid" Type="bigint" Nullable="false" />
+          <Property Name="number" Type="text" Nullable="false" />
+          <Property Name="supplierid" Type="bigint" Nullable="false" />
+          <Property Name="date" Type="date" Nullable="false" />
+          <Property Name="terms" Type="text" Nullable="false" />
+          <Property Name="to" Type="text" Nullable="false" />
+          <Property Name="expecteddate" Type="date" Nullable="false" />
+          <Property Name="grandtotal" Type="bigint" Nullable="false" />
+          <Property Name="description" Type="text" />
+        </EntityType>
+        <EntityType Name="hpurchaseinvoice">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="projectid" Type="bigint" Nullable="false" />
+          <Property Name="number" Type="text" Nullable="false" />
+          <Property Name="date" Type="date" Nullable="false" />
+          <Property Name="poid" Type="bigint" Nullable="false" />
+          <Property Name="supplierid" Type="bigint" Nullable="false" />
+          <Property Name="diskon" Type="bigint" Nullable="false" />
+          <Property Name="total" Type="bigint" Nullable="false" />
+          <Property Name="description" Type="text" />
+        </EntityType>
+        <EntityType Name="hreceiveitem">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="projectid" Type="bigint" Nullable="false" />
+          <Property Name="number" Type="bigint" Nullable="false" />
+          <Property Name="poid" Type="bigint" Nullable="false" />
+          <Property Name="date" Type="date" Nullable="false" />
+          <Property Name="supplierid" Type="bigint" Nullable="false" />
+          <Property Name="description" Type="text" />
+        </EntityType>
+        <EntityType Name="hrfq">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="number" Type="text" Nullable="false" />
+          <Property Name="date" Type="date" Nullable="false" />
+          <Property Name="customerid" Type="bigint" Nullable="false" />
+          <Property Name="to" Type="text" />
+          <Property Name="description" Type="text" />
+          <Property Name="projectid" Type="bigint" Nullable="false" />
+        </EntityType>
+        <EntityType Name="hsalesinvoice">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="projectid" Type="bigint" Nullable="false" />
+          <Property Name="number" Type="text" Nullable="false" />
+          <Property Name="date" Type="date" Nullable="false" />
+          <Property Name="terms" Type="text" Nullable="false" />
+          <Property Name="to" Type="text" Nullable="false" />
+          <Property Name="total" Type="bigint" Nullable="false" />
+          <Property Name="description" Type="text" />
+        </EntityType>
+        <EntityType Name="hsalesorder">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="projectid" Type="bigint" Nullable="false" />
+          <Property Name="customerid" Type="bigint" Nullable="false" />
+          <Property Name="number" Type="text" Nullable="false" />
+          <Property Name="date" Type="date" Nullable="false" />
+          <Property Name="expecteddate" Type="date" Nullable="false" />
+          <Property Name="terms" Type="text" Nullable="false" />
+          <Property Name="description" Type="text" />
+          <Property Name="diskon" Type="bigint" Nullable="false" />
+          <Property Name="grandtotal" Type="bigint" Nullable="false" />
+        </EntityType>
+        <EntityType Name="hsalespayment">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="projectid" Type="bigint" Nullable="false" />
+          <Property Name="number" Type="text" Nullable="false" />
+          <Property Name="date" Type="date" Nullable="false" />
+          <Property Name="to" Type="text" Nullable="false" />
+          <Property Name="total" Type="bigint" Nullable="false" />
+          <Property Name="description" Type="text" />
+          <Property Name="type" Type="text" Nullable="false" />
+          <Property Name="note" Type="text" />
+        </EntityType>
+        <EntityType Name="hsuratjalan">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="projectid" Type="bigint" Nullable="false" />
+          <Property Name="number" Type="text" Nullable="false" />
+          <Property Name="date" Type="date" Nullable="false" />
+          <Property Name="to" Type="text" Nullable="false" />
+          <Property Name="description" Type="text" />
+        </EntityType>
+        <EntityType Name="item_category">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="name" Type="text" Nullable="false" />
+          <Property Name="description" Type="text" />
+          <Property Name="status" Type="tinyint" Nullable="false" />
+        </EntityType>
+        <EntityType Name="penawarannote">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="penawaranid" Type="bigint" Nullable="false" />
+          <Property Name="username" Type="text" Nullable="false" />
+          <Property Name="date" Type="date" Nullable="false" />
+          <Property Name="text" Type="text" Nullable="false" />
+        </EntityType>
+        <EntityType Name="ponote">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="poid" Type="bigint" Nullable="false" />
+          <Property Name="username" Type="text" Nullable="false" />
+          <Property Name="date" Type="date" Nullable="false" />
+          <Property Name="text" Type="text" Nullable="false" />
+        </EntityType>
+        <EntityType Name="privileges">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="action" Type="text" Nullable="false" />
+          <Property Name="tablename" Type="text" Nullable="false" />
+        </EntityType>
+        <EntityType Name="projects">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="bigint" Nullable="false" />
+          <Property Name="name" Type="text" Nullable="false" />
+          <Property Name="customerid" Type="bigint" Nullable="false" />
+          <Property Name="statusid" Type="bigint" Nullable="false" />
+          <Property Name="description" Type="text" />
+          <Property Name="status" Type="tinyint" Nullable="false" />
+        </EntityType>
+        <EntityType Name="purchaseinvoicenote">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="purchaseinvoiceid" Type="bigint" Nullable="false" />
+          <Property Name="username" Type="text" Nullable="false" />
+          <Property Name="date" Type="date" Nullable="false" />
+          <Property Name="text" Type="text" Nullable="false" />
+        </EntityType>
+        <EntityType Name="purchasepayment">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="projectid" Type="bigint" Nullable="false" />
+          <Property Name="purchaseinvoiceid" Type="bigint" Nullable="false" />
+          <Property Name="number" Type="text" Nullable="false" />
+          <Property Name="date" Type="date" Nullable="false" />
+          <Property Name="supplierid" Type="bigint" Nullable="false" />
+          <Property Name="total" Type="bigint" Nullable="false" />
+          <Property Name="description" Type="text" />
+          <Property Name="type" Type="text" Nullable="false" />
+          <Property Name="note" Type="text" />
+        </EntityType>
+        <EntityType Name="purchasepaymentnote">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="purchasepaymentid" Type="bigint" Nullable="false" />
+          <Property Name="username" Type="text" Nullable="false" />
+          <Property Name="date" Type="date" Nullable="false" />
+          <Property Name="text" Type="text" Nullable="false" />
+        </EntityType>
+        <EntityType Name="receiveitemnote">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="receiveitemid" Type="bigint" Nullable="false" />
+          <Property Name="username" Type="text" Nullable="false" />
+          <Property Name="date" Type="date" Nullable="false" />
+          <Property Name="text" Type="text" Nullable="false" />
+        </EntityType>
+        <EntityType Name="rfqnote">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="rfqid" Type="bigint" Nullable="false" />
+          <Property Name="username" Type="text" Nullable="false" />
+          <Property Name="date" Type="date" Nullable="false" />
+          <Property Name="text" Type="text" Nullable="false" />
+        </EntityType>
+        <EntityType Name="role_privilege">
+          <Key>
+            <PropertyRef Name="roleid" />
+            <PropertyRef Name="privilegeid" />
+          </Key>
+          <Property Name="roleid" Type="bigint" Nullable="false" />
+          <Property Name="privilegeid" Type="bigint" Nullable="false" />
+        </EntityType>
+        <EntityType Name="roles">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="name" Type="text" Nullable="false" />
+          <Property Name="description" Type="text" />
+        </EntityType>
+        <EntityType Name="salesinvoicenote">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="salesinvoiceid" Type="bigint" Nullable="false" />
+          <Property Name="username" Type="text" Nullable="false" />
+          <Property Name="date" Type="date" Nullable="false" />
+          <Property Name="text" Type="text" Nullable="false" />
+        </EntityType>
+        <EntityType Name="salesordernote">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="salesorderid" Type="bigint" Nullable="false" />
+          <Property Name="username" Type="text" Nullable="false" />
+          <Property Name="date" Type="date" Nullable="false" />
+          <Property Name="text" Type="text" Nullable="false" />
+        </EntityType>
+        <EntityType Name="salespaymentnote">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="salespaymentid" Type="bigint" />
+          <Property Name="username" Type="text" />
+          <Property Name="date" Type="date" />
+          <Property Name="text" Type="text" />
+        </EntityType>
+        <EntityType Name="status">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="rfq" Type="tinyint" Nullable="false" />
+          <Property Name="findprices" Type="tinyint" Nullable="false" />
+          <Property Name="penawaran" Type="tinyint" Nullable="false" />
+          <Property Name="salesorder" Type="tinyint" Nullable="false" />
+          <Property Name="purchaseorder" Type="tinyint" Nullable="false" />
+          <Property Name="receiveitem" Type="tinyint" Nullable="false" />
+          <Property Name="purchaseinvoice" Type="tinyint" Nullable="false" />
+          <Property Name="purchasepayment" Type="tinyint" Nullable="false" />
+          <Property Name="suratjalan" Type="tinyint" Nullable="false" />
+          <Property Name="salesinvoice" Type="tinyint" Nullable="false" />
+          <Property Name="salespayment" Type="tinyint" Nullable="false" />
+        </EntityType>
+        <EntityType Name="suppliers">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="name" Type="text" Nullable="false" />
+          <Property Name="address" Type="text" Nullable="false" />
+          <Property Name="city" Type="text" Nullable="false" />
+          <Property Name="phone" Type="text" />
+          <Property Name="description" Type="text" />
+          <Property Name="status" Type="tinyint" Nullable="false" />
+        </EntityType>
+        <EntityType Name="suratjalannote">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="suratjalanid" Type="bigint" Nullable="false" />
+          <Property Name="username" Type="text" Nullable="false" />
+          <Property Name="date" Type="date" Nullable="false" />
+          <Property Name="text" Type="text" Nullable="false" />
+        </EntityType>
+        <EntityType Name="user_role">
+          <Key>
+            <PropertyRef Name="userid" />
+            <PropertyRef Name="roleid" />
+          </Key>
+          <Property Name="userid" Type="bigint" Nullable="false" />
+          <Property Name="roleid" Type="bigint" Nullable="false" />
+        </EntityType>
+        <EntityType Name="users">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="name" Type="text" Nullable="false" />
+          <Property Name="username" Type="text" Nullable="false" />
+          <Property Name="password" Type="text" Nullable="false" />
+          <Property Name="description" Type="text" />
+          <Property Name="status" Type="tinyint" Nullable="false" />
+        </EntityType>
+        <Association Name="FK_dpenawaran_hpenawaran">
+          <End Role="hpenawaran" Type="Self.hpenawaran" Multiplicity="1" />
+          <End Role="dpenawaran" Type="Self.dpenawaran" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="hpenawaran">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="dpenawaran">
+              <PropertyRef Name="penawaranid" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_dpenawaran_item_category">
+          <End Role="item_category" Type="Self.item_category" Multiplicity="1" />
+          <End Role="dpenawaran" Type="Self.dpenawaran" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="item_category">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="dpenawaran">
+              <PropertyRef Name="itemcategoryid" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_dpenawaran_suppliers">
+          <End Role="suppliers" Type="Self.suppliers" Multiplicity="1" />
+          <End Role="dpenawaran" Type="Self.dpenawaran" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="suppliers">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="dpenawaran">
+              <PropertyRef Name="supplierid" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_dpo_hpo">
+          <End Role="hpo" Type="Self.hpo" Multiplicity="1" />
+          <End Role="dpo" Type="Self.dpo" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="hpo">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="dpo">
+              <PropertyRef Name="poid" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_dpo_item_category">
+          <End Role="item_category" Type="Self.item_category" Multiplicity="1" />
+          <End Role="dpo" Type="Self.dpo" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="item_category">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="dpo">
+              <PropertyRef Name="itemcategoryid" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_dpurchaseinvoice_dpurchaseinvoice">
+          <End Role="hpurchaseinvoice" Type="Self.hpurchaseinvoice" Multiplicity="1" />
+          <End Role="dpurchaseinvoice" Type="Self.dpurchaseinvoice" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="hpurchaseinvoice">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="dpurchaseinvoice">
+              <PropertyRef Name="purchaseinvoiceid" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_dpurchaseinvoice_item_category">
+          <End Role="item_category" Type="Self.item_category" Multiplicity="1" />
+          <End Role="dpurchaseinvoice" Type="Self.dpurchaseinvoice" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="item_category">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="dpurchaseinvoice">
+              <PropertyRef Name="itemcategoryid" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_dreceiveitem_hreceiveitem">
+          <End Role="hreceiveitem" Type="Self.hreceiveitem" Multiplicity="0..1" />
+          <End Role="dreceiveitem" Type="Self.dreceiveitem" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="hreceiveitem">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="dreceiveitem">
+              <PropertyRef Name="receiveitemid" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_dreceiveitem_item_category">
+          <End Role="item_category" Type="Self.item_category" Multiplicity="0..1" />
+          <End Role="dreceiveitem" Type="Self.dreceiveitem" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="item_category">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="dreceiveitem">
+              <PropertyRef Name="itemcategoryid" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_drfq_hrfq">
+          <End Role="hrfq" Type="Self.hrfq" Multiplicity="1" />
+          <End Role="drfq" Type="Self.drfq" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="hrfq">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="drfq">
+              <PropertyRef Name="rfqid" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_drfq_item_category">
+          <End Role="item_category" Type="Self.item_category" Multiplicity="1" />
+          <End Role="drfq" Type="Self.drfq" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="item_category">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="drfq">
+              <PropertyRef Name="itemcategoryid" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_dsalesinvoice_hsalesinvoice">
+          <End Role="hsalesinvoice" Type="Self.hsalesinvoice" Multiplicity="1" />
+          <End Role="dsalesinvoice" Type="Self.dsalesinvoice" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="hsalesinvoice">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="dsalesinvoice">
+              <PropertyRef Name="salesinvoiceid" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_dsalesinvoice_item_category">
+          <End Role="item_category" Type="Self.item_category" Multiplicity="1" />
+          <End Role="dsalesinvoice" Type="Self.dsalesinvoice" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="item_category">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="dsalesinvoice">
+              <PropertyRef Name="itemcategoryid" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_dsalesorder_hsalesorder">
+          <End Role="hsalesorder" Type="Self.hsalesorder" Multiplicity="1" />
+          <End Role="dsalesorder" Type="Self.dsalesorder" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="hsalesorder">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="dsalesorder">
+              <PropertyRef Name="salesorderid" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_dsalesorder_item_category">
+          <End Role="item_category" Type="Self.item_category" Multiplicity="1" />
+          <End Role="dsalesorder" Type="Self.dsalesorder" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="item_category">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="dsalesorder">
+              <PropertyRef Name="itemcategoryid" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_dsuratjalan_hsuratjalan">
+          <End Role="hsuratjalan" Type="Self.hsuratjalan" Multiplicity="1" />
+          <End Role="dsuratjalan" Type="Self.dsuratjalan" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="hsuratjalan">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="dsuratjalan">
+              <PropertyRef Name="suratjalanid" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_dsuratjalan_item_category">
+          <End Role="item_category" Type="Self.item_category" Multiplicity="1" />
+          <End Role="dsuratjalan" Type="Self.dsuratjalan" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="item_category">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="dsuratjalan">
+              <PropertyRef Name="itemcategoryid" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_findprices_projects">
+          <End Role="suppliers" Type="Self.suppliers" Multiplicity="1" />
+          <End Role="findprices" Type="Self.findprices" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="suppliers">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="findprices">
+              <PropertyRef Name="supplierid" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_findpricesnote_findprices">
+          <End Role="findprices" Type="Self.findprices" Multiplicity="1" />
+          <End Role="findpricesnote" Type="Self.findpricesnote" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="findprices">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="findpricesnote">
+              <PropertyRef Name="findpricesid" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_hpenawaran_customers">
+          <End Role="customers" Type="Self.customers" Multiplicity="1" />
+          <End Role="hpenawaran" Type="Self.hpenawaran" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="customers">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="hpenawaran">
+              <PropertyRef Name="customerid" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_hpenawaran_projects1">
+          <End Role="projects" Type="Self.projects" Multiplicity="1" />
+          <End Role="hpenawaran" Type="Self.hpenawaran" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="projects">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="hpenawaran">
+              <PropertyRef Name="projectid" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_hpo_projects">
+          <End Role="projects" Type="Self.projects" Multiplicity="1" />
+          <End Role="hpo" Type="Self.hpo" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="projects">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="hpo">
+              <PropertyRef Name="projectid" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_hpo_suppliers">
+          <End Role="suppliers" Type="Self.suppliers" Multiplicity="1" />
+          <End Role="hpo" Type="Self.hpo" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="suppliers">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="hpo">
+              <PropertyRef Name="supplierid" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_hpurchasepayment_hpurchaseinvoice">
+          <End Role="hpurchaseinvoice" Type="Self.hpurchaseinvoice" Multiplicity="1" />
+          <End Role="purchasepayment" Type="Self.purchasepayment" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="hpurchaseinvoice">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="purchasepayment">
+              <PropertyRef Name="purchaseinvoiceid" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_hpurchasepayment_projects">
+          <End Role="projects" Type="Self.projects" Multiplicity="1" />
+          <End Role="purchasepayment" Type="Self.purchasepayment" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="projects">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="purchasepayment">
+              <PropertyRef Name="projectid" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_hpurchasepayment_suppliers">
+          <End Role="suppliers" Type="Self.suppliers" Multiplicity="1" />
+          <End Role="purchasepayment" Type="Self.purchasepayment" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="suppliers">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="purchasepayment">
+              <PropertyRef Name="supplierid" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_hreceiveitem_hpo">
+          <End Role="hpo" Type="Self.hpo" Multiplicity="1" />
+          <End Role="hreceiveitem" Type="Self.hreceiveitem" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="hpo">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="hreceiveitem">
+              <PropertyRef Name="poid" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_hreceiveitem_projects">
+          <End Role="projects" Type="Self.projects" Multiplicity="1" />
+          <End Role="hreceiveitem" Type="Self.hreceiveitem" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="projects">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="hreceiveitem">
+              <PropertyRef Name="projectid" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_hreceiveitem_suppliers">
+          <End Role="suppliers" Type="Self.suppliers" Multiplicity="1" />
+          <End Role="hreceiveitem" Type="Self.hreceiveitem" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="suppliers">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="hreceiveitem">
+              <PropertyRef Name="supplierid" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_hrfq_customers">
+          <End Role="customers" Type="Self.customers" Multiplicity="1" />
+          <End Role="hrfq" Type="Self.hrfq" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="customers">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="hrfq">
+              <PropertyRef Name="customerid" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_hrfq_projects">
+          <End Role="projects" Type="Self.projects" Multiplicity="1" />
+          <End Role="hrfq" Type="Self.hrfq" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="projects">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="hrfq">
+              <PropertyRef Name="projectid" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_hsalesinvoice_projects">
+          <End Role="projects" Type="Self.projects" Multiplicity="1" />
+          <End Role="hsalesinvoice" Type="Self.hsalesinvoice" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="projects">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="hsalesinvoice">
+              <PropertyRef Name="projectid" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_hsalesorder_customers">
+          <End Role="customers" Type="Self.customers" Multiplicity="1" />
+          <End Role="hsalesorder" Type="Self.hsalesorder" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="customers">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="hsalesorder">
+              <PropertyRef Name="customerid" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_hsalesorder_projects">
+          <End Role="projects" Type="Self.projects" Multiplicity="1" />
+          <End Role="hsalesorder" Type="Self.hsalesorder" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="projects">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="hsalesorder">
+              <PropertyRef Name="projectid" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_hsalespayment_projects">
+          <End Role="projects" Type="Self.projects" Multiplicity="1" />
+          <End Role="hsalespayment" Type="Self.hsalespayment" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="projects">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="hsalespayment">
+              <PropertyRef Name="projectid" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_hsuratjalan_projects">
+          <End Role="projects" Type="Self.projects" Multiplicity="1" />
+          <End Role="hsuratjalan" Type="Self.hsuratjalan" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="projects">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="hsuratjalan">
+              <PropertyRef Name="projectid" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_penawarannote_hpenawaran">
+          <End Role="hpenawaran" Type="Self.hpenawaran" Multiplicity="1" />
+          <End Role="penawarannote" Type="Self.penawarannote" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="hpenawaran">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="penawarannote">
+              <PropertyRef Name="penawaranid" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ponote_hpo">
+          <End Role="hpo" Type="Self.hpo" Multiplicity="1" />
+          <End Role="ponote" Type="Self.ponote" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="hpo">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="ponote">
+              <PropertyRef Name="poid" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_projects_customers">
+          <End Role="customers" Type="Self.customers" Multiplicity="1" />
+          <End Role="projects" Type="Self.projects" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="customers">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="projects">
+              <PropertyRef Name="customerid" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_projects_status">
+          <End Role="status" Type="Self.status" Multiplicity="1" />
+          <End Role="projects" Type="Self.projects" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="status">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="projects">
+              <PropertyRef Name="statusid" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_purchaseinvoice_hpo">
+          <End Role="hpo" Type="Self.hpo" Multiplicity="1" />
+          <End Role="hpurchaseinvoice" Type="Self.hpurchaseinvoice" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="hpo">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="hpurchaseinvoice">
+              <PropertyRef Name="poid" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_purchaseinvoice_projects">
+          <End Role="projects" Type="Self.projects" Multiplicity="1" />
+          <End Role="hpurchaseinvoice" Type="Self.hpurchaseinvoice" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="projects">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="hpurchaseinvoice">
+              <PropertyRef Name="projectid" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_purchaseinvoice_suppliers">
+          <End Role="suppliers" Type="Self.suppliers" Multiplicity="1" />
+          <End Role="hpurchaseinvoice" Type="Self.hpurchaseinvoice" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="suppliers">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="hpurchaseinvoice">
+              <PropertyRef Name="supplierid" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_purchaseinvoicenote_hpurchaseinvoice">
+          <End Role="hpurchaseinvoice" Type="Self.hpurchaseinvoice" Multiplicity="1" />
+          <End Role="purchaseinvoicenote" Type="Self.purchaseinvoicenote" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="hpurchaseinvoice">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="purchaseinvoicenote">
+              <PropertyRef Name="purchaseinvoiceid" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_purchasepaymentnote_purchasepayment">
+          <End Role="purchasepayment" Type="Self.purchasepayment" Multiplicity="1" />
+          <End Role="purchasepaymentnote" Type="Self.purchasepaymentnote" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="purchasepayment">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="purchasepaymentnote">
+              <PropertyRef Name="purchasepaymentid" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_receiveitemnote_hreceiveitem">
+          <End Role="hreceiveitem" Type="Self.hreceiveitem" Multiplicity="1" />
+          <End Role="receiveitemnote" Type="Self.receiveitemnote" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="hreceiveitem">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="receiveitemnote">
+              <PropertyRef Name="receiveitemid" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_rfqnote_hrfq">
+          <End Role="hrfq" Type="Self.hrfq" Multiplicity="1" />
+          <End Role="rfqnote" Type="Self.rfqnote" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="hrfq">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="rfqnote">
+              <PropertyRef Name="rfqid" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_role_privilege_privilege">
+          <End Role="privileges" Type="Self.privileges" Multiplicity="1" />
+          <End Role="role_privilege" Type="Self.role_privilege" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="privileges">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="role_privilege">
+              <PropertyRef Name="privilegeid" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_role_privilege_roles">
+          <End Role="roles" Type="Self.roles" Multiplicity="1" />
+          <End Role="role_privilege" Type="Self.role_privilege" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="roles">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="role_privilege">
+              <PropertyRef Name="roleid" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_salesinvoicenote_hsalesinvoice">
+          <End Role="hsalesinvoice" Type="Self.hsalesinvoice" Multiplicity="1" />
+          <End Role="salesinvoicenote" Type="Self.salesinvoicenote" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="hsalesinvoice">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="salesinvoicenote">
+              <PropertyRef Name="salesinvoiceid" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_salesordernote_hsalesorder">
+          <End Role="hsalesorder" Type="Self.hsalesorder" Multiplicity="1" />
+          <End Role="salesordernote" Type="Self.salesordernote" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="hsalesorder">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="salesordernote">
+              <PropertyRef Name="salesorderid" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_salespaymentnote_hsalespayment">
+          <End Role="hsalespayment" Type="Self.hsalespayment" Multiplicity="0..1" />
+          <End Role="salespaymentnote" Type="Self.salespaymentnote" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="hsalespayment">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="salespaymentnote">
+              <PropertyRef Name="salespaymentid" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_suratjalannote_hsuratjalan">
+          <End Role="hsuratjalan" Type="Self.hsuratjalan" Multiplicity="1" />
+          <End Role="suratjalannote" Type="Self.suratjalannote" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="hsuratjalan">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="suratjalannote">
+              <PropertyRef Name="suratjalanid" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_user_role_roles">
+          <End Role="roles" Type="Self.roles" Multiplicity="1" />
+          <End Role="user_role" Type="Self.user_role" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="roles">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="user_role">
+              <PropertyRef Name="roleid" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_user_role_users">
+          <End Role="users" Type="Self.users" Multiplicity="1" />
+          <End Role="user_role" Type="Self.user_role" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="users">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="user_role">
+              <PropertyRef Name="userid" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="dbsmsModelStoreContainer">
+          <EntitySet Name="customers" EntityType="Self.customers" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="dpenawaran" EntityType="Self.dpenawaran" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="dpo" EntityType="Self.dpo" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="dpurchaseinvoice" EntityType="Self.dpurchaseinvoice" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="dreceiveitem" EntityType="Self.dreceiveitem" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="drfq" EntityType="Self.drfq" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="dsalesinvoice" EntityType="Self.dsalesinvoice" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="dsalesorder" EntityType="Self.dsalesorder" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="dsuratjalan" EntityType="Self.dsuratjalan" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="findprices" EntityType="Self.findprices" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="findpricesnote" EntityType="Self.findpricesnote" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="helper" EntityType="Self.helper" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="hpenawaran" EntityType="Self.hpenawaran" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="hpo" EntityType="Self.hpo" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="hpurchaseinvoice" EntityType="Self.hpurchaseinvoice" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="hreceiveitem" EntityType="Self.hreceiveitem" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="hrfq" EntityType="Self.hrfq" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="hsalesinvoice" EntityType="Self.hsalesinvoice" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="hsalesorder" EntityType="Self.hsalesorder" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="hsalespayment" EntityType="Self.hsalespayment" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="hsuratjalan" EntityType="Self.hsuratjalan" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="item_category" EntityType="Self.item_category" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="penawarannote" EntityType="Self.penawarannote" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="ponote" EntityType="Self.ponote" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="privileges" EntityType="Self.privileges" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="projects" EntityType="Self.projects" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="purchaseinvoicenote" EntityType="Self.purchaseinvoicenote" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="purchasepayment" EntityType="Self.purchasepayment" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="purchasepaymentnote" EntityType="Self.purchasepaymentnote" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="receiveitemnote" EntityType="Self.receiveitemnote" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="rfqnote" EntityType="Self.rfqnote" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="role_privilege" EntityType="Self.role_privilege" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="roles" EntityType="Self.roles" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="salesinvoicenote" EntityType="Self.salesinvoicenote" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="salesordernote" EntityType="Self.salesordernote" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="salespaymentnote" EntityType="Self.salespaymentnote" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="status" EntityType="Self.status" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="suppliers" EntityType="Self.suppliers" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="suratjalannote" EntityType="Self.suratjalannote" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="user_role" EntityType="Self.user_role" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="users" EntityType="Self.users" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_dpenawaran_hpenawaran" Association="Self.FK_dpenawaran_hpenawaran">
+            <End Role="hpenawaran" EntitySet="hpenawaran" />
+            <End Role="dpenawaran" EntitySet="dpenawaran" />
+          </AssociationSet>
+          <AssociationSet Name="FK_dpenawaran_item_category" Association="Self.FK_dpenawaran_item_category">
+            <End Role="item_category" EntitySet="item_category" />
+            <End Role="dpenawaran" EntitySet="dpenawaran" />
+          </AssociationSet>
+          <AssociationSet Name="FK_dpenawaran_suppliers" Association="Self.FK_dpenawaran_suppliers">
+            <End Role="suppliers" EntitySet="suppliers" />
+            <End Role="dpenawaran" EntitySet="dpenawaran" />
+          </AssociationSet>
+          <AssociationSet Name="FK_dpo_hpo" Association="Self.FK_dpo_hpo">
+            <End Role="hpo" EntitySet="hpo" />
+            <End Role="dpo" EntitySet="dpo" />
+          </AssociationSet>
+          <AssociationSet Name="FK_dpo_item_category" Association="Self.FK_dpo_item_category">
+            <End Role="item_category" EntitySet="item_category" />
+            <End Role="dpo" EntitySet="dpo" />
+          </AssociationSet>
+          <AssociationSet Name="FK_dpurchaseinvoice_dpurchaseinvoice" Association="Self.FK_dpurchaseinvoice_dpurchaseinvoice">
+            <End Role="hpurchaseinvoice" EntitySet="hpurchaseinvoice" />
+            <End Role="dpurchaseinvoice" EntitySet="dpurchaseinvoice" />
+          </AssociationSet>
+          <AssociationSet Name="FK_dpurchaseinvoice_item_category" Association="Self.FK_dpurchaseinvoice_item_category">
+            <End Role="item_category" EntitySet="item_category" />
+            <End Role="dpurchaseinvoice" EntitySet="dpurchaseinvoice" />
+          </AssociationSet>
+          <AssociationSet Name="FK_dreceiveitem_hreceiveitem" Association="Self.FK_dreceiveitem_hreceiveitem">
+            <End Role="hreceiveitem" EntitySet="hreceiveitem" />
+            <End Role="dreceiveitem" EntitySet="dreceiveitem" />
+          </AssociationSet>
+          <AssociationSet Name="FK_dreceiveitem_item_category" Association="Self.FK_dreceiveitem_item_category">
+            <End Role="item_category" EntitySet="item_category" />
+            <End Role="dreceiveitem" EntitySet="dreceiveitem" />
+          </AssociationSet>
+          <AssociationSet Name="FK_drfq_hrfq" Association="Self.FK_drfq_hrfq">
+            <End Role="hrfq" EntitySet="hrfq" />
+            <End Role="drfq" EntitySet="drfq" />
+          </AssociationSet>
+          <AssociationSet Name="FK_drfq_item_category" Association="Self.FK_drfq_item_category">
+            <End Role="item_category" EntitySet="item_category" />
+            <End Role="drfq" EntitySet="drfq" />
+          </AssociationSet>
+          <AssociationSet Name="FK_dsalesinvoice_hsalesinvoice" Association="Self.FK_dsalesinvoice_hsalesinvoice">
+            <End Role="hsalesinvoice" EntitySet="hsalesinvoice" />
+            <End Role="dsalesinvoice" EntitySet="dsalesinvoice" />
+          </AssociationSet>
+          <AssociationSet Name="FK_dsalesinvoice_item_category" Association="Self.FK_dsalesinvoice_item_category">
+            <End Role="item_category" EntitySet="item_category" />
+            <End Role="dsalesinvoice" EntitySet="dsalesinvoice" />
+          </AssociationSet>
+          <AssociationSet Name="FK_dsalesorder_hsalesorder" Association="Self.FK_dsalesorder_hsalesorder">
+            <End Role="hsalesorder" EntitySet="hsalesorder" />
+            <End Role="dsalesorder" EntitySet="dsalesorder" />
+          </AssociationSet>
+          <AssociationSet Name="FK_dsalesorder_item_category" Association="Self.FK_dsalesorder_item_category">
+            <End Role="item_category" EntitySet="item_category" />
+            <End Role="dsalesorder" EntitySet="dsalesorder" />
+          </AssociationSet>
+          <AssociationSet Name="FK_dsuratjalan_hsuratjalan" Association="Self.FK_dsuratjalan_hsuratjalan">
+            <End Role="hsuratjalan" EntitySet="hsuratjalan" />
+            <End Role="dsuratjalan" EntitySet="dsuratjalan" />
+          </AssociationSet>
+          <AssociationSet Name="FK_dsuratjalan_item_category" Association="Self.FK_dsuratjalan_item_category">
+            <End Role="item_category" EntitySet="item_category" />
+            <End Role="dsuratjalan" EntitySet="dsuratjalan" />
+          </AssociationSet>
+          <AssociationSet Name="FK_findprices_projects" Association="Self.FK_findprices_projects">
+            <End Role="suppliers" EntitySet="suppliers" />
+            <End Role="findprices" EntitySet="findprices" />
+          </AssociationSet>
+          <AssociationSet Name="FK_findpricesnote_findprices" Association="Self.FK_findpricesnote_findprices">
+            <End Role="findprices" EntitySet="findprices" />
+            <End Role="findpricesnote" EntitySet="findpricesnote" />
+          </AssociationSet>
+          <AssociationSet Name="FK_hpenawaran_customers" Association="Self.FK_hpenawaran_customers">
+            <End Role="customers" EntitySet="customers" />
+            <End Role="hpenawaran" EntitySet="hpenawaran" />
+          </AssociationSet>
+          <AssociationSet Name="FK_hpenawaran_projects1" Association="Self.FK_hpenawaran_projects1">
+            <End Role="projects" EntitySet="projects" />
+            <End Role="hpenawaran" EntitySet="hpenawaran" />
+          </AssociationSet>
+          <AssociationSet Name="FK_hpo_projects" Association="Self.FK_hpo_projects">
+            <End Role="projects" EntitySet="projects" />
+            <End Role="hpo" EntitySet="hpo" />
+          </AssociationSet>
+          <AssociationSet Name="FK_hpo_suppliers" Association="Self.FK_hpo_suppliers">
+            <End Role="suppliers" EntitySet="suppliers" />
+            <End Role="hpo" EntitySet="hpo" />
+          </AssociationSet>
+          <AssociationSet Name="FK_hpurchasepayment_hpurchaseinvoice" Association="Self.FK_hpurchasepayment_hpurchaseinvoice">
+            <End Role="hpurchaseinvoice" EntitySet="hpurchaseinvoice" />
+            <End Role="purchasepayment" EntitySet="purchasepayment" />
+          </AssociationSet>
+          <AssociationSet Name="FK_hpurchasepayment_projects" Association="Self.FK_hpurchasepayment_projects">
+            <End Role="projects" EntitySet="projects" />
+            <End Role="purchasepayment" EntitySet="purchasepayment" />
+          </AssociationSet>
+          <AssociationSet Name="FK_hpurchasepayment_suppliers" Association="Self.FK_hpurchasepayment_suppliers">
+            <End Role="suppliers" EntitySet="suppliers" />
+            <End Role="purchasepayment" EntitySet="purchasepayment" />
+          </AssociationSet>
+          <AssociationSet Name="FK_hreceiveitem_hpo" Association="Self.FK_hreceiveitem_hpo">
+            <End Role="hpo" EntitySet="hpo" />
+            <End Role="hreceiveitem" EntitySet="hreceiveitem" />
+          </AssociationSet>
+          <AssociationSet Name="FK_hreceiveitem_projects" Association="Self.FK_hreceiveitem_projects">
+            <End Role="projects" EntitySet="projects" />
+            <End Role="hreceiveitem" EntitySet="hreceiveitem" />
+          </AssociationSet>
+          <AssociationSet Name="FK_hreceiveitem_suppliers" Association="Self.FK_hreceiveitem_suppliers">
+            <End Role="suppliers" EntitySet="suppliers" />
+            <End Role="hreceiveitem" EntitySet="hreceiveitem" />
+          </AssociationSet>
+          <AssociationSet Name="FK_hrfq_customers" Association="Self.FK_hrfq_customers">
+            <End Role="customers" EntitySet="customers" />
+            <End Role="hrfq" EntitySet="hrfq" />
+          </AssociationSet>
+          <AssociationSet Name="FK_hrfq_projects" Association="Self.FK_hrfq_projects">
+            <End Role="projects" EntitySet="projects" />
+            <End Role="hrfq" EntitySet="hrfq" />
+          </AssociationSet>
+          <AssociationSet Name="FK_hsalesinvoice_projects" Association="Self.FK_hsalesinvoice_projects">
+            <End Role="projects" EntitySet="projects" />
+            <End Role="hsalesinvoice" EntitySet="hsalesinvoice" />
+          </AssociationSet>
+          <AssociationSet Name="FK_hsalesorder_customers" Association="Self.FK_hsalesorder_customers">
+            <End Role="customers" EntitySet="customers" />
+            <End Role="hsalesorder" EntitySet="hsalesorder" />
+          </AssociationSet>
+          <AssociationSet Name="FK_hsalesorder_projects" Association="Self.FK_hsalesorder_projects">
+            <End Role="projects" EntitySet="projects" />
+            <End Role="hsalesorder" EntitySet="hsalesorder" />
+          </AssociationSet>
+          <AssociationSet Name="FK_hsalespayment_projects" Association="Self.FK_hsalespayment_projects">
+            <End Role="projects" EntitySet="projects" />
+            <End Role="hsalespayment" EntitySet="hsalespayment" />
+          </AssociationSet>
+          <AssociationSet Name="FK_hsuratjalan_projects" Association="Self.FK_hsuratjalan_projects">
+            <End Role="projects" EntitySet="projects" />
+            <End Role="hsuratjalan" EntitySet="hsuratjalan" />
+          </AssociationSet>
+          <AssociationSet Name="FK_penawarannote_hpenawaran" Association="Self.FK_penawarannote_hpenawaran">
+            <End Role="hpenawaran" EntitySet="hpenawaran" />
+            <End Role="penawarannote" EntitySet="penawarannote" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ponote_hpo" Association="Self.FK_ponote_hpo">
+            <End Role="hpo" EntitySet="hpo" />
+            <End Role="ponote" EntitySet="ponote" />
+          </AssociationSet>
+          <AssociationSet Name="FK_projects_customers" Association="Self.FK_projects_customers">
+            <End Role="customers" EntitySet="customers" />
+            <End Role="projects" EntitySet="projects" />
+          </AssociationSet>
+          <AssociationSet Name="FK_projects_status" Association="Self.FK_projects_status">
+            <End Role="status" EntitySet="status" />
+            <End Role="projects" EntitySet="projects" />
+          </AssociationSet>
+          <AssociationSet Name="FK_purchaseinvoice_hpo" Association="Self.FK_purchaseinvoice_hpo">
+            <End Role="hpo" EntitySet="hpo" />
+            <End Role="hpurchaseinvoice" EntitySet="hpurchaseinvoice" />
+          </AssociationSet>
+          <AssociationSet Name="FK_purchaseinvoice_projects" Association="Self.FK_purchaseinvoice_projects">
+            <End Role="projects" EntitySet="projects" />
+            <End Role="hpurchaseinvoice" EntitySet="hpurchaseinvoice" />
+          </AssociationSet>
+          <AssociationSet Name="FK_purchaseinvoice_suppliers" Association="Self.FK_purchaseinvoice_suppliers">
+            <End Role="suppliers" EntitySet="suppliers" />
+            <End Role="hpurchaseinvoice" EntitySet="hpurchaseinvoice" />
+          </AssociationSet>
+          <AssociationSet Name="FK_purchaseinvoicenote_hpurchaseinvoice" Association="Self.FK_purchaseinvoicenote_hpurchaseinvoice">
+            <End Role="hpurchaseinvoice" EntitySet="hpurchaseinvoice" />
+            <End Role="purchaseinvoicenote" EntitySet="purchaseinvoicenote" />
+          </AssociationSet>
+          <AssociationSet Name="FK_purchasepaymentnote_purchasepayment" Association="Self.FK_purchasepaymentnote_purchasepayment">
+            <End Role="purchasepayment" EntitySet="purchasepayment" />
+            <End Role="purchasepaymentnote" EntitySet="purchasepaymentnote" />
+          </AssociationSet>
+          <AssociationSet Name="FK_receiveitemnote_hreceiveitem" Association="Self.FK_receiveitemnote_hreceiveitem">
+            <End Role="hreceiveitem" EntitySet="hreceiveitem" />
+            <End Role="receiveitemnote" EntitySet="receiveitemnote" />
+          </AssociationSet>
+          <AssociationSet Name="FK_rfqnote_hrfq" Association="Self.FK_rfqnote_hrfq">
+            <End Role="hrfq" EntitySet="hrfq" />
+            <End Role="rfqnote" EntitySet="rfqnote" />
+          </AssociationSet>
+          <AssociationSet Name="FK_role_privilege_privilege" Association="Self.FK_role_privilege_privilege">
+            <End Role="privileges" EntitySet="privileges" />
+            <End Role="role_privilege" EntitySet="role_privilege" />
+          </AssociationSet>
+          <AssociationSet Name="FK_role_privilege_roles" Association="Self.FK_role_privilege_roles">
+            <End Role="roles" EntitySet="roles" />
+            <End Role="role_privilege" EntitySet="role_privilege" />
+          </AssociationSet>
+          <AssociationSet Name="FK_salesinvoicenote_hsalesinvoice" Association="Self.FK_salesinvoicenote_hsalesinvoice">
+            <End Role="hsalesinvoice" EntitySet="hsalesinvoice" />
+            <End Role="salesinvoicenote" EntitySet="salesinvoicenote" />
+          </AssociationSet>
+          <AssociationSet Name="FK_salesordernote_hsalesorder" Association="Self.FK_salesordernote_hsalesorder">
+            <End Role="hsalesorder" EntitySet="hsalesorder" />
+            <End Role="salesordernote" EntitySet="salesordernote" />
+          </AssociationSet>
+          <AssociationSet Name="FK_salespaymentnote_hsalespayment" Association="Self.FK_salespaymentnote_hsalespayment">
+            <End Role="hsalespayment" EntitySet="hsalespayment" />
+            <End Role="salespaymentnote" EntitySet="salespaymentnote" />
+          </AssociationSet>
+          <AssociationSet Name="FK_suratjalannote_hsuratjalan" Association="Self.FK_suratjalannote_hsuratjalan">
+            <End Role="hsuratjalan" EntitySet="hsuratjalan" />
+            <End Role="suratjalannote" EntitySet="suratjalannote" />
+          </AssociationSet>
+          <AssociationSet Name="FK_user_role_roles" Association="Self.FK_user_role_roles">
+            <End Role="roles" EntitySet="roles" />
+            <End Role="user_role" EntitySet="user_role" />
+          </AssociationSet>
+          <AssociationSet Name="FK_user_role_users" Association="Self.FK_user_role_users">
+            <End Role="users" EntitySet="users" />
+            <End Role="user_role" EntitySet="user_role" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="dbsmsModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="customer">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="name" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="address" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="city" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="phone" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="description" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="hpenawarans" Relationship="Self.FK_hpenawaran_customers" FromRole="customers" ToRole="hpenawaran" />
+          <NavigationProperty Name="hrfqs" Relationship="Self.FK_hrfq_customers" FromRole="customers" ToRole="hrfq" />
+          <NavigationProperty Name="hsalesorders" Relationship="Self.FK_hsalesorder_customers" FromRole="customers" ToRole="hsalesorder" />
+          <NavigationProperty Name="projects" Relationship="Self.FK_projects_customers" FromRole="customers" ToRole="projects" />
+          <Property Name="status" Type="Byte" Nullable="false" />
+        </EntityType>
+        <EntityType Name="dpenawaran">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="penawaranid" Type="Int64" Nullable="false" />
+          <Property Name="itemcategoryid" Type="Int64" Nullable="false" />
+          <Property Name="itemdescription" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="supplierid" Type="Int64" Nullable="false" />
+          <Property Name="qty" Type="Int64" Nullable="false" />
+          <Property Name="unitprice" Type="Int64" Nullable="false" />
+          <Property Name="subtotal" Type="Int64" Nullable="false" />
+          <NavigationProperty Name="hpenawaran" Relationship="Self.FK_dpenawaran_hpenawaran" FromRole="dpenawaran" ToRole="hpenawaran" />
+          <NavigationProperty Name="item_category" Relationship="Self.FK_dpenawaran_item_category" FromRole="dpenawaran" ToRole="item_category" />
+          <NavigationProperty Name="supplier" Relationship="Self.FK_dpenawaran_suppliers" FromRole="dpenawaran" ToRole="suppliers" />
+        </EntityType>
+        <EntityType Name="dpo">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="poid" Type="Int64" Nullable="false" />
+          <Property Name="itemcategoryid" Type="Int64" Nullable="false" />
+          <Property Name="itemdescription" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="qty" Type="Int64" Nullable="false" />
+          <Property Name="unitprice" Type="Int64" Nullable="false" />
+          <Property Name="subtotal" Type="Int64" Nullable="false" />
+          <NavigationProperty Name="hpo" Relationship="Self.FK_dpo_hpo" FromRole="dpo" ToRole="hpo" />
+          <NavigationProperty Name="item_category" Relationship="Self.FK_dpo_item_category" FromRole="dpo" ToRole="item_category" />
+        </EntityType>
+        <EntityType Name="dpurchaseinvoice">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="purchaseinvoiceid" Type="Int64" Nullable="false" />
+          <Property Name="itemcategoryid" Type="Int64" Nullable="false" />
+          <Property Name="itemdescription" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="qty" Type="Int64" Nullable="false" />
+          <Property Name="unitprice" Type="Int64" Nullable="false" />
+          <Property Name="subtotal" Type="Int64" Nullable="false" />
+          <NavigationProperty Name="hpurchaseinvoice" Relationship="Self.FK_dpurchaseinvoice_dpurchaseinvoice" FromRole="dpurchaseinvoice" ToRole="hpurchaseinvoice" />
+          <NavigationProperty Name="item_category" Relationship="Self.FK_dpurchaseinvoice_item_category" FromRole="dpurchaseinvoice" ToRole="item_category" />
+        </EntityType>
+        <EntityType Name="dreceiveitem">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="receiveitemid" Type="Int64" />
+          <Property Name="itemcategoryid" Type="Int64" />
+          <Property Name="itemdescription" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="qty" Type="Int64" />
+          <NavigationProperty Name="hreceiveitem" Relationship="Self.FK_dreceiveitem_hreceiveitem" FromRole="dreceiveitem" ToRole="hreceiveitem" />
+          <NavigationProperty Name="item_category" Relationship="Self.FK_dreceiveitem_item_category" FromRole="dreceiveitem" ToRole="item_category" />
+        </EntityType>
+        <EntityType Name="drfq">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="rfqid" Type="Int64" Nullable="false" />
+          <Property Name="itemcategoryid" Type="Int64" Nullable="false" />
+          <Property Name="itemdescription" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="qty" Type="Int64" Nullable="false" />
+          <Property Name="unitprice" Type="Int64" Nullable="false" />
+          <Property Name="subtotal" Type="Int64" Nullable="false" />
+          <NavigationProperty Name="hrfq" Relationship="Self.FK_drfq_hrfq" FromRole="drfq" ToRole="hrfq" />
+          <NavigationProperty Name="item_category" Relationship="Self.FK_drfq_item_category" FromRole="drfq" ToRole="item_category" />
+        </EntityType>
+        <EntityType Name="dsalesinvoice">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="salesinvoiceid" Type="Int64" Nullable="false" />
+          <Property Name="itemcategoryid" Type="Int64" Nullable="false" />
+          <Property Name="itemdescription" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="qty" Type="Int64" Nullable="false" />
+          <Property Name="unitprice" Type="Int64" Nullable="false" />
+          <Property Name="subtotal" Type="Int64" Nullable="false" />
+          <NavigationProperty Name="hsalesinvoice" Relationship="Self.FK_dsalesinvoice_hsalesinvoice" FromRole="dsalesinvoice" ToRole="hsalesinvoice" />
+          <NavigationProperty Name="item_category" Relationship="Self.FK_dsalesinvoice_item_category" FromRole="dsalesinvoice" ToRole="item_category" />
+        </EntityType>
+        <EntityType Name="dsalesorder">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="salesorderid" Type="Int64" Nullable="false" />
+          <Property Name="itemcategoryid" Type="Int64" Nullable="false" />
+          <Property Name="itemdescription" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="qty" Type="Int64" Nullable="false" />
+          <Property Name="unitprice" Type="Int64" Nullable="false" />
+          <Property Name="subtotal" Type="Int64" Nullable="false" />
+          <NavigationProperty Name="hsalesorder" Relationship="Self.FK_dsalesorder_hsalesorder" FromRole="dsalesorder" ToRole="hsalesorder" />
+          <NavigationProperty Name="item_category" Relationship="Self.FK_dsalesorder_item_category" FromRole="dsalesorder" ToRole="item_category" />
+        </EntityType>
+        <EntityType Name="dsuratjalan">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="suratjalanid" Type="Int64" Nullable="false" />
+          <Property Name="itemcategoryid" Type="Int64" Nullable="false" />
+          <Property Name="itemdescription" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="qty" Type="Int64" Nullable="false" />
+          <NavigationProperty Name="hsuratjalan" Relationship="Self.FK_dsuratjalan_hsuratjalan" FromRole="dsuratjalan" ToRole="hsuratjalan" />
+          <NavigationProperty Name="item_category" Relationship="Self.FK_dsuratjalan_item_category" FromRole="dsuratjalan" ToRole="item_category" />
+        </EntityType>
+        <EntityType Name="findprice">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="projectid" Type="Int64" Nullable="false" />
+          <Property Name="supplierid" Type="Int64" Nullable="false" />
+          <Property Name="address" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="itemdescription" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="unitprice" Type="Int64" Nullable="false" />
+          <Property Name="timeneeded" Type="Int64" Nullable="false" />
+          <Property Name="description" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="supplier" Relationship="Self.FK_findprices_projects" FromRole="findprices" ToRole="suppliers" />
+          <NavigationProperty Name="findpricesnotes" Relationship="Self.FK_findpricesnote_findprices" FromRole="findprices" ToRole="findpricesnote" />
+          <Property Name="status" Type="Byte" Nullable="false" />
+        </EntityType>
+        <EntityType Name="findpricesnote">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="findpricesid" Type="Int64" Nullable="false" />
+          <Property Name="username" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="date" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="text" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" Nullable="false" />
+          <NavigationProperty Name="findprice" Relationship="Self.FK_findpricesnote_findprices" FromRole="findpricesnote" ToRole="findprices" />
+        </EntityType>
+        <EntityType Name="helper">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="key" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="value" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" Nullable="false" />
+        </EntityType>
+        <EntityType Name="hpenawaran">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="projectid" Type="Int64" Nullable="false" />
+          <Property Name="number" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="customerid" Type="Int64" Nullable="false" />
+          <Property Name="date" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="to" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="description" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="customer" Relationship="Self.FK_hpenawaran_customers" FromRole="hpenawaran" ToRole="customers" />
+          <NavigationProperty Name="dpenawarans" Relationship="Self.FK_dpenawaran_hpenawaran" FromRole="hpenawaran" ToRole="dpenawaran" />
+          <NavigationProperty Name="project" Relationship="Self.FK_hpenawaran_projects1" FromRole="hpenawaran" ToRole="projects" />
+          <NavigationProperty Name="penawarannotes" Relationship="Self.FK_penawarannote_hpenawaran" FromRole="hpenawaran" ToRole="penawarannote" />
+        </EntityType>
+        <EntityType Name="hpo">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="projectid" Type="Int64" Nullable="false" />
+          <Property Name="number" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="supplierid" Type="Int64" Nullable="false" />
+          <Property Name="date" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="terms" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="to" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="expecteddate" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="grandtotal" Type="Int64" Nullable="false" />
+          <Property Name="description" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="dpoes" Relationship="Self.FK_dpo_hpo" FromRole="hpo" ToRole="dpo" />
+          <NavigationProperty Name="project" Relationship="Self.FK_hpo_projects" FromRole="hpo" ToRole="projects" />
+          <NavigationProperty Name="supplier" Relationship="Self.FK_hpo_suppliers" FromRole="hpo" ToRole="suppliers" />
+          <NavigationProperty Name="hreceiveitems" Relationship="Self.FK_hreceiveitem_hpo" FromRole="hpo" ToRole="hreceiveitem" />
+          <NavigationProperty Name="ponotes" Relationship="Self.FK_ponote_hpo" FromRole="hpo" ToRole="ponote" />
+          <NavigationProperty Name="hpurchaseinvoices" Relationship="Self.FK_purchaseinvoice_hpo" FromRole="hpo" ToRole="hpurchaseinvoice" />
+        </EntityType>
+        <EntityType Name="hpurchaseinvoice">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="projectid" Type="Int64" Nullable="false" />
+          <Property Name="number" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="date" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="poid" Type="Int64" Nullable="false" />
+          <Property Name="supplierid" Type="Int64" Nullable="false" />
+          <Property Name="diskon" Type="Int64" Nullable="false" />
+          <Property Name="total" Type="Int64" Nullable="false" />
+          <Property Name="description" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="dpurchaseinvoices" Relationship="Self.FK_dpurchaseinvoice_dpurchaseinvoice" FromRole="hpurchaseinvoice" ToRole="dpurchaseinvoice" />
+          <NavigationProperty Name="hpo" Relationship="Self.FK_purchaseinvoice_hpo" FromRole="hpurchaseinvoice" ToRole="hpo" />
+          <NavigationProperty Name="purchasepayments" Relationship="Self.FK_hpurchasepayment_hpurchaseinvoice" FromRole="hpurchaseinvoice" ToRole="purchasepayment" />
+          <NavigationProperty Name="project" Relationship="Self.FK_purchaseinvoice_projects" FromRole="hpurchaseinvoice" ToRole="projects" />
+          <NavigationProperty Name="supplier" Relationship="Self.FK_purchaseinvoice_suppliers" FromRole="hpurchaseinvoice" ToRole="suppliers" />
+          <NavigationProperty Name="purchaseinvoicenotes" Relationship="Self.FK_purchaseinvoicenote_hpurchaseinvoice" FromRole="hpurchaseinvoice" ToRole="purchaseinvoicenote" />
+        </EntityType>
+        <EntityType Name="hreceiveitem">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="projectid" Type="Int64" Nullable="false" />
+          <Property Name="number" Type="Int64" Nullable="false" />
+          <Property Name="poid" Type="Int64" Nullable="false" />
+          <Property Name="date" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="supplierid" Type="Int64" Nullable="false" />
+          <Property Name="description" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="dreceiveitems" Relationship="Self.FK_dreceiveitem_hreceiveitem" FromRole="hreceiveitem" ToRole="dreceiveitem" />
+          <NavigationProperty Name="hpo" Relationship="Self.FK_hreceiveitem_hpo" FromRole="hreceiveitem" ToRole="hpo" />
+          <NavigationProperty Name="project" Relationship="Self.FK_hreceiveitem_projects" FromRole="hreceiveitem" ToRole="projects" />
+          <NavigationProperty Name="supplier" Relationship="Self.FK_hreceiveitem_suppliers" FromRole="hreceiveitem" ToRole="suppliers" />
+          <NavigationProperty Name="receiveitemnotes" Relationship="Self.FK_receiveitemnote_hreceiveitem" FromRole="hreceiveitem" ToRole="receiveitemnote" />
+        </EntityType>
+        <EntityType Name="hrfq">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="number" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="date" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="customerid" Type="Int64" Nullable="false" />
+          <Property Name="to" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="description" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="projectid" Type="Int64" Nullable="false" />
+          <NavigationProperty Name="customer" Relationship="Self.FK_hrfq_customers" FromRole="hrfq" ToRole="customers" />
+          <NavigationProperty Name="drfqs" Relationship="Self.FK_drfq_hrfq" FromRole="hrfq" ToRole="drfq" />
+          <NavigationProperty Name="project" Relationship="Self.FK_hrfq_projects" FromRole="hrfq" ToRole="projects" />
+          <NavigationProperty Name="rfqnotes" Relationship="Self.FK_rfqnote_hrfq" FromRole="hrfq" ToRole="rfqnote" />
+        </EntityType>
+        <EntityType Name="hsalesinvoice">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="projectid" Type="Int64" Nullable="false" />
+          <Property Name="number" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="date" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="terms" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="to" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="total" Type="Int64" Nullable="false" />
+          <Property Name="description" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="dsalesinvoices" Relationship="Self.FK_dsalesinvoice_hsalesinvoice" FromRole="hsalesinvoice" ToRole="dsalesinvoice" />
+          <NavigationProperty Name="project" Relationship="Self.FK_hsalesinvoice_projects" FromRole="hsalesinvoice" ToRole="projects" />
+          <NavigationProperty Name="salesinvoicenotes" Relationship="Self.FK_salesinvoicenote_hsalesinvoice" FromRole="hsalesinvoice" ToRole="salesinvoicenote" />
+        </EntityType>
+        <EntityType Name="hsalesorder">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="projectid" Type="Int64" Nullable="false" />
+          <Property Name="customerid" Type="Int64" Nullable="false" />
+          <Property Name="number" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="date" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="expecteddate" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="terms" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="description" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="diskon" Type="Int64" Nullable="false" />
+          <Property Name="grandtotal" Type="Int64" Nullable="false" />
+          <NavigationProperty Name="customer" Relationship="Self.FK_hsalesorder_customers" FromRole="hsalesorder" ToRole="customers" />
+          <NavigationProperty Name="dsalesorders" Relationship="Self.FK_dsalesorder_hsalesorder" FromRole="hsalesorder" ToRole="dsalesorder" />
+          <NavigationProperty Name="project" Relationship="Self.FK_hsalesorder_projects" FromRole="hsalesorder" ToRole="projects" />
+          <NavigationProperty Name="salesordernotes" Relationship="Self.FK_salesordernote_hsalesorder" FromRole="hsalesorder" ToRole="salesordernote" />
+        </EntityType>
+        <EntityType Name="hsalespayment">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="projectid" Type="Int64" Nullable="false" />
+          <Property Name="number" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="date" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="to" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="total" Type="Int64" Nullable="false" />
+          <Property Name="description" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="type" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="note" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="project" Relationship="Self.FK_hsalespayment_projects" FromRole="hsalespayment" ToRole="projects" />
+          <NavigationProperty Name="salespaymentnotes" Relationship="Self.FK_salespaymentnote_hsalespayment" FromRole="hsalespayment" ToRole="salespaymentnote" />
+        </EntityType>
+        <EntityType Name="hsuratjalan">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="projectid" Type="Int64" Nullable="false" />
+          <Property Name="number" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="date" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="to" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="description" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="dsuratjalans" Relationship="Self.FK_dsuratjalan_hsuratjalan" FromRole="hsuratjalan" ToRole="dsuratjalan" />
+          <NavigationProperty Name="project" Relationship="Self.FK_hsuratjalan_projects" FromRole="hsuratjalan" ToRole="projects" />
+          <NavigationProperty Name="suratjalannotes" Relationship="Self.FK_suratjalannote_hsuratjalan" FromRole="hsuratjalan" ToRole="suratjalannote" />
+        </EntityType>
+        <EntityType Name="item_category">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="name" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="description" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="dpenawarans" Relationship="Self.FK_dpenawaran_item_category" FromRole="item_category" ToRole="dpenawaran" />
+          <NavigationProperty Name="dpoes" Relationship="Self.FK_dpo_item_category" FromRole="item_category" ToRole="dpo" />
+          <NavigationProperty Name="dpurchaseinvoices" Relationship="Self.FK_dpurchaseinvoice_item_category" FromRole="item_category" ToRole="dpurchaseinvoice" />
+          <NavigationProperty Name="dreceiveitems" Relationship="Self.FK_dreceiveitem_item_category" FromRole="item_category" ToRole="dreceiveitem" />
+          <NavigationProperty Name="drfqs" Relationship="Self.FK_drfq_item_category" FromRole="item_category" ToRole="drfq" />
+          <NavigationProperty Name="dsalesinvoices" Relationship="Self.FK_dsalesinvoice_item_category" FromRole="item_category" ToRole="dsalesinvoice" />
+          <NavigationProperty Name="dsalesorders" Relationship="Self.FK_dsalesorder_item_category" FromRole="item_category" ToRole="dsalesorder" />
+          <NavigationProperty Name="dsuratjalans" Relationship="Self.FK_dsuratjalan_item_category" FromRole="item_category" ToRole="dsuratjalan" />
+          <Property Name="status" Type="Byte" Nullable="false" />
+        </EntityType>
+        <EntityType Name="penawarannote">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="penawaranid" Type="Int64" Nullable="false" />
+          <Property Name="username" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="date" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="text" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" Nullable="false" />
+          <NavigationProperty Name="hpenawaran" Relationship="Self.FK_penawarannote_hpenawaran" FromRole="penawarannote" ToRole="hpenawaran" />
+        </EntityType>
+        <EntityType Name="ponote">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="poid" Type="Int64" Nullable="false" />
+          <Property Name="username" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="date" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="text" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" Nullable="false" />
+          <NavigationProperty Name="hpo" Relationship="Self.FK_ponote_hpo" FromRole="ponote" ToRole="hpo" />
+        </EntityType>
+        <EntityType Name="privilege">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <NavigationProperty Name="roles" Relationship="Self.role_privilege" FromRole="privileges" ToRole="roles" />
+          <Property Name="action" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="tablename" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityType Name="project">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int64" Nullable="false" />
+          <Property Name="name" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="customerid" Type="Int64" Nullable="false" />
+          <Property Name="statusid" Type="Int64" Nullable="false" />
+          <Property Name="description" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="status" Type="Byte" Nullable="false" />
+          <NavigationProperty Name="customer" Relationship="Self.FK_projects_customers" FromRole="projects" ToRole="customers" />
+          <NavigationProperty Name="hpenawarans" Relationship="Self.FK_hpenawaran_projects1" FromRole="projects" ToRole="hpenawaran" />
+          <NavigationProperty Name="hpoes" Relationship="Self.FK_hpo_projects" FromRole="projects" ToRole="hpo" />
+          <NavigationProperty Name="hpurchaseinvoices" Relationship="Self.FK_purchaseinvoice_projects" FromRole="projects" ToRole="hpurchaseinvoice" />
+          <NavigationProperty Name="hreceiveitems" Relationship="Self.FK_hreceiveitem_projects" FromRole="projects" ToRole="hreceiveitem" />
+          <NavigationProperty Name="hrfqs" Relationship="Self.FK_hrfq_projects" FromRole="projects" ToRole="hrfq" />
+          <NavigationProperty Name="hsalesinvoices" Relationship="Self.FK_hsalesinvoice_projects" FromRole="projects" ToRole="hsalesinvoice" />
+          <NavigationProperty Name="hsalesorders" Relationship="Self.FK_hsalesorder_projects" FromRole="projects" ToRole="hsalesorder" />
+          <NavigationProperty Name="hsalespayments" Relationship="Self.FK_hsalespayment_projects" FromRole="projects" ToRole="hsalespayment" />
+          <NavigationProperty Name="hsuratjalans" Relationship="Self.FK_hsuratjalan_projects" FromRole="projects" ToRole="hsuratjalan" />
+          <NavigationProperty Name="purchasepayments" Relationship="Self.FK_hpurchasepayment_projects" FromRole="projects" ToRole="purchasepayment" />
+          <NavigationProperty Name="status1" Relationship="Self.FK_projects_status" FromRole="projects" ToRole="status" />
+        </EntityType>
+        <EntityType Name="purchaseinvoicenote">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="purchaseinvoiceid" Type="Int64" Nullable="false" />
+          <Property Name="username" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="date" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="text" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" Nullable="false" />
+          <NavigationProperty Name="hpurchaseinvoice" Relationship="Self.FK_purchaseinvoicenote_hpurchaseinvoice" FromRole="purchaseinvoicenote" ToRole="hpurchaseinvoice" />
+        </EntityType>
+        <EntityType Name="purchasepayment">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="projectid" Type="Int64" Nullable="false" />
+          <Property Name="purchaseinvoiceid" Type="Int64" Nullable="false" />
+          <Property Name="number" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="date" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="supplierid" Type="Int64" Nullable="false" />
+          <Property Name="total" Type="Int64" Nullable="false" />
+          <Property Name="description" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="type" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="note" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="hpurchaseinvoice" Relationship="Self.FK_hpurchasepayment_hpurchaseinvoice" FromRole="purchasepayment" ToRole="hpurchaseinvoice" />
+          <NavigationProperty Name="project" Relationship="Self.FK_hpurchasepayment_projects" FromRole="purchasepayment" ToRole="projects" />
+          <NavigationProperty Name="supplier" Relationship="Self.FK_hpurchasepayment_suppliers" FromRole="purchasepayment" ToRole="suppliers" />
+          <NavigationProperty Name="purchasepaymentnotes" Relationship="Self.FK_purchasepaymentnote_purchasepayment" FromRole="purchasepayment" ToRole="purchasepaymentnote" />
+        </EntityType>
+        <EntityType Name="purchasepaymentnote">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="purchasepaymentid" Type="Int64" Nullable="false" />
+          <Property Name="username" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="date" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="text" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" Nullable="false" />
+          <NavigationProperty Name="purchasepayment" Relationship="Self.FK_purchasepaymentnote_purchasepayment" FromRole="purchasepaymentnote" ToRole="purchasepayment" />
+        </EntityType>
+        <EntityType Name="receiveitemnote">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="receiveitemid" Type="Int64" Nullable="false" />
+          <Property Name="username" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="date" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="text" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" Nullable="false" />
+          <NavigationProperty Name="hreceiveitem" Relationship="Self.FK_receiveitemnote_hreceiveitem" FromRole="receiveitemnote" ToRole="hreceiveitem" />
+        </EntityType>
+        <EntityType Name="rfqnote">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="rfqid" Type="Int64" Nullable="false" />
+          <Property Name="username" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="date" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="text" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" Nullable="false" />
+          <NavigationProperty Name="hrfq" Relationship="Self.FK_rfqnote_hrfq" FromRole="rfqnote" ToRole="hrfq" />
+        </EntityType>
+        <EntityType Name="role">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="name" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="description" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="privileges" Relationship="Self.role_privilege" FromRole="roles" ToRole="privileges" />
+          <NavigationProperty Name="users" Relationship="Self.user_role" FromRole="roles" ToRole="users" />
+        </EntityType>
+        <EntityType Name="salesinvoicenote">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="salesinvoiceid" Type="Int64" Nullable="false" />
+          <Property Name="username" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="date" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="text" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" Nullable="false" />
+          <NavigationProperty Name="hsalesinvoice" Relationship="Self.FK_salesinvoicenote_hsalesinvoice" FromRole="salesinvoicenote" ToRole="hsalesinvoice" />
+        </EntityType>
+        <EntityType Name="salesordernote">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="salesorderid" Type="Int64" Nullable="false" />
+          <Property Name="username" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="date" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="text" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" Nullable="false" />
+          <NavigationProperty Name="hsalesorder" Relationship="Self.FK_salesordernote_hsalesorder" FromRole="salesordernote" ToRole="hsalesorder" />
+        </EntityType>
+        <EntityType Name="salespaymentnote">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="salespaymentid" Type="Int64" />
+          <Property Name="username" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="date" Type="DateTime" Precision="0" />
+          <Property Name="text" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="hsalespayment" Relationship="Self.FK_salespaymentnote_hsalespayment" FromRole="salespaymentnote" ToRole="hsalespayment" />
+        </EntityType>
+        <EntityType Name="status">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="rfq" Type="Byte" Nullable="false" />
+          <Property Name="findprices" Type="Byte" Nullable="false" />
+          <Property Name="penawaran" Type="Byte" Nullable="false" />
+          <Property Name="salesorder" Type="Byte" Nullable="false" />
+          <Property Name="purchaseorder" Type="Byte" Nullable="false" />
+          <Property Name="receiveitem" Type="Byte" Nullable="false" />
+          <Property Name="purchaseinvoice" Type="Byte" Nullable="false" />
+          <Property Name="purchasepayment" Type="Byte" Nullable="false" />
+          <Property Name="suratjalan" Type="Byte" Nullable="false" />
+          <Property Name="salesinvoice" Type="Byte" Nullable="false" />
+          <Property Name="salespayment" Type="Byte" Nullable="false" />
+          <NavigationProperty Name="projects" Relationship="Self.FK_projects_status" FromRole="status" ToRole="projects" />
+        </EntityType>
+        <EntityType Name="supplier">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="name" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="address" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="city" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="phone" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="description" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="dpenawarans" Relationship="Self.FK_dpenawaran_suppliers" FromRole="suppliers" ToRole="dpenawaran" />
+          <NavigationProperty Name="findprices" Relationship="Self.FK_findprices_projects" FromRole="suppliers" ToRole="findprices" />
+          <NavigationProperty Name="hpoes" Relationship="Self.FK_hpo_suppliers" FromRole="suppliers" ToRole="hpo" />
+          <NavigationProperty Name="hpurchaseinvoices" Relationship="Self.FK_purchaseinvoice_suppliers" FromRole="suppliers" ToRole="hpurchaseinvoice" />
+          <NavigationProperty Name="hreceiveitems" Relationship="Self.FK_hreceiveitem_suppliers" FromRole="suppliers" ToRole="hreceiveitem" />
+          <NavigationProperty Name="purchasepayments" Relationship="Self.FK_hpurchasepayment_suppliers" FromRole="suppliers" ToRole="purchasepayment" />
+          <Property Name="status" Type="Byte" Nullable="false" />
+        </EntityType>
+        <EntityType Name="suratjalannote">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="suratjalanid" Type="Int64" Nullable="false" />
+          <Property Name="username" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="date" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="text" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" Nullable="false" />
+          <NavigationProperty Name="hsuratjalan" Relationship="Self.FK_suratjalannote_hsuratjalan" FromRole="suratjalannote" ToRole="hsuratjalan" />
+        </EntityType>
+        <EntityType Name="user">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="name" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="username" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="password" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="description" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="status" Type="Byte" Nullable="false" />
+          <NavigationProperty Name="roles" Relationship="Self.user_role" FromRole="users" ToRole="roles" />
+        </EntityType>
+        <Association Name="FK_hpenawaran_customers">
+          <End Role="customers" Type="Self.customer" Multiplicity="1" />
+          <End Role="hpenawaran" Type="Self.hpenawaran" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="customers">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="hpenawaran">
+              <PropertyRef Name="customerid" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_hrfq_customers">
+          <End Role="customers" Type="Self.customer" Multiplicity="1" />
+          <End Role="hrfq" Type="Self.hrfq" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="customers">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="hrfq">
+              <PropertyRef Name="customerid" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_hsalesorder_customers">
+          <End Role="customers" Type="Self.customer" Multiplicity="1" />
+          <End Role="hsalesorder" Type="Self.hsalesorder" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="customers">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="hsalesorder">
+              <PropertyRef Name="customerid" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_projects_customers">
+          <End Role="customers" Type="Self.customer" Multiplicity="1" />
+          <End Role="projects" Type="Self.project" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="customers">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="projects">
+              <PropertyRef Name="customerid" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_dpenawaran_hpenawaran">
+          <End Role="hpenawaran" Type="Self.hpenawaran" Multiplicity="1" />
+          <End Role="dpenawaran" Type="Self.dpenawaran" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="hpenawaran">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="dpenawaran">
+              <PropertyRef Name="penawaranid" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_dpenawaran_item_category">
+          <End Role="item_category" Type="Self.item_category" Multiplicity="1" />
+          <End Role="dpenawaran" Type="Self.dpenawaran" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="item_category">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="dpenawaran">
+              <PropertyRef Name="itemcategoryid" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_dpenawaran_suppliers">
+          <End Role="suppliers" Type="Self.supplier" Multiplicity="1" />
+          <End Role="dpenawaran" Type="Self.dpenawaran" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="suppliers">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="dpenawaran">
+              <PropertyRef Name="supplierid" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_dpo_hpo">
+          <End Role="hpo" Type="Self.hpo" Multiplicity="1" />
+          <End Role="dpo" Type="Self.dpo" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="hpo">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="dpo">
+              <PropertyRef Name="poid" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_dpo_item_category">
+          <End Role="item_category" Type="Self.item_category" Multiplicity="1" />
+          <End Role="dpo" Type="Self.dpo" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="item_category">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="dpo">
+              <PropertyRef Name="itemcategoryid" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_dpurchaseinvoice_dpurchaseinvoice">
+          <End Role="hpurchaseinvoice" Type="Self.hpurchaseinvoice" Multiplicity="1" />
+          <End Role="dpurchaseinvoice" Type="Self.dpurchaseinvoice" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="hpurchaseinvoice">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="dpurchaseinvoice">
+              <PropertyRef Name="purchaseinvoiceid" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_dpurchaseinvoice_item_category">
+          <End Role="item_category" Type="Self.item_category" Multiplicity="1" />
+          <End Role="dpurchaseinvoice" Type="Self.dpurchaseinvoice" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="item_category">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="dpurchaseinvoice">
+              <PropertyRef Name="itemcategoryid" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_dreceiveitem_hreceiveitem">
+          <End Role="hreceiveitem" Type="Self.hreceiveitem" Multiplicity="0..1" />
+          <End Role="dreceiveitem" Type="Self.dreceiveitem" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="hreceiveitem">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="dreceiveitem">
+              <PropertyRef Name="receiveitemid" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_dreceiveitem_item_category">
+          <End Role="item_category" Type="Self.item_category" Multiplicity="0..1" />
+          <End Role="dreceiveitem" Type="Self.dreceiveitem" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="item_category">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="dreceiveitem">
+              <PropertyRef Name="itemcategoryid" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_drfq_hrfq">
+          <End Role="hrfq" Type="Self.hrfq" Multiplicity="1" />
+          <End Role="drfq" Type="Self.drfq" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="hrfq">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="drfq">
+              <PropertyRef Name="rfqid" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_drfq_item_category">
+          <End Role="item_category" Type="Self.item_category" Multiplicity="1" />
+          <End Role="drfq" Type="Self.drfq" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="item_category">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="drfq">
+              <PropertyRef Name="itemcategoryid" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_dsalesinvoice_hsalesinvoice">
+          <End Role="hsalesinvoice" Type="Self.hsalesinvoice" Multiplicity="1" />
+          <End Role="dsalesinvoice" Type="Self.dsalesinvoice" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="hsalesinvoice">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="dsalesinvoice">
+              <PropertyRef Name="salesinvoiceid" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_dsalesinvoice_item_category">
+          <End Role="item_category" Type="Self.item_category" Multiplicity="1" />
+          <End Role="dsalesinvoice" Type="Self.dsalesinvoice" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="item_category">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="dsalesinvoice">
+              <PropertyRef Name="itemcategoryid" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_dsalesorder_hsalesorder">
+          <End Role="hsalesorder" Type="Self.hsalesorder" Multiplicity="1" />
+          <End Role="dsalesorder" Type="Self.dsalesorder" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="hsalesorder">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="dsalesorder">
+              <PropertyRef Name="salesorderid" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_dsalesorder_item_category">
+          <End Role="item_category" Type="Self.item_category" Multiplicity="1" />
+          <End Role="dsalesorder" Type="Self.dsalesorder" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="item_category">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="dsalesorder">
+              <PropertyRef Name="itemcategoryid" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_dsuratjalan_hsuratjalan">
+          <End Role="hsuratjalan" Type="Self.hsuratjalan" Multiplicity="1" />
+          <End Role="dsuratjalan" Type="Self.dsuratjalan" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="hsuratjalan">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="dsuratjalan">
+              <PropertyRef Name="suratjalanid" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_dsuratjalan_item_category">
+          <End Role="item_category" Type="Self.item_category" Multiplicity="1" />
+          <End Role="dsuratjalan" Type="Self.dsuratjalan" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="item_category">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="dsuratjalan">
+              <PropertyRef Name="itemcategoryid" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_findprices_projects">
+          <End Role="suppliers" Type="Self.supplier" Multiplicity="1" />
+          <End Role="findprices" Type="Self.findprice" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="suppliers">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="findprices">
+              <PropertyRef Name="supplierid" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_findpricesnote_findprices">
+          <End Role="findprices" Type="Self.findprice" Multiplicity="1" />
+          <End Role="findpricesnote" Type="Self.findpricesnote" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="findprices">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="findpricesnote">
+              <PropertyRef Name="findpricesid" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_hpenawaran_projects1">
+          <End Role="projects" Type="Self.project" Multiplicity="1" />
+          <End Role="hpenawaran" Type="Self.hpenawaran" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="projects">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="hpenawaran">
+              <PropertyRef Name="projectid" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_penawarannote_hpenawaran">
+          <End Role="hpenawaran" Type="Self.hpenawaran" Multiplicity="1" />
+          <End Role="penawarannote" Type="Self.penawarannote" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="hpenawaran">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="penawarannote">
+              <PropertyRef Name="penawaranid" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_hpo_projects">
+          <End Role="projects" Type="Self.project" Multiplicity="1" />
+          <End Role="hpo" Type="Self.hpo" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="projects">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="hpo">
+              <PropertyRef Name="projectid" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_hpo_suppliers">
+          <End Role="suppliers" Type="Self.supplier" Multiplicity="1" />
+          <End Role="hpo" Type="Self.hpo" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="suppliers">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="hpo">
+              <PropertyRef Name="supplierid" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_hreceiveitem_hpo">
+          <End Role="hpo" Type="Self.hpo" Multiplicity="1" />
+          <End Role="hreceiveitem" Type="Self.hreceiveitem" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="hpo">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="hreceiveitem">
+              <PropertyRef Name="poid" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ponote_hpo">
+          <End Role="hpo" Type="Self.hpo" Multiplicity="1" />
+          <End Role="ponote" Type="Self.ponote" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="hpo">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="ponote">
+              <PropertyRef Name="poid" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_purchaseinvoice_hpo">
+          <End Role="hpo" Type="Self.hpo" Multiplicity="1" />
+          <End Role="hpurchaseinvoice" Type="Self.hpurchaseinvoice" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="hpo">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="hpurchaseinvoice">
+              <PropertyRef Name="poid" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_hpurchasepayment_hpurchaseinvoice">
+          <End Role="hpurchaseinvoice" Type="Self.hpurchaseinvoice" Multiplicity="1" />
+          <End Role="purchasepayment" Type="Self.purchasepayment" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="hpurchaseinvoice">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="purchasepayment">
+              <PropertyRef Name="purchaseinvoiceid" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_purchaseinvoice_projects">
+          <End Role="projects" Type="Self.project" Multiplicity="1" />
+          <End Role="hpurchaseinvoice" Type="Self.hpurchaseinvoice" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="projects">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="hpurchaseinvoice">
+              <PropertyRef Name="projectid" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_purchaseinvoice_suppliers">
+          <End Role="suppliers" Type="Self.supplier" Multiplicity="1" />
+          <End Role="hpurchaseinvoice" Type="Self.hpurchaseinvoice" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="suppliers">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="hpurchaseinvoice">
+              <PropertyRef Name="supplierid" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_purchaseinvoicenote_hpurchaseinvoice">
+          <End Role="hpurchaseinvoice" Type="Self.hpurchaseinvoice" Multiplicity="1" />
+          <End Role="purchaseinvoicenote" Type="Self.purchaseinvoicenote" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="hpurchaseinvoice">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="purchaseinvoicenote">
+              <PropertyRef Name="purchaseinvoiceid" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_hreceiveitem_projects">
+          <End Role="projects" Type="Self.project" Multiplicity="1" />
+          <End Role="hreceiveitem" Type="Self.hreceiveitem" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="projects">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="hreceiveitem">
+              <PropertyRef Name="projectid" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_hreceiveitem_suppliers">
+          <End Role="suppliers" Type="Self.supplier" Multiplicity="1" />
+          <End Role="hreceiveitem" Type="Self.hreceiveitem" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="suppliers">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="hreceiveitem">
+              <PropertyRef Name="supplierid" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_receiveitemnote_hreceiveitem">
+          <End Role="hreceiveitem" Type="Self.hreceiveitem" Multiplicity="1" />
+          <End Role="receiveitemnote" Type="Self.receiveitemnote" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="hreceiveitem">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="receiveitemnote">
+              <PropertyRef Name="receiveitemid" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_hrfq_projects">
+          <End Role="projects" Type="Self.project" Multiplicity="1" />
+          <End Role="hrfq" Type="Self.hrfq" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="projects">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="hrfq">
+              <PropertyRef Name="projectid" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_rfqnote_hrfq">
+          <End Role="hrfq" Type="Self.hrfq" Multiplicity="1" />
+          <End Role="rfqnote" Type="Self.rfqnote" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="hrfq">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="rfqnote">
+              <PropertyRef Name="rfqid" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_hsalesinvoice_projects">
+          <End Role="projects" Type="Self.project" Multiplicity="1" />
+          <End Role="hsalesinvoice" Type="Self.hsalesinvoice" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="projects">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="hsalesinvoice">
+              <PropertyRef Name="projectid" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_salesinvoicenote_hsalesinvoice">
+          <End Role="hsalesinvoice" Type="Self.hsalesinvoice" Multiplicity="1" />
+          <End Role="salesinvoicenote" Type="Self.salesinvoicenote" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="hsalesinvoice">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="salesinvoicenote">
+              <PropertyRef Name="salesinvoiceid" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_hsalesorder_projects">
+          <End Role="projects" Type="Self.project" Multiplicity="1" />
+          <End Role="hsalesorder" Type="Self.hsalesorder" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="projects">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="hsalesorder">
+              <PropertyRef Name="projectid" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_salesordernote_hsalesorder">
+          <End Role="hsalesorder" Type="Self.hsalesorder" Multiplicity="1" />
+          <End Role="salesordernote" Type="Self.salesordernote" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="hsalesorder">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="salesordernote">
+              <PropertyRef Name="salesorderid" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_hsalespayment_projects">
+          <End Role="projects" Type="Self.project" Multiplicity="1" />
+          <End Role="hsalespayment" Type="Self.hsalespayment" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="projects">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="hsalespayment">
+              <PropertyRef Name="projectid" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_salespaymentnote_hsalespayment">
+          <End Role="hsalespayment" Type="Self.hsalespayment" Multiplicity="0..1" />
+          <End Role="salespaymentnote" Type="Self.salespaymentnote" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="hsalespayment">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="salespaymentnote">
+              <PropertyRef Name="salespaymentid" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_hsuratjalan_projects">
+          <End Role="projects" Type="Self.project" Multiplicity="1" />
+          <End Role="hsuratjalan" Type="Self.hsuratjalan" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="projects">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="hsuratjalan">
+              <PropertyRef Name="projectid" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_suratjalannote_hsuratjalan">
+          <End Role="hsuratjalan" Type="Self.hsuratjalan" Multiplicity="1" />
+          <End Role="suratjalannote" Type="Self.suratjalannote" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="hsuratjalan">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="suratjalannote">
+              <PropertyRef Name="suratjalanid" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_hpurchasepayment_projects">
+          <End Role="projects" Type="Self.project" Multiplicity="1" />
+          <End Role="purchasepayment" Type="Self.purchasepayment" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="projects">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="purchasepayment">
+              <PropertyRef Name="projectid" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_projects_status">
+          <End Role="status" Type="Self.status" Multiplicity="1" />
+          <End Role="projects" Type="Self.project" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="status">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="projects">
+              <PropertyRef Name="statusid" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_hpurchasepayment_suppliers">
+          <End Role="suppliers" Type="Self.supplier" Multiplicity="1" />
+          <End Role="purchasepayment" Type="Self.purchasepayment" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="suppliers">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="purchasepayment">
+              <PropertyRef Name="supplierid" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_purchasepaymentnote_purchasepayment">
+          <End Role="purchasepayment" Type="Self.purchasepayment" Multiplicity="1" />
+          <End Role="purchasepaymentnote" Type="Self.purchasepaymentnote" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="purchasepayment">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="purchasepaymentnote">
+              <PropertyRef Name="purchasepaymentid" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="role_privilege">
+          <End Role="privileges" Type="Self.privilege" Multiplicity="*" />
+          <End Role="roles" Type="Self.role" Multiplicity="*" />
+        </Association>
+        <Association Name="user_role">
+          <End Role="roles" Type="Self.role" Multiplicity="*" />
+          <End Role="users" Type="Self.user" Multiplicity="*" />
+        </Association>
+        <EntityContainer Name="dbsmsEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="customers" EntityType="Self.customer" />
+          <EntitySet Name="dpenawarans" EntityType="Self.dpenawaran" />
+          <EntitySet Name="dpoes" EntityType="Self.dpo" />
+          <EntitySet Name="dpurchaseinvoices" EntityType="Self.dpurchaseinvoice" />
+          <EntitySet Name="dreceiveitems" EntityType="Self.dreceiveitem" />
+          <EntitySet Name="drfqs" EntityType="Self.drfq" />
+          <EntitySet Name="dsalesinvoices" EntityType="Self.dsalesinvoice" />
+          <EntitySet Name="dsalesorders" EntityType="Self.dsalesorder" />
+          <EntitySet Name="dsuratjalans" EntityType="Self.dsuratjalan" />
+          <EntitySet Name="findprices" EntityType="Self.findprice" />
+          <EntitySet Name="findpricesnotes" EntityType="Self.findpricesnote" />
+          <EntitySet Name="helpers" EntityType="Self.helper" />
+          <EntitySet Name="hpenawarans" EntityType="Self.hpenawaran" />
+          <EntitySet Name="hpoes" EntityType="Self.hpo" />
+          <EntitySet Name="hpurchaseinvoices" EntityType="Self.hpurchaseinvoice" />
+          <EntitySet Name="hreceiveitems" EntityType="Self.hreceiveitem" />
+          <EntitySet Name="hrfqs" EntityType="Self.hrfq" />
+          <EntitySet Name="hsalesinvoices" EntityType="Self.hsalesinvoice" />
+          <EntitySet Name="hsalesorders" EntityType="Self.hsalesorder" />
+          <EntitySet Name="hsalespayments" EntityType="Self.hsalespayment" />
+          <EntitySet Name="hsuratjalans" EntityType="Self.hsuratjalan" />
+          <EntitySet Name="item_category" EntityType="Self.item_category" />
+          <EntitySet Name="penawarannotes" EntityType="Self.penawarannote" />
+          <EntitySet Name="ponotes" EntityType="Self.ponote" />
+          <EntitySet Name="privileges" EntityType="Self.privilege" />
+          <EntitySet Name="projects" EntityType="Self.project" />
+          <EntitySet Name="purchaseinvoicenotes" EntityType="Self.purchaseinvoicenote" />
+          <EntitySet Name="purchasepayments" EntityType="Self.purchasepayment" />
+          <EntitySet Name="purchasepaymentnotes" EntityType="Self.purchasepaymentnote" />
+          <EntitySet Name="receiveitemnotes" EntityType="Self.receiveitemnote" />
+          <EntitySet Name="rfqnotes" EntityType="Self.rfqnote" />
+          <EntitySet Name="roles" EntityType="Self.role" />
+          <EntitySet Name="salesinvoicenotes" EntityType="Self.salesinvoicenote" />
+          <EntitySet Name="salesordernotes" EntityType="Self.salesordernote" />
+          <EntitySet Name="salespaymentnotes" EntityType="Self.salespaymentnote" />
+          <EntitySet Name="status" EntityType="Self.status" />
+          <EntitySet Name="suppliers" EntityType="Self.supplier" />
+          <EntitySet Name="suratjalannotes" EntityType="Self.suratjalannote" />
+          <EntitySet Name="users" EntityType="Self.user" />
+          <AssociationSet Name="FK_hpenawaran_customers" Association="Self.FK_hpenawaran_customers">
+            <End Role="customers" EntitySet="customers" />
+            <End Role="hpenawaran" EntitySet="hpenawarans" />
+          </AssociationSet>
+          <AssociationSet Name="FK_hrfq_customers" Association="Self.FK_hrfq_customers">
+            <End Role="customers" EntitySet="customers" />
+            <End Role="hrfq" EntitySet="hrfqs" />
+          </AssociationSet>
+          <AssociationSet Name="FK_hsalesorder_customers" Association="Self.FK_hsalesorder_customers">
+            <End Role="customers" EntitySet="customers" />
+            <End Role="hsalesorder" EntitySet="hsalesorders" />
+          </AssociationSet>
+          <AssociationSet Name="FK_projects_customers" Association="Self.FK_projects_customers">
+            <End Role="customers" EntitySet="customers" />
+            <End Role="projects" EntitySet="projects" />
+          </AssociationSet>
+          <AssociationSet Name="FK_dpenawaran_hpenawaran" Association="Self.FK_dpenawaran_hpenawaran">
+            <End Role="hpenawaran" EntitySet="hpenawarans" />
+            <End Role="dpenawaran" EntitySet="dpenawarans" />
+          </AssociationSet>
+          <AssociationSet Name="FK_dpenawaran_item_category" Association="Self.FK_dpenawaran_item_category">
+            <End Role="item_category" EntitySet="item_category" />
+            <End Role="dpenawaran" EntitySet="dpenawarans" />
+          </AssociationSet>
+          <AssociationSet Name="FK_dpenawaran_suppliers" Association="Self.FK_dpenawaran_suppliers">
+            <End Role="suppliers" EntitySet="suppliers" />
+            <End Role="dpenawaran" EntitySet="dpenawarans" />
+          </AssociationSet>
+          <AssociationSet Name="FK_dpo_hpo" Association="Self.FK_dpo_hpo">
+            <End Role="hpo" EntitySet="hpoes" />
+            <End Role="dpo" EntitySet="dpoes" />
+          </AssociationSet>
+          <AssociationSet Name="FK_dpo_item_category" Association="Self.FK_dpo_item_category">
+            <End Role="item_category" EntitySet="item_category" />
+            <End Role="dpo" EntitySet="dpoes" />
+          </AssociationSet>
+          <AssociationSet Name="FK_dpurchaseinvoice_dpurchaseinvoice" Association="Self.FK_dpurchaseinvoice_dpurchaseinvoice">
+            <End Role="hpurchaseinvoice" EntitySet="hpurchaseinvoices" />
+            <End Role="dpurchaseinvoice" EntitySet="dpurchaseinvoices" />
+          </AssociationSet>
+          <AssociationSet Name="FK_dpurchaseinvoice_item_category" Association="Self.FK_dpurchaseinvoice_item_category">
+            <End Role="item_category" EntitySet="item_category" />
+            <End Role="dpurchaseinvoice" EntitySet="dpurchaseinvoices" />
+          </AssociationSet>
+          <AssociationSet Name="FK_dreceiveitem_hreceiveitem" Association="Self.FK_dreceiveitem_hreceiveitem">
+            <End Role="hreceiveitem" EntitySet="hreceiveitems" />
+            <End Role="dreceiveitem" EntitySet="dreceiveitems" />
+          </AssociationSet>
+          <AssociationSet Name="FK_dreceiveitem_item_category" Association="Self.FK_dreceiveitem_item_category">
+            <End Role="item_category" EntitySet="item_category" />
+            <End Role="dreceiveitem" EntitySet="dreceiveitems" />
+          </AssociationSet>
+          <AssociationSet Name="FK_drfq_hrfq" Association="Self.FK_drfq_hrfq">
+            <End Role="hrfq" EntitySet="hrfqs" />
+            <End Role="drfq" EntitySet="drfqs" />
+          </AssociationSet>
+          <AssociationSet Name="FK_drfq_item_category" Association="Self.FK_drfq_item_category">
+            <End Role="item_category" EntitySet="item_category" />
+            <End Role="drfq" EntitySet="drfqs" />
+          </AssociationSet>
+          <AssociationSet Name="FK_dsalesinvoice_hsalesinvoice" Association="Self.FK_dsalesinvoice_hsalesinvoice">
+            <End Role="hsalesinvoice" EntitySet="hsalesinvoices" />
+            <End Role="dsalesinvoice" EntitySet="dsalesinvoices" />
+          </AssociationSet>
+          <AssociationSet Name="FK_dsalesinvoice_item_category" Association="Self.FK_dsalesinvoice_item_category">
+            <End Role="item_category" EntitySet="item_category" />
+            <End Role="dsalesinvoice" EntitySet="dsalesinvoices" />
+          </AssociationSet>
+          <AssociationSet Name="FK_dsalesorder_hsalesorder" Association="Self.FK_dsalesorder_hsalesorder">
+            <End Role="hsalesorder" EntitySet="hsalesorders" />
+            <End Role="dsalesorder" EntitySet="dsalesorders" />
+          </AssociationSet>
+          <AssociationSet Name="FK_dsalesorder_item_category" Association="Self.FK_dsalesorder_item_category">
+            <End Role="item_category" EntitySet="item_category" />
+            <End Role="dsalesorder" EntitySet="dsalesorders" />
+          </AssociationSet>
+          <AssociationSet Name="FK_dsuratjalan_hsuratjalan" Association="Self.FK_dsuratjalan_hsuratjalan">
+            <End Role="hsuratjalan" EntitySet="hsuratjalans" />
+            <End Role="dsuratjalan" EntitySet="dsuratjalans" />
+          </AssociationSet>
+          <AssociationSet Name="FK_dsuratjalan_item_category" Association="Self.FK_dsuratjalan_item_category">
+            <End Role="item_category" EntitySet="item_category" />
+            <End Role="dsuratjalan" EntitySet="dsuratjalans" />
+          </AssociationSet>
+          <AssociationSet Name="FK_findprices_projects" Association="Self.FK_findprices_projects">
+            <End Role="suppliers" EntitySet="suppliers" />
+            <End Role="findprices" EntitySet="findprices" />
+          </AssociationSet>
+          <AssociationSet Name="FK_findpricesnote_findprices" Association="Self.FK_findpricesnote_findprices">
+            <End Role="findprices" EntitySet="findprices" />
+            <End Role="findpricesnote" EntitySet="findpricesnotes" />
+          </AssociationSet>
+          <AssociationSet Name="FK_hpenawaran_projects1" Association="Self.FK_hpenawaran_projects1">
+            <End Role="projects" EntitySet="projects" />
+            <End Role="hpenawaran" EntitySet="hpenawarans" />
+          </AssociationSet>
+          <AssociationSet Name="FK_penawarannote_hpenawaran" Association="Self.FK_penawarannote_hpenawaran">
+            <End Role="hpenawaran" EntitySet="hpenawarans" />
+            <End Role="penawarannote" EntitySet="penawarannotes" />
+          </AssociationSet>
+          <AssociationSet Name="FK_hpo_projects" Association="Self.FK_hpo_projects">
+            <End Role="projects" EntitySet="projects" />
+            <End Role="hpo" EntitySet="hpoes" />
+          </AssociationSet>
+          <AssociationSet Name="FK_hpo_suppliers" Association="Self.FK_hpo_suppliers">
+            <End Role="suppliers" EntitySet="suppliers" />
+            <End Role="hpo" EntitySet="hpoes" />
+          </AssociationSet>
+          <AssociationSet Name="FK_hreceiveitem_hpo" Association="Self.FK_hreceiveitem_hpo">
+            <End Role="hpo" EntitySet="hpoes" />
+            <End Role="hreceiveitem" EntitySet="hreceiveitems" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ponote_hpo" Association="Self.FK_ponote_hpo">
+            <End Role="hpo" EntitySet="hpoes" />
+            <End Role="ponote" EntitySet="ponotes" />
+          </AssociationSet>
+          <AssociationSet Name="FK_purchaseinvoice_hpo" Association="Self.FK_purchaseinvoice_hpo">
+            <End Role="hpo" EntitySet="hpoes" />
+            <End Role="hpurchaseinvoice" EntitySet="hpurchaseinvoices" />
+          </AssociationSet>
+          <AssociationSet Name="FK_hpurchasepayment_hpurchaseinvoice" Association="Self.FK_hpurchasepayment_hpurchaseinvoice">
+            <End Role="hpurchaseinvoice" EntitySet="hpurchaseinvoices" />
+            <End Role="purchasepayment" EntitySet="purchasepayments" />
+          </AssociationSet>
+          <AssociationSet Name="FK_purchaseinvoice_projects" Association="Self.FK_purchaseinvoice_projects">
+            <End Role="projects" EntitySet="projects" />
+            <End Role="hpurchaseinvoice" EntitySet="hpurchaseinvoices" />
+          </AssociationSet>
+          <AssociationSet Name="FK_purchaseinvoice_suppliers" Association="Self.FK_purchaseinvoice_suppliers">
+            <End Role="suppliers" EntitySet="suppliers" />
+            <End Role="hpurchaseinvoice" EntitySet="hpurchaseinvoices" />
+          </AssociationSet>
+          <AssociationSet Name="FK_purchaseinvoicenote_hpurchaseinvoice" Association="Self.FK_purchaseinvoicenote_hpurchaseinvoice">
+            <End Role="hpurchaseinvoice" EntitySet="hpurchaseinvoices" />
+            <End Role="purchaseinvoicenote" EntitySet="purchaseinvoicenotes" />
+          </AssociationSet>
+          <AssociationSet Name="FK_hreceiveitem_projects" Association="Self.FK_hreceiveitem_projects">
+            <End Role="projects" EntitySet="projects" />
+            <End Role="hreceiveitem" EntitySet="hreceiveitems" />
+          </AssociationSet>
+          <AssociationSet Name="FK_hreceiveitem_suppliers" Association="Self.FK_hreceiveitem_suppliers">
+            <End Role="suppliers" EntitySet="suppliers" />
+            <End Role="hreceiveitem" EntitySet="hreceiveitems" />
+          </AssociationSet>
+          <AssociationSet Name="FK_receiveitemnote_hreceiveitem" Association="Self.FK_receiveitemnote_hreceiveitem">
+            <End Role="hreceiveitem" EntitySet="hreceiveitems" />
+            <End Role="receiveitemnote" EntitySet="receiveitemnotes" />
+          </AssociationSet>
+          <AssociationSet Name="FK_hrfq_projects" Association="Self.FK_hrfq_projects">
+            <End Role="projects" EntitySet="projects" />
+            <End Role="hrfq" EntitySet="hrfqs" />
+          </AssociationSet>
+          <AssociationSet Name="FK_rfqnote_hrfq" Association="Self.FK_rfqnote_hrfq">
+            <End Role="hrfq" EntitySet="hrfqs" />
+            <End Role="rfqnote" EntitySet="rfqnotes" />
+          </AssociationSet>
+          <AssociationSet Name="FK_hsalesinvoice_projects" Association="Self.FK_hsalesinvoice_projects">
+            <End Role="projects" EntitySet="projects" />
+            <End Role="hsalesinvoice" EntitySet="hsalesinvoices" />
+          </AssociationSet>
+          <AssociationSet Name="FK_salesinvoicenote_hsalesinvoice" Association="Self.FK_salesinvoicenote_hsalesinvoice">
+            <End Role="hsalesinvoice" EntitySet="hsalesinvoices" />
+            <End Role="salesinvoicenote" EntitySet="salesinvoicenotes" />
+          </AssociationSet>
+          <AssociationSet Name="FK_hsalesorder_projects" Association="Self.FK_hsalesorder_projects">
+            <End Role="projects" EntitySet="projects" />
+            <End Role="hsalesorder" EntitySet="hsalesorders" />
+          </AssociationSet>
+          <AssociationSet Name="FK_salesordernote_hsalesorder" Association="Self.FK_salesordernote_hsalesorder">
+            <End Role="hsalesorder" EntitySet="hsalesorders" />
+            <End Role="salesordernote" EntitySet="salesordernotes" />
+          </AssociationSet>
+          <AssociationSet Name="FK_hsalespayment_projects" Association="Self.FK_hsalespayment_projects">
+            <End Role="projects" EntitySet="projects" />
+            <End Role="hsalespayment" EntitySet="hsalespayments" />
+          </AssociationSet>
+          <AssociationSet Name="FK_salespaymentnote_hsalespayment" Association="Self.FK_salespaymentnote_hsalespayment">
+            <End Role="hsalespayment" EntitySet="hsalespayments" />
+            <End Role="salespaymentnote" EntitySet="salespaymentnotes" />
+          </AssociationSet>
+          <AssociationSet Name="FK_hsuratjalan_projects" Association="Self.FK_hsuratjalan_projects">
+            <End Role="projects" EntitySet="projects" />
+            <End Role="hsuratjalan" EntitySet="hsuratjalans" />
+          </AssociationSet>
+          <AssociationSet Name="FK_suratjalannote_hsuratjalan" Association="Self.FK_suratjalannote_hsuratjalan">
+            <End Role="hsuratjalan" EntitySet="hsuratjalans" />
+            <End Role="suratjalannote" EntitySet="suratjalannotes" />
+          </AssociationSet>
+          <AssociationSet Name="FK_hpurchasepayment_projects" Association="Self.FK_hpurchasepayment_projects">
+            <End Role="projects" EntitySet="projects" />
+            <End Role="purchasepayment" EntitySet="purchasepayments" />
+          </AssociationSet>
+          <AssociationSet Name="FK_projects_status" Association="Self.FK_projects_status">
+            <End Role="status" EntitySet="status" />
+            <End Role="projects" EntitySet="projects" />
+          </AssociationSet>
+          <AssociationSet Name="FK_hpurchasepayment_suppliers" Association="Self.FK_hpurchasepayment_suppliers">
+            <End Role="suppliers" EntitySet="suppliers" />
+            <End Role="purchasepayment" EntitySet="purchasepayments" />
+          </AssociationSet>
+          <AssociationSet Name="FK_purchasepaymentnote_purchasepayment" Association="Self.FK_purchasepaymentnote_purchasepayment">
+            <End Role="purchasepayment" EntitySet="purchasepayments" />
+            <End Role="purchasepaymentnote" EntitySet="purchasepaymentnotes" />
+          </AssociationSet>
+          <AssociationSet Name="role_privilege" Association="Self.role_privilege">
+            <End Role="privileges" EntitySet="privileges" />
+            <End Role="roles" EntitySet="roles" />
+          </AssociationSet>
+          <AssociationSet Name="user_role" Association="Self.user_role">
+            <End Role="roles" EntitySet="roles" />
+            <End Role="users" EntitySet="users" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="dbsmsModelStoreContainer" CdmEntityContainer="dbsmsEntities">
+          <EntitySetMapping Name="customers">
+            <EntityTypeMapping TypeName="dbsmsModel.customer">
+              <MappingFragment StoreEntitySet="customers">
+                <ScalarProperty Name="status" ColumnName="status" />
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="name" ColumnName="name" />
+                <ScalarProperty Name="address" ColumnName="address" />
+                <ScalarProperty Name="city" ColumnName="city" />
+                <ScalarProperty Name="phone" ColumnName="phone" />
+                <ScalarProperty Name="description" ColumnName="description" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="dpenawarans">
+            <EntityTypeMapping TypeName="dbsmsModel.dpenawaran">
+              <MappingFragment StoreEntitySet="dpenawaran">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="penawaranid" ColumnName="penawaranid" />
+                <ScalarProperty Name="itemcategoryid" ColumnName="itemcategoryid" />
+                <ScalarProperty Name="itemdescription" ColumnName="itemdescription" />
+                <ScalarProperty Name="supplierid" ColumnName="supplierid" />
+                <ScalarProperty Name="qty" ColumnName="qty" />
+                <ScalarProperty Name="unitprice" ColumnName="unitprice" />
+                <ScalarProperty Name="subtotal" ColumnName="subtotal" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="dpoes">
+            <EntityTypeMapping TypeName="dbsmsModel.dpo">
+              <MappingFragment StoreEntitySet="dpo">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="poid" ColumnName="poid" />
+                <ScalarProperty Name="itemcategoryid" ColumnName="itemcategoryid" />
+                <ScalarProperty Name="itemdescription" ColumnName="itemdescription" />
+                <ScalarProperty Name="qty" ColumnName="qty" />
+                <ScalarProperty Name="unitprice" ColumnName="unitprice" />
+                <ScalarProperty Name="subtotal" ColumnName="subtotal" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="dpurchaseinvoices">
+            <EntityTypeMapping TypeName="dbsmsModel.dpurchaseinvoice">
+              <MappingFragment StoreEntitySet="dpurchaseinvoice">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="purchaseinvoiceid" ColumnName="purchaseinvoiceid" />
+                <ScalarProperty Name="itemcategoryid" ColumnName="itemcategoryid" />
+                <ScalarProperty Name="itemdescription" ColumnName="itemdescription" />
+                <ScalarProperty Name="qty" ColumnName="qty" />
+                <ScalarProperty Name="unitprice" ColumnName="unitprice" />
+                <ScalarProperty Name="subtotal" ColumnName="subtotal" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="dreceiveitems">
+            <EntityTypeMapping TypeName="dbsmsModel.dreceiveitem">
+              <MappingFragment StoreEntitySet="dreceiveitem">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="receiveitemid" ColumnName="receiveitemid" />
+                <ScalarProperty Name="itemcategoryid" ColumnName="itemcategoryid" />
+                <ScalarProperty Name="itemdescription" ColumnName="itemdescription" />
+                <ScalarProperty Name="qty" ColumnName="qty" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="drfqs">
+            <EntityTypeMapping TypeName="dbsmsModel.drfq">
+              <MappingFragment StoreEntitySet="drfq">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="rfqid" ColumnName="rfqid" />
+                <ScalarProperty Name="itemcategoryid" ColumnName="itemcategoryid" />
+                <ScalarProperty Name="itemdescription" ColumnName="itemdescription" />
+                <ScalarProperty Name="qty" ColumnName="qty" />
+                <ScalarProperty Name="unitprice" ColumnName="unitprice" />
+                <ScalarProperty Name="subtotal" ColumnName="subtotal" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="dsalesinvoices">
+            <EntityTypeMapping TypeName="dbsmsModel.dsalesinvoice">
+              <MappingFragment StoreEntitySet="dsalesinvoice">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="salesinvoiceid" ColumnName="salesinvoiceid" />
+                <ScalarProperty Name="itemcategoryid" ColumnName="itemcategoryid" />
+                <ScalarProperty Name="itemdescription" ColumnName="itemdescription" />
+                <ScalarProperty Name="qty" ColumnName="qty" />
+                <ScalarProperty Name="unitprice" ColumnName="unitprice" />
+                <ScalarProperty Name="subtotal" ColumnName="subtotal" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="dsalesorders">
+            <EntityTypeMapping TypeName="dbsmsModel.dsalesorder">
+              <MappingFragment StoreEntitySet="dsalesorder">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="salesorderid" ColumnName="salesorderid" />
+                <ScalarProperty Name="itemcategoryid" ColumnName="itemcategoryid" />
+                <ScalarProperty Name="itemdescription" ColumnName="itemdescription" />
+                <ScalarProperty Name="qty" ColumnName="qty" />
+                <ScalarProperty Name="unitprice" ColumnName="unitprice" />
+                <ScalarProperty Name="subtotal" ColumnName="subtotal" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="dsuratjalans">
+            <EntityTypeMapping TypeName="dbsmsModel.dsuratjalan">
+              <MappingFragment StoreEntitySet="dsuratjalan">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="suratjalanid" ColumnName="suratjalanid" />
+                <ScalarProperty Name="itemcategoryid" ColumnName="itemcategoryid" />
+                <ScalarProperty Name="itemdescription" ColumnName="itemdescription" />
+                <ScalarProperty Name="qty" ColumnName="qty" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="findprices">
+            <EntityTypeMapping TypeName="dbsmsModel.findprice">
+              <MappingFragment StoreEntitySet="findprices">
+                <ScalarProperty Name="status" ColumnName="status" />
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="projectid" ColumnName="projectid" />
+                <ScalarProperty Name="supplierid" ColumnName="supplierid" />
+                <ScalarProperty Name="address" ColumnName="address" />
+                <ScalarProperty Name="itemdescription" ColumnName="itemdescription" />
+                <ScalarProperty Name="unitprice" ColumnName="unitprice" />
+                <ScalarProperty Name="timeneeded" ColumnName="timeneeded" />
+                <ScalarProperty Name="description" ColumnName="description" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="findpricesnotes">
+            <EntityTypeMapping TypeName="dbsmsModel.findpricesnote">
+              <MappingFragment StoreEntitySet="findpricesnote">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="findpricesid" ColumnName="findpricesid" />
+                <ScalarProperty Name="username" ColumnName="username" />
+                <ScalarProperty Name="date" ColumnName="date" />
+                <ScalarProperty Name="text" ColumnName="text" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="helpers">
+            <EntityTypeMapping TypeName="dbsmsModel.helper">
+              <MappingFragment StoreEntitySet="helper">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="key" ColumnName="key" />
+                <ScalarProperty Name="value" ColumnName="value" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="hpenawarans">
+            <EntityTypeMapping TypeName="dbsmsModel.hpenawaran">
+              <MappingFragment StoreEntitySet="hpenawaran">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="projectid" ColumnName="projectid" />
+                <ScalarProperty Name="number" ColumnName="number" />
+                <ScalarProperty Name="customerid" ColumnName="customerid" />
+                <ScalarProperty Name="date" ColumnName="date" />
+                <ScalarProperty Name="to" ColumnName="to" />
+                <ScalarProperty Name="description" ColumnName="description" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="hpoes">
+            <EntityTypeMapping TypeName="dbsmsModel.hpo">
+              <MappingFragment StoreEntitySet="hpo">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="projectid" ColumnName="projectid" />
+                <ScalarProperty Name="number" ColumnName="number" />
+                <ScalarProperty Name="supplierid" ColumnName="supplierid" />
+                <ScalarProperty Name="date" ColumnName="date" />
+                <ScalarProperty Name="terms" ColumnName="terms" />
+                <ScalarProperty Name="to" ColumnName="to" />
+                <ScalarProperty Name="expecteddate" ColumnName="expecteddate" />
+                <ScalarProperty Name="grandtotal" ColumnName="grandtotal" />
+                <ScalarProperty Name="description" ColumnName="description" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="hpurchaseinvoices">
+            <EntityTypeMapping TypeName="dbsmsModel.hpurchaseinvoice">
+              <MappingFragment StoreEntitySet="hpurchaseinvoice">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="projectid" ColumnName="projectid" />
+                <ScalarProperty Name="number" ColumnName="number" />
+                <ScalarProperty Name="date" ColumnName="date" />
+                <ScalarProperty Name="poid" ColumnName="poid" />
+                <ScalarProperty Name="supplierid" ColumnName="supplierid" />
+                <ScalarProperty Name="diskon" ColumnName="diskon" />
+                <ScalarProperty Name="total" ColumnName="total" />
+                <ScalarProperty Name="description" ColumnName="description" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="hreceiveitems">
+            <EntityTypeMapping TypeName="dbsmsModel.hreceiveitem">
+              <MappingFragment StoreEntitySet="hreceiveitem">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="projectid" ColumnName="projectid" />
+                <ScalarProperty Name="number" ColumnName="number" />
+                <ScalarProperty Name="poid" ColumnName="poid" />
+                <ScalarProperty Name="date" ColumnName="date" />
+                <ScalarProperty Name="supplierid" ColumnName="supplierid" />
+                <ScalarProperty Name="description" ColumnName="description" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="hrfqs">
+            <EntityTypeMapping TypeName="dbsmsModel.hrfq">
+              <MappingFragment StoreEntitySet="hrfq">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="number" ColumnName="number" />
+                <ScalarProperty Name="date" ColumnName="date" />
+                <ScalarProperty Name="customerid" ColumnName="customerid" />
+                <ScalarProperty Name="to" ColumnName="to" />
+                <ScalarProperty Name="description" ColumnName="description" />
+                <ScalarProperty Name="projectid" ColumnName="projectid" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="hsalesinvoices">
+            <EntityTypeMapping TypeName="dbsmsModel.hsalesinvoice">
+              <MappingFragment StoreEntitySet="hsalesinvoice">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="projectid" ColumnName="projectid" />
+                <ScalarProperty Name="number" ColumnName="number" />
+                <ScalarProperty Name="date" ColumnName="date" />
+                <ScalarProperty Name="terms" ColumnName="terms" />
+                <ScalarProperty Name="to" ColumnName="to" />
+                <ScalarProperty Name="total" ColumnName="total" />
+                <ScalarProperty Name="description" ColumnName="description" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="hsalesorders">
+            <EntityTypeMapping TypeName="dbsmsModel.hsalesorder">
+              <MappingFragment StoreEntitySet="hsalesorder">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="projectid" ColumnName="projectid" />
+                <ScalarProperty Name="customerid" ColumnName="customerid" />
+                <ScalarProperty Name="number" ColumnName="number" />
+                <ScalarProperty Name="date" ColumnName="date" />
+                <ScalarProperty Name="expecteddate" ColumnName="expecteddate" />
+                <ScalarProperty Name="terms" ColumnName="terms" />
+                <ScalarProperty Name="description" ColumnName="description" />
+                <ScalarProperty Name="diskon" ColumnName="diskon" />
+                <ScalarProperty Name="grandtotal" ColumnName="grandtotal" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="hsalespayments">
+            <EntityTypeMapping TypeName="dbsmsModel.hsalespayment">
+              <MappingFragment StoreEntitySet="hsalespayment">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="projectid" ColumnName="projectid" />
+                <ScalarProperty Name="number" ColumnName="number" />
+                <ScalarProperty Name="date" ColumnName="date" />
+                <ScalarProperty Name="to" ColumnName="to" />
+                <ScalarProperty Name="total" ColumnName="total" />
+                <ScalarProperty Name="description" ColumnName="description" />
+                <ScalarProperty Name="type" ColumnName="type" />
+                <ScalarProperty Name="note" ColumnName="note" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="hsuratjalans">
+            <EntityTypeMapping TypeName="dbsmsModel.hsuratjalan">
+              <MappingFragment StoreEntitySet="hsuratjalan">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="projectid" ColumnName="projectid" />
+                <ScalarProperty Name="number" ColumnName="number" />
+                <ScalarProperty Name="date" ColumnName="date" />
+                <ScalarProperty Name="to" ColumnName="to" />
+                <ScalarProperty Name="description" ColumnName="description" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="item_category">
+            <EntityTypeMapping TypeName="dbsmsModel.item_category">
+              <MappingFragment StoreEntitySet="item_category">
+                <ScalarProperty Name="status" ColumnName="status" />
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="name" ColumnName="name" />
+                <ScalarProperty Name="description" ColumnName="description" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="penawarannotes">
+            <EntityTypeMapping TypeName="dbsmsModel.penawarannote">
+              <MappingFragment StoreEntitySet="penawarannote">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="penawaranid" ColumnName="penawaranid" />
+                <ScalarProperty Name="username" ColumnName="username" />
+                <ScalarProperty Name="date" ColumnName="date" />
+                <ScalarProperty Name="text" ColumnName="text" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ponotes">
+            <EntityTypeMapping TypeName="dbsmsModel.ponote">
+              <MappingFragment StoreEntitySet="ponote">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="poid" ColumnName="poid" />
+                <ScalarProperty Name="username" ColumnName="username" />
+                <ScalarProperty Name="date" ColumnName="date" />
+                <ScalarProperty Name="text" ColumnName="text" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="privileges">
+            <EntityTypeMapping TypeName="dbsmsModel.privilege">
+              <MappingFragment StoreEntitySet="privileges">
+                <ScalarProperty Name="tablename" ColumnName="tablename" />
+                <ScalarProperty Name="action" ColumnName="action" />
+                <ScalarProperty Name="id" ColumnName="id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="projects">
+            <EntityTypeMapping TypeName="dbsmsModel.project">
+              <MappingFragment StoreEntitySet="projects">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="name" ColumnName="name" />
+                <ScalarProperty Name="customerid" ColumnName="customerid" />
+                <ScalarProperty Name="statusid" ColumnName="statusid" />
+                <ScalarProperty Name="description" ColumnName="description" />
+                <ScalarProperty Name="status" ColumnName="status" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="purchaseinvoicenotes">
+            <EntityTypeMapping TypeName="dbsmsModel.purchaseinvoicenote">
+              <MappingFragment StoreEntitySet="purchaseinvoicenote">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="purchaseinvoiceid" ColumnName="purchaseinvoiceid" />
+                <ScalarProperty Name="username" ColumnName="username" />
+                <ScalarProperty Name="date" ColumnName="date" />
+                <ScalarProperty Name="text" ColumnName="text" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="purchasepayments">
+            <EntityTypeMapping TypeName="dbsmsModel.purchasepayment">
+              <MappingFragment StoreEntitySet="purchasepayment">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="projectid" ColumnName="projectid" />
+                <ScalarProperty Name="purchaseinvoiceid" ColumnName="purchaseinvoiceid" />
+                <ScalarProperty Name="number" ColumnName="number" />
+                <ScalarProperty Name="date" ColumnName="date" />
+                <ScalarProperty Name="supplierid" ColumnName="supplierid" />
+                <ScalarProperty Name="total" ColumnName="total" />
+                <ScalarProperty Name="description" ColumnName="description" />
+                <ScalarProperty Name="type" ColumnName="type" />
+                <ScalarProperty Name="note" ColumnName="note" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="purchasepaymentnotes">
+            <EntityTypeMapping TypeName="dbsmsModel.purchasepaymentnote">
+              <MappingFragment StoreEntitySet="purchasepaymentnote">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="purchasepaymentid" ColumnName="purchasepaymentid" />
+                <ScalarProperty Name="username" ColumnName="username" />
+                <ScalarProperty Name="date" ColumnName="date" />
+                <ScalarProperty Name="text" ColumnName="text" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="receiveitemnotes">
+            <EntityTypeMapping TypeName="dbsmsModel.receiveitemnote">
+              <MappingFragment StoreEntitySet="receiveitemnote">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="receiveitemid" ColumnName="receiveitemid" />
+                <ScalarProperty Name="username" ColumnName="username" />
+                <ScalarProperty Name="date" ColumnName="date" />
+                <ScalarProperty Name="text" ColumnName="text" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="rfqnotes">
+            <EntityTypeMapping TypeName="dbsmsModel.rfqnote">
+              <MappingFragment StoreEntitySet="rfqnote">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="rfqid" ColumnName="rfqid" />
+                <ScalarProperty Name="username" ColumnName="username" />
+                <ScalarProperty Name="date" ColumnName="date" />
+                <ScalarProperty Name="text" ColumnName="text" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="roles">
+            <EntityTypeMapping TypeName="dbsmsModel.role">
+              <MappingFragment StoreEntitySet="roles">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="name" ColumnName="name" />
+                <ScalarProperty Name="description" ColumnName="description" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="salesinvoicenotes">
+            <EntityTypeMapping TypeName="dbsmsModel.salesinvoicenote">
+              <MappingFragment StoreEntitySet="salesinvoicenote">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="salesinvoiceid" ColumnName="salesinvoiceid" />
+                <ScalarProperty Name="username" ColumnName="username" />
+                <ScalarProperty Name="date" ColumnName="date" />
+                <ScalarProperty Name="text" ColumnName="text" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="salesordernotes">
+            <EntityTypeMapping TypeName="dbsmsModel.salesordernote">
+              <MappingFragment StoreEntitySet="salesordernote">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="salesorderid" ColumnName="salesorderid" />
+                <ScalarProperty Name="username" ColumnName="username" />
+                <ScalarProperty Name="date" ColumnName="date" />
+                <ScalarProperty Name="text" ColumnName="text" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="salespaymentnotes">
+            <EntityTypeMapping TypeName="dbsmsModel.salespaymentnote">
+              <MappingFragment StoreEntitySet="salespaymentnote">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="salespaymentid" ColumnName="salespaymentid" />
+                <ScalarProperty Name="username" ColumnName="username" />
+                <ScalarProperty Name="date" ColumnName="date" />
+                <ScalarProperty Name="text" ColumnName="text" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="status">
+            <EntityTypeMapping TypeName="dbsmsModel.status">
+              <MappingFragment StoreEntitySet="status">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="rfq" ColumnName="rfq" />
+                <ScalarProperty Name="findprices" ColumnName="findprices" />
+                <ScalarProperty Name="penawaran" ColumnName="penawaran" />
+                <ScalarProperty Name="salesorder" ColumnName="salesorder" />
+                <ScalarProperty Name="purchaseorder" ColumnName="purchaseorder" />
+                <ScalarProperty Name="receiveitem" ColumnName="receiveitem" />
+                <ScalarProperty Name="purchaseinvoice" ColumnName="purchaseinvoice" />
+                <ScalarProperty Name="purchasepayment" ColumnName="purchasepayment" />
+                <ScalarProperty Name="suratjalan" ColumnName="suratjalan" />
+                <ScalarProperty Name="salesinvoice" ColumnName="salesinvoice" />
+                <ScalarProperty Name="salespayment" ColumnName="salespayment" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="suppliers">
+            <EntityTypeMapping TypeName="dbsmsModel.supplier">
+              <MappingFragment StoreEntitySet="suppliers">
+                <ScalarProperty Name="status" ColumnName="status" />
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="name" ColumnName="name" />
+                <ScalarProperty Name="address" ColumnName="address" />
+                <ScalarProperty Name="city" ColumnName="city" />
+                <ScalarProperty Name="phone" ColumnName="phone" />
+                <ScalarProperty Name="description" ColumnName="description" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="suratjalannotes">
+            <EntityTypeMapping TypeName="dbsmsModel.suratjalannote">
+              <MappingFragment StoreEntitySet="suratjalannote">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="suratjalanid" ColumnName="suratjalanid" />
+                <ScalarProperty Name="username" ColumnName="username" />
+                <ScalarProperty Name="date" ColumnName="date" />
+                <ScalarProperty Name="text" ColumnName="text" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="users">
+            <EntityTypeMapping TypeName="dbsmsModel.user">
+              <MappingFragment StoreEntitySet="users">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="name" ColumnName="name" />
+                <ScalarProperty Name="username" ColumnName="username" />
+                <ScalarProperty Name="password" ColumnName="password" />
+                <ScalarProperty Name="description" ColumnName="description" />
+                <ScalarProperty Name="status" ColumnName="status" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <AssociationSetMapping Name="role_privilege" TypeName="dbsmsModel.role_privilege" StoreEntitySet="role_privilege">
+            <EndProperty Name="privileges">
+              <ScalarProperty Name="id" ColumnName="privilegeid" />
+            </EndProperty>
+            <EndProperty Name="roles">
+              <ScalarProperty Name="id" ColumnName="roleid" />
+            </EndProperty>
+          </AssociationSetMapping>
+          <AssociationSetMapping Name="user_role" TypeName="dbsmsModel.user_role" StoreEntitySet="user_role">
+            <EndProperty Name="roles">
+              <ScalarProperty Name="id" ColumnName="roleid" />
+            </EndProperty>
+            <EndProperty Name="users">
+              <ScalarProperty Name="id" ColumnName="userid" />
+            </EndProperty>
+          </AssociationSetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

@@ -4,8 +4,20 @@
         @* BEGIN Menu *@
         <ul class="sidebar-menu">
             <li class="header">Menu</li>
-            <li class="@(ViewContext.RouteData.Values["Controller"].ToString() == "Home" ? "active" : "")">
-                <a href="@Url.Action("Index", "Home")"><i class="fa fa-link"></i> <span>Dashboard</span></a>
+            <li class="@Html.IsSelected(controller: "Home")">
+                <a href="@Url.Action("Index", "Home")"><i class="fa fa-delicious"></i> <span>Dashboard</span></a>
+            </li>
+            <li class="master @Html.IsSelected(controller: "Master")">
+                <a href="#"><i class="fa fa-th-large"></i> <span class="nav-label">Masters</span> <span class="fa arrow"></span></a>
+                <ul class="nav nav-second-level collapse @Html.IsSelected(controller: "Master", cssClass: "in")">
+                    <li class="@Html.IsSelected(action: "Master_Kategori")"><a href="@Url.Action("Master_Kategori", "Master")">Master Kategori</a></li>
+                    <li class="@Html.IsSelected(action: "Master_Supplier")"><a href="@Url.Action("Master_Supplier", "Master")">Master Supplier</a></li>
+                    <li class="@Html.IsSelected(action: "Master_Customer")"><a href="@Url.Action("Master_Customer", "Master")">Master Customer</a></li>
+                    <li class="@Html.IsSelected(action: "Master_User")"><a href="@Url.Action("Master_User", "Master")">Master User</a></li>
+                </ul>
+            </li>
+            <li class="@Html.IsSelected(controller: "Role")">
+                <a href="@Url.Action("Index", "Role")"><i class="fa fa-user"></i> <span>Manage Role</span></a>
             </li>
             <!--li class="@(ViewContext.RouteData.Values["Controller"].ToString() == "Flow" ? "active" : "")">
                 <a href="@Url.Action("Index", "Flow")"><i class="fa fa-link"></i> <span>Flow Diagram</span></a>

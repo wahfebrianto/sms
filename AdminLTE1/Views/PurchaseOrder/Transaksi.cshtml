@@ -106,6 +106,14 @@
                                     <th colspan="4" style="text-align:right">Total Order:</th>
                                     <th @*colspan="2"*@></th>
                                 </tr>
+                                <tr>
+                                    <th colspan="4" style="text-align:right">Down Payment:</th>
+                                    <th @*colspan="2"*@><input class="text-left" type="number" value="0" id="downpayment" /></th>
+                                </tr>
+                                <tr>
+                                    <th colspan="4" style="text-align:right">Remaining Payment:</th>
+                                    <th @*colspan="2"*@ id="remainingpayment"></th>
+                                </tr>
                             </tfoot>
                             <tbody>
                                 <tr>
@@ -120,9 +128,8 @@
                         </table>
                     </div>
                     <div class="col-md-12">
-                        <br />
-                        <a href="@Url.Action("Index","PurchaseOrder")"><button class="btn btn-block btn-success">Save</button></a>
-                        <a href="@Url.Action("Index","PurchaseOrder")"><button class="btn btn-block btn-default">Cancel</button></a>
+                        <a href="@Url.Action("Index","PurchaseOrder")"><button class="btn btn-lg btn-success pull-right" style="margin-left:10px;">Save</button></a>
+                        <a href="@Url.Action("Index","PurchaseOrder")"><button class="btn btn-lg btn-default pull-right">Cancel</button></a>
                     </div>
                 </div>
             </form>
@@ -158,6 +165,7 @@
                     .reduce(function (a, b) {
                         return intVal(a) + intVal(b);
                     }, 0);
+                dp = $('#downpayment').val();
 
                 //// Total over this page
                 //pageTotal = api
@@ -171,6 +179,8 @@
                 $(api.column(4).footer()).html(
                     'Rp. ' + total
                 );
+
+                $('#remainingpayment').html('Rp. ' + (total - dp));
             }
         });
     });
