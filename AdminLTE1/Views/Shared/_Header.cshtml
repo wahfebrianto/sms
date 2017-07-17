@@ -23,11 +23,11 @@
                     -->
                     <a href="#" class="dropdown-toggle">
                         <img src="~/Content/img/user.jpg" class="user-image" alt="User Image" />
-                        <span class="hidden-xs">Admin</span>
+                        <span class="hidden-xs">@Session["user"]</span>
                     </a>
                 </li>
                 <li class="dropdown user user-menu">
-                    <a href="Login" class="dropdown-toggle">
+                    <a href="@Url.Action("Index","Login")" class="dropdown-toggle">
                         <img src="~/Content/img/logout.png" class="user-image" alt="User Image" />
                         <span class="hidden-xs">Logout</span>
                     </a>

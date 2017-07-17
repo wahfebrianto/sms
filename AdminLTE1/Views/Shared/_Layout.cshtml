@@ -1,7 +1,10 @@
 ﻿@using System.Web.Optimization
-@{ 
+@{
+    if (Session["user"]==null){
+        Response.Redirect(Url.Action("Index","Login"));
+    }
     ViewBag.GlobalTitle = AdminLTE1.App_Start.GlobalVariables.WebsiteName;
-}
+    }
 <!DOCTYPE html>
 <html>
 <head>

@@ -74,5 +74,29 @@ namespace AdminLTE1.Controllers
                 throw ex;
             }
         }
+
+        public ActionResult save_privilege(String param,String roleid)
+        {
+            int a = 0;
+            using (var db = new dbsmsEntities())
+            {
+                role data = db.roles.Find(Convert.ToInt64(roleid));
+                db.privileges.ToList().ForEach(x => x.roles.Remove(data));
+                foreach (String item in param.Split('$'))
+                {
+                    if (!String.IsNullOrEmpty(item))
+                    {
+                        String action = item.Split('|')[0];
+                        String tablename = item.Split('|')[1];
+                        privilege pr = (from p in db.privileges
+                                    where p.action == action && p.tablename == tablename
+                                    select p).First();
+                        db.roles.Find(Convert.ToInt64(roleid)).privileges.Add(pr);
+                    }
+                }
+                db.SaveChanges();
+            }
+            return RedirectToAction("Index", "Role");
+        }
     }
 }

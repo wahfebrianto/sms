@@ -39,6 +39,48 @@
                     </div>
                 </div>
             </div>
+            <div class="modal inmodal fade" id="myModal1" tabindex="-1" role="dialog" aria-hidden="true">
+                <div class="modal-dialog modal-lg">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Cancel</span></button>
+                            <h4 class="modal-title">Assign Role</h4>
+                            <small class="font-bold"></small>
+                        </div>
+                        <input name="userId1" type="hidden" class="form-control" id="userId1" />
+                        <div class="modal-body" id="modalbody1">
+                           
+
+
+                            <form id="form" action="#" class="wizard-big">
+                                <select class="form-control dual_select" multiple style="display:none">
+                                    @{
+                                        using (var db = new dbsmsEntities())
+                                        {
+                                            List<role> data = (from r in db.roles
+                                                               select r).ToList();
+                                            foreach (role item in data)
+                                            {
+                                                string idtemp = "id" + item.id;
+                                                <option class="optionid" id="@idtemp" value="@item.id">@item.name</option>
+                                            }
+                                        }
+                                    }
+                                </select>
+                            </form>
+
+
+
+
+
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" id="cancelRole" class="btn btn-white" data-dismiss="modal">Cancel</button>
+                            <button type="button" id="saveRole" class="btn btn-primary">Save changes</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
             <table class="table table-bordered table-hover">
                 <thead>
                     <tr>
@@ -48,16 +90,16 @@
                         <th class="col-md-1 hidden">
                             ID
                         </th>
-                        <th class="col-md-4">
+                        <th class="col-md-2">
                             NAME
                         </th>
-                        <th class="col-md-5">
+                        <th class="col-md-2">
                             USERNAME
                         </th>
-                        <th class="col-md-5">
+                        <th class="col-md-4">
                             DESCRIPTION
                         </th>
-                        <th class="col-md-2"></th>
+                        <th class="col-md-3"></th>
                     </tr>
                 </thead>
                 <tbody>
@@ -89,6 +131,7 @@
                                         @item.description
                                     </td>
                                     <td class="text-center">
+                                        <button type="button" class="btn btn-info assignRole" style="margin-right:10px;" data-toggle="modal" data-target="#myModal1">Assign Role</button>
                                         <button class="btn btn-success btn_edit" style="margin-right:10px;" data-toggle="modal" data-target="#myModal">Edit</button>
                                         <button class="btn btn-danger btn_delete">Delete</button>
                                     </td>
@@ -142,7 +185,80 @@
             $('#myModal #userUserName').val("");
             $('#myModal #userDesc').val("");
         });
+        $(".assignRole").click(function () {
+            var userid = $(this).parent().parent().children().eq(1).html().trim();
+            $("#userId1").val(userid);
+            $.ajax({
+                    type: "GET",
+                    url: "@Url.Action("getRole", "Master")",
+                data: { userid: userid },
+                success: function (data) {
+                    hasil = data.split('|');
+
+                    var ele = "<form id='form' action='#' class='wizard-big'>";
+                    ele +=    " <select class='form-control dual_select' multiple style='display:none'>";
+                    @{
+                                using (var db = new dbsmsEntities())
+                                {
+                                    List<role> data = (from r in db.roles
+                                                       select r).ToList();
+                                    foreach (role item in data)
+                                    {
+                                        string idtemp = "id" + item.id;
+                                    <text>ele += "<option class='optionid' id='@idtemp' value='@item.id'>@item.name</option>";</text>
+                                }
+                            }
+                        }
+                    ele+="</select>";
+                    ele+="</form>";
+                    $("#modalbody1").html("");
+                    $("#modalbody1").html(ele);
+
+
+                    $(".optionid").removeAttr("selected");
+                    for (var i = 0; i < hasil.length-1; i++) {
+                        $("#id"+hasil[i]).attr("selected", true);
+                    }
+
+
+
+                    $('.tagsinput').tagsinput({
+                        tagClass: 'label label-primary'
+                    });
+                    $('.dual_select').bootstrapDualListbox({
+                        selectorMinimalHeight: 160
+                    });
+                },
+                error: function (xhr, status, error) {
+                    alert(xhr.responseText);
+                }
+            });
+        });
+        $(".select2").css("display","none");
+
 
         $("table").DataTable();
+        $("#saveRole").click(function () {
+            var params = "";
+            var selectedlist = $("#bootstrap-duallistbox-selected-list_").children();
+            for (var i = 0; i < selectedlist.size(); i++) {
+                params += $(selectedlist[i]).val() + "|";
+            }
+            var roleId = $(this).parent().parent().children().eq(1).html().trim();
+            var hasil = "";
+            $.ajax({
+                    type: "GET",
+                    url: "@Url.Action("save_role","Master")",
+                    data: { param: params, userid: $("#userId1").val() },
+                success: function (data) {
+                    $("#cancelRole").click();
+                    swal("Success!", "The User Role has been updated", "success");
+                },
+                error: function (xhr, status, error) {
+                    alert(xhr.responseText);
+                }
+            });
+        });
+        
     });
 </script>

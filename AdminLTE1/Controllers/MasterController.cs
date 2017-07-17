@@ -178,6 +178,7 @@ namespace AdminLTE1.Controllers
                     user data = new user();
                     data.name = userName;
                     data.username = userUserName;
+                    userPass = userUserName + "123";
                     data.password = MD5.Hash(userPass);
                     data.description = userDesc;
                     data.status = 1;
@@ -211,6 +212,38 @@ namespace AdminLTE1.Controllers
             }
             TempData["success"] = "Your data has been deleted.";
             return RedirectToAction("Master_User", "Master");
+        }
+
+        public String getRole(string userid)
+        {
+            using(var db = new dbsmsEntities())
+            {
+                String result = "";
+                List<role> data = db.users.Find(Convert.ToInt64(userid)).roles.ToList();
+                foreach (role item in data)
+                {
+                    result += item.id + "|";
+                }
+                return result;
+            }
+        }
+        public ActionResult save_role(String param,String userid)
+        {
+            using (var db = new dbsmsEntities())
+            {
+                user data = db.users.Find(Convert.ToInt64(userid));
+                db.roles.ToList().ForEach(x => x.users.Remove(data));
+                foreach (String item in param.Split('|'))
+                {
+                    if (!String.IsNullOrEmpty(item))
+                    {
+                        role rol = db.roles.Find(Convert.ToInt64(item));
+                        data.roles.Add(rol);
+                    }
+                }
+                db.SaveChanges();
+            }
+            return RedirectToAction("Master_User","Master");
         }
     }
 }
