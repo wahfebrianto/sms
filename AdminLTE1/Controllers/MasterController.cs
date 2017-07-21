@@ -169,10 +169,15 @@ namespace AdminLTE1.Controllers
         }
 
         [HttpPost]
-        public ActionResult save_user(string userId, string userName, string userUserName,string userPass, string userDesc)
+        public string save_user(string userId, string userName, string userUserName,string userDesc)
         {
+            string userPass = "";
             using (var db = new dbsmsEntities())
             {
+                if( db.users.Select(x => x.username).Contains(userUserName))
+                {
+                    return "0";
+                }
                 if (String.IsNullOrEmpty(userId))
                 {
                     user data = new user();
@@ -194,8 +199,7 @@ namespace AdminLTE1.Controllers
                 }
                 db.SaveChanges();
             }
-            TempData["success"] = "Your data has been saved.";
-            return RedirectToAction("Master_User", "Master");
+            return "1";
         }
 
         [HttpGet]

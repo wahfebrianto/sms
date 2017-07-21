@@ -294,8 +294,8 @@
             <PropertyRef Name="id" />
           </Key>
           <Property Name="id" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="action" Type="text" Nullable="false" />
-          <Property Name="tablename" Type="text" Nullable="false" />
+          <Property Name="action" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="tablename" Type="varchar" MaxLength="50" Nullable="false" />
         </EntityType>
         <EntityType Name="projects">
           <Key>
@@ -462,8 +462,8 @@
           </Key>
           <Property Name="id" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="name" Type="text" Nullable="false" />
-          <Property Name="username" Type="text" Nullable="false" />
-          <Property Name="password" Type="text" Nullable="false" />
+          <Property Name="username" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="password" Type="varchar" MaxLength="50" Nullable="false" />
           <Property Name="description" Type="text" />
           <Property Name="status" Type="tinyint" Nullable="false" />
         </EntityType>
@@ -671,7 +671,19 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_findprices_projects">
+        <Association Name="FK_findprices_projects1">
+          <End Role="projects" Type="Self.projects" Multiplicity="1" />
+          <End Role="findprices" Type="Self.findprices" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="projects">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="findprices">
+              <PropertyRef Name="projectid" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_findprices_supplier">
           <End Role="suppliers" Type="Self.suppliers" Multiplicity="1" />
           <End Role="findprices" Type="Self.findprices" Multiplicity="*" />
           <ReferentialConstraint>
@@ -1237,7 +1249,11 @@
             <End Role="item_category" EntitySet="item_category" />
             <End Role="dsuratjalan" EntitySet="dsuratjalan" />
           </AssociationSet>
-          <AssociationSet Name="FK_findprices_projects" Association="Self.FK_findprices_projects">
+          <AssociationSet Name="FK_findprices_projects1" Association="Self.FK_findprices_projects1">
+            <End Role="projects" EntitySet="projects" />
+            <End Role="findprices" EntitySet="findprices" />
+          </AssociationSet>
+          <AssociationSet Name="FK_findprices_supplier" Association="Self.FK_findprices_supplier">
             <End Role="suppliers" EntitySet="suppliers" />
             <End Role="findprices" EntitySet="findprices" />
           </AssociationSet>
@@ -1535,6 +1551,7 @@
           <NavigationProperty Name="supplier" Relationship="Self.FK_findprices_projects" FromRole="findprices" ToRole="suppliers" />
           <NavigationProperty Name="findpricesnotes" Relationship="Self.FK_findpricesnote_findprices" FromRole="findprices" ToRole="findpricesnote" />
           <Property Name="status" Type="Byte" Nullable="false" />
+          <NavigationProperty Name="project" Relationship="dbsmsModel.FK_findprices_projects1" FromRole="findprice" ToRole="project" />
         </EntityType>
         <EntityType Name="findpricesnote">
           <Key>
@@ -1755,8 +1772,8 @@
           </Key>
           <Property Name="id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <NavigationProperty Name="roles" Relationship="Self.role_privilege" FromRole="privileges" ToRole="roles" />
-          <Property Name="action" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="false" />
-          <Property Name="tablename" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="action" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="tablename" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
         </EntityType>
         <EntityType Name="project">
           <Key>
@@ -1780,6 +1797,7 @@
           <NavigationProperty Name="hsuratjalans" Relationship="Self.FK_hsuratjalan_projects" FromRole="projects" ToRole="hsuratjalan" />
           <NavigationProperty Name="purchasepayments" Relationship="Self.FK_hpurchasepayment_projects" FromRole="projects" ToRole="purchasepayment" />
           <NavigationProperty Name="status1" Relationship="Self.FK_projects_status" FromRole="projects" ToRole="status" />
+          <NavigationProperty Name="findprices" Relationship="dbsmsModel.FK_findprices_projects1" FromRole="project" ToRole="findprice" />
         </EntityType>
         <EntityType Name="purchaseinvoicenote">
           <Key>
@@ -1940,8 +1958,8 @@
           </Key>
           <Property Name="id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="name" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" Nullable="false" />
-          <Property Name="username" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" Nullable="false" />
-          <Property Name="password" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="username" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="password" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
           <Property Name="description" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
           <Property Name="status" Type="Byte" Nullable="false" />
           <NavigationProperty Name="roles" Relationship="Self.user_role" FromRole="users" ToRole="roles" />
@@ -2818,7 +2836,23 @@
             <End Role="roles" EntitySet="roles" />
             <End Role="users" EntitySet="users" />
           </AssociationSet>
+          <AssociationSet Name="FK_findprices_projects1" Association="dbsmsModel.FK_findprices_projects1">
+            <End Role="project" EntitySet="projects" />
+            <End Role="findprice" EntitySet="findprices" />
+          </AssociationSet>
         </EntityContainer>
+        <Association Name="FK_findprices_projects1">
+          <End Type="dbsmsModel.project" Role="project" Multiplicity="1" />
+          <End Type="dbsmsModel.findprice" Role="findprice" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="project">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="findprice">
+              <PropertyRef Name="projectid" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->

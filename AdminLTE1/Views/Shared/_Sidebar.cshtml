@@ -7,6 +7,9 @@
             <li class="@Html.IsSelected(controller: "Home")">
                 <a href="@Url.Action("Index", "Home")"><i class="fa fa-delicious"></i> <span>Dashboard</span></a>
             </li>
+            <li class="@Html.IsSelected(controller: "Project")">
+                <a href="@Url.Action("Index", "Project")"><i class="fa fa-superpowers"></i> <span>Active Projects</span></a>
+            </li>
             <li class="master @Html.IsSelected(controller: "Master")">
                 <a href="#"><i class="fa fa-th-large"></i> <span class="nav-label">Masters</span> <span class="fa arrow"></span></a>
                 <ul class="nav nav-second-level collapse @Html.IsSelected(controller: "Master", cssClass: "in")">

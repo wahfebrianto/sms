@@ -1,0 +1,219 @@
+﻿@{
+    ViewBag.Title = "Active Project";
+}
+<div class="row">
+    <div class="col-xs-12 col-md-12 col-lg-12">
+        <div class="box box-default panel-body">
+            <table id="mytableactiveproj" class="table table-hover table-bordered table-striped">
+                <thead>
+                    <tr>
+                        <th class="hidden">Id</th>
+                        <th>Customer</th>
+                        <th>Status</th>
+                        <th>Project</th>
+                        <th>Description</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tfoot>
+                    <tr>
+                        <th class="hidden">Id</th>
+                        <th>Customer</th>
+                        <th>Status</th>
+                        <th>Project</th>
+                        <th>Description</th>
+                        <th>Action</th>
+                    </tr>
+                </tfoot>
+                <tbody>
+                    @{ 
+                        using (var db = new dbsmsEntities())
+                        {
+                            List<AdminLTE1.Helpers.ActiveProject> projects = new List<AdminLTE1.Helpers.ActiveProject>();
+                            List<hrfq> data = (from r in db.hrfqs
+                                               where r.project.status == 0
+                                               select r).ToList();
+                            foreach (hrfq item in data)
+                            {
+                                projects.Add(new AdminLTE1.Helpers.ActiveProject(item.id, item.project.name, item.project.customer.name, "RFQ", item.description, "RFQ"));
+                            }
+
+                            List<findprice> data1 = (from r in db.findprices
+                                                     where r.project.status == 0
+                                                     select r).ToList();
+                            foreach (findprice item in data1)
+                            {
+                                projects.Add(new AdminLTE1.Helpers.ActiveProject(item.id, item.project.name, item.project.customer.name, "Find Price", item.description, "FindPrices"));
+                            }
+
+                            List<hpenawaran> data2 = (from r in db.hpenawarans
+                                                      where r.project.status == 0
+                                                      select r).ToList();
+                            foreach (hpenawaran item in data2)
+                            {
+                                projects.Add(new AdminLTE1.Helpers.ActiveProject(item.id, item.project.name, item.project.customer.name, "Penawaran", item.description, "Penawaran"));
+                            }
+
+                            List<hsalesorder> data3 = (from r in db.hsalesorders
+                                                       where r.project.status == 0
+                                                       select r).ToList();
+                            foreach (hsalesorder item in data3)
+                            {
+                                projects.Add(new AdminLTE1.Helpers.ActiveProject(item.id, item.project.name, item.project.customer.name, "Sales Order", item.description, "SalesOrder"));
+                            }
+
+                            List<hpo> data4 = (from r in db.hpoes
+                                               where r.project.status == 0
+                                               select r).ToList();
+                            foreach (hpo item in data4)
+                            {
+                                projects.Add(new AdminLTE1.Helpers.ActiveProject(item.id, item.project.name, item.project.customer.name, "Purchase Order", item.description, "PurchaseOrder"));
+                            }
+
+                            List<hpurchaseinvoice> data5 = (from r in db.hpurchaseinvoices
+                                                            where r.project.status == 0
+                                                            select r).ToList();
+                            foreach (hpurchaseinvoice item in data5)
+                            {
+                                projects.Add(new AdminLTE1.Helpers.ActiveProject(item.id, item.project.name, item.project.customer.name, "Purchase Invoice", item.description, "PurchaseInvoice"));
+                            }
+
+                            List<purchasepayment> data6 = (from r in db.purchasepayments
+                                                           where r.project.status == 0
+                                                           select r).ToList();
+                            foreach (purchasepayment item in data6)
+                            {
+                                projects.Add(new AdminLTE1.Helpers.ActiveProject(item.id, item.project.name, item.project.customer.name, "Purchase Payment", item.description, "PurchasePayment"));
+                            }
+
+                            List<hreceiveitem> data7 = (from r in db.hreceiveitems
+                                                        where r.project.status == 0
+                                                        select r).ToList();
+                            foreach (hreceiveitem item in data7)
+                            {
+                                projects.Add(new AdminLTE1.Helpers.ActiveProject(item.id, item.project.name, item.project.customer.name, "Receive Item", item.description, "ReceiveItem"));
+                            }
+
+                            List<hsuratjalan> data8 = (from r in db.hsuratjalans
+                                                       where r.project.status == 0
+                                                       select r).ToList();
+                            foreach (hsuratjalan item in data8)
+                            {
+                                projects.Add(new AdminLTE1.Helpers.ActiveProject(item.id, item.project.name, item.project.customer.name, "Surat Jalan", item.description, "SuratJalan"));
+                            }
+
+                            List<hsalesinvoice> data9 = (from r in db.hsalesinvoices
+                                                         where r.project.status == 0
+                                                         select r).ToList();
+                            foreach (hsalesinvoice item in data9)
+                            {
+                                projects.Add(new AdminLTE1.Helpers.ActiveProject(item.id, item.project.name, item.project.customer.name, "Sales Invoice", item.description, "SalesInvoice"));
+                            }
+
+                            List<hsalespayment> data10 = (from r in db.hsalespayments
+                                                          where r.project.status == 0
+                                                          select r).ToList();
+                            foreach (hsalespayment item in data10)
+                            {
+                                projects.Add(new AdminLTE1.Helpers.ActiveProject(item.id, item.project.name, item.project.customer.name, "Sales Payment", item.description, "SalesPayment"));
+                            }
+
+                            foreach (AdminLTE1.Helpers.ActiveProject item in projects)
+                            {
+                                <tr>
+                                    <td class="hidden">@item.projectid</td>
+                                    <td>@item.status</td>
+                                    <td>@item.customername</td>
+                                    <td>@item.project</td>
+                                    <td>@item.desc</td>
+                                    <td><a href="@Url.Action("index",item.link)?id=@item.projectid"><button type="button" class="btn btn-info">Detail</button></a></td>
+                                </tr>
+                            }
+                        }
+                    }
+                    <tr>
+                        <td class="hidden">a</td>
+                        <td>a</td>
+                        <td>b</td>
+                        <td>a</td>
+                        <td>a</td>
+                        <td>a</td>
+                    </tr>
+                    <tr>
+                        <td class="hidden">a</td>
+                        <td>a</td>
+                        <td>b</td>
+                        <td>a</td>
+                        <td>a</td>
+                        <td>a</td>
+                    </tr>
+                    <tr>
+                        <td class="hidden">a</td>
+                        <td>a</td>
+                        <td>a</td>
+                        <td>a</td>
+                        <td>a</td>
+                        <td>a</td>
+                    </tr>
+                    <tr>
+                        <td class="hidden">a</td>
+                        <td>a</td>
+                        <td>a</td>
+                        <td>a</td>
+                        <td>a</td>
+                        <td>a</td>
+                    </tr>
+                    <tr>
+                        <td class="hidden">a</td>
+                        <td>a</td>
+                        <td>b</td>
+                        <td>b</td>
+                        <td>a</td>
+                        <td>a</td>
+                    </tr>
+                    <tr>
+                        <td class="hidden">a</td>
+                        <td>a</td>
+                        <td>b</td>
+                        <td>b</td>
+                        <td>a</td>
+                        <td>a</td>
+                    </tr>
+                    <tr>
+                        <td class="hidden">a</td>
+                        <td>a</td>
+                        <td>b</td>
+                        <td>b</td>
+                        <td>a</td>
+                        <td>a</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+<script type="text/javascript">
+    $(document).ready(function () {
+        var table = $('#mytableactiveproj').DataTable({
+            "columnDefs": [
+                { "visible": false, "targets": 2 }
+            ],
+            "bPaginate": false,
+            "drawCallback": function (settings) {
+                var api = this.api();
+                var rows = api.rows({ page: 'current' }).nodes();
+                var last = null;
+
+                api.column(2, { page: 'current' }).data().each(function (group, i) {
+                    if (last !== group) {
+                        $(rows).eq(i).before(
+                            '<tr class="group text-bold"><td colspan="4">' + group + '</td></tr>'
+                        );
+
+                        last = group;
+                    }
+                });
+            }
+        });
+    });
+</script>

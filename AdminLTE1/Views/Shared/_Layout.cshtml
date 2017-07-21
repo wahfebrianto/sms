@@ -29,9 +29,46 @@
         .select2-dropdown {
             z-index: 999999;
         }
+        #mytableactiveproj tr.group,
+        #mytableactiveproj tr.group:hover {
+            background-color: #ddd !important;
+        }
     </style>
 </head>
 <body class="hold-transition skin-blue sidebar-mini">
+    <div class="modal inmodal fade" id="myModal_change" tabindex="-1" role="dialog" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Cancel</span></button>
+                    <h4 class="modal-title">Change Password</h4>
+                    <small class="font-bold"></small>
+                </div>
+
+                <form method="post">
+                    <div class="modal-body">
+                        <div class="form-group">
+                            <label>Old Password : </label>
+                            <input name="oldPassword" type="password" class="form-control" id="oldPassword" required />
+                        </div>
+                        <div class="form-group">
+                            <label>New Password : </label>
+                            <input name="newPassword" type="password" class="form-control" id="newPassword" required />
+                        </div>
+                        <div class="form-group">
+                            <label>Confirm New Password : </label>
+                            <input name="confirmNewPassword" type="password" class="form-control" id="confirmNewPassword" required />
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" id="changePassCancel" class="btn btn-white" data-dismiss="modal">Cancel</button>
+                        <button type="submit" id="changepassbtn" class="btn btn-primary">Save changes</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
     <div class="wrapper no-padding" >
         @Html.Partial("_Header")
         @Html.Partial("_Sidebar")
@@ -54,7 +91,7 @@
     </div>
 
     @*  INI KODINGAN CHATBOX  *@
-    @if (Session["project"] == null && ViewContext.RouteData.Values["Controller"].ToString() != "Role" && ViewContext.RouteData.Values["Controller"].ToString() != "Home" && ViewContext.RouteData.Values["Controller"].ToString() != "Master")
+    @if (Session["project"] == null && ViewContext.RouteData.Values["Controller"].ToString() != "Project" && ViewContext.RouteData.Values["Controller"].ToString() != "Role" && ViewContext.RouteData.Values["Controller"].ToString() != "Home" && ViewContext.RouteData.Values["Controller"].ToString() != "Master")
     {
     <div class="small-chat-box fadeInRight animated" style="z-index:1000000000">
         <div class="heading" draggable="true">
@@ -139,7 +176,45 @@
     <script src="@RouteJs.RouteJsHandler.HandlerUrl"></script>
     <script>
         $(document).ready(function () {
+            
             $("#myTable").DataTable();
+            $("#changepass_").click(function () {
+                $("#oldPassword").val("");
+                $("#newPassword").val("");
+                $("#confirmNewPassword").val("");
+            });
+            $("#changepassbtn").click(function () {
+                var oldpass = $("#oldPassword").val();
+                var newpass = $("#newPassword").val();
+                var confnewpass = $("#confirmNewPassword").val();
+                if (oldpass == "" || newpass == "" || confnewpass == "") {
+                    
+                }
+                else if (newpass != confnewpass  ) {
+                    swal("Failed!", "Password confirmation doesn't match Password", "error");
+                }
+                else {
+                    $.ajax({
+                            type: "POST",
+                            url: "@Url.Action("change_password","Home")",
+                            data: { oldPassword: oldpass, newPassword : newpass},
+                        success: function (data) {
+                            if (data == "1") {
+                                swal("Success!", "Password Changed", "success");
+                                $("#changePassCancel").click();
+                            }
+                            else {
+                                swal("Failed!", "Please enter password correctly!", "error");
+                            }
+                        },
+                        error: function (xhr, status, error) {
+                            alert(xhr.responseText);
+                        }
+                    });
+                }
+
+                return false;
+            });
         });
     </script>
 </body>

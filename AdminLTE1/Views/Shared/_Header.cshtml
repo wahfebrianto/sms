@@ -9,9 +9,9 @@
     @* END Logo *@
     @* BEGIN Header *@
     <nav class="navbar navbar-static-top" role="navigation">
-        <a href="#" class="sidebar-toggle" data-toggle="offcanvas" role="button">
+        @*<a href="#" class="sidebar-toggle" data-toggle="offcanvas" role="button">
             <span class="sr-only">Toggle navigation</span>
-        </a>
+        </a>*@
         <div class="navbar-custom-menu">
             <ul class="nav navbar-nav">
                 @* BEGIN User Account Menu *@
@@ -22,13 +22,19 @@
                     </a>
                     -->
                     <a href="#" class="dropdown-toggle">
-                        <img src="~/Content/img/user.jpg" class="user-image" alt="User Image" />
-                        <span class="hidden-xs">@Session["user"]</span>
+                        <i class="fa fa-user-circle" style="color:black; font-size:x-large" aria-hidden="true"></i>
+                        <span id="usernameatas"class="hidden-xs">@{<text>@Session["user"]</text>} </span>
+                    </a>
+                </li>
+                <li class="dropdown user user-menu">
+                    <a id="changepass_" data-toggle="modal" data-target="#myModal_change" class="dropdown-toggle">
+                        <i class="fa fa-key" style="color:black; font-size:x-large" aria-hidden="true"></i>
+                        <span class="hidden-xs">Change Password</span>
                     </a>
                 </li>
                 <li class="dropdown user user-menu">
                     <a href="@Url.Action("Index","Login")" class="dropdown-toggle">
-                        <img src="~/Content/img/logout.png" class="user-image" alt="User Image" />
+                        <i class="fa fa-sign-out" style="color:black; font-size:x-large; " aria-hidden="true"></i>
                         <span class="hidden-xs">Logout</span>
                     </a>
                 </li>

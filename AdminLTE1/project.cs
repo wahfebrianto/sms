@@ -27,6 +27,7 @@ namespace AdminLTE1
             this.hsalespayments = new HashSet<hsalespayment>();
             this.hsuratjalans = new HashSet<hsuratjalan>();
             this.purchasepayments = new HashSet<purchasepayment>();
+            this.findprices = new HashSet<findprice>();
         }
     
         public long id { get; set; }
@@ -58,5 +59,7 @@ namespace AdminLTE1
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<purchasepayment> purchasepayments { get; set; }
         public virtual status status1 { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<findprice> findprices { get; set; }
     }
 }

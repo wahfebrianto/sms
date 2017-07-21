@@ -284,6 +284,7 @@
     <Compile Include="Controllers\LoginController.cs" />
     <Compile Include="Controllers\MasterController.cs" />
     <Compile Include="Controllers\PenawaranController.cs" />
+    <Compile Include="Controllers\ProjectController.cs" />
     <Compile Include="Controllers\PurchaseInvoiceController.cs" />
     <Compile Include="Controllers\PurchasePaymentController.cs" />
     <Compile Include="Controllers\ReceiveItemController.cs" />
@@ -333,6 +334,7 @@
     <Compile Include="helper.cs">
       <DependentUpon>SMSModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="Helpers\ActiveProject.cs" />
     <Compile Include="Helpers\HMTLHelperExtensions.cs" />
     <Compile Include="Helpers\MD5.cs" />
     <Compile Include="hpenawaran.cs">
@@ -490,6 +492,7 @@
     <Content Include="Views\Master\Master_Customer.cshtml" />
     <Content Include="Views\Master\Master_User.cshtml" />
     <Content Include="Views\Role\Index.cshtml" />
+    <Content Include="Views\Project\Index.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
