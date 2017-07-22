@@ -8571,7 +8571,7 @@ body.md-skin {
   list-style-type: none;
   width: 7%;
   height: 4px;
-  background: #fff;
+  background: #F8F8F8;
 }
  
 .custom-timeline ol li:last-child {
@@ -8592,8 +8592,8 @@ body.md-skin {
   height: 17px;
   transform: translateY(-50%);
   border-radius: 50%;
-  background: #F45B69;
   cursor: pointer;
+  background: #F45B69;
 }
 
 .custom-timeline ol li div {

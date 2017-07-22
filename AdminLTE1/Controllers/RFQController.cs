@@ -10,7 +10,7 @@ namespace AdminLTE1.Controllers
         // GET: RFQ
         public ActionResult Index()
         {
-            
+            //return Redirect(Request.UrlReferrer.ToString());
             return View();
         }
     }

@@ -335,6 +335,7 @@
       <DependentUpon>SMSModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Helpers\ActiveProject.cs" />
+    <Compile Include="Helpers\GlobalFunction.cs" />
     <Compile Include="Helpers\HMTLHelperExtensions.cs" />
     <Compile Include="Helpers\MD5.cs" />
     <Compile Include="hpenawaran.cs">

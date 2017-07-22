@@ -23,7 +23,7 @@ namespace AdminLTE1
     
         public long id { get; set; }
         public long projectid { get; set; }
-        public long number { get; set; }
+        public string number { get; set; }
         public long poid { get; set; }
         public System.DateTime date { get; set; }
         public long supplierid { get; set; }

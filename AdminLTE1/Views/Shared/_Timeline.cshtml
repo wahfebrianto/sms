@@ -1,4 +1,4 @@
-﻿@if (Session["project"]==null && ViewContext.RouteData.Values["Controller"].ToString() != "Project" && ViewContext.RouteData.Values["Controller"].ToString() != "Role" && ViewContext.RouteData.Values["Controller"].ToString() != "Home" && ViewContext.RouteData.Values["Controller"].ToString() != "Master")
+﻿@if (Session["project"] != null && ViewContext.RouteData.Values["Controller"].ToString() != "Project" && ViewContext.RouteData.Values["Controller"].ToString() != "Role" && ViewContext.RouteData.Values["Controller"].ToString() != "Home" && ViewContext.RouteData.Values["Controller"].ToString() != "Master")
 {
 <section class="custom-timeline">
     <div class="panel panel-body text-center" style="font-size:1.5em;">
@@ -12,7 +12,7 @@
                 <i class="fa fa-users pull-right"></i>
             </div>
         </li>
-        <li id="findPrices">
+        <li id="findprices">
             <div>
                 Find Price
                 <i class="fa fa-building-o pull-right"></i>
@@ -24,49 +24,49 @@
                 <i class="fa fa-users pull-right"></i>
             </div>
         </li>
-        <li id="salesOrder">
+        <li id="salesorder">
             <div>
                 Sales Order
                 <i class="fa fa-users pull-right"></i>
             </div>
         </li>
-        <li id="purchaseOrder">
+        <li id="purchaseorder">
             <div>
                 Purchase Order
                 <i class="fa fa-building-o pull-right"></i>
             </div>
         </li>
-        <li id="receiveItem">
+        <li id="receiveitem">
             <div>
                 Receive Item
                 <i class="fa fa-building-o pull-right"></i>
             </div>
         </li>
-        <li id="purchaseInvoice">
+        <li id="purchaseinvoice">
             <div>
                 Purchase Invoice
                 <i class="fa fa-building-o pull-right"></i>
             </div>
         </li>
-        <li id="purchasePayment">
+        <li id="purchasepayment">
             <div>
                 Purhase Payment
                 <i class="fa fa-building-o pull-right"></i>
             </div>
         </li>
-        <li id="deliveryOrder">
+        <li id="suratjalan">
             <div>
                 Surat Jalan
                 <i class="fa fa-users pull-right"></i>
             </div>
         </li>
-        <li id="salesInvoice">
+        <li id="salesinvoice">
             <div>
                 Sales Invoice
                 <i class="fa fa-users pull-right"></i>
             </div>
         </li>
-        <li id="salesPayment">
+        <li id="salespayment">
             <div>
                 Sales Payment
                 <i class="fa fa-users pull-right"></i>
@@ -80,38 +80,162 @@
     </ol>
 </section>
 <script>
+    $(document).ready(function () {
+        (function ($) {
+            jQuery.fn.extend({
+                getPseudo: function (pseudo, prop) {
+                    var props = window.getComputedStyle(
+                      $(this).get(0), pseudo
+                    ).getPropertyValue(prop);
+                    return String(props);
+                },
+                setPseudo: function (_pseudo, _prop, newprop) {
+                    var elem = $(this);
+                    var s = $("style");
+                    var p = elem.getPseudo(_pseudo, _prop);
+                    var r = p !== "" ? new RegExp(p) : false;
+                    var selector = $.map(elem, function (val, key) {
+                        return [val.tagName
+                                , val.id
+                                  ? "#" + val.id : null
+                                , val.className ? "." + val.className : null]
+                    });
+                    var _setProp = "\n" + selector.join("")
+                      .toLowerCase()
+                      .concat(_pseudo)
+                      .concat("{")
+                      .concat(_prop + ":")
+                      .concat(newprop + "};");
+                    return ((!!r ? r.test($(s).text()) : r)
+                            ? $(s).text(function (index, prop) {
+                                return prop.replace(r, newprop)
+                            })
+                            : $(s).append(_setProp)
+                    );
+                }
+            })
+        })(jQuery);
+
+        @{
+            <text>document.styleSheets[0].insertRule('#@ViewContext.RouteData.Values["Controller"].ToString().ToLower()::after { border:3px solid ivory; }', 0);</text>
+            <text>document.styleSheets[0].cssRules[0].style.border = '3px solid ivory';</text>
+            List<String> elements = AdminLTE1.Helpers.GlobalFunction.getId(Convert.ToInt64(Session["project"]), 0);
+                foreach (String item in elements)
+                {
+                    if (AdminLTE1.Helpers.GlobalFunction.is_allowed(Convert.ToInt64(Session["project"]), item))
+                    {
+                        <text>document.styleSheets[0].insertRule('#@item::after { background-color: #F45B69; }', 0);</text>
+                        <text>document.styleSheets[0].cssRules[0].style.backgroundColor = '#F45B69';</text>
+                    }
+                    else
+                    {
+                        <text>document.styleSheets[0].insertRule('#@item::after { background-color: grey; }', 0);</text>
+                        <text>document.styleSheets[0].cssRules[0].style.backgroundColor = 'grey';</text>
+                        <text>document.styleSheets[0].insertRule('#@item::after { cursor: default; }', 0);</text>
+                        <text>document.styleSheets[0].cssRules[0].style.cursor = 'default';</text>
+                    }
+
+
+                }
+                List<String> elements1 = AdminLTE1.Helpers.GlobalFunction.getId(Convert.ToInt64(Session["project"]), 1);
+                foreach (String item in elements1)
+                {
+                        <text>document.styleSheets[0].insertRule('#@item::after { background-color: green; }', 0);</text>
+                        <text>document.styleSheets[0].cssRules[0].style.backgroundColor = 'green';</text>
+                }
+         }
+
+
+        //for (var i = 0; i < element.length; i++) {
+        //    $(element[i]).setPseudo("::after", "content", "'123'");
+        //}
+    });
+
+
     $("#rfq").after().click(function () {
-        document.location = "@Url.Action("index","RFQ")";
+        document.location = "@Url.Action("index", "RFQ")";
     });
-    $("#findPrices").after().click(function () {
-        document.location = "@Url.Action("index","FindPrices")";
+    @{
+        if (AdminLTE1.Helpers.GlobalFunction.is_allowed(Convert.ToInt64(Session["project"]), "findprices"))
+        {
+            <text>
+    $("#findprices").after().click(function () {
+        document.location = "@Url.Action("index", "FindPrices")";
     });
+    </text>
+        }
+        if (AdminLTE1.Helpers.GlobalFunction.is_allowed(Convert.ToInt64(Session["project"]), "penawaran"))
+        {
+            <text>
     $("#penawaran").after().click(function () {
         document.location = "@Url.Action("index","Penawaran")";
     });
-    $("#salesOrder").after().click(function () {
+    </text>
+        }
+        if (AdminLTE1.Helpers.GlobalFunction.is_allowed(Convert.ToInt64(Session["project"]), "salesorder"))
+        {
+            <text>
+    $("#salesorder").after().click(function () {
         document.location = "@Url.Action("index","SalesOrder")";
     });
-    $("#purchaseOrder").after().click(function () {
+    </text>
+        }
+        if (AdminLTE1.Helpers.GlobalFunction.is_allowed(Convert.ToInt64(Session["project"]), "purchaseorder"))
+        {
+            <text>
+    $("#purchaseorder").after().click(function () {
         document.location = "@Url.Action("index","PurchaseOrder")";
     });
-    $("#receiveItem").after().click(function () {
+    </text>
+        }
+        if (AdminLTE1.Helpers.GlobalFunction.is_allowed(Convert.ToInt64(Session["project"]), "receiveitem"))
+        {
+            <text>
+    $("#receiveitem").after().click(function () {
         document.location = "@Url.Action("index","ReceiveItem")";
     });
-    $("#purchaseInvoice").after().click(function () {
+    </text>
+        }
+        if (AdminLTE1.Helpers.GlobalFunction.is_allowed(Convert.ToInt64(Session["project"]), "purchaseinvoice"))
+        {
+            <text>
+    $("#purchaseinvoice").after().click(function () {
         document.location = "@Url.Action("index","PurchaseInvoice")";
     });
-    $("#purchasePayment").after().click(function () {
+    </text>
+        }
+        if (AdminLTE1.Helpers.GlobalFunction.is_allowed(Convert.ToInt64(Session["project"]), "purchasepayment"))
+        {
+            <text>
+    $("#purchasepayment").after().click(function () {
         document.location = "@Url.Action("index","PurchasePayment")";
     });
-    $("#deliveryOrder").after().click(function () {
+    </text>
+        }
+        if (AdminLTE1.Helpers.GlobalFunction.is_allowed(Convert.ToInt64(Session["project"]), "suratjalan"))
+        {
+            <text>
+    $("#suratjalan").after().click(function () {
         document.location = "@Url.Action("index","SuratJalan")";
     });
-    $("#salesInvoice").after().click(function () {
+    </text>
+        }
+        if (AdminLTE1.Helpers.GlobalFunction.is_allowed(Convert.ToInt64(Session["project"]), "salesinvoice"))
+        {
+            <text>
+    $("#salesinvoice").after().click(function () {
         document.location = "@Url.Action("index","SalesInvoice")";
     });
-    $("#salesPayment").after().click(function () {
+    </text>
+        }
+        if (AdminLTE1.Helpers.GlobalFunction.is_allowed(Convert.ToInt64(Session["project"]), "salespayment"))
+        {
+            <text>
+    $("#salespayment").after().click(function () {
         document.location = "@Url.Action("index","SalesPayment")";
     });
+    </text>
+        }
+    }
 </script>
 }
