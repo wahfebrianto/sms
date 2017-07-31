@@ -32,7 +32,7 @@ namespace AdminLTE1
     
         public long id { get; set; }
         public string name { get; set; }
-        public long customerid { get; set; }
+        public Nullable<long> customerid { get; set; }
         public long statusid { get; set; }
         public string description { get; set; }
         public byte status { get; set; }

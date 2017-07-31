@@ -21,6 +21,7 @@ namespace AdminLTE1
             this.hrfqs = new HashSet<hrfq>();
             this.hsalesorders = new HashSet<hsalesorder>();
             this.projects = new HashSet<project>();
+            this.hsalesinvoices = new HashSet<hsalesinvoice>();
         }
     
         public long id { get; set; }
@@ -39,5 +40,7 @@ namespace AdminLTE1
         public virtual ICollection<hsalesorder> hsalesorders { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<project> projects { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<hsalesinvoice> hsalesinvoices { get; set; }
     }
 }

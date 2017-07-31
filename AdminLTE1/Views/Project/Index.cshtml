@@ -35,7 +35,12 @@
                                                select r).ToList();
                             foreach (hrfq item in data)
                             {
-                                projects.Add(new AdminLTE1.Helpers.ActiveProject(item.id, item.project.name, item.project.customer.name, "RFQ", item.description, "RFQ"));
+                                try
+                                {
+                                     projects.Add(new AdminLTE1.Helpers.ActiveProject(item.id, item.project.name, item.project.customer.name, "RFQ", item.description, "RFQ"));
+                                }
+                                catch (Exception e) {
+                                }
                             }
 
                             List<findprice> data1 = (from r in db.findprices
@@ -43,7 +48,10 @@
                                                      select r).ToList();
                             foreach (findprice item in data1)
                             {
-                                projects.Add(new AdminLTE1.Helpers.ActiveProject(item.id, item.project.name, item.project.customer.name, "Find Price", item.description, "FindPrices"));
+                                try {
+                                    projects.Add(new AdminLTE1.Helpers.ActiveProject(item.id, item.project.name, item.project.customer.name, "Find Price", item.description, "FindPrices"));
+                                }
+                                catch (Exception e) { }
                             }
 
                             List<hpenawaran> data2 = (from r in db.hpenawarans
@@ -51,7 +59,10 @@
                                                       select r).ToList();
                             foreach (hpenawaran item in data2)
                             {
-                                projects.Add(new AdminLTE1.Helpers.ActiveProject(item.id, item.project.name, item.project.customer.name, "Penawaran", item.description, "Penawaran"));
+                                try {
+                                    projects.Add(new AdminLTE1.Helpers.ActiveProject(item.id, item.project.name, item.project.customer.name, "Penawaran", item.description, "Penawaran"));
+                                }
+                                catch (Exception e) { }
                             }
 
                             List<hsalesorder> data3 = (from r in db.hsalesorders
@@ -59,7 +70,10 @@
                                                        select r).ToList();
                             foreach (hsalesorder item in data3)
                             {
-                                projects.Add(new AdminLTE1.Helpers.ActiveProject(item.id, item.project.name, item.project.customer.name, "Sales Order", item.description, "SalesOrder"));
+                                try {
+                                    projects.Add(new AdminLTE1.Helpers.ActiveProject(item.id, item.project.name, item.project.customer.name, "Sales Order", item.description, "SalesOrder"));
+                                }
+                                catch (Exception e) { }
                             }
 
                             List<hpo> data4 = (from r in db.hpoes
@@ -67,7 +81,10 @@
                                                select r).ToList();
                             foreach (hpo item in data4)
                             {
-                                projects.Add(new AdminLTE1.Helpers.ActiveProject(item.id, item.project.name, item.project.customer.name, "Purchase Order", item.description, "PurchaseOrder"));
+                                try {
+                                    projects.Add(new AdminLTE1.Helpers.ActiveProject(item.id, item.project.name, item.project.customer.name, "Purchase Order", item.description, "PurchaseOrder"));
+                                }
+                                catch (Exception e) { }
                             }
 
                             List<hpurchaseinvoice> data5 = (from r in db.hpurchaseinvoices
@@ -75,7 +92,10 @@
                                                             select r).ToList();
                             foreach (hpurchaseinvoice item in data5)
                             {
-                                projects.Add(new AdminLTE1.Helpers.ActiveProject(item.id, item.project.name, item.project.customer.name, "Purchase Invoice", item.description, "PurchaseInvoice"));
+                                try {
+                                    projects.Add(new AdminLTE1.Helpers.ActiveProject(item.id, item.project.name, item.project.customer.name, "Purchase Invoice", item.description, "PurchaseInvoice"));
+                                }
+                                catch (Exception e) { }
                             }
 
                             List<purchasepayment> data6 = (from r in db.purchasepayments
@@ -83,7 +103,10 @@
                                                            select r).ToList();
                             foreach (purchasepayment item in data6)
                             {
-                                projects.Add(new AdminLTE1.Helpers.ActiveProject(item.id, item.project.name, item.project.customer.name, "Purchase Payment", item.description, "PurchasePayment"));
+                                try {
+                                    projects.Add(new AdminLTE1.Helpers.ActiveProject(item.id, item.project.name, item.project.customer.name, "Purchase Payment", item.description, "PurchasePayment"));
+                                }
+                                catch (Exception e) { }
                             }
 
                             List<hreceiveitem> data7 = (from r in db.hreceiveitems
@@ -91,7 +114,10 @@
                                                         select r).ToList();
                             foreach (hreceiveitem item in data7)
                             {
-                                projects.Add(new AdminLTE1.Helpers.ActiveProject(item.id, item.project.name, item.project.customer.name, "Receive Item", item.description, "ReceiveItem"));
+                                try {
+                                    projects.Add(new AdminLTE1.Helpers.ActiveProject(item.id, item.project.name, item.project.customer.name, "Receive Item", item.description, "ReceiveItem"));
+                                }
+                                catch (Exception e) { }
                             }
 
                             List<hsuratjalan> data8 = (from r in db.hsuratjalans
@@ -99,7 +125,10 @@
                                                        select r).ToList();
                             foreach (hsuratjalan item in data8)
                             {
-                                projects.Add(new AdminLTE1.Helpers.ActiveProject(item.id, item.project.name, item.project.customer.name, "Surat Jalan", item.description, "SuratJalan"));
+                                try {
+                                    projects.Add(new AdminLTE1.Helpers.ActiveProject(item.id, item.project.name, item.project.customer.name, "Surat Jalan", item.description, "SuratJalan"));
+                                }
+                                catch (Exception e) { }
                             }
 
                             List<hsalesinvoice> data9 = (from r in db.hsalesinvoices
@@ -107,7 +136,10 @@
                                                          select r).ToList();
                             foreach (hsalesinvoice item in data9)
                             {
-                                projects.Add(new AdminLTE1.Helpers.ActiveProject(item.id, item.project.name, item.project.customer.name, "Sales Invoice", item.description, "SalesInvoice"));
+                                try {
+                                    projects.Add(new AdminLTE1.Helpers.ActiveProject(item.id, item.project.name, item.project.customer.name, "Sales Invoice", item.description, "SalesInvoice"));
+                                }
+                                catch (Exception e) { }
                             }
 
                             List<hsalespayment> data10 = (from r in db.hsalespayments
@@ -115,15 +147,18 @@
                                                           select r).ToList();
                             foreach (hsalespayment item in data10)
                             {
-                                projects.Add(new AdminLTE1.Helpers.ActiveProject(item.id, item.project.name, item.project.customer.name, "Sales Payment", item.description, "SalesPayment"));
+                                try {
+                                    projects.Add(new AdminLTE1.Helpers.ActiveProject(item.id, item.project.name, item.project.customer.name, "Sales Payment", item.description, "SalesPayment"));
+                                }
+                                catch (Exception e) { }
                             }
 
                             foreach (AdminLTE1.Helpers.ActiveProject item in projects)
                             {
                                 <tr>
                                     <td class="hidden">@item.projectid</td>
-                                    <td>@item.status</td>
                                     <td>@item.customername</td>
+                                    <td>@item.status</td>
                                     <td>@item.project</td>
                                     <td>@item.desc</td>
                                     <td><a href="@Url.Action("index",item.link)?id=@item.projectid"><button type="button" class="btn btn-info">Detail</button></a></td>
@@ -131,62 +166,6 @@
                             }
                         }
                     }
-                    <tr>
-                        <td class="hidden">a</td>
-                        <td>a</td>
-                        <td>b</td>
-                        <td>a</td>
-                        <td>a</td>
-                        <td>a</td>
-                    </tr>
-                    <tr>
-                        <td class="hidden">a</td>
-                        <td>a</td>
-                        <td>b</td>
-                        <td>a</td>
-                        <td>a</td>
-                        <td>a</td>
-                    </tr>
-                    <tr>
-                        <td class="hidden">a</td>
-                        <td>a</td>
-                        <td>a</td>
-                        <td>a</td>
-                        <td>a</td>
-                        <td>a</td>
-                    </tr>
-                    <tr>
-                        <td class="hidden">a</td>
-                        <td>a</td>
-                        <td>a</td>
-                        <td>a</td>
-                        <td>a</td>
-                        <td>a</td>
-                    </tr>
-                    <tr>
-                        <td class="hidden">a</td>
-                        <td>a</td>
-                        <td>b</td>
-                        <td>b</td>
-                        <td>a</td>
-                        <td>a</td>
-                    </tr>
-                    <tr>
-                        <td class="hidden">a</td>
-                        <td>a</td>
-                        <td>b</td>
-                        <td>b</td>
-                        <td>a</td>
-                        <td>a</td>
-                    </tr>
-                    <tr>
-                        <td class="hidden">a</td>
-                        <td>a</td>
-                        <td>b</td>
-                        <td>b</td>
-                        <td>a</td>
-                        <td>a</td>
-                    </tr>
                 </tbody>
             </table>
         </div>
@@ -198,6 +177,7 @@
             "columnDefs": [
                 { "visible": false, "targets": 2 }
             ],
+            "aaSorting": [],
             "bPaginate": false,
             "drawCallback": function (settings) {
                 var api = this.api();

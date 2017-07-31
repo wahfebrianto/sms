@@ -98,7 +98,10 @@
                         <th class="col-md-4">
                             DESCRIPTION
                         </th>
+@if (AdminLTE1.Helpers.GlobalFunction.has_privilege(Session["user"].ToString(), "update and delete", "master_user"))
+{
                         <th class="col-md-3"></th>
+}
                     </tr>
                 </thead>
                 <tbody>
@@ -129,18 +132,25 @@
                                     <td>
                                         @item.description
                                     </td>
+@if (AdminLTE1.Helpers.GlobalFunction.has_privilege(Session["user"].ToString(), "update and delete", "master_user"))
+{
                                     <td class="text-center">
+                                        <button class="btn btn-github btn_reset" style="margin-right:10px;">Reset Password</button>
                                         <button type="button" class="btn btn-info assignRole" style="margin-right:10px;" data-toggle="modal" data-target="#myModal1">Assign Role</button>
                                         <button class="btn btn-success btn_edit" style="margin-right:10px;" data-toggle="modal" data-target="#myModal">Edit</button>
                                         <button class="btn btn-danger btn_delete">Delete</button>
                                     </td>
+}
                                 </tr>
                                                 }
                                             }
                     }
                 </tbody>
             </table>
+@if (AdminLTE1.Helpers.GlobalFunction.has_privilege(Session["user"].ToString(), "insert", "master_user"))
+{
             <button class="btn btn-primary pull-right" id="btn_add" data-toggle="modal" data-target="#myModal">Add New User</button>
+}
         </div>
     </div>
 </div>
@@ -166,6 +176,32 @@
                 temp = temp.replace('\\', '/');
                 temp = temp.replace(':/', '://');
                 window.location = '/Master/delete_user?userId=' + obj;
+            });
+
+        });
+        $(".btn_reset").click(function () {
+            var obj = $(this).parent().parent().children().eq(1).html().trim();
+            var nama = $(this).parent().parent().children().eq(2).html().trim();
+            swal({
+                title: "Are you sure to reset " + nama + "'s password ?",
+                text: "You can't edit it later",
+                type: "warning",
+                showCancelButton: true,
+                confirmButtonColor: "danger",
+                confirmButtonText: "Yes, Reset It!",
+                closeOnConfirm: false
+            }, function () {
+                $.ajax({
+                    type: "POST",
+                    url: "@Url.Action("reset_pass","Master")",
+                    data: { userid: obj },
+                success: function (data) {
+                    swal("Success!", nama + "'s Password has been resetted", "success");
+                },
+                error: function (xhr, status, error) {
+                    alert(xhr.responseText);
+                }
+            });
             });
 
         });

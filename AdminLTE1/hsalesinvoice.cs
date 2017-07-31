@@ -26,14 +26,15 @@ namespace AdminLTE1
         public string number { get; set; }
         public System.DateTime date { get; set; }
         public string terms { get; set; }
-        public string to { get; set; }
         public long total { get; set; }
         public string description { get; set; }
+        public long customerid { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<dsalesinvoice> dsalesinvoices { get; set; }
         public virtual project project { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<salesinvoicenote> salesinvoicenotes { get; set; }
+        public virtual customer customer { get; set; }
     }
 }

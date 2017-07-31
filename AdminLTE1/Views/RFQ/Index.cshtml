@@ -1,38 +1,117 @@
 ﻿@{
-    ViewBag.Title = "RFQ (Request For Quotation)";
+    String concat_title = "";
+    using (var db = new dbsmsEntities())
+    {
+        try
+        {
+            concat_title = db.projects.Find(Convert.ToInt64(Session["project"] ?? 0)).name;
+        }
+        catch { }
+    }
+    ViewBag.Title = "RFQ (Request For Quotation) - " + concat_title ?? "";
 }
 <div class="row">
     <div class="col-xs-12 col-md-12 col-lg-12">
         <div class="box box-default panel-body">
+            @if (Session["project"] == null)
+            {
+            <div class="modal inmodal fade" id="myModal" tabindex="-1" role="dialog" data-backdrop="static" data-keyboard="false">
+                <div class="modal-dialog modal-lg">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h4 class="modal-title">New Project</h4>
+                            <small class="font-bold"></small>
+                        </div>
+                        @using (Html.BeginForm("new_project", "RFQ", FormMethod.Post))
+                        {
+                            <div class="modal-body">
+                                <div class="form-group">
+                                    <label>Project Name : </label>
+                                    <input name="projectName" type="text" class="form-control" id="projectName" required />
+                                </div>
+                            </div>
+                            <div class="modal-footer">
+                                <a href="@Url.Action("Index", "Home")"><button type="button" class="btn btn-white">Cancel</button></a>
+                                <button type="submit" class="btn btn-primary">Save</button>
+                            </div>
+                        }
+                    </div>
+                </div>
+            </div>
+            }
+            <div class="modal inmodal fade" id="myModal11" tabindex="-1" role="dialog" aria-hidden="true">
+                <div class="modal-dialog modal-lg">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Cancel</span></button>
+                            <h4 class="modal-title">Add New Customer</h4>
+                            <small class="font-bold"></small>
+                        </div>
+                        <form method="POST">
+                            <input name="custId" type="hidden" class="form-control" id="custId" />
+                            <div class="modal-body">
+                                <div class="form-group">
+                                    <label>Customer Name : </label>
+                                    <input name="custName" type="text" class="form-control" id="custName" required />
+                                </div>
+                                <div class="form-group">
+                                    <label>Customer Address : </label>
+                                    <input name="custAddress" type="text" class="form-control" id="custAddress" required />
+                                </div>
+                                <div class="form-group">
+                                    <label>Customer City : </label>
+                                    <input name="custCity" type="text" class="form-control" id="custCity" required />
+                                </div>
+                                <div class="form-group">
+                                    <label>Customer Phone : </label>
+                                    <input name="custPhone" type="text" class="form-control" id="custPhone" required />
+                                </div>
+                                <div class="form-group">
+                                    <label>Customer Description : </label>
+                                    <textarea name="custDesc" class="form-control" id="custDesc"></textarea>
+                                </div>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-white" data-dismiss="modal" id="add-cancel">Cancel</button>
+                                <button type="submit" class="btn btn-primary" id="save-change">Save changes</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
             <div class="form-group col-xs-7 col-md-7 col-lg-7">
                 
-                <label for="quoteNumber">Quotation Number : </label> 
-                <input name="quoteNumber" class="form-control" type="text" />
+                @*<label for="quoteNumber">Quotation Number : </label> 
+                <input name="quoteNumber" class="form-control" type="text" />*@
                 <label for="quoteDate">Quotation Date : </label>
-                <input name="quoteDate" class="form-control" type="date"/>
+                <input id="quoteDate" name="quoteDate" class="form-control" type="date"/>
                 <label for="orderBy">Order By : </label></br>
-                <select class="form-control" name="orderBy">
-                    <option value="a">A</option>
-                    <option value="b">B</option>
-                    <option value="c">C</option>
+                <select class="form-control" name="orderBy" id="orderBy">
+                @{ 
+                    using (var db = new dbsmsEntities())
+                    {
+                        foreach (customer item in db.customers.Where(x => x.status == 1))
+                        {
+                            <option id="c-@item.id" value="@item.id" alamat="@item.address" kota="@item.city" telp="@item.phone">@item.name</option>
+                        }
+                    }
+                }
                 </select>
-                <button type="button" class="col-md-2 btn btn-dropbox pull-right">Tambah</button>
+                <button type="button" class="col-md-2 btn btn-dropbox pull-right" data-toggle="modal" data-target="#myModal11" id="btn-tambah-cust">Tambah</button>
                 <br /><br />
-                Address :<br />
-                <p>...</p>
                 <label for="quoteTo">Quote To : </label><br />
-                <textarea class="col-lg-6 col-md-6 col-xs-6" readonly></textarea><br /><br /><br />
-                <input id="difAddress" type="checkbox" />Different Address
+                <textarea cols="100" rows="5" id="quoteTo" readonly></textarea><br /><br />
+                <input id="difAddress" type="checkbox"  />Different Address
                 </div>
             <table id="myTable" class="table table-responsive table-bordered">
                 <thead>
                     <tr>
-                        <th>Item</th>
-                        <th>Description</th>
+                        <th class="col-md-2">Item</th>
+                        <th class="col-md-3">Description</th>
                         <th class="col-md-1">Qty</th>
-                        <th class="col-md-1">Unit Price</th>
-                        <th class="col-md-1">Sub Total</th>
-                        <th>Action</th>
+                        <th class="col-md-2">Unit Price</th>
+                        <th class="col-md-2">Sub Total</th>
+                        <th class="col-md-2">Action</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -42,14 +121,12 @@
             <br />
             <div>
                 <button id="addRow" class="pull-left btn btn-default clearfix">Add</button>
-                <br /><p class="pull-right">Total : Rp. 0,00</p>
+                <br /><p id="grandtotal" class="pull-right">Total : Rp. 0,00</p>
             </div>
             <br /><br />
             <div>
                 <label>Description : </label>
-                <textarea class="form-control col-md-5 col-lg-5 col-xs-5">
-
-                </textarea>
+                <textarea class="form-control col-md-5 col-lg-5 col-xs-5" id="txtDesc"></textarea>
             </div>
             <a href="#"><button id="btn_save" class="btn btn-success">Save</button></a>
             
@@ -58,31 +135,196 @@
 </div>
 <script type="text/javascript">
     $(document).ready(function () {
-        $("#btn_save").click(function () {
-                        swal({
-                            title: "Are you sure to save it?",
-                text: "You still can edit it later",
-                type: "warning",
-                showCancelButton: true,
-                confirmButtonColor: "success",
-                confirmButtonText: "Yes, Save It!",
-                closeOnConfirm: false
-                        }, function () {
-                            swal("Saved!", "Your data has been saved.", "success");
-                        });
+        Date.prototype.toDateInputValue = (function() {
+            var local = new Date(this);
+            local.setMinutes(this.getMinutes() - this.getTimezoneOffset());
+            return local.toJSON().slice(0,10);
+        });
+        $('#quoteDate').val(new Date().toDateInputValue());
+        var idkategori = [];
+        var namakategori = [];
+        @{
+            using (var db = new dbsmsEntities())
+            {
+                foreach (item_category item in db.item_category.Where(x => x.status == 1))
+                {
+                    <text>idkategori.push("@item.id");</text>
+                    <text>namakategori.push("@item.name");</text>
+                }
+            }
+        }
 
-                    });
-                    var t = $("#myTable").DataTable();
-                    t.columns.adjust().draw();
-        $('#myTable tbody').on('click',"button", function () {
-                        t
-                            .row($(this).parents('tr'))
-                            .remove()
-                            .draw();
-                    });
+        var selected = $("#orderBy").val();
+        var opt = $("#c-" + selected);
+        $("#quoteTo").val($(opt).attr("alamat") + "\n" + $(opt).attr("kota") + "\n" + $(opt).attr("telp"));
+        @if (Session["project"] == null)
+        {
+            <text>$("#myModal").modal('show');</text>
+        }
+        $("#orderBy").change(function () {
+            var selected = $(this).val();
+            var opt = $("#c-" + selected);
+            $("#quoteTo").val($(opt).html() + "\n" +$(opt).attr("alamat") + "\n" + $(opt).attr("kota") + "\n" + $(opt).attr("telp"));
+        });
+        $("#difAddress").parent().children().eq(1).click(function () {
+            if ($(this).parent().hasClass("checked")) {
+                $("#quoteTo").removeAttr("readonly");
+            }
+            else {
+                var selected = $("#orderBy").val();
+                var opt = $("#c-" + selected);
+                $("#quoteTo").val($(opt).attr("alamat") + "\n" + $(opt).attr("kota") + "\n" + $(opt).attr("telp"));
+                $("#quoteTo").attr("readonly", "readonly");
+            }
+        });
+        var t = $("#myTable").DataTable();
+        t.columns.adjust().draw();
+        $('#myTable tbody').on('click', "button", function () {
+            t
+                .row($(this).parents('tr'))
+                .remove()
+                .draw();
+        });
         $("#addRow").click(function () {
-                        var h = t.row.add(["<select class='col-md-10 newSelect'><option value='B'>Baju</option></select>", "<input type='text'/>", "<input type='number'/>", "<input type='number'/>", "Rp 0", "<button class='btn btn-danger'>Delete</button>"]).draw(false);
+            var selectKategori = "<select class='col-md-12 newSelect'>";
+            for (var i = 0; i < idkategori.length; i++)
+            {
+                selectKategori += "<option value='"+idkategori[i]+"'>"+namakategori[i]+"</option>";
+            }
+            selectKategori += "</select>";
+            var h = t.row.add([selectKategori, "<input class='form-control col-md-12' type='text' style='width:100%'></input>", "<input class='form-control col-md-12 barisqty' type='number' min='0' style='width:100%' value='0'/>", "<input class='form-control col-md-12 barisunitprice' min='0' type='number' style='width:100%' value='0'/>", "<p class='subtotal'>Rp 0</p>", "<button class='btn btn-danger'>Delete</button>"]).draw(false);
             $('.newSelect').select2();
+        });
+        $(document).on('input', ".barisqty", function (e) {
+            var qty = $(e.target).parent().parent().children().eq(2).children().eq(0).val();
+            var price = $(e.target).parent().parent().children().eq(3).children().eq(0).val();
+            qty = (qty == "") ? 0 : qty;
+            price = (price == "") ? 0 : price;
+            var sub = qty * price;
+            $(e.target).parent().parent().children().eq(4).children().eq(0).html("Rp " + (sub).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ","));
+        });
+        $(document).on('input', ".barisunitprice", function (e) {
+            var qty = $(e.target).parent().parent().children().eq(2).children().eq(0).val();
+            var price = $(e.target).parent().parent().children().eq(3).children().eq(0).val();
+            qty = (qty == "") ? 0 : qty;
+            price = (price == "") ? 0 : price;
+            var sub = qty * price;
+            $(e.target).parent().parent().children().eq(4).children().eq(0).html("Rp " + (sub).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ","));
+        });
+        $(document).on('DOMSubtreeModified', ".subtotal", function (e) {
+            var elements = $(".subtotal");
+            var total = 0;
+            for (var i = 0; i < elements.length; i++) {
+                total += parseInt($(elements[i]).html().toString().replace("Rp ", "").toString().replace(",", ""));
+            }
+            $("#grandtotal").html("Rp " + total.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ","));
+        });
+
+        $("#btn_save").click(function () {
+            //header
+            @if (Session["project"] != null) {
+                <text>
+                var quotedate = $("#quoteDate").val();
+                var orderBy = $("#orderBy").val();
+                var quoteto = $("#quoteTo").val();
+                var projectid = @(Session["project"].ToString()??"");
+                var description = $("#txtDesc").val();
+                var elements = $("#myTable tbody tr");
+                if($(elements).children().length > 1){
+                    var detail = "";
+                    for(var i=0;i<elements.length;i++){
+                        var item = $(elements[i]).children().eq(0).children().eq(0).val();
+                        var desc = $(elements[i]).children().eq(1).children().eq(0).val();
+                        var qty = $(elements[i]).children().eq(2).children().eq(0).val();
+                        var price = $(elements[i]).children().eq(3).children().eq(0).val();
+                        var sub = $(elements[i]).children().eq(4).children().eq(0).html();
+                        sub = sub.toString().replace("Rp ","").toString().replace(",","");
+                        detail += item+"Ё"+desc+"Ё"+qty+"Ё"+price+"Ё"+sub;
+                        detail += "ѥ";
+                    }
+                    swal({
+                        title: "Are you sure to save it?",
+                        text: "You still can edit it later",
+                        type: "warning",
+                        showCancelButton: true,
+                        confirmButtonColor: "success",
+                        confirmButtonText: "Yes, Save It!",
+                        closeOnConfirm: false
+                    }, function () {
+                        $.ajax({
+                            type: "POST",
+                            url: "@Url.Action("save_all","RFQ")",
+                            data: { date:quotedate,customerid:orderBy,to:quoteto,description:description,projectid:projectid,detail:detail },
+                            success: function (data) {
+                                if(data == "success"){
+                                    swal({
+                                        title: "Saved!",
+                                        text: "Your data has been saved.",
+                                        type: "success"
+                                    }, function () {
+                                        location.reload();
+                                    });
+                                }
+                                else{
+                                    swal("Failed!", "Something went wrong!", "error");
+                                }
+                            },
+                            error: function (xhr, status, error) {
+                                alert(xhr.responseText);
+                            }
+                        });
                     });
+                }
+                else{
+                    swal("Failed!", "Detail must not be empty", "error");
+                }
+                </text>
+            }
+
+
+        });
+
+        $("#btn-tambah-cust").click(function() {
+            $("#custName").val("");
+            $("#custAddress").val("");
+            $("#custCity").val("");
+            $("#custPhone").val("");
+            $("#custDesc").val("");
+        });
+
+        $("#save-change").click(function (){
+            if($("#custName").val() != "" && $("#custAddress").val() != "" && $("#custCity").val() != "" && $("#custPhone").val() != "")
+            {
+                $.ajax({
+                    type: "POST",
+                    url: "@Url.Action("save_customer","Master")",
+                    data: { custId: "", custName: $("#custName").val(), custDesc: $("#custDesc").val(), custAddress: $("#custAddress").val(),custCity: $("#custCity").val(),custPhone: $("#custPhone").val() , mode: 1},
+                    success: function (data) {
+                        $.ajax({
+                            type: "POST",
+                            url: "@Url.Action("get_max_id", "Master")",
+                            data: { tableName: "customer"},
+                            success: function (data) {
+                                $("#orderBy").append("<option id='c-"+data+"' value='"+data+"' alamat='"+$("#custAddress").val()+"' kota='"+$("#custCity").val()+"' telp='"+$("#custPhone").val()+"'>"+$("#custName").val()+"</option>");
+                                swal({
+                                    title: "Success!",
+                                    text: "Customer has been added!",
+                                    type: "success"
+                                }, function () {
+                                    $("#add-cancel").click();
+                                });
+                            },
+                            error: function (xhr, status, error) {
+                                alert("1"+xhr.responseText);
+                            }
+                        });
+                    },
+                    error: function (xhr, status, error) {
+                        alert("2"+xhr.responseText);
+                    }
                 });
+                return false;
+            }
+        });
+    });
 </script>

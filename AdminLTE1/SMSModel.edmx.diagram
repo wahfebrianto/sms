@@ -98,6 +98,7 @@
         <AssociationConnector Association="dbsmsModel.role_privilege" ManuallyRouted="false" />
         <AssociationConnector Association="dbsmsModel.user_role" ManuallyRouted="false" />
         <AssociationConnector Association="dbsmsModel.FK_findprices_projects1" />
+        <AssociationConnector Association="dbsmsModel.FK_hsalesinvoice_customers" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

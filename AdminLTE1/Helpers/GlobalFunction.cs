@@ -44,6 +44,15 @@ namespace AdminLTE1.Helpers
                                   select p.number.Substring(13, 3)).Max();
                     }
                 }
+                else if (mode.ToUpper() == "SO")
+                {
+                    using (var db = new dbsmsEntities())
+                    {
+                        urutan = (from p in db.hsalesorders
+                                  where p.number.Substring(0, 13) == code
+                                  select p.number.Substring(13, 3)).Max();
+                    }
+                }
                 else if (mode.ToUpper() == "SJ")
                 {
                     using (var db = new dbsmsEntities())
@@ -112,6 +121,59 @@ namespace AdminLTE1.Helpers
                 if (status_.purchasepayment == value) { elements.Add("purchasepayment"); }
             }
             return elements;
+        }
+
+        public static Boolean has_privilege(String username, String action, String table)
+        {
+            using (var db = new dbsmsEntities())
+            {
+
+                Boolean result = false;
+                try
+                {
+                    user userNow = (from u in db.users
+                                where u.username == username
+                                select u).First();
+                
+                    userNow.roles.ToList().ForEach(x =>
+                    {
+                        foreach (privilege item in x.privileges)
+                        {
+                            if (item.action == action && item.tablename == table)
+                                result = true;
+                        }
+                    });
+                }
+                catch { }
+                return result;
+            }
+        }
+
+        public static Int64 get_max_id(String tableName)
+        {
+            Int64 id = -999;
+            using (var db = new dbsmsEntities())
+            {
+                if (tableName == "customer")
+                    id = (from i in db.customers
+                                select i.id).Max();
+                else if (tableName == "hrfq")
+                    id = (from i in db.hrfqs
+                          select i.id).Max();
+                else if (tableName == "supplier")
+                    id = (from i in db.suppliers
+                          select i.id).Max();
+                else if (tableName == "findprices")
+                    id = (from i in db.findprices
+                          select i.id).Max();
+                else if (tableName == "hpenawaran")
+                    id = (from i in db.hpenawarans
+                          select i.id).Max();
+                else if (tableName == "hsalesorder")
+                    id = (from i in db.hsalesorders
+                          select i.id).Max();
+            }
+            return id;
         }
     }
 }

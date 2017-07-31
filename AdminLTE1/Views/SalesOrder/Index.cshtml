@@ -1,7 +1,24 @@
 ﻿
 @{
-    ViewBag.Title = "Sales Order";
-}
+    String concat_title = "";
+    using (var db = new dbsmsEntities())
+    {
+        try
+        {
+            concat_title = db.projects.Find(Convert.ToInt64(Session["project"] ?? 0)).name;
+        }
+        catch { }
+    }
+    ViewBag.Title = "Sales Order - " + concat_title ?? "";
+    System.Globalization.CultureInfo indonesia = new System.Globalization.CultureInfo("id-ID");
+    hpenawaran hpenawaran_ = null;
+    List<dpenawaran> dpenawaran_ = null;
+    using (var db = new dbsmsEntities())
+    {
+        hpenawaran_ = db.projects.Find(Convert.ToInt64(Session["project"])).hpenawarans.First();
+        dpenawaran_ = db.projects.Find(Convert.ToInt64(Session["project"])).hpenawarans.First().dpenawarans.ToList();
+
+
 <div class="row">
     <div class="col-md-12 col-lg-12 col-sm-12">
         <div class="box box-default panel-body">
@@ -10,30 +27,27 @@
                     <div class="modal-content">
                         <div class="modal-header">
                             <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Cancel</span></button>
-                            <h4 class="modal-title">Add Item</h4>
+                            <h4 class="modal-title">Edit Item</h4>
                             <small class="font-bold"></small>
                         </div>
                         <div class="modal-body">
                             <div class="form-group">
                                 <label>Item : </label>
-                                <select class="form-control">
-                                    <option value="a">J030</option>
-                                    <option value="b">J031</option>
-                                </select>
+                                <input type="text" class="form-control" id="txtItem" readonly/>
                             </div>
                             <div class="form-group">
                                 <label>Description : </label>
-                                <textarea class="form-control" disabled></textarea>
+                                <textarea class="form-control" id="txtItemDesc" disabled></textarea>
                             </div>
                             <div class="form-group">
                                 <label>Qty : </label>
-                                <input type="number" min="0" class="form-control"/>
+                                <input type="number" min="0" id="txtQty" class="form-control" onchange="refreshSub()" onkeyup="refreshSub()"/>
                             </div>
                             <div class="form-group">
                                 <label>Unit Price : </label>
                                 <div class="input-group">
                                     <span class="input-group-addon">Rp</span>
-                                    <input type="number" min="0" class="form-control"/>
+                                    <input type="number" min="0" step="100" id="txtUnitPrice" class="form-control" onchange="refreshSub()" onkeyup="refreshSub()"/>
                                 </div>
 
                             </div>
@@ -41,45 +55,51 @@
                                 <label>Sub Total : </label>
                                 <div class="input-group">
                                     <span class="input-group-addon">Rp</span>
-                                    <input type="number" min="0" class="form-control" disabled />
+                                    <input type="number" min="0" id="txtSubtotal" class="form-control" disabled />
                                 </div>
                             </div>
                         </div>
                         <div class="modal-footer">
-                            <button type="button" class="btn btn-white" data-dismiss="modal">Cancel</button>
-                            <button type="button" class="btn btn-primary">Save changes</button>
+                            <button type="button" class="btn btn-white" data-dismiss="modal" id="btnEditCancel">Cancel</button>
+                            <button type="button" class="btn btn-primary" id="btnEditSave" data-dismiss="modal" >Save changes</button>
                         </div>
                     </div>
                 </div>
             </div>
-            <form>
                 <div class="row">
-                    <div class="form-group col-md-6">
+                    @*<div class="form-group col-md-6">
                         <label for="SONumber">SO Number: </label>
                         <input name="SONumber" type="text" class="form-control" />
-                    </div>
+                    </div>*@
                     <div class="form-group  col-md-6">
                         <label>SO Date : </label>
-                        <input type="date" class="form-control" />
+                        <input type="date" class="form-control" id="soDate"/>
                     </div>
                     <div class="form-group col-md-6">
                         <label>Terms : </label>
-                        <select class="form-control">
-                            <option value="1">C.O.D</option>
-                            <option value="2">Transfer</option>
+                        <select class="form-control" id="terms">
+                            <option value="C.O.D">C.O.D</option>
+                            <option value="Transfer">Transfer</option>
                         </select>
                     </div>
                     <div class="form-group col-md-6">
                         <label>Expected Date : </label>
-                        <input type="date" class="form-control" />
+                        <input type="date" class="form-control" id="expectedDate"/>
                     </div>
                     <div class="form-group col-md-6">
                         <label>Customer : </label>
-                        <textarea class="form-control"></textarea>
+                        <input type="text" class="form-control" id="customer" readonly customerid ="@hpenawaran_.customerid" value="@hpenawaran_.customer.name"/>
                     </div>
-                    <div class="form-group col-md-12">
+                    <div class="form-group col-md-6">
+                        <label>Design : </label>
+                        <div class="input-group">
+                            <span class="input-group-addon"><input id="useDesign" type="checkbox" /></span>
+                            <input type="date" class="form-control" id="designDate" disabled />
+                        </div>
+                    </div>
+                    <div class="form-group col-md-6">
                         <label>Description : </label>
-                        <textarea class="form-control"></textarea>
+                        <textarea class="form-control" id="description"></textarea>
                     </div>
                 </div>
                 <div class="row">
@@ -89,10 +109,13 @@
                         <table id="myTable" class="table table-hover table-bordered">
                             <thead>
                                 <tr>
-                                    <th class="col-md-2">Item</th>
+                                    <th class="hidden">ItemCatId</th>
+                                    <th class="col-md-2">Item Category</th>
                                     <th class="col-md-2">Description</th>
                                     <th class="col-md-2">Qty</th>
+                                    <th class="hidden">Real Unit Price</th>
                                     <th class="col-md-2">Unit Price</th>
+                                    <th class="hidden">Real Subtotal</th>
                                     <th class="col-md-2">Sub Total</th>
                                     <th class="col-md-2">Action</th>
                                 </tr>
@@ -100,85 +123,212 @@
                             <tfoot>
                                 <tr>
                                     <th colspan="4" style="text-align:right">Total Order:</th>
-                                    <th colspan="2"></th>
+                                    <th colspan="2">Rp<span id="total1"></span>,00</th>
                                 </tr>
                                 <tr>
                                     <th colspan="4" style="text-align:right">Down Payment:</th>
-                                    <th colspan="2"><input class="text-left" type="number" value="0" id="downpayment"/></th>
+                                    <th colspan="2"><input class="text-left" type="number" value="0" min="0" step="100" id="downpayment" onchange="calculateAgain()" onkeyup="calculateAgain()"/></th>
                                 </tr>
                                 <tr>
                                     <th colspan="4" style="text-align:right">Remaining Payment:</th>
-                                    <th colspan="2" id="remainingpayment"></th>
+                                    <th colspan="2">Rp<span id="total2"></span>,00</th>
                                 </tr>
                             </tfoot>
                             <tbody>
-                                <tr>
-                                    <td>J030</td>
-                                    <td>Brosur A4 AP150 2 sisi</td>
-                                    <td>10000</td>
-                                    <td>Rp. 280.3</td>
-                                    <td>Rp. 170750</td>
-                                    <td class="text-center"><button type="button" class="btn btn-warning btn_edit" data-toggle="modal" data-target="#myModal">Edit</button> <button type="button" class="btn btn-danger">Delete</button></td>
-                                </tr>
+                                @{ 
+                                        int i = 1;
+                                        foreach (dpenawaran item in db.projects.Find(Convert.ToInt64(Session["project"])).hpenawarans.First().dpenawarans.ToList())
+                                        {
+                                            <tr>
+                                                <td class="hidden">@item.itemcategoryid</td>
+                                                <td>@item.item_category.name</td>
+                                                <td>@item.itemdescription</td>
+                                                <td>@item.qty</td>
+                                                <td class="hidden">@item.unitprice</td>
+                                                <td>@item.unitprice.ToString("C2", indonesia)</td>
+                                                <td class="hidden subtotal">@(item.qty * item.unitprice)</td>
+                                                <td>@((item.qty * item.unitprice).ToString("C2", indonesia))</td>
+                                                <td class="text-center"><button type="button" class="btn btn-warning btn_edit" data-toggle="modal" data-target="#myModal">Edit</button> <button type="button" class="btn btn-danger btn_delete">Delete</button></td>
+                                            </tr>
+                                        }
+
+                                }
                             </tbody>
                         </table>
                     </div>
                     <div class="col-md-12">
-                        <a href="@Url.Action("Index","SalesOrder")"><button class="btn btn-lg btn-success pull-right" style="margin-left:10px;">Save</button></a>
-                        <button class="btn btn-lg btn-primary pull-right">Reset</button>
+                        <button class="btn btn-lg btn-success pull-right" style="margin-left:10px;" id="btn_save">Save</button>
+                        <button class="btn btn-lg btn-primary pull-right" id="btn_reset">Reset</button>
                     </div>
                 </div>
-            </form>
         </div>
     </div>
 
 </div>
-
+    }
+}
 <script type="text/javascript">
+    function refreshSub() {
+        $('#txtSubtotal').val($('#txtQty').val() * $('#txtUnitPrice').val());
+    }
+    function calculateAgain() {
+        var elements = $(".subtotal");
+        var total = 0;
+        for (var i = 0; i < elements.length; i++) {
+            total += parseInt($(elements[i]).html());
+        }
+        $("#total1").html(total.toString().replace(/\B(?=(\d{3})+(?!\d))/g, "."));
+        var disc = $("#downpayment").val();
+        total -= disc;
+        $("#total2").html(total.toString().replace(/\B(?=(\d{3})+(?!\d))/g, "."));
+    }
     $(document).ready(function () {
+        calculateAgain();
+        var nowEdit;
+        Date.prototype.toDateInputValue = (function () {
+            var local = new Date(this);
+            local.setMinutes(this.getMinutes() - this.getTimezoneOffset());
+            return local.toJSON().slice(0, 10);
+        });
+        var t = $('#myTable').DataTable();
+        $("#useDesign").parent().children().eq(1).click(function () {
+            if ($(this).parent().hasClass("checked")) {
+                $("#designDate").removeAttr("disabled");
+            }
+            else {
+                $("#designDate").attr("disabled", "disabled");
+            }
+        });
+        $('#soDate').val(new Date().toDateInputValue());
+        $('#designDate').val(new Date().toDateInputValue());
+        $('#expectedDate').val(new Date().toDateInputValue());
         $('.btn_edit').click(function () {
             $('#myModal h4').html('Edit Item');
         });
         $('#btn_add').click(function () {
             $('#myModal h4').html('Add Item');
         });
-        $('#myTable').DataTable({
-            "footerCallback": function (row, data, start, end, display) {
-                var api = this.api(), data;
+        $('#btn_reset').click(function () {
+            location.reload();
+        });
+        $('.btn_edit').click(function () {
+            nowEdit = $(this).parent().parent();
+            $('#txtItem').val('');
+            $('#txtItem').attr('itemcatid', '');
+            $('#txtItemDesc').val('');
+            $('#txtQty').val(0);
+            $('#txtUnitPrice').val(0);
+            $('#txtSubtotal').val(0);
+            var itemcatid = $(this).parent().parent().children().eq(0).html();
+            var itemcatname = $(this).parent().parent().children().eq(1).html();
+            var itemdesc = $(this).parent().parent().children().eq(2).html();
+            var itemqty = $(this).parent().parent().children().eq(3).html();
+            var itemunitprice = $(this).parent().parent().children().eq(4).html();
+            var itemsubtotal = $(this).parent().parent().children().eq(6).html();
+            $('#txtItem').val(itemcatname);
+            $('#txtItem').attr('itemcatid', itemcatid);
+            $('#txtItemDesc').val(itemdesc);
+            $('#txtQty').val(itemqty);
+            $('#txtUnitPrice').val(itemunitprice);
+            $('#txtSubtotal').val(itemsubtotal);
+        });
+        $('#myTable tbody').on('click', ".btn_delete", function () {
+            var baris = $(this).parents('tr');
+            swal({
+                title: "Are you sure want to delete it?",
+                text: "You can't edit it later",
+                type: "warning",
+                showCancelButton: true,
+                confirmButtonColor: "danger",
+                confirmButtonText: "Yes, Delete It!",
+                closeOnConfirm: true
+            }, function () {
+                t
+                .row(baris)
+                .remove()
+                .draw();
+                calculateAgain();
+            });
+        });
+        $('#btnEditSave').click(function () {
+            var itemqty = $('#txtQty').val();
+            var itemunitprice =  $('#txtUnitPrice').val();
+            var itemsubtotal = $('#txtSubtotal').val();
+            $(nowEdit).children().eq(3).html(itemqty);
+            $(nowEdit).children().eq(4).html(itemunitprice);
+            $(nowEdit).children().eq(5).html('Rp' + itemunitprice.toString().replace(/\B(?=(\d{3})+(?!\d))/g, "."));
+            $(nowEdit).children().eq(6).html(itemsubtotal);
+            $(nowEdit).children().eq(7).html('Rp' + itemsubtotal.toString().replace(/\B(?=(\d{3})+(?!\d))/g, "."));
+            calculateAgain();
+        });
 
-                // Remove the formatting to get integer data for summation
-                var intVal = function (i) {
-                    return typeof i === 'string' ?
-                        i.replace('Rp. ', '') * 1 :
-                        typeof i === 'number' ?
-                        i : 0;
-                };
-
-                // Total over all pages
-                total = api
-                    .column(4)
-                    .data()
-                    .reduce(function (a, b) {
-                        return intVal(a) + intVal(b);
-                    }, 0);
-
-                dp = $('#downpayment').val();
-
-                //// Total over this page
-                //pageTotal = api
-                //    .column(4, { page: 'current' })
-                //    .data()
-                //    .reduce(function (a, b) {
-                //        return intVal(a) + intVal(b);
-                //    }, 0);
-
-                // Update footer
-                $(api.column(4).footer()).html(
-                    'Rp. ' + total
-                );
-
-                $('#remainingpayment').html('Rp. ' + (total - dp));
+        $("#btn_save").click(function () {
+            //header
+            @if (Session["project"] != null) {
+                <text>
+                var sodate = $("#soDate").val();
+                var expecteddate = $("#expectedDate").val();
+                var designdate = $("#designDate").val();
+                var projectid = @(Session["project"].ToString()??"");
+                var terms = $("#terms").val();
+                var desc = $("#description").val();
+                var customer = $("#customer").attr('customerid');
+                var usedesign = $('#useDesign').parent().attr('aria-checked');
+                var total = parseInt($("#total1").html().toString().replace(/\./g, ""));
+                var dp = $("#downpayment").val();
+                var remainingpayment = parseInt($("#total2").html().toString().replace(/\./g, ""));
+                var elements = $("#myTable tbody tr");
+                if($(elements).children().length > 1){
+                    var detail = "";
+                    for(var i=0;i<elements.length;i++){
+                        var itemcatid = $(elements[i]).children().eq(0).html();
+                        var itemdescription = $(elements[i]).children().eq(2).html();
+                        var qty = $(elements[i]).children().eq(3).html();
+                        var unitprice =$(elements[i]).children().eq(4).html();
+                        var subtotal = qty*unitprice;
+                        detail += itemcatid+"Ё"+itemdescription+"Ё"+qty+"Ё"+unitprice+"Ё"+subtotal;
+                        detail += "ѥ";
+                    }
+                    swal({
+                        title: "Are you sure to save it?",
+                        text: "You can't edit it later",
+                        type: "warning",
+                        showCancelButton: true,
+                        confirmButtonColor: "success",
+                        confirmButtonText: "Yes, Save It!",
+                        closeOnConfirm: false
+                    }, function () {
+                        $.ajax({
+                            type: "POST",
+                            url: "@Url.Action("save_all","SalesOrder")",
+                            data: { sodate:sodate,expecteddate:expecteddate,dp:dp,designdate:designdate,terms:terms,tcustomer:customer,projectid:projectid,desc:desc,usedesign:usedesign,total:total,remainingpayment:remainingpayment,detail:detail },
+                        success: function (data) {
+                            if(data == "success"){
+                                swal({
+                                    title: "Saved!",
+                                    text: "Your data has been saved.",
+                                    type: "success"
+                                }, function () {
+                                    location.reload();
+                                });
+                            }
+                            else{
+                                swal("Failed!", "Something went wrong!", "error");
+                            }
+                        },
+                        error: function (xhr, status, error) {
+                            alert(xhr.responseText);
+                        }
+                    });
+                });
             }
+            else{
+                swal("Failed!", "Detail must not be empty", "error");
+            }
+            </text>
+        }
+
+
         });
     });
 </script>

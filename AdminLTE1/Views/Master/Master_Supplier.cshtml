@@ -56,22 +56,25 @@
                         <th class="col-md-1 hidden">
                             ID
                         </th>
-                        <th class="col-md-4">
+                        <th class="col-md-2">
                             NAME
                         </th>
-                        <th class="col-md-5">
+                        <th class="col-md-2">
                             ADDRESS
                         </th>
-                        <th class="col-md-5">
+                        <th class="col-md-1">
                             CITY
                         </th>
-                        <th class="col-md-5">
+                        <th class="col-md-2">
                             PHONE
                         </th>
-                        <th class="col-md-5">
+                        <th class="col-md-2">
                             DESCRIPTION
                         </th>
+@if (AdminLTE1.Helpers.GlobalFunction.has_privilege(Session["user"].ToString(), "update and delete", "master_supplier"))
+{
                         <th class="col-md-2"></th>
+}
                     </tr>
                 </thead>
                 <tbody>
@@ -108,17 +111,23 @@
                                     <td>
                                         @item.description
                                     </td>
+@if (AdminLTE1.Helpers.GlobalFunction.has_privilege(Session["user"].ToString(), "update and delete", "master_supplier"))
+{
                                     <td class="text-center">
                                         <button class="btn btn-success btn_edit" style="margin-right:10px;" data-toggle="modal" data-target="#myModal">Edit</button>
                                         <button class="btn btn-danger btn_delete">Delete</button>
                                     </td>
+}
                                 </tr>
                                                 }
                                             }
                     }
                 </tbody>
             </table>
+@if (AdminLTE1.Helpers.GlobalFunction.has_privilege(Session["user"].ToString(), "insert", "master_supplier"))
+{
             <button class="btn btn-primary pull-right" id="btn_add" data-toggle="modal" data-target="#myModal">Add New Supplier</button>
+}
         </div>
     </div>
 </div>

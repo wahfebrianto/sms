@@ -9,6 +9,12 @@ namespace AdminLTE1.Controllers
     {
         public ActionResult Index()
         {
+            Session["user"] = Session["user"]??"";
+            bool isDebug = true;
+            if (isDebug)
+            {
+                Session["project"] = 22;
+            }
             return View();
         }
 
@@ -35,7 +41,6 @@ namespace AdminLTE1.Controllers
                 }
                 catch (System.Exception e)
                 {
-                    Console.WriteLine("WOIIIIIIIIII : "+e.Message);
                     return "0";
                 }
             }

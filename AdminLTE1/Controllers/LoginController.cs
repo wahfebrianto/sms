@@ -13,7 +13,7 @@ namespace AdminLTE1.Controllers
         public ActionResult Index()
         {
             Session.Timeout = 60;
-            Session["user"] = null;
+            Session["user"] = "";
             ViewBag.Title = "Login";
             ViewBag.message = TempData["message"];
             return View();
@@ -29,8 +29,7 @@ namespace AdminLTE1.Controllers
                                 where u.username == username && u.password == password
                                 select u).First();
                     Session["user"] = usr.username;
-                    Session["project"] = 1;
-                    Response.Redirect(Url.Action("Index", "Home"));
+                    return RedirectToAction("Index", "Home");
                 }
                 catch (Exception)
                 {

@@ -1,54 +1,76 @@
 ﻿@{
-    ViewBag.Title = "Find Prices";
+    String concat_title = "";
+    using (var db = new dbsmsEntities())
+    {
+        try
+        {
+            concat_title = db.projects.Find(Convert.ToInt64(Session["project"] ?? 0)).name;
+        }
+        catch { }
+    }
+    ViewBag.Title = "Find Prices - " + concat_title ?? "";
 }
 <div class="row">
     <div class="col-xs-12 col-md-12 col-lg-12">
         <div class="box box-default panel-body">
+            <div class="modal inmodal fade" id="myModal" tabindex="-1" role="dialog" aria-hidden="true">
+                <div class="modal-dialog modal-lg">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Cancel</span></button>
+                            <h4 class="modal-title">Add New Supplier</h4>
+                            <small class="font-bold"></small>
+                        </div>
+                        <form method="POST">
+                            <input name="suppId" type="hidden" class="form-control" id="suppId" />
+                            <div class="modal-body">
+                                <div class="form-group">
+                                    <label>Supplier Name : </label>
+                                    <input name="suppName" type="text" class="form-control" id="suppName" required />
+                                </div>
+                                <div class="form-group">
+                                    <label>Supplier Address : </label>
+                                    <input name="suppAddress" type="text" class="form-control" id="suppAddress" required />
+                                </div>
+                                <div class="form-group">
+                                    <label>Supplier City : </label>
+                                    <input name="suppCity" type="text" class="form-control" id="suppCity" required />
+                                </div>
+                                <div class="form-group">
+                                    <label>Supplier Phone : </label>
+                                    <input name="suppPhone" type="text" class="form-control" id="suppPhone" required />
+                                </div>
+                                <div class="form-group">
+                                    <label>Supplier Description : </label>
+                                    <textarea name="suppDesc" class="form-control" id="suppDesc"></textarea>
+                                </div>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-white" data-dismiss="modal" id="supp-cancel">Cancel</button>
+                                <button type="submit" class="btn btn-primary" id="supp-save">Save changes</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
             <label>List of Supplier</label>
             <table id="myTable" class="table table-hover">
                 <thead>
                     <tr>
-                        <th class="col-md-1">No</th>
+                        <th class="hidden">supplier-id</th>
                         <th class="col-md-2">Supplier</th>
+                        <th class="hidden">item-id</th>
                         <th class="col-md-2">Item</th>
                         <th class="col-md-1">Qty</th>
+                        <th class="hidden">real-price</th>
                         <th class="col-md-1">Unit Price</th>
+                        <th class="hidden">real-time</th>
                         <th class="col-md-1">Time Needed</th>
-                        <th class="col-md-2">Description</th>
+                        <th class="col-md-3">Description</th>
                         <th class="col-md-2">Action</th>
                     </tr>
                 </thead>
                 <tbody>
-                    <tr>
-                        <td>1</td>
-                        <td>PT Sumber Untung</td>
-                        <td>Kertas A5</td>
-                        <td>100</td>
-                        <td>Rp 1.000,00</td>
-                        <td>7 Days</td>
-                        <td>Beli 5 bonus 1</td>
-                        <td><button class="btn btn-info col-md-5" onclick='clickcth1()'>Edit</button><span class="pull-right col-md-7"><button class="btn btn-danger col-md-12">Delete</button></span></td>
-                    </tr>
-                    <tr>
-                        <td>2</td>
-                        <td>PT Sumber Untung 2</td>
-                        <td>Kertas A5</td>
-                        <td>100</td>
-                        <td>Rp 1.000,00</td>
-                        <td>2 Days</td>
-                        <td>Beli 5 bonus 1</td>
-                        <td><a href="#"><button class="btn btn-info col-md-5">Edit</button></a><span class="pull-right col-md-7"><button class="btn btn-danger col-md-12">Delete</button></span></td>
-                    </tr>
-                    <tr>
-                        <td>3</td>
-                        <td>PT Sumber Untung 3</td>
-                        <td>Kertas A5</td>
-                        <td>100</td>
-                        <td>Rp 1.000,00</td>
-                        <td>6 Days</td>
-                        <td>Beli 5 bonus 1</td>
-                        <td><a href="#"><button class="btn btn-info col-md-5">Edit</button></a><span class="pull-right col-md-7"><button class="btn btn-danger col-md-12">Delete</button></span></td>
-                    </tr>
                 </tbody>
             </table>
             <div class="form-horizontal col-md-6">
@@ -56,15 +78,18 @@
                     <label class="col-md-3 control-label">Supplier : </label>
                     <div class="col-md-7 pull-left">
                         <select id="cbsupplier" class="form-control">
-                            <option>PT Sumber Rezeki</option>
-                            <option>PT Sumber Rezeki 1</option>
-                            <option>PT Sumber Rezeki 2</option>
-                            <option>PT Sumber Untung</option>
-                            <option>PT Sumber Untung 2</option>
-                            <option>PT Sumber Untung 3</option>
+                            @{
+                                using (var db = new dbsmsEntities())
+                                {
+                                    foreach (supplier item in db.suppliers.Where(x => x.status == 1))
+                                    {
+                                        <option id="s-@item.id" value="@item.id" alamat="@item.address" kota="@item.city" telp="@item.phone">@item.name</option>
+                                    }
+                                }
+                            }
                         </select>
                     </div>
-                    <button type="button" class="col-md-2 btn btn-dropbox pull-right">Tambah</button>
+                    <button type="button" class="col-md-2 btn btn-dropbox pull-right" data-toggle="modal" data-target="#myModal" id="btn-tambah-supp">Tambah</button>
                 </div>
                 <div class="form-group">
                     <label class="col-md-3 control-label"></label>
@@ -76,16 +101,22 @@
                     <label class="col-md-3 control-label">Item : </label>
                     <div class="col-md-9">
                         <select id="cbitem" class="form-control">
-                            <option>Kertas A5</option>
-                            <option>Kertas A5 1</option>
-                            <option>Kertas A5 2</option>
+                            @{
+                                using (var db = new dbsmsEntities())
+                                {
+                                    foreach (drfq item in db.projects.Find(Session["project"]).hrfqs.First().drfqs)
+                                    {
+                                        <option id="i-@item.id" value="@item.id" >@item.itemdescription</option>
+                                    }
+                                }
+                            }
                         </select>
                     </div>
                 </div>
                 <div class="form-group id="data_2">
                     <label class="col-md-3 control-label">Qty : </label>
                     <div class="col-md-9">
-                        <input type="number" class="form-control" name="txtqty" id="txtqty" value="1">
+                        <input type="number" class="form-control" name="txtqty" id="txtqty" value="1" min="1">
                     </div>
                 </div>
                 <div class="form-group">
@@ -93,7 +124,7 @@
                     <div class="col-md-9">
                         <div class="input-group">
                             <span class="input-group-addon">Rp</span>
-                            <input id="txtprice" type="text" class="form-control">
+                            <input id="txtprice" type="number" class="form-control" value="0" min="0" step="1000">
                             <span class="input-group-addon">.00</span>
                         </div>
                     </div>
@@ -102,7 +133,7 @@
                     <label class="col-md-3 control-label">Time Needed : </label>
                     <div class="col-md-9">
                         <div class="input-group">
-                            <input type="number" class="form-control" name="timeneeded" id="timeneeded" value="1">
+                            <input type="number" class="form-control" name="timeneeded" id="timeneeded" value="1" min="1">
                             <span class="input-group-addon">Days</span>
                         </div>
                     </div>
@@ -114,64 +145,202 @@
                     </div>
                 </div>
                 <div class="form-group">
-                    <span id="spanNew" class="pull-right col-md-3" onclick="reset()" hidden><a href="#"><button id="btnNew" class="btn btn-success col-md-12">New</button></a></span>
-                    <span id="spanAdd" class="pull-right col-md-3" onclick="klikadd()"><a href="#"><button id="btnAdd" class="btn btn-success col-md-12">Add</button></a></span>
-                    <span id="spanUpdate" class="pull-right col-md-3""><a href="#"><button id="btnUpdate" class="btn btn-success col-md-12" disabled>Update</button></a></span>
+                    <span id="spanAdd" class="pull-right col-md-3"><button id="btnAdd" class="btn btn-success col-md-12">Add</button></span>
+                    <span id="spanUpdate" class="pull-right col-md-3""><button id="btnUpdate" class="btn btn-success col-md-12" disabled>Update</button></span>
+                    <span id="spanNew" class="pull-right col-md-3" onclick="reset()" hidden><button id="btnNew" class="btn btn-success col-md-12">New</button></span>
                 </div>
             </div>
-            <span id="spanSave" class="pull-right col-md-3"><a href="#"><button id="btnSave" class="btn btn-lg btn-primary col-md-12">Save</button></a></span>
+            <span id="spanSave" class="pull-right col-md-3"><button id="btnSave" class="btn btn-lg btn-primary col-md-12">Save</button></span>
         </div>
     </div>
 </div>
 
 <script>
-    function clickcth1() {
-        $("#cbsupplier").val("Sumber Untung");
-        $("#txtalamat").val("Alamat Sumber Untung");
-        $("#cbitem").val("Kertas A5");
-        $("#txtprice").val("1000");
-        $("#txtqty").val(100);
-        $("#timeneeded").val(7);
-        $("#txtdesc").val("Beli 5 bonus 1");
-        $("#spanNew").show();
-        $("#spanAdd").hide();
-        $("#btnUpdate").prop("disabled",false);
-    }
+    var edited = "";
 
     function reset() {
-        $("#cbsupplier").val("");
-        $("#txtalamat").val("");
-        $("#cbitem").val("");
-        $("#txtprice").val("");
+        $("#cbsupplier").val($("#cbsupplier").children().eq(0).val()).trigger("change.select2");
+        var selected = $("#cbsupplier").val();
+        var opt = $("#s-" + selected);
+        $("#txtalamat").val($(opt).attr("alamat") + "\n" + $(opt).attr("kota") + "\n" + $(opt).attr("telp"));
+        $("#cbitem").val($("#cbitem").children().eq(0).val()).trigger("change.select2");
+        $("#txtprice").val(0);
         $("#txtqty").val(1);
         $("#timeneeded").val(1);
         $("#txtdesc").val("");
         $("#spanNew").hide();
         $("#spanAdd").show();
         $("#btnUpdate").prop("disabled", true);
-    }
-
-    function klikadd() {
-        reset();
+        edited = "";
     }
 
     $(document).ready(function () {
         $("select").select2();
-        $('#txtprice').number(true, 0, ',', '.');
+
+        var t = $("#myTable").DataTable();
+        t.columns.adjust().draw();
+
+        var selected = $("#cbsupplier").val();
+        var opt = $("#s-" + selected);
+        $("#txtalamat").val($(opt).attr("alamat") + "\n" + $(opt).attr("kota") + "\n" + $(opt).attr("telp"));
+
+        $("#btnAdd").click(function () {
+            var suppid = $("#cbsupplier").val();
+            var supp = $("#s-" + suppid).html();
+            var itemid = $("#cbitem").val();
+            var item = $("#i-" + itemid).html();
+            var qty = $("#txtqty").val();
+            var unitprice = $("#txtprice").val();
+            var time = $("#timeneeded").val();
+            var desc = $("#txtdesc").val();
+
+            var h = t.row.add([suppid, supp, itemid, item, qty, unitprice, "Rp " + unitprice.toString().replace(/(\d)(?=(\d\d\d)+(?!\d))/g, "$1,"), time, time + " Days", desc, "<button class='btn btn-info col-md-5 editfindprice'>Edit</button><button class='btn btn-danger col-md-6 pull-right deletefindprice'>Delete</button>"]).draw(false);
+            t.rows().every(function (rowIdx, tableLoop, rowLoop) {
+                $(this.node().cells[0]).addClass("hidden");
+                $(this.node().cells[2]).addClass("hidden");
+                $(this.node().cells[5]).addClass("hidden");
+                $(this.node().cells[7]).addClass("hidden");
+            });
+            reset();
+        });
+
+        $('#myTable tbody').on('click', ".editfindprice", function () {
+            var baris = $(this).parents('tr');
+            $("#cbsupplier").val($(baris).children().eq(0).html().toString().trim()).trigger("change.select2");
+            var selected = $("#cbsupplier").val();
+            var opt = $("#s-" + selected);
+            $("#txtalamat").val($(opt).attr("alamat") + "\n" + $(opt).attr("kota") + "\n" + $(opt).attr("telp"));
+            $("#cbitem").val($(baris).children().eq(2).html().toString().trim()).trigger("change.select2");
+            $("#txtqty").val($(baris).children().eq(4).html().toString().trim());
+            $("#txtprice").val($(baris).children().eq(5).html().toString().trim());
+            $("#timeneeded").val($(baris).children().eq(7).html().toString().trim());
+            $("#txtdesc").val($(baris).children().eq(9).html().toString().trim());
+            $("#spanNew").show();
+            $("#spanAdd").hide();
+            $("#btnUpdate").prop("disabled", false);
+            edited = baris;
+        });
+
+        $('#btnUpdate').click(function () {
+            var baris = edited;
+            var suppid = $("#cbsupplier").val();
+            var supp = $("#s-" + suppid).html();
+            var itemid = $("#cbitem").val();
+            var item = $("#i-" + itemid).html();
+            var qty = $("#txtqty").val();
+            var unitprice = $("#txtprice").val();
+            var time = $("#timeneeded").val();
+            var desc = $("#txtdesc").val();
+            $(baris).children().eq(0).html(suppid);
+            $(baris).children().eq(1).html(supp);
+            $(baris).children().eq(2).html(itemid);
+            $(baris).children().eq(3).html(item);
+            $(baris).children().eq(4).html(qty);
+            $(baris).children().eq(5).html(unitprice);
+            $(baris).children().eq(6).html("Rp " + unitprice.toString().replace(/(\d)(?=(\d\d\d)+(?!\d))/g, "$1,"));
+            $(baris).children().eq(7).html(time);
+            $(baris).children().eq(8).html(time + " Days");
+            $(baris).children().eq(9).html(desc);
+            reset();
+        });
+
+        $('#myTable tbody').on('click', ".deletefindprice", function () {
+            t.row($(this).parents('tr')).remove().draw();
+        });
 
         $("#btnSave").click(function () {
             swal({
                 title: "Are you sure to save it?",
-                text: "You still can edit it later",
+                text: "You can't edit it later",
                 type: "warning",
                 showCancelButton: true,
                 confirmButtonColor: "success",
                 confirmButtonText: "Yes, Save It!",
                 closeOnConfirm: false
             }, function () {
-                swal("Saved!", "Your data has been saved.", "success");
+                var param = "";
+                t.rows().every(function (rowIdx, tableLoop, rowLoop) {
+                    param += $(this.node().cells[0]).html().toString().trim() + "Ё";
+                    param += $(this.node().cells[3]).html().toString().trim() + "Ё";
+                    param += $(this.node().cells[4]).html().toString().trim() + "Ё";
+                    param += $(this.node().cells[5]).html().toString().trim() + "Ё";
+                    param += $(this.node().cells[7]).html().toString().trim() + "Ё";
+                    param += $(this.node().cells[9]).html().toString().trim() + "Ё";
+                    param += "ѥ";
+                });
+                $.ajax({
+                    type: "POST",
+                    url: "@Url.Action("save_all","FindPrices")",
+                    data: { detail:param },
+                    success: function (data) {
+                        if(data == "success"){
+                            swal({
+                                title: "Saved!",
+                                text: "Your data has been saved.",
+                                type: "success"
+                            }, function () {
+                                location.reload();
+                            });
+                        }
+                        else{
+                            swal("Failed!", "Something went wrong!", "error");
+                        }
+                    },
+                    error: function (xhr, status, error) {
+                        alert(xhr.responseText);
+                    }
+                });
             });
 
+        });
+
+        $("#cbsupplier").change(function () {
+            var selected = $(this).val();
+            var opt = $("#s-" + selected);
+            $("#txtalamat").val($(opt).attr("alamat") + "\n" + $(opt).attr("kota") + "\n" + $(opt).attr("telp"));
+        });
+
+        $("#btn-tambah-supp").click(function () {
+            $("#suppName").val("");
+            $("#suppAddress").val("");
+            $("#suppCity").val("");
+            $("#suppPhone").val("");
+            $("#suppDesc").val("");
+        });
+
+        $("#supp-save").click(function () {
+            if ($("#suppName").val() != "" && $("#suppAddress").val() != "" && $("#suppCity").val() != "" && $("#suppPhone").val() != "")
+            {
+                $.ajax({
+                    type: "POST",
+                    url: "@Url.Action("save_supplier","Master")",
+                    data: { suppId: "", suppName: $("#suppName").val(), suppDesc: $("#suppDesc").val(), suppAddress: $("#suppAddress").val(), suppCity: $("#suppCity").val(), suppPhone: $("#suppPhone").val(), mode: 1 },
+                success: function (data) {
+                    $.ajax({
+                        type: "POST",
+                        url: "@Url.Action("get_max_id", "Master")",
+                        data: { tableName: "supplier"},
+                    success: function (data) {
+                        $("#cbsupplier").append("<option id='s-" + data + "' value='" + data + "' alamat='" + $("#suppAddress").val() + "' kota='" + $("#suppCity").val() + "' telp='" + $("#suppPhone").val() + "'>" + $("#suppName").val() + "</option>");
+                        swal({
+                            title: "Success!",
+                            text: "Supplier has been added!",
+                            type: "success"
+                        }, function () {
+                            $("#supp-cancel").click();
+                        });
+                    },
+                    error: function (xhr, status, error) {
+                        alert("1"+xhr.responseText);
+                    }
+                    });
+                },
+                error: function (xhr, status, error) {
+                    alert("2"+xhr.responseText);
+                }
+            });
+            return false;
+        }
         });
     });
 </script>

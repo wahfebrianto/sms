@@ -1,101 +1,118 @@
 ﻿@{
-    ViewBag.Title = "Penawaran";
-    //ViewBag.Description = "List Page";
+    String concat_title = "";
+    String quoteTo = "";
+    using (var db = new dbsmsEntities())
+    {
+        try
+        {
+            concat_title = db.projects.Find(Convert.ToInt64(Session["project"] ?? 0)).name;
+            quoteTo = db.projects.Find(Convert.ToInt64(Session["project"] ?? 0)).hrfqs.First().to;
+        }
+        catch { }
+    }
+    ViewBag.Title = "Penawaran - " + concat_title ?? "";
 }
 <div class="row">
     <div class="col-xs-12 col-md-12 col-lg-12">
         <div class="box box-default panel-body">
-            <form>
-                <div class="row">
-                    <div class="form-group col-md-6">
-                        <label for="pnwNumber">Quote Number: </label>
-                        <input name="pnwNumber" type="text" class="form-control" />
-                    </div>
-                    <div class="form-group  col-md-6">
-                        <label>Quote Date : </label>
-                        <input type="date" class="form-control" />
-                    </div>
-                    <div class="form-group  col-md-6">
-                        <label for="quoteTo">Quote To : </label><br />
-                        <textarea class="form-control col-lg-6 col-md-6 col-xs-6"></textarea><br /><br /><br />
-                    </div>
+            <div class="row">
+                @*<div class="form-group col-md-6">
+                    <label for="pnwNumber">Quote Number: </label>
+                    <input name="pnwNumber" type="text" class="form-control" id="quoteNumber"/>
+                </div>*@
+                
+                <div class="form-group  col-md-6">
+                    <label for="quoteTo">Quote To : </label><br />
+                    <textarea class="form-control col-lg-6 col-md-6 col-xs-6" id="quoteTo" readonly>@quoteTo</textarea><br /><br /><br />
                 </div>
-                <label>List Of Quotation</label>
-                <table id="myTable2" class="table table-bordered table-hover">
-                    <thead>
-                        <tr>
-                            <th class="col-md-2">Item</th>
-                            <th class="col-md-2">Item Description</th>
-                            <th class="col-md-1">Qty</th>
-                            <th class="col-md-3">Unit Price</th>
-                            <th class="col-md-2">Supplier</th>
-                            <th class="col-md-2">Subtotal</th>
-                        </tr>
-                    </thead>
-                    <tbody></tbody>
-                </table>
-                <div class="pull-right">Total : Rp 0,00</div><br /><br />
-                <div class="pull-right">Discount : <input class="text-right" type="number" value="0" /></div><br /><br />
-                <div class="pull-right text-bold">Grand Total : Rp 0,00</div><br /><br />
-                <label>List of Supplier</label>
-                <table id="myTable1" class="table table-bordered table-hover">
-                    <thead>
-                        <tr>
-                            <th class="col-md-1"></th>
-                            <th class="col-md-2">Supplier</th>
-                            <th class="col-md-2">Item</th>
-                            <th class="col-md-1">Qty</th>
-                            <th class="col-md-2">Unit Price</th>
-                            <th class="col-md-2">Time Needed</th>
-                            <th class="col-md-2">Description</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td class="text-center">
-                                <input id="cmn-toggle-7" class="cmn-toggle cmn-toggle-yes-no" type="checkbox">
-                            </td>
-                            <td>PT Sumber Untung</td>
-                            <td>Kertas A5</td>
-                            <td>100</td>
-                            <td>Rp 1.000,00</td>
-                            <td>7 Days</td>
-                            <td>Beli 5 bonus 1</td>
-                        </tr>
-                        <tr>
-                            <td class="text-center">
-                                <input id="cmn-toggle-7" class="cmn-toggle cmn-toggle-yes-no" type="checkbox">
-                            </td>
-                            <td>PT Sumber Untung 2</td>
-                            <td>Kertas A5</td>
-                            <td>100</td>
-                            <td>Rp 1.000,00</td>
-                            <td>2 Days</td>
-                            <td>Beli 5 bonus 1</td>
-                        </tr>
-                        <tr>
-                            <td class="text-center">
-                                <input id="cmn-toggle-7" class="cmn-toggle cmn-toggle-yes-no" type="checkbox">
-                            </td>
-                            <td>PT Sumber Untung 3</td>
-                            <td>Kertas A5</td>
-                            <td>100</td>
-                            <td>Rp 1.000,00</td>
-                            <td>6 Days</td>
-                            <td>Beli 5 bonus 1</td>
-                        </tr>
-                    </tbody>
-                </table>
-                <button class="btn btn-foursquare pull-right" id="btn_select">Select Checked</button>
-                </br></br></br></br>
-                <button class="btn btn-lg btn-primary pull-right" id="btn_print" style="margin-left:10px;">Print</button>
-                <button class="btn btn-lg btn-success pull-right" id="btn_save">Save</button>
-            </form>
+               
+                <div class="form-group  col-md-6">
+                    <label>Quote Date : </label>
+                    <input type="date" class="form-control" id="quoteDate" />
+                </div>
+                <div class="form-group  col-md-6">
+                    <label for="description">Description : </label><br />
+                    <textarea class="form-control col-lg-6 col-md-6 col-xs-6" id="description"></textarea><br /><br /><br />
+                </div>
+            </div>
+            <label>List Of Quotation</label>
+            <table id="myTable2" class="table table-bordered table-hover">
+                <thead>
+                    <tr>
+                        <th class="hidden">ItemCatId</th>
+                        <th class="col-md-2">Item</th>
+                        <th class="col-md-2">Item Description</th>
+                        <th class="col-md-1">Qty</th>
+                        <th class="col-md-3">Unit Price</th>
+                        <th class="hidden">SupplierId</th>
+                        <th class="col-md-2">Supplier</th>
+                        <th class="hidden">RealSubtotal</th>
+                        <th class="col-md-2">Subtotal</th>
+                    </tr>
+                </thead>
+                <tbody></tbody>
+            </table>
+            <div class="pull-right">Total : Rp <span id="total1">0</span>,00</div><br /><br />
+            <div class="pull-right">Discount : <input class="text-right" id="disc" type="number" value="0" min="0" step="100"/></div><br /><br />
+            <div class="pull-right text-bold">Grand Total : Rp <span id="total2">0</span>,00</div><br /><br />
+            <label>List of Supplier</label>
+            <table id="myTable1" class="table table-bordered table-hover">
+                <thead>
+                    <tr>
+                        <th class="col-md-1"></th>
+                        <th class="hidden">Supplierid</th>
+                        <th class="col-md-2">Supplier</th>
+                        <th class="hidden">Itemcatid</th>
+                        <th class="hidden">Itemcat</th>
+                        <th class="col-md-2">Item</th>
+                        <th class="col-md-1">Qty</th>
+                        <th class="col-md-2">Unit Price</th>
+                        <th class="col-md-2">Time Needed</th>
+                        <th class="col-md-2">Description</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @{ 
+                        using (var db = new dbsmsEntities())
+                        {
+                            Int64 projectid = Convert.ToInt64(Session["project"]);
+                            List<findprice> data = db.findprices.Where(x => x.projectid == projectid).ToList();
+                            foreach (findprice item in data)
+                            {
+                                <tr id="p-@item.id">
+                                    <td class="text-center checkfindprice">
+                                        <input type="checkbox" />
+                                    </td>
+                                    <td class="hidden">@item.supplier.id</td>
+                                    <td>@item.supplier.name</td>
+                                    <td class="hidden">@item.project.hrfqs.First().drfqs.Where(x => x.itemdescription == item.itemdescription).First().itemcategoryid</td>
+                                    <td class="hidden">@item.project.hrfqs.First().drfqs.Where(x => x.itemdescription == item.itemdescription).First().item_category.name</td>
+                                    <td>@item.itemdescription</td>
+                                    <td>@item.qty</td>
+                                    <td>@item.unitprice</td>
+                                    <td>@item.timeneeded</td>
+                                    <td>@item.description</td>
+                                </tr>
+                            }
+                        }
+                    }
+                </tbody>
+            </table>
+            <button class="btn btn-foursquare pull-right" id="btn_select" type="button">Select Checked</button>
+            </br></br></br></br>
+            @*<button class="btn btn-lg btn-primary pull-right" id="btn_print" style="margin-left:10px;">Print</button>*@
+            <button type="button" class="btn btn-lg btn-success pull-right" id="btn_save">Save</button>
         </div>
     </div>
 </div>
 <script type="text/javascript">
     $(document).ready(function () {
+        Date.prototype.toDateInputValue = (function () {
+            var local = new Date(this);
+            local.setMinutes(this.getMinutes() - this.getTimezoneOffset());
+            return local.toJSON().slice(0, 10);
+        });
+        $('#quoteDate').val(new Date().toDateInputValue());
         $("#btn_save").click(function () {
                         swal({
                             title: "Are you sure to save it?",
@@ -111,7 +128,18 @@
                         });
 
                     });
-        var s = $("#myTable1").DataTable();
+        //
+
+        var s = $('#myTable1').DataTable({
+            "aaSorting": [],
+            "bPaginate": false,
+            "drawCallback": function (settings) {
+                var api = this.api();
+                var rows = api.rows({ page: 'current' }).nodes();
+                var last = null;
+            }
+        });
+        //
         var t = $("#myTable2").DataTable();
         s.columns.adjust().draw();
         t.columns.adjust().draw();
@@ -123,9 +151,132 @@
                     });
         $("#btn_select").click(function () {
             t.clear();
-            t.row.add(["ATK", "Kertas A5", "100", "<div class='input-group'><span class='input-group-addon'>Rp</span><input id='txtprice' type='text' class='form-control text-right' value='1000'><span class='input-group-addon'>.00</span></div>", "PT Sumber Untung", "Rp. 0,00", "<button class='btn btn-danger'>Delete</button>"]).draw(false);
-            
-            $('.newSelect').select2();
+            var elem = $(".checkfindprice");
+            total = 0;
+            for (var i = 0; i < elem.length; i++) {
+                var checked = $(elem[i]).children().eq(0).attr("aria-checked");
+                if (checked == "true") {
+                    var suppid = $(elem[i]).parents().children().eq(1).html();
+                    var suppname = $(elem[i]).parents().children().eq(2).html();
+                    var itemcatid = $(elem[i]).parents().children().eq(3).html();
+                    var itemcat = $(elem[i]).parents().children().eq(4).html();
+                    var itemdesc = $(elem[i]).parents().children().eq(5).html();
+                    var qty = $(elem[i]).parents().children().eq(6).html();
+                    var price = $(elem[i]).parents().children().eq(7).html();
+                    var timeneeded = $(elem[i]).parents().children().eq(8).html();
+                    var description = $(elem[i]).parents().children().eq(9).html();
+                    t.row.add([itemcatid, itemcat, itemdesc, qty, "<div class='input-group'><span class='input-group-addon'>Rp</span><input onchange='ubahprice(event)' id='txtprice' type='number' min=0 step=1000 class='form-control text-right' value='" + price + "'><span class='input-group-addon'>.00</span></div>", suppid, suppname, qty * price, "Rp. " + (qty * price).toString().replace(/(\d)(?=(\d\d\d)+(?!\d))/g, "$1,"), "<button class='btn btn-danger'>Delete</button>"]).draw(false);
+                    total += qty * price;
+                    t.rows().every(function (rowIdx, tableLoop, rowLoop) {
+                        $(this.node().cells[0]).addClass("hidden");
+                        $(this.node().cells[5]).addClass("hidden");
+                        $(this.node().cells[7]).addClass("hidden");
+                        $(this.node().cells[7]).addClass("subtotal");
+                    });
+                }
+            }
+            $("#total1").html(total.toString().replace(/\B(?=(\d{3})+(?!\d))/g, "."));
+            //
+            //t.row.add(["ATK", "Kertas A5", "100", "<div class='input-group'><span class='input-group-addon'>Rp</span><input id='txtprice' type='text' class='form-control text-right' value='1000'><span class='input-group-addon'>.00</span></div>", "PT Sumber Untung", "Rp. 0,00", "<button class='btn btn-danger'>Delete</button>"]).draw(false);
+            //
+            //$('.newSelect').select2();
+        });
+        $(document).on('DOMSubtreeModified', ".subtotal", function (e) {
+            var elements = $(".subtotal");
+            var total = 0;
+            for (var i = 0; i < elements.length; i++) {
+                total += parseInt($(elements[i]).html());
+            }
+            $("#total1").html(total.toString().replace(/\B(?=(\d{3})+(?!\d))/g, "."));
+        });
+        $(document).on('DOMSubtreeModified', "#total1", function (e) {
+            var total = parseInt($("#total1").html().toString().replace(/\./g,""));
+            var disc = $("#disc").val();
+            total -= disc;
+            $("#total2").html(total.toString().replace(/\B(?=(\d{3})+(?!\d))/g, "."));
+        });
+        $("#disc").change(function () {
+            var total = parseInt($("#total1").html().toString().replace(/\./g, ""));
+            var disc = $("#disc").val();
+            total -= disc;
+            $("#total2").html(total.toString().replace(/\B(?=(\d{3})+(?!\d))/g, "."));
+        });
+
+
+
+        $("#btn_save").click(function () {
+            //header
+            @if (Session["project"] != null) {
+                <text>
+                var quotedate = $("#quoteDate").val();
+                var quoteto = $("#quoteTo").val();
+                var projectid = @(Session["project"].ToString()??"");
+                var desc = $("#description").val();
+                var total = parseInt($("#total1").html().toString().replace(/\./g, ""));
+                var disc = $("#disc").val();
+                var grandtotal = parseInt($("#total2").html().toString().replace(/\./g, ""));
+                var elements = $("#myTable2 tbody tr");
+                if($(elements).children().length > 1){
+                    var detail = "";
+                    for(var i=0;i<elements.length;i++){
+                        var itemcatid = $(elements[i]).children().eq(0).html();
+                        var itemdescription = $(elements[i]).children().eq(2).html();
+                        var suppid =  $(elements[i]).children().eq(5).html();
+                        var qty = $(elements[i]).children().eq(3).html();
+                        var unitprice =$(elements[i]).children().eq(4).children().eq(0).children().eq(1).val();
+                        var subtotal = qty*unitprice;
+                        detail += itemcatid+"Ё"+itemdescription+"Ё"+suppid+"Ё"+qty+"Ё"+unitprice+"Ё"+subtotal;
+                        detail += "ѥ";
+                    }
+                    swal({
+                        title: "Are you sure to save it?",
+                        text: "You can't edit it later",
+                        type: "warning",
+                        showCancelButton: true,
+                        confirmButtonColor: "success",
+                        confirmButtonText: "Yes, Save It!",
+                        closeOnConfirm: false
+                    }, function () {
+                        $.ajax({
+                            type: "POST",
+                            url: "@Url.Action("save_all","Penawaran")",
+                            data: { quotedate:quotedate,quoteto:quoteto,projectid:projectid,desc:desc,total:total,disc:disc,grandtotal:grandtotal,detail:detail },
+                        success: function (data) {
+                            if(data == "success"){
+                                swal({
+                                    title: "Saved!",
+                                    text: "Your data has been saved.",
+                                    type: "success"
+                                }, function () {
+                                    location.reload();
+                                });
+                            }
+                            else{
+                                swal("Failed!", "Something went wrong!", "error");
+                            }
+                        },
+                        error: function (xhr, status, error) {
+                            alert(xhr.responseText);
+                        }
                     });
                 });
+            }
+            else{
+                swal("Failed!", "Detail must not be empty", "error");
+            }
+            </text>
+        }
+
+
+        });
+
+    });
+
+    function ubahprice(event) {
+        var element = event.target;
+        var qty = $(element).parents().parents().parents().children().eq(3).html();
+        var price = $(element).val();
+        $(element).parents().parents().parents().children().eq(7).html(qty*price);
+        $(element).parents().parents().parents().children().eq(8).html("Rp. " + (qty * price).toString().replace(/(\d)(?=(\d\d\d)+(?!\d))/g, "$1,"));
+    }
 </script>

@@ -119,6 +119,7 @@
           <Property Name="supplierid" Type="bigint" Nullable="false" />
           <Property Name="address" Type="text" Nullable="false" />
           <Property Name="itemdescription" Type="text" Nullable="false" />
+          <Property Name="qty" Type="bigint" Nullable="false" />
           <Property Name="unitprice" Type="bigint" Nullable="false" />
           <Property Name="timeneeded" Type="bigint" Nullable="false" />
           <Property Name="description" Type="text" />
@@ -153,6 +154,9 @@
           <Property Name="date" Type="date" Nullable="false" />
           <Property Name="to" Type="text" Nullable="false" />
           <Property Name="description" Type="text" />
+          <Property Name="total" Type="bigint" Nullable="false" />
+          <Property Name="disc" Type="bigint" Nullable="false" />
+          <Property Name="grandtotal" Type="bigint" Nullable="false" />
         </EntityType>
         <EntityType Name="hpo">
           <Key>
@@ -200,7 +204,7 @@
             <PropertyRef Name="id" />
           </Key>
           <Property Name="id" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="number" Type="text" Nullable="false" />
+          <Property Name="number" Type="text" />
           <Property Name="date" Type="date" Nullable="false" />
           <Property Name="customerid" Type="bigint" Nullable="false" />
           <Property Name="to" Type="text" />
@@ -213,10 +217,10 @@
           </Key>
           <Property Name="id" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="projectid" Type="bigint" Nullable="false" />
+          <Property Name="customerid" Type="bigint" Nullable="false" />
           <Property Name="number" Type="varchar" MaxLength="50" Nullable="false" />
           <Property Name="date" Type="date" Nullable="false" />
           <Property Name="terms" Type="text" Nullable="false" />
-          <Property Name="to" Type="text" Nullable="false" />
           <Property Name="total" Type="bigint" Nullable="false" />
           <Property Name="description" Type="text" />
         </EntityType>
@@ -230,9 +234,11 @@
           <Property Name="number" Type="text" Nullable="false" />
           <Property Name="date" Type="date" Nullable="false" />
           <Property Name="expecteddate" Type="date" Nullable="false" />
+          <Property Name="designdate" Type="date" />
           <Property Name="terms" Type="text" Nullable="false" />
           <Property Name="description" Type="text" />
-          <Property Name="diskon" Type="bigint" Nullable="false" />
+          <Property Name="total" Type="bigint" Nullable="false" />
+          <Property Name="dp" Type="bigint" Nullable="false" />
           <Property Name="grandtotal" Type="bigint" Nullable="false" />
         </EntityType>
         <EntityType Name="hsalespayment">
@@ -301,9 +307,9 @@
           <Key>
             <PropertyRef Name="id" />
           </Key>
-          <Property Name="id" Type="bigint" Nullable="false" />
+          <Property Name="id" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="name" Type="text" Nullable="false" />
-          <Property Name="customerid" Type="bigint" Nullable="false" />
+          <Property Name="customerid" Type="bigint" />
           <Property Name="statusid" Type="bigint" Nullable="false" />
           <Property Name="description" Type="text" />
           <Property Name="status" Type="tinyint" Nullable="false" />
@@ -851,6 +857,18 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_hsalesinvoice_customers">
+          <End Role="customers" Type="Self.customers" Multiplicity="1" />
+          <End Role="hsalesinvoice" Type="Self.hsalesinvoice" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="customers">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="hsalesinvoice">
+              <PropertyRef Name="customerid" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_hsalesinvoice_projects">
           <End Role="projects" Type="Self.projects" Multiplicity="1" />
           <End Role="hsalesinvoice" Type="Self.hsalesinvoice" Multiplicity="*" />
@@ -936,7 +954,7 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_projects_customers">
-          <End Role="customers" Type="Self.customers" Multiplicity="1" />
+          <End Role="customers" Type="Self.customers" Multiplicity="0..1" />
           <End Role="projects" Type="Self.projects" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="customers">
@@ -1309,6 +1327,10 @@
             <End Role="projects" EntitySet="projects" />
             <End Role="hrfq" EntitySet="hrfq" />
           </AssociationSet>
+          <AssociationSet Name="FK_hsalesinvoice_customers" Association="Self.FK_hsalesinvoice_customers">
+            <End Role="customers" EntitySet="customers" />
+            <End Role="hsalesinvoice" EntitySet="hsalesinvoice" />
+          </AssociationSet>
           <AssociationSet Name="FK_hsalesinvoice_projects" Association="Self.FK_hsalesinvoice_projects">
             <End Role="projects" EntitySet="projects" />
             <End Role="hsalesinvoice" EntitySet="hsalesinvoice" />
@@ -1425,6 +1447,7 @@
           <NavigationProperty Name="hsalesorders" Relationship="Self.FK_hsalesorder_customers" FromRole="customers" ToRole="hsalesorder" />
           <NavigationProperty Name="projects" Relationship="Self.FK_projects_customers" FromRole="customers" ToRole="projects" />
           <Property Name="status" Type="Byte" Nullable="false" />
+          <NavigationProperty Name="hsalesinvoices" Relationship="dbsmsModel.FK_hsalesinvoice_customers" FromRole="customer" ToRole="hsalesinvoice" />
         </EntityType>
         <EntityType Name="dpenawaran">
           <Key>
@@ -1552,6 +1575,7 @@
           <NavigationProperty Name="findpricesnotes" Relationship="Self.FK_findpricesnote_findprices" FromRole="findprices" ToRole="findpricesnote" />
           <Property Name="status" Type="Byte" Nullable="false" />
           <NavigationProperty Name="project" Relationship="dbsmsModel.FK_findprices_projects1" FromRole="findprice" ToRole="project" />
+          <Property Name="qty" Type="Int64" Nullable="false" />
         </EntityType>
         <EntityType Name="findpricesnote">
           <Key>
@@ -1587,6 +1611,9 @@
           <NavigationProperty Name="dpenawarans" Relationship="Self.FK_dpenawaran_hpenawaran" FromRole="hpenawaran" ToRole="dpenawaran" />
           <NavigationProperty Name="project" Relationship="Self.FK_hpenawaran_projects1" FromRole="hpenawaran" ToRole="projects" />
           <NavigationProperty Name="penawarannotes" Relationship="Self.FK_penawarannote_hpenawaran" FromRole="hpenawaran" ToRole="penawarannote" />
+          <Property Name="total" Type="Int64" Nullable="false" />
+          <Property Name="disc" Type="Int64" Nullable="false" />
+          <Property Name="grandtotal" Type="Int64" Nullable="false" />
         </EntityType>
         <EntityType Name="hpo">
           <Key>
@@ -1651,7 +1678,7 @@
             <PropertyRef Name="id" />
           </Key>
           <Property Name="id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="number" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="number" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
           <Property Name="date" Type="DateTime" Nullable="false" Precision="0" />
           <Property Name="customerid" Type="Int64" Nullable="false" />
           <Property Name="to" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
@@ -1671,12 +1698,13 @@
           <Property Name="number" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
           <Property Name="date" Type="DateTime" Nullable="false" Precision="0" />
           <Property Name="terms" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" Nullable="false" />
-          <Property Name="to" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" Nullable="false" />
           <Property Name="total" Type="Int64" Nullable="false" />
           <Property Name="description" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
           <NavigationProperty Name="dsalesinvoices" Relationship="Self.FK_dsalesinvoice_hsalesinvoice" FromRole="hsalesinvoice" ToRole="dsalesinvoice" />
           <NavigationProperty Name="project" Relationship="Self.FK_hsalesinvoice_projects" FromRole="hsalesinvoice" ToRole="projects" />
           <NavigationProperty Name="salesinvoicenotes" Relationship="Self.FK_salesinvoicenote_hsalesinvoice" FromRole="hsalesinvoice" ToRole="salesinvoicenote" />
+          <Property Name="customerid" Type="Int64" Nullable="false" />
+          <NavigationProperty Name="customer" Relationship="dbsmsModel.FK_hsalesinvoice_customers" FromRole="hsalesinvoice" ToRole="customer" />
         </EntityType>
         <EntityType Name="hsalesorder">
           <Key>
@@ -1690,12 +1718,14 @@
           <Property Name="expecteddate" Type="DateTime" Nullable="false" Precision="0" />
           <Property Name="terms" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" Nullable="false" />
           <Property Name="description" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
-          <Property Name="diskon" Type="Int64" Nullable="false" />
           <Property Name="grandtotal" Type="Int64" Nullable="false" />
           <NavigationProperty Name="customer" Relationship="Self.FK_hsalesorder_customers" FromRole="hsalesorder" ToRole="customers" />
           <NavigationProperty Name="dsalesorders" Relationship="Self.FK_dsalesorder_hsalesorder" FromRole="hsalesorder" ToRole="dsalesorder" />
           <NavigationProperty Name="project" Relationship="Self.FK_hsalesorder_projects" FromRole="hsalesorder" ToRole="projects" />
           <NavigationProperty Name="salesordernotes" Relationship="Self.FK_salesordernote_hsalesorder" FromRole="hsalesorder" ToRole="salesordernote" />
+          <Property Name="designdate" Type="DateTime" Precision="0" />
+          <Property Name="total" Type="Int64" Nullable="false" />
+          <Property Name="dp" Type="Int64" Nullable="false" />
         </EntityType>
         <EntityType Name="hsalespayment">
           <Key>
@@ -1781,11 +1811,11 @@
           </Key>
           <Property Name="id" Type="Int64" Nullable="false" />
           <Property Name="name" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" Nullable="false" />
-          <Property Name="customerid" Type="Int64" Nullable="false" />
+          <Property Name="customerid" Type="Int64" />
           <Property Name="statusid" Type="Int64" Nullable="false" />
           <Property Name="description" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
           <Property Name="status" Type="Byte" Nullable="false" />
-          <NavigationProperty Name="customer" Relationship="Self.FK_projects_customers" FromRole="projects" ToRole="customers" />
+          <NavigationProperty Name="customer" Relationship="dbsmsModel.FK_projects_customers" FromRole="projects" ToRole="customers" />
           <NavigationProperty Name="hpenawarans" Relationship="Self.FK_hpenawaran_projects1" FromRole="projects" ToRole="hpenawaran" />
           <NavigationProperty Name="hpoes" Relationship="Self.FK_hpo_projects" FromRole="projects" ToRole="hpo" />
           <NavigationProperty Name="hpurchaseinvoices" Relationship="Self.FK_purchaseinvoice_projects" FromRole="projects" ToRole="hpurchaseinvoice" />
@@ -2001,7 +2031,7 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_projects_customers">
-          <End Role="customers" Type="Self.customer" Multiplicity="1" />
+          <End Role="customers" Type="Self.customer" Multiplicity="0..1" />
           <End Role="projects" Type="Self.project" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="customers">
@@ -2840,6 +2870,10 @@
             <End Role="project" EntitySet="projects" />
             <End Role="findprice" EntitySet="findprices" />
           </AssociationSet>
+          <AssociationSet Name="FK_hsalesinvoice_customers" Association="dbsmsModel.FK_hsalesinvoice_customers">
+            <End Role="customer" EntitySet="customers" />
+            <End Role="hsalesinvoice" EntitySet="hsalesinvoices" />
+          </AssociationSet>
         </EntityContainer>
         <Association Name="FK_findprices_projects1">
           <End Type="dbsmsModel.project" Role="project" Multiplicity="1" />
@@ -2850,6 +2884,18 @@
             </Principal>
             <Dependent Role="findprice">
               <PropertyRef Name="projectid" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_hsalesinvoice_customers">
+          <End Type="dbsmsModel.customer" Role="customer" Multiplicity="1" />
+          <End Type="dbsmsModel.hsalesinvoice" Role="hsalesinvoice" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="customer">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="hsalesinvoice">
+              <PropertyRef Name="customerid" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -2976,6 +3022,7 @@
           <EntitySetMapping Name="findprices">
             <EntityTypeMapping TypeName="dbsmsModel.findprice">
               <MappingFragment StoreEntitySet="findprices">
+                <ScalarProperty Name="qty" ColumnName="qty" />
                 <ScalarProperty Name="status" ColumnName="status" />
                 <ScalarProperty Name="id" ColumnName="id" />
                 <ScalarProperty Name="projectid" ColumnName="projectid" />
@@ -3011,6 +3058,9 @@
           <EntitySetMapping Name="hpenawarans">
             <EntityTypeMapping TypeName="dbsmsModel.hpenawaran">
               <MappingFragment StoreEntitySet="hpenawaran">
+                <ScalarProperty Name="grandtotal" ColumnName="grandtotal" />
+                <ScalarProperty Name="disc" ColumnName="disc" />
+                <ScalarProperty Name="total" ColumnName="total" />
                 <ScalarProperty Name="id" ColumnName="id" />
                 <ScalarProperty Name="projectid" ColumnName="projectid" />
                 <ScalarProperty Name="number" ColumnName="number" />
@@ -3081,12 +3131,12 @@
           <EntitySetMapping Name="hsalesinvoices">
             <EntityTypeMapping TypeName="dbsmsModel.hsalesinvoice">
               <MappingFragment StoreEntitySet="hsalesinvoice">
+                <ScalarProperty Name="customerid" ColumnName="customerid" />
                 <ScalarProperty Name="id" ColumnName="id" />
                 <ScalarProperty Name="projectid" ColumnName="projectid" />
                 <ScalarProperty Name="number" ColumnName="number" />
                 <ScalarProperty Name="date" ColumnName="date" />
                 <ScalarProperty Name="terms" ColumnName="terms" />
-                <ScalarProperty Name="to" ColumnName="to" />
                 <ScalarProperty Name="total" ColumnName="total" />
                 <ScalarProperty Name="description" ColumnName="description" />
               </MappingFragment>
@@ -3095,6 +3145,9 @@
           <EntitySetMapping Name="hsalesorders">
             <EntityTypeMapping TypeName="dbsmsModel.hsalesorder">
               <MappingFragment StoreEntitySet="hsalesorder">
+                <ScalarProperty Name="dp" ColumnName="dp" />
+                <ScalarProperty Name="total" ColumnName="total" />
+                <ScalarProperty Name="designdate" ColumnName="designdate" />
                 <ScalarProperty Name="id" ColumnName="id" />
                 <ScalarProperty Name="projectid" ColumnName="projectid" />
                 <ScalarProperty Name="customerid" ColumnName="customerid" />
@@ -3103,7 +3156,6 @@
                 <ScalarProperty Name="expecteddate" ColumnName="expecteddate" />
                 <ScalarProperty Name="terms" ColumnName="terms" />
                 <ScalarProperty Name="description" ColumnName="description" />
-                <ScalarProperty Name="diskon" ColumnName="diskon" />
                 <ScalarProperty Name="grandtotal" ColumnName="grandtotal" />
               </MappingFragment>
             </EntityTypeMapping>

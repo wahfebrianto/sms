@@ -29,8 +29,10 @@ namespace AdminLTE1
         public System.DateTime expecteddate { get; set; }
         public string terms { get; set; }
         public string description { get; set; }
-        public long diskon { get; set; }
         public long grandtotal { get; set; }
+        public Nullable<System.DateTime> designdate { get; set; }
+        public long total { get; set; }
+        public long dp { get; set; }
     
         public virtual customer customer { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]

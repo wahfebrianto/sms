@@ -1,4 +1,6 @@
 ﻿@using AdminLTE1.Controllers
+@if (Session["user"] != null)
+{
 <aside class="main-sidebar" >
     <section class="sidebar">
         @* BEGIN Menu *@
@@ -10,18 +12,36 @@
             <li class="@Html.IsSelected(controller: "Project")">
                 <a href="@Url.Action("Index", "Project")"><i class="fa fa-superpowers"></i> <span>Active Projects</span></a>
             </li>
+@if (AdminLTE1.Helpers.GlobalFunction.has_privilege(Session["user"].ToString(), "select", "master_kategori") || AdminLTE1.Helpers.GlobalFunction.has_privilege(Session["user"].ToString(), "select", "master_supplier") || AdminLTE1.Helpers.GlobalFunction.has_privilege(Session["user"].ToString(), "select", "master_customer") || AdminLTE1.Helpers.GlobalFunction.has_privilege(Session["user"].ToString(), "select", "master_user"))
+{
             <li class="master @Html.IsSelected(controller: "Master")">
                 <a href="#"><i class="fa fa-th-large"></i> <span class="nav-label">Masters</span> <span class="fa arrow"></span></a>
                 <ul class="nav nav-second-level collapse @Html.IsSelected(controller: "Master", cssClass: "in")">
+@if (AdminLTE1.Helpers.GlobalFunction.has_privilege(Session["user"].ToString(), "select", "master_kategori"))
+{
                     <li class="@Html.IsSelected(action: "Master_Kategori")"><a href="@Url.Action("Master_Kategori", "Master")">Master Kategori</a></li>
+}
+@if (AdminLTE1.Helpers.GlobalFunction.has_privilege(Session["user"].ToString(), "select", "master_supplier"))
+{
                     <li class="@Html.IsSelected(action: "Master_Supplier")"><a href="@Url.Action("Master_Supplier", "Master")">Master Supplier</a></li>
+}
+@if (AdminLTE1.Helpers.GlobalFunction.has_privilege(Session["user"].ToString(), "select", "master_customer"))
+{
                     <li class="@Html.IsSelected(action: "Master_Customer")"><a href="@Url.Action("Master_Customer", "Master")">Master Customer</a></li>
+}
+@if (AdminLTE1.Helpers.GlobalFunction.has_privilege(Session["user"].ToString(), "select", "master_user"))
+{
                     <li class="@Html.IsSelected(action: "Master_User")"><a href="@Url.Action("Master_User", "Master")">Master User</a></li>
+}
                 </ul>
             </li>
+}
+@if (AdminLTE1.Helpers.GlobalFunction.has_privilege(Session["user"].ToString(), "any", "role"))
+{
             <li class="@Html.IsSelected(controller: "Role")">
                 <a href="@Url.Action("Index", "Role")"><i class="fa fa-user"></i> <span>Manage Role</span></a>
             </li>
+}
             <!--li class="@(ViewContext.RouteData.Values["Controller"].ToString() == "Flow" ? "active" : "")">
                 <a href="@Url.Action("Index", "Flow")"><i class="fa fa-link"></i> <span>Flow Diagram</span></a>
             </li-->
@@ -29,3 +49,4 @@
         @* END Menu *@
     </section>
 </aside>
+}

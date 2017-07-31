@@ -1,0 +1,99 @@
+﻿@{
+    String concat_title = "";
+    hrfq hrfq_ = null;
+    List<drfq> drfq_ = null;
+    System.Globalization.CultureInfo indonesia = new System.Globalization.CultureInfo("id-ID");
+    using (var db = new dbsmsEntities())
+    {
+        try
+        {
+            concat_title = db.projects.Find(Convert.ToInt64(Session["project"] ?? 0)).name;
+            hrfq_ = db.projects.Find(Convert.ToInt64(Session["project"] ?? 0)).hrfqs.First();
+            drfq_ = hrfq_.drfqs.ToList();
+        }
+        catch { }
+
+<div class="row">
+    <div class="col-xs-12 col-md-12 col-lg-12 animated fadeInRight">
+            <div class="ibox-content p-xl">
+                <div class="row">
+                    <div class="col-sm-6">
+                        <h5>Order By:</h5>
+                        <address>
+                            <strong>@hrfq_.customer.name</strong><br>
+                            @hrfq_.customer.address<br>
+                            @hrfq_.customer.city<br>
+                            <abbr title="Phone">P:</abbr> @hrfq_.customer.phone
+                        </address>
+                        <h5>Quote To:</h5>
+                        <address>
+                            @Html.Raw(hrfq_.to.Replace("\n","<br>"))
+                        </address>
+                    </div>
+                    <div class="col-sm-6 text-right">
+                        <h1 class="text-navy">Quotation Request</h1>
+                        <br />
+                        @*<span>To:</span>
+                        <address>
+                            <strong>Corporate, Inc.</strong><br>
+                            112 Street Avenu, 1080<br>
+                            Miami, CT 445611<br>
+                            <abbr title="Phone">P:</abbr> (120) 9000-4321
+                        </address>*@
+                        <p>
+                            <span><strong>Request Date:</strong> @hrfq_.date.ToString("dd MMM yyyy")</span>
+                        </p>
+                    </div>
+                </div>
+                <div class="table-responsive m-t">
+                    <table class="table invoice-table table-bordered">
+                        <thead>
+                            <tr>
+                                <th style="text-align:center">Item</th>
+                                <th style="text-align:center">Description</th>
+                                <th style="text-align:center">Qty</th>
+                                <th style="text-align:center">Unit Price</th>
+                                <th style="text-align:center">Subtotal</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @{ 
+                                foreach (drfq item in drfq_)
+                                {
+                                    <tr>
+                                        <td>@item.item_category.name</td>
+                                        <td style="text-align:left">@item.itemdescription</td>
+                                        <td>@item.qty</td>
+                                        <td>@item.unitprice.ToString("C2", indonesia)</td>
+                                        <td>@item.subtotal.ToString("C2", indonesia)</td>
+                                    </tr>
+                                }
+                            }
+                        </tbody>
+                    </table>
+                </div><!-- /table-responsive -->
+                <div class="well col-md-6">
+                    <strong>Description: <br /></strong>
+                    @hrfq_.description
+                </div>
+                <table class="table invoice-total">
+                    <tbody>
+                        <tr>
+                            <td><strong>Total :</strong></td>
+                            <td>@drfq_.Select(x=>x.subtotal).Sum().ToString("C2", indonesia)</td>
+                        </tr>
+                    </tbody>
+                </table>
+                
+            </div>
+</div>
+    </div>
+    }
+    ViewBag.Title = "RFQ (Request For Quotation) - " + concat_title ?? "";
+}
+<script type="text/javascript">
+    $(document).ready(function () {
+        var t = $("#myTable").DataTable();
+        t.columns.adjust().draw();
+    });
+</script>

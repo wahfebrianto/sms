@@ -12,24 +12,44 @@ namespace AdminLTE1.Controllers
         // GET: Master
         public ActionResult Master_Kategori()
         {
+            if (!GlobalFunction.has_privilege(Session["user"].ToString(), "select", "master_kategori"))
+            {
+                TempData["back_url"] = Request.UrlReferrer.ToString();
+                return Redirect(Url.Action("error403", "Error"));
+            }
             ViewBag.success = TempData["success"];
             return View();
         }
 
         public ActionResult Master_Supplier()
         {
+            if (!GlobalFunction.has_privilege(Session["user"].ToString(), "select", "master_supplier"))
+            {
+                TempData["back_url"] = Request.UrlReferrer.ToString();
+                return Redirect(Url.Action("error403", "Error"));
+            }
             ViewBag.success = TempData["success"];
             return View();
         }
 
         public ActionResult Master_Customer()
         {
+            if (!GlobalFunction.has_privilege(Session["user"].ToString(), "select", "master_customer"))
+            {
+                TempData["back_url"] = Request.UrlReferrer.ToString();
+                return Redirect(Url.Action("error403", "Error"));
+            }
             ViewBag.success = TempData["success"];
             return View();
         }
 
         public ActionResult Master_User()
         {
+            if (!GlobalFunction.has_privilege(Session["user"].ToString(), "select", "master_user"))
+            {
+                TempData["back_url"] = Request.UrlReferrer.ToString();
+                return Redirect(Url.Action("error403", "Error"));
+            }
             ViewBag.success = TempData["success"];
             return View();
         }
@@ -39,7 +59,7 @@ namespace AdminLTE1.Controllers
         {
             using (var db = new dbsmsEntities())
             {
-                if(String.IsNullOrEmpty(catId))
+                if (String.IsNullOrEmpty(catId))
                 {
                     item_category data = new item_category();
                     data.name = catName;
@@ -58,7 +78,7 @@ namespace AdminLTE1.Controllers
             TempData["success"] = "Your data has been saved.";
             return RedirectToAction("Master_Kategori", "Master");
         }
-        
+
         [HttpGet]
         public ActionResult delete_category(string catId)
         {
@@ -75,7 +95,7 @@ namespace AdminLTE1.Controllers
             return RedirectToAction("Master_Kategori", "Master");
         }
         [HttpPost]
-        public ActionResult save_supplier(string suppId, string suppName, string suppAddress, string suppCity,string suppPhone, string suppDesc)
+        public ActionResult save_supplier(string suppId, string suppName, string suppAddress, string suppCity, string suppPhone, string suppDesc, int mode=0)
         {
             using (var db = new dbsmsEntities())
             {
@@ -102,6 +122,10 @@ namespace AdminLTE1.Controllers
                 db.SaveChanges();
             }
             TempData["success"] = "Your data has been saved.";
+            if (mode != 0)
+            {
+                return null;
+            }
             return RedirectToAction("Master_Supplier", "Master");
         }
 
@@ -122,7 +146,7 @@ namespace AdminLTE1.Controllers
         }
 
         [HttpPost]
-        public ActionResult save_customer(string custId, string custName, string custAddress, string custCity, string custPhone, string custDesc)
+        public ActionResult save_customer(string custId, string custName, string custAddress, string custCity, string custPhone, string custDesc,int mode=0)
         {
             using (var db = new dbsmsEntities())
             {
@@ -149,9 +173,12 @@ namespace AdminLTE1.Controllers
                 db.SaveChanges();
             }
             TempData["success"] = "Your data has been saved.";
+            if(mode != 0)
+            {
+                return null;
+            }
             return RedirectToAction("Master_Customer", "Master");
         }
-
         [HttpGet]
         public ActionResult delete_customer(string custId)
         {
@@ -169,12 +196,12 @@ namespace AdminLTE1.Controllers
         }
 
         [HttpPost]
-        public string save_user(string userId, string userName, string userUserName,string userDesc)
+        public string save_user(string userId, string userName, string userUserName, string userDesc)
         {
             string userPass = "";
             using (var db = new dbsmsEntities())
             {
-                if( db.users.Select(x => x.username).Contains(userUserName))
+                if (db.users.Select(x => x.username).Contains(userUserName))
                 {
                     return "0";
                 }
@@ -220,7 +247,7 @@ namespace AdminLTE1.Controllers
 
         public String getRole(string userid)
         {
-            using(var db = new dbsmsEntities())
+            using (var db = new dbsmsEntities())
             {
                 String result = "";
                 List<role> data = db.users.Find(Convert.ToInt64(userid)).roles.ToList();
@@ -231,7 +258,7 @@ namespace AdminLTE1.Controllers
                 return result;
             }
         }
-        public ActionResult save_role(String param,String userid)
+        public ActionResult save_role(String param, String userid)
         {
             using (var db = new dbsmsEntities())
             {
@@ -247,7 +274,24 @@ namespace AdminLTE1.Controllers
                 }
                 db.SaveChanges();
             }
-            return RedirectToAction("Master_User","Master");
+            return RedirectToAction("Master_User", "Master");
+        }
+
+        public String reset_pass(String userid)
+        {
+            using (var db = new dbsmsEntities())
+            {
+                user data = db.users.Find(Convert.ToInt64(userid));
+                data.password = MD5.Hash(data.username + "123");
+                db.SaveChanges();
+            }
+            return "reset ke username + 123";
+        }
+
+        public Int64 get_max_id(String tableName)
+        {
+            Int64 id = GlobalFunction.get_max_id(tableName);
+            return id;
         }
     }
 }

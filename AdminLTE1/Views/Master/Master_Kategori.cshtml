@@ -35,7 +35,7 @@
                     </div>
                 </div>
             </div>
-            <table class="table table-bordered table-hover">
+            <table class="table table-bordered table-hover table-responsive">
                 <thead>
                     <tr>
                         <th class="col-md-1">
@@ -50,7 +50,10 @@
                         <th class="col-md-5">
                             DESCRIPTION
                         </th>
+@if (AdminLTE1.Helpers.GlobalFunction.has_privilege(Session["user"].ToString(), "update and delete", "master_kategori"))
+{
                         <th class="col-md-2"></th>
+}
                     </tr>
                 </thead>
                 <tbody>
@@ -78,17 +81,23 @@
                                     <td>
                                         @item.description
                                     </td>
+                                    @if (AdminLTE1.Helpers.GlobalFunction.has_privilege(Session["user"].ToString(), "update and delete", "master_kategori"))
+                                    {
                                     <td class="text-center">
                                         <button class="btn btn-success btn_edit" style="margin-right:10px;" data-toggle="modal" data-target="#myModal">Edit</button>
                                         <button class="btn btn-danger btn_delete">Delete</button>
                                     </td>
+                                    }
                                 </tr>
                             }
                         }
                     }
                 </tbody>
             </table>
+@if (AdminLTE1.Helpers.GlobalFunction.has_privilege(Session["user"].ToString(), "insert", "master_kategori"))
+{
             <button class="btn btn-primary pull-right" id="btn_add" data-toggle="modal" data-target="#myModal">Add New Item Category</button>
+}
         </div>
     </div>
 </div>

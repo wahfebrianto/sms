@@ -1,0 +1,130 @@
+﻿@{
+    String concat_title = "";
+    hsalesorder hsalesorder_ = null;
+    List<dsalesorder> dsalesorder_ = null;
+    System.Globalization.CultureInfo indonesia = new System.Globalization.CultureInfo("id-ID");
+    using (var db = new dbsmsEntities())
+    {
+        try
+        {
+            concat_title = db.projects.Find(Convert.ToInt64(Session["project"] ?? 0)).name;
+            hsalesorder_ = db.projects.Find(Convert.ToInt64(Session["project"] ?? 0)).hsalesorders.First();
+            dsalesorder_ = hsalesorder_.dsalesorders.ToList();
+        }
+        catch { }
+        <div class="row" style="margin-bottom:10px;">
+            <div class="col-xs-12 col-md-12 col-lg-12 animated fadeInRight">
+                <div class="ibox-content">
+                    <div class="row">
+                        <button class="pull-right btn btn-default" style="margin-right:2%">Print</button>
+                        <button class="pull-right btn btn-success" style="margin-right:15px">Edit</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-xs-12 col-md-12 col-lg-12 animated fadeInRight">
+                <div class="ibox-content p-xl">
+                    <div class="row">
+                        <div class="col-sm-6">
+                            <h5>Order By:</h5>
+                            <address>
+                                <strong>@hsalesorder_.customer.name</strong><br>
+                                @hsalesorder_.customer.address<br>
+                                @hsalesorder_.customer.city<br>
+                                <abbr title="Phone">P:</abbr> @hsalesorder_.customer.phone
+                            </address>
+                            <h5>Quote To:</h5>
+                            <address>
+                                @Html.Raw(hsalesorder_.project.hpenawarans.First().to.Replace("\n", "<br>"))
+                            </address>
+                        </div>
+                        <div class="col-sm-6 text-right">
+                            <h1 class="text-navy">Sales Order</h1>
+                            <br />
+                            <span></span>
+                            <address>
+                                <strong>UD Sarana Mitra Sinergi</strong><br>
+                                Jl. Gayungsari I/30<br>
+                                Surabaya, Jawa Timur 60235<br>
+                                @*<abbr title="Phone">P:</abbr> (120) 9000-4321*@
+                            </address>
+                            <p>
+                                <span><strong>SO Number:</strong> @hsalesorder_.number</span>
+                            </p>
+                            <p>
+                                <span><strong>SO Date:</strong> @hsalesorder_.date.ToString("dd MMM yyyy")</span>
+                            </p>
+                            <p>
+                                <span><strong>SO Expected Date:</strong> @hsalesorder_.expecteddate.ToString("dd MMM yyyy")</span>
+                            </p>
+                            <p>
+                                @{ 
+                                    DateTime iniapa = (hsalesorder_.designdate != null)? hsalesorder_.designdate.Value:new DateTime();
+                                    String apasih = (hsalesorder_.designdate == null) ? "-" : iniapa.ToString("dd MMM yyyy");
+                                }
+                                <span><strong>SO Design Date:</strong> @apasih</span>
+                            </p>
+                        </div>
+                    </div>
+                    <div class="table-responsive m-t">
+                        <table class="table invoice-table table-bordered">
+                            <thead>
+                                <tr>
+                                    <th style="text-align:center">Item</th>
+                                    <th style="text-align:center">Description</th>
+                                    <th style="text-align:center">Qty</th>
+                                    <th style="text-align:center">Unit Price</th>
+                                    <th style="text-align:center">Subtotal</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @{
+                                    foreach (dsalesorder item in dsalesorder_)
+                                    {
+                                        <tr>
+                                            <td>@item.item_category.name</td>
+                                            <td style="text-align:left">@item.itemdescription</td>
+                                            <td>@item.qty</td>
+                                            <td>@item.unitprice.ToString("C2", indonesia)</td>
+                                            <td>@item.subtotal.ToString("C2", indonesia)</td>
+                                        </tr>
+                                    }
+                                }
+                            </tbody>
+                        </table>
+                    </div><!-- /table-responsive -->
+                    <div class="well col-md-6">
+                        <strong>Description: <br /></strong>
+                        @hsalesorder_.description
+                    </div>
+                    <table class="table invoice-total">
+                        <tbody>
+                            <tr>
+                                <td><strong>Total :</strong></td>
+                                <td>@hsalesorder_.total.ToString("C2", indonesia)</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Down Payment :</strong></td>
+                                <td>@hsalesorder_.dp.ToString("C2", indonesia)</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Grand Total :</strong></td>
+                                <td>@hsalesorder_.grandtotal.ToString("C2", indonesia)</td>
+                            </tr>
+                        </tbody>
+                    </table>
+
+                </div>
+            </div>
+        </div>
+                                    }
+                                    ViewBag.Title = "Sales Order - " + concat_title ?? "";
+}
+<script type="text/javascript">
+    $(document).ready(function () {
+        var t = $("#myTable").DataTable();
+        t.columns.adjust().draw();
+    });
+</script>
