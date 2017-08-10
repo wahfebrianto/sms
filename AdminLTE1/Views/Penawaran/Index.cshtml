@@ -23,7 +23,7 @@
                 
                 <div class="form-group  col-md-6">
                     <label for="quoteTo">Quote To : </label><br />
-                    <textarea class="form-control col-lg-6 col-md-6 col-xs-6" id="quoteTo" readonly>@quoteTo</textarea><br /><br /><br />
+                    <textarea class="form-control col-lg-6 col-md-6 col-xs-6" id="quoteTo" readonly rows="6">@quoteTo</textarea><br /><br /><br />
                 </div>
                
                 <div class="form-group  col-md-6">
@@ -98,10 +98,13 @@
                     }
                 </tbody>
             </table>
+@if (AdminLTE1.Helpers.GlobalFunction.has_privilege(Session["user"].ToString(), "insert", "penawaran"))
+{
             <button class="btn btn-foursquare pull-right" id="btn_select" type="button">Select Checked</button>
-            </br></br></br></br>
+            <br/><br/><br/><br/>
             @*<button class="btn btn-lg btn-primary pull-right" id="btn_print" style="margin-left:10px;">Print</button>*@
             <button type="button" class="btn btn-lg btn-success pull-right" id="btn_save">Save</button>
+}
         </div>
     </div>
 </div>
@@ -140,7 +143,9 @@
             }
         });
         //
-        var t = $("#myTable2").DataTable();
+        var t = $("#myTable2").DataTable({
+            "bPaginate": false
+        });
         s.columns.adjust().draw();
         t.columns.adjust().draw();
         $('#myTable2 tbody').on('click',"button", function () {

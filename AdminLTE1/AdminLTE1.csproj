@@ -360,9 +360,6 @@
     <Compile Include="hsalesorder.cs">
       <DependentUpon>SMSModel.tt</DependentUpon>
     </Compile>
-    <Compile Include="hsalespayment.cs">
-      <DependentUpon>SMSModel.tt</DependentUpon>
-    </Compile>
     <Compile Include="hsuratjalan.cs">
       <DependentUpon>SMSModel.tt</DependentUpon>
     </Compile>
@@ -404,6 +401,9 @@
       <DependentUpon>SMSModel.tt</DependentUpon>
     </Compile>
     <Compile Include="salesordernote.cs">
+      <DependentUpon>SMSModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="salespayment.cs">
       <DependentUpon>SMSModel.tt</DependentUpon>
     </Compile>
     <Compile Include="salespaymentnote.cs">
@@ -499,6 +499,13 @@
     <Content Include="Views\FindPrices\History.cshtml" />
     <Content Include="Views\Penawaran\History.cshtml" />
     <Content Include="Views\SalesOrder\History.cshtml" />
+    <Content Include="Views\PurchaseOrder\History.cshtml" />
+    <Content Include="Views\ReceiveItem\History.cshtml" />
+    <Content Include="Views\SalesInvoice\History.cshtml" />
+    <Content Include="Views\PurchaseInvoice\History.cshtml" />
+    <Content Include="Views\PurchasePayment\History.cshtml" />
+    <Content Include="Views\SuratJalan\History.cshtml" />
+    <Content Include="Views\SalesPayment\History.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

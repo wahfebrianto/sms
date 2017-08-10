@@ -19,7 +19,6 @@ namespace AdminLTE1
         {
             this.dpurchaseinvoices = new HashSet<dpurchaseinvoice>();
             this.purchasepayments = new HashSet<purchasepayment>();
-            this.purchaseinvoicenotes = new HashSet<purchaseinvoicenote>();
         }
     
         public long id { get; set; }
@@ -31,6 +30,9 @@ namespace AdminLTE1
         public long diskon { get; set; }
         public long total { get; set; }
         public string description { get; set; }
+        public string terms { get; set; }
+        public long grandtotal { get; set; }
+        public byte status { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<dpurchaseinvoice> dpurchaseinvoices { get; set; }
@@ -39,7 +41,5 @@ namespace AdminLTE1
         public virtual ICollection<purchasepayment> purchasepayments { get; set; }
         public virtual project project { get; set; }
         public virtual supplier supplier { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<purchaseinvoicenote> purchaseinvoicenotes { get; set; }
     }
 }

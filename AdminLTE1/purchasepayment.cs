@@ -14,12 +14,6 @@ namespace AdminLTE1
     
     public partial class purchasepayment
     {
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public purchasepayment()
-        {
-            this.purchasepaymentnotes = new HashSet<purchasepaymentnote>();
-        }
-    
         public long id { get; set; }
         public long projectid { get; set; }
         public long purchaseinvoiceid { get; set; }
@@ -34,7 +28,5 @@ namespace AdminLTE1
         public virtual hpurchaseinvoice hpurchaseinvoice { get; set; }
         public virtual project project { get; set; }
         public virtual supplier supplier { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<purchasepaymentnote> purchasepaymentnotes { get; set; }
     }
 }

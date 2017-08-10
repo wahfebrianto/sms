@@ -54,6 +54,7 @@ namespace AdminLTE1.App_Start
 #else
             BundleTable.EnableOptimizations = true;
 #endif
+            bundles.IgnoreList.Clear();
         }
     }
 }

@@ -18,7 +18,6 @@ namespace AdminLTE1
         public hrfq()
         {
             this.drfqs = new HashSet<drfq>();
-            this.rfqnotes = new HashSet<rfqnote>();
         }
     
         public long id { get; set; }
@@ -33,7 +32,5 @@ namespace AdminLTE1
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<drfq> drfqs { get; set; }
         public virtual project project { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<rfqnote> rfqnotes { get; set; }
     }
 }

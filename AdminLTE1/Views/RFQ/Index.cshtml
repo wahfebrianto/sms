@@ -22,8 +22,7 @@
                             <h4 class="modal-title">New Project</h4>
                             <small class="font-bold"></small>
                         </div>
-                        @using (Html.BeginForm("new_project", "RFQ", FormMethod.Post))
-                        {
+                        <form method="POST">
                             <div class="modal-body">
                                 <div class="form-group">
                                     <label>Project Name : </label>
@@ -32,9 +31,9 @@
                             </div>
                             <div class="modal-footer">
                                 <a href="@Url.Action("Index", "Home")"><button type="button" class="btn btn-white">Cancel</button></a>
-                                <button type="submit" class="btn btn-primary">Save</button>
+                                <button type="submit" class="btn btn-primary" id="save_project_name">Save</button>
                             </div>
-                        }
+                        </form>
                     </div>
                 </div>
             </div>
@@ -97,7 +96,10 @@
                     }
                 }
                 </select>
+@if (AdminLTE1.Helpers.GlobalFunction.has_privilege(Session["user"].ToString(), "insert", "master_customer"))
+{
                 <button type="button" class="col-md-2 btn btn-dropbox pull-right" data-toggle="modal" data-target="#myModal11" id="btn-tambah-cust">Tambah</button>
+}
                 <br /><br />
                 <label for="quoteTo">Quote To : </label><br />
                 <textarea cols="100" rows="5" id="quoteTo" readonly></textarea><br /><br />
@@ -120,16 +122,22 @@
             </table>
             <br />
             <div>
+@if (AdminLTE1.Helpers.GlobalFunction.has_privilege(Session["user"].ToString(), "insert", "rfq"))
+{
                 <button id="addRow" class="pull-left btn btn-default clearfix">Add</button>
-                <br /><p id="grandtotal" class="pull-right">Total : Rp. 0,00</p>
+}
+                <br /><p id="grandtotal" class="pull-right text-bold">Total : Rp. 0,00</p>
             </div>
             <br /><br />
             <div>
                 <label>Description : </label>
                 <textarea class="form-control col-md-5 col-lg-5 col-xs-5" id="txtDesc"></textarea>
             </div>
+            @if (AdminLTE1.Helpers.GlobalFunction.has_privilege(Session["user"].ToString(), "insert", "rfq"))
+            {
             <a href="#"><button id="btn_save" class="btn btn-success">Save</button></a>
-            
+            }
+
         </div>
     </div>
 </div>
@@ -159,7 +167,9 @@
         $("#quoteTo").val($(opt).attr("alamat") + "\n" + $(opt).attr("kota") + "\n" + $(opt).attr("telp"));
         @if (Session["project"] == null)
         {
-            <text>$("#myModal").modal('show');</text>
+            <text>
+                $("#myModal").modal('show');
+            </text>
         }
         $("#orderBy").change(function () {
             var selected = $(this).val();
@@ -173,11 +183,13 @@
             else {
                 var selected = $("#orderBy").val();
                 var opt = $("#c-" + selected);
-                $("#quoteTo").val($(opt).attr("alamat") + "\n" + $(opt).attr("kota") + "\n" + $(opt).attr("telp"));
+                $("#quoteTo").val($(opt).html() + "\n" + $(opt).attr("alamat") + "\n" + $(opt).attr("kota") + "\n" + $(opt).attr("telp"));
                 $("#quoteTo").attr("readonly", "readonly");
             }
         });
-        var t = $("#myTable").DataTable();
+        var t = $("#myTable").DataTable({
+            "bPaginate": false
+        });
         t.columns.adjust().draw();
         $('#myTable tbody').on('click', "button", function () {
             t
@@ -192,7 +204,7 @@
                 selectKategori += "<option value='"+idkategori[i]+"'>"+namakategori[i]+"</option>";
             }
             selectKategori += "</select>";
-            var h = t.row.add([selectKategori, "<input class='form-control col-md-12' type='text' style='width:100%'></input>", "<input class='form-control col-md-12 barisqty' type='number' min='0' style='width:100%' value='0'/>", "<input class='form-control col-md-12 barisunitprice' min='0' type='number' style='width:100%' value='0'/>", "<p class='subtotal'>Rp 0</p>", "<button class='btn btn-danger'>Delete</button>"]).draw(false);
+            var h = t.row.add([selectKategori, "<input class='form-control col-md-12' type='text' style='width:100%'></input>", "<input class='form-control col-md-12 barisqty' type='number' min='0' style='width:100%' value='0'/>", "<input class='form-control col-md-12 barisunitprice' min='0' step='100' type='number' style='width:100%' value='0'/>", "<p class='subtotal'>Rp 0</p>", "<button class='btn btn-danger'>Delete</button>"]).draw(false);
             $('.newSelect').select2();
         });
         $(document).on('input', ".barisqty", function (e) {
@@ -201,7 +213,7 @@
             qty = (qty == "") ? 0 : qty;
             price = (price == "") ? 0 : price;
             var sub = qty * price;
-            $(e.target).parent().parent().children().eq(4).children().eq(0).html("Rp " + (sub).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ","));
+            $(e.target).parent().parent().children().eq(4).children().eq(0).html("Rp " + (sub).toString().replace(/\B(?=(\d{3})+(?!\d))/g, "."));
         });
         $(document).on('input', ".barisunitprice", function (e) {
             var qty = $(e.target).parent().parent().children().eq(2).children().eq(0).val();
@@ -209,25 +221,28 @@
             qty = (qty == "") ? 0 : qty;
             price = (price == "") ? 0 : price;
             var sub = qty * price;
-            $(e.target).parent().parent().children().eq(4).children().eq(0).html("Rp " + (sub).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ","));
+            $(e.target).parent().parent().children().eq(4).children().eq(0).html("Rp " + (sub).toString().replace(/\B(?=(\d{3})+(?!\d))/g, "."));
         });
         $(document).on('DOMSubtreeModified', ".subtotal", function (e) {
             var elements = $(".subtotal");
             var total = 0;
             for (var i = 0; i < elements.length; i++) {
-                total += parseInt($(elements[i]).html().toString().replace("Rp ", "").toString().replace(",", ""));
+                total += parseInt($(elements[i]).html().toString().replace("Rp ", "").toString().replace(/\./g, "", ""));
             }
-            $("#grandtotal").html("Rp " + total.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ","));
+            $("#grandtotal").html("Total : Rp" + total.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".")+",00");
+        });
+
+        $("#save_project_name").click(function() {
+            $("#myModal").modal('hide');
+            return false;
         });
 
         $("#btn_save").click(function () {
             //header
-            @if (Session["project"] != null) {
-                <text>
                 var quotedate = $("#quoteDate").val();
                 var orderBy = $("#orderBy").val();
                 var quoteto = $("#quoteTo").val();
-                var projectid = @(Session["project"].ToString()??"");
+                var projectname = $("#projectName").val();
                 var description = $("#txtDesc").val();
                 var elements = $("#myTable tbody tr");
                 if($(elements).children().length > 1){
@@ -254,7 +269,7 @@
                         $.ajax({
                             type: "POST",
                             url: "@Url.Action("save_all","RFQ")",
-                            data: { date:quotedate,customerid:orderBy,to:quoteto,description:description,projectid:projectid,detail:detail },
+                            data: { date: quotedate, customerid: orderBy, to: quoteto, description: description, projectname: projectname, detail: detail },
                             success: function (data) {
                                 if(data == "success"){
                                     swal({
@@ -278,8 +293,6 @@
                 else{
                     swal("Failed!", "Detail must not be empty", "error");
                 }
-                </text>
-            }
 
 
         });

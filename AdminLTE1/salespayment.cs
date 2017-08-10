@@ -12,17 +12,12 @@ namespace AdminLTE1
     using System;
     using System.Collections.Generic;
     
-    public partial class hsalespayment
+    public partial class salespayment
     {
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public hsalespayment()
-        {
-            this.salespaymentnotes = new HashSet<salespaymentnote>();
-        }
-    
         public long id { get; set; }
         public long projectid { get; set; }
         public string number { get; set; }
+        public long salesinvoiceid { get; set; }
         public System.DateTime date { get; set; }
         public string to { get; set; }
         public long total { get; set; }
@@ -30,8 +25,7 @@ namespace AdminLTE1
         public string type { get; set; }
         public string note { get; set; }
     
+        public virtual hsalesinvoice hsalesinvoice { get; set; }
         public virtual project project { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<salespaymentnote> salespaymentnotes { get; set; }
     }
 }

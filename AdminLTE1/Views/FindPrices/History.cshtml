@@ -10,7 +10,16 @@
             findprice_ = db.projects.Find(Convert.ToInt64(Session["project"] ?? 0)).findprices.ToList();
         }
         catch { }
-
+        <div class="row" style="margin-bottom:10px;">
+            <div class="col-xs-12 col-md-12 col-lg-12 animated fadeInRight">
+                <div class="ibox-content">
+                    <div class="row">
+                        <button class="pull-right btn btn-default" style="margin-right:2%">Print</button>
+                        <button class="pull-right btn btn-success" style="margin-right:15px">Edit</button>
+                    </div>
+                </div>
+            </div>
+        </div>
         <div class="row">
             <div class="col-xs-12 col-md-12 col-lg-12 animated fadeInRight">
                 <div class="ibox-content p-xl">
@@ -45,7 +54,7 @@
                                             <td>@item.qty</td>
                                             <td>@item.unitprice.ToString("C2", indonesia)</td>
                                             <td>@item.timeneeded Days</td>
-                                            <td>@item.description</td>
+                                            <td style="text-align:left">@item.description</td>
                                         </tr>
                                     }
                                 }

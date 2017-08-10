@@ -1,55 +1,66 @@
 ﻿@{
-    ViewBag.Title = "Receive Item";
+    String concat_title = "";
+    using (var db = new dbsmsEntities())
+    {
+        try
+        {
+            concat_title = db.projects.Find(Convert.ToInt64(Session["project"] ?? 0)).name;
+        }
+        catch { }
+    }
+    ViewBag.Title = "Receive Item - " + concat_title ?? "";
+    System.Globalization.CultureInfo indonesia = new System.Globalization.CultureInfo("id-ID");
 }
 
 <div class="row">
     <div class="col-xs-12 col-md-12 col-lg-12">
         <div class="box box-default panel-body">
             <label>List of Receive Item</label>
-            <table id="myTable" class="table table-hover">
+            <table id="myTable" class="table table-hover table-bordered">
                 <thead>
                     <tr>
-                        <th class="col-md-1">No</th>
-                        <th class="col-md-2">Receipt No</th>
-                        <th class="col-md-2">PO No</th>
-                        <th class="col-md-2">Receive Date</th>
-                        <th class="col-md-1">Supplier</th>
-                        <th class="col-md-2">Description</th>
-                        <th class="col-md-2">Action</th>
+                        <th class="col-md-2 text-center">Receipt No</th>
+                        <th class="col-md-2 text-center">PO No</th>
+                        <th class="col-md-2 text-center">Receive Date</th>
+                        <th class="col-md-2 text-center">Supplier</th>
+                        <th class="col-md-2 text-center">Description</th>
+                        <th class="col-md-2 text-center">Action</th>
                     </tr>
                 </thead>
                 <tbody>
-                    <tr>
-                        <td>1</td>
-                        <td>ABC001</td>
-                        <td>PO001</td>
-                        <td>19 May 2017</td>
-                        <td>PT Sumber Untung</td>
-                        <td>Baru setengah</td>
-                        <td><a href="ReceiveItem/Transaksi"><button style="margin-left:2%" class="btn btn-info col-md-3 pull-left">Edit</button></a><a href="ReceiveItem/Transaksi"><button style="margin-left:2%" class="btn btn-danger col-md-3 pull-left">Delete</button> </a><button style="margin-left:2%"  class="btn btn-default pull-left col-md-3">Print</button></td>
-                    </tr>
-                    <tr>
-                        <td>2</td>
-                        <td>ABC002</td>
-                        <td>PO002</td>
-                        <td>20 May 2017</td>
-                        <td>PT Sumber Untung</td>
-                        <td>Sisanya</td>
-                        <td><a href="ReceiveItem/Transaksi"><button style="margin-left:2%" class="btn btn-info col-md-3 pull-left">Edit</button></a><a href="ReceiveItem/Transaksi"><button style="margin-left:2%" class="btn btn-danger col-md-3 pull-left">Delete</button> </a><button style="margin-left:2%" class="btn btn-default pull-left col-md-3">Print</button></td>
-                    </tr>
+                    @{ 
+                        using (var db = new dbsmsEntities())
+                        {
+                            foreach(hreceiveitem ri in db.projects.Find(Convert.ToInt64(Session["project"])).hreceiveitems.ToList())
+                            {
+                                <tr>
+                                    <td>@ri.number</td>
+                                    <td>@ri.hpo.number</td>
+                                    <td>@ri.date.ToString("dd MMMM yyyy")</td>
+                                    <td>@ri.supplier.name</td>
+                                    <td>@ri.description</td>
+                                    <td>
+                                        <a href="ReceiveItem/History?id=@ri.id">
+                                                <button type="button" style="margin-left:33%" class="btn btn-info col-md-3 btn_detail" >Detail</button>
+                                        </a>
+                                    </td>
+                                </tr>
+                            }
+                        }
+                    }
                 </tbody>
             </table>
-            <div class="col-md-12"><a href="ReceiveItem/Transaksi"><button id="btnAdd" class="btn btn-success col-md-1 pull-right" data-toggle="modal" data-target="#myModal">Add</button></a></div>
-
-
-
+@if (AdminLTE1.Helpers.GlobalFunction.has_privilege(Session["user"].ToString(), "insert", "receive_item"))
+{
+            <div class="col-md-12"><a href="ReceiveItem/Transaksi"><button id="btnAdd" class="btn btn-success col-md-1 pull-right">Add</button></a></div>
+}
         </div>
     </div>
 </div>
 <script>
     $(document).ready(function () {
-        $('#PONo').select2({
-            dropdownParent: $('#myModal')
+        $('#myTable').DataTable({
+            "bPaginate": false
         });
     });
 </script>

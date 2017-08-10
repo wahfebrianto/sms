@@ -11,6 +11,11 @@ namespace AdminLTE1.Controllers
         // GET: RFQ
         public ActionResult Index()
         {
+            if (!GlobalFunction.has_privilege(Session["user"].ToString(), "select", "rfq"))
+            {
+                TempData["back_url"] = Request.UrlReferrer.ToString();
+                return Redirect(Url.Action("error403", "Error"));
+            }
             //return Redirect(Request.UrlReferrer.ToString());
             using (var db = new dbsmsEntities())
             {
@@ -25,27 +30,22 @@ namespace AdminLTE1.Controllers
             }
         }
 
-        public ActionResult new_project(String projectName)
-        {
-            using (var db = new dbsmsEntities())
-            {
-                status s = new status();
-                project p = new project();
-                p.status1 = s;
-                p.name = projectName;
-                p.status = 0;
-                p.description = "";
-                db.projects.Add(p);
-                db.SaveChanges();
-                Session["project"] = db.projects.Select(x => x.id).Max();
-            }
-            return Redirect(Url.Action("Index", "RFQ"));
-        }
-
-        public String save_all(String date,long customerid,string to,string description,long projectid,string detail)
+        public String save_all(String date,long customerid,string to,string description, String projectName, string detail)
         {
             try
             {
+                using (var db = new dbsmsEntities())
+                {
+                    status s = new status();
+                    project p = new project();
+                    p.status1 = s;
+                    p.name = projectName;
+                    p.status = 0;
+                    p.description = "";
+                    db.projects.Add(p);
+                    db.SaveChanges();
+                    Session["project"] = db.projects.Select(x => x.id).Max();
+                }
                 DateTime datenow = Convert.ToDateTime(date);
                 using (var db = new dbsmsEntities())
                 {
@@ -54,7 +54,7 @@ namespace AdminLTE1.Controllers
                     newdata.customerid = customerid;
                     newdata.to = to;
                     newdata.description = description;
-                    newdata.projectid = projectid;
+                    newdata.projectid = Convert.ToInt64(Session["project"]);
                     db.hrfqs.Add(newdata);
                     String[] res = detail.Split('ѥ');
                     for(int i=0;i<res.Length-1;i++)

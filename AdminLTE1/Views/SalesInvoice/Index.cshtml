@@ -1,5 +1,16 @@
 ﻿@{
-    ViewBag.Title = "List Of Sales Invoice";
+    String concat_title = "";
+    using (var db = new dbsmsEntities())
+    {
+        try
+        {
+            concat_title = db.projects.Find(Convert.ToInt64(Session["project"] ?? 0)).name;
+        }
+        catch { }
+    }
+    ViewBag.Title = "List Of Sales Invoice - " + concat_title ?? "";
+    System.Globalization.CultureInfo indonesia = new System.Globalization.CultureInfo("id-ID");
+    Int64 projid = Convert.ToInt64(Session["project"]);
 }
 
 <div class="row">
@@ -8,10 +19,9 @@
             <table id="myTable1" class="table table-hover table-bordered">
                 <thead>
                     <tr>
-                        <th>No</th>
                         <th>Invoice No</th>
                         <th>Invoice Date</th>
-                        <th>Terms</th>
+                        <th>SO No</th>
                         <th>Bill To</th>
                         <th>Total</th>
                         <th>Description</th>
@@ -19,8 +29,26 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <tr>
-                        <td>1</td>
+                    @{
+                        using (var db = new dbsmsEntities())
+                        {
+
+                            foreach (hsalesinvoice item in db.hsalesinvoices.Where(x => x.projectid == projid))
+                            {
+                                <tr>
+                                    <td>@item.number</td>
+                                    <td>@item.date.ToString("dd MMMM yyyy")</td>
+                                    <td>@item.project.hsalesorders.First().number</td>
+                                    <td>@item.customer.name</td>
+                                    <td class="text-right">@item.grandtotal.ToString("C2", indonesia)</td>
+                                    <td>@item.description</td>
+                                    <td class="text-center"><a href="SalesInvoice/History?id=@item.id"><button class="btn btn-warning">Detail</button></a></td>
+                                </tr>
+                            }
+                        }
+                    }
+
+                    @*<tr>
                         <td>JS-17-03-023233</td>
                         <td>24 Feb 2017</td>
                         <td>COD</td>
@@ -28,10 +56,13 @@
                         <td>Rp 200.000</td>
                         <td>Lorem ipsum dolor sit amet, consectetuer adipiscing elit. </td>
                         <td><a href="SalesInvoice/Transaksi"><button class="btn btn-warning pull-left">Edit</button></a> <button class="btn btn-default pull-right">Print</button></td>
-                    </tr>
+                    </tr>*@
                 </tbody>
             </table>
+@if (AdminLTE1.Helpers.GlobalFunction.has_privilege(Session["user"].ToString(), "insert", "sales_invoice"))
+{
             <div class="col-md-12"><a href="SalesInvoice/Transaksi"><button id="btnAdd" class="btn btn-success col-md-1 pull-right">Add</button></a></div>
+}
         </div>
     </div>
 </div>

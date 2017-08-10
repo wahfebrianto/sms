@@ -18,7 +18,7 @@ namespace AdminLTE1
         public hsalesinvoice()
         {
             this.dsalesinvoices = new HashSet<dsalesinvoice>();
-            this.salesinvoicenotes = new HashSet<salesinvoicenote>();
+            this.salespayments = new HashSet<salespayment>();
         }
     
         public long id { get; set; }
@@ -29,12 +29,15 @@ namespace AdminLTE1
         public long total { get; set; }
         public string description { get; set; }
         public long customerid { get; set; }
+        public long diskon { get; set; }
+        public long grandtotal { get; set; }
+        public byte status { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<dsalesinvoice> dsalesinvoices { get; set; }
         public virtual project project { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<salesinvoicenote> salesinvoicenotes { get; set; }
         public virtual customer customer { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<salespayment> salespayments { get; set; }
     }
 }

@@ -15,11 +15,11 @@ namespace AdminLTE1
     public partial class rfqnote
     {
         public long id { get; set; }
-        public long rfqid { get; set; }
+        public long projectid { get; set; }
         public string username { get; set; }
         public System.DateTime date { get; set; }
         public string text { get; set; }
     
-        public virtual hrfq hrfq { get; set; }
+        public virtual project project { get; set; }
     }
 }

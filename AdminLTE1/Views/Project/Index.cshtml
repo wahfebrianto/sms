@@ -8,21 +8,21 @@
                 <thead>
                     <tr>
                         <th class="hidden">Id</th>
-                        <th>Customer</th>
-                        <th>Status</th>
-                        <th>Project</th>
-                        <th>Description</th>
-                        <th>Action</th>
+                        <th class="text-center">Customer</th>
+                        <th class="text-center">Status</th>
+                        <th class="text-center">Project</th>
+                        <th class="text-center">Description</th>
+                        <th class="text-center">Action</th>
                     </tr>
                 </thead>
                 <tfoot>
                     <tr>
                         <th class="hidden">Id</th>
-                        <th>Customer</th>
-                        <th>Status</th>
-                        <th>Project</th>
-                        <th>Description</th>
-                        <th>Action</th>
+                        <th class="text-center">Customer</th>
+                        <th class="text-center">Status</th>
+                        <th class="text-center">Project</th>
+                        <th class="text-center">Description</th>
+                        <th class="text-center">Action</th>
                     </tr>
                 </tfoot>
                 <tbody>
@@ -37,19 +37,19 @@
                             {
                                 try
                                 {
-                                     projects.Add(new AdminLTE1.Helpers.ActiveProject(item.id, item.project.name, item.project.customer.name, "RFQ", item.description, "RFQ"));
+                                    projects.Add(new AdminLTE1.Helpers.ActiveProject(0, item.projectid, item.project.name, item.project.customer.name, "RFQ", item.project.description, "RFQ"));
                                 }
                                 catch (Exception e) {
                                 }
                             }
 
-                            List<findprice> data1 = (from r in db.findprices
-                                                     where r.project.status == 0
-                                                     select r).ToList();
-                            foreach (findprice item in data1)
+                            List<project> data1 = (from r in db.projects
+                                                   where r.status == 0 && r.status1.findprices == 1
+                                                   select r).ToList();
+                            foreach (project item in data1)
                             {
                                 try {
-                                    projects.Add(new AdminLTE1.Helpers.ActiveProject(item.id, item.project.name, item.project.customer.name, "Find Price", item.description, "FindPrices"));
+                                    projects.Add(new AdminLTE1.Helpers.ActiveProject(0, item.id, item.name, item.customer.name, "Find Price", item.description, "FindPrices"));
                                 }
                                 catch (Exception e) { }
                             }
@@ -60,7 +60,7 @@
                             foreach (hpenawaran item in data2)
                             {
                                 try {
-                                    projects.Add(new AdminLTE1.Helpers.ActiveProject(item.id, item.project.name, item.project.customer.name, "Penawaran", item.description, "Penawaran"));
+                                    projects.Add(new AdminLTE1.Helpers.ActiveProject(0, item.projectid, item.project.name, item.project.customer.name, "Penawaran", item.project.description, "Penawaran"));
                                 }
                                 catch (Exception e) { }
                             }
@@ -71,84 +71,84 @@
                             foreach (hsalesorder item in data3)
                             {
                                 try {
-                                    projects.Add(new AdminLTE1.Helpers.ActiveProject(item.id, item.project.name, item.project.customer.name, "Sales Order", item.description, "SalesOrder"));
+                                    projects.Add(new AdminLTE1.Helpers.ActiveProject(0, item.projectid, item.project.name, item.project.customer.name, "Sales Order", item.project.description, "SalesOrder"));
                                 }
                                 catch (Exception e) { }
                             }
 
-                            List<hpo> data4 = (from r in db.hpoes
-                                               where r.project.status == 0
-                                               select r).ToList();
-                            foreach (hpo item in data4)
+                            List<project> data4 = (from r in db.projects
+                                                   where r.status == 0 && r.status1.purchaseorder == 1
+                                                   select r).ToList();
+                            foreach (project item in data4)
                             {
                                 try {
-                                    projects.Add(new AdminLTE1.Helpers.ActiveProject(item.id, item.project.name, item.project.customer.name, "Purchase Order", item.description, "PurchaseOrder"));
+                                    projects.Add(new AdminLTE1.Helpers.ActiveProject(0, item.id, item.name, item.customer.name, "Purchase Order", item.description, "PurchaseOrder"));
                                 }
                                 catch (Exception e) { }
                             }
 
-                            List<hpurchaseinvoice> data5 = (from r in db.hpurchaseinvoices
-                                                            where r.project.status == 0
-                                                            select r).ToList();
-                            foreach (hpurchaseinvoice item in data5)
+                            List<project> data5 = (from r in db.projects
+                                                   where r.status == 0 && r.status1.purchaseinvoice == 1
+                                                   select r).ToList();
+                            foreach (project item in data5)
                             {
                                 try {
-                                    projects.Add(new AdminLTE1.Helpers.ActiveProject(item.id, item.project.name, item.project.customer.name, "Purchase Invoice", item.description, "PurchaseInvoice"));
+                                    projects.Add(new AdminLTE1.Helpers.ActiveProject(0, item.id, item.name, item.customer.name, "Purchase Invoice", item.description, "PurchaseInvoice"));
                                 }
                                 catch (Exception e) { }
                             }
 
-                            List<purchasepayment> data6 = (from r in db.purchasepayments
-                                                           where r.project.status == 0
-                                                           select r).ToList();
-                            foreach (purchasepayment item in data6)
+                            List<project> data6 = (from r in db.projects
+                                                   where r.status == 0 && r.status1.purchasepayment == 1
+                                                   select r).ToList();
+                            foreach (project item in data6)
                             {
                                 try {
-                                    projects.Add(new AdminLTE1.Helpers.ActiveProject(item.id, item.project.name, item.project.customer.name, "Purchase Payment", item.description, "PurchasePayment"));
+                                    projects.Add(new AdminLTE1.Helpers.ActiveProject(0, item.id, item.name, item.customer.name, "Purchase Payment", item.description, "PurchasePayment"));
                                 }
                                 catch (Exception e) { }
                             }
 
-                            List<hreceiveitem> data7 = (from r in db.hreceiveitems
-                                                        where r.project.status == 0
-                                                        select r).ToList();
-                            foreach (hreceiveitem item in data7)
+                            List<project> data7 = (from r in db.projects
+                                                   where r.status == 0 && r.status1.receiveitem == 1
+                                                   select r).ToList();
+                            foreach (project item in data7)
                             {
                                 try {
-                                    projects.Add(new AdminLTE1.Helpers.ActiveProject(item.id, item.project.name, item.project.customer.name, "Receive Item", item.description, "ReceiveItem"));
+                                    projects.Add(new AdminLTE1.Helpers.ActiveProject(0, item.id, item.name, item.customer.name, "Receive Item", item.description, "ReceiveItem"));
                                 }
                                 catch (Exception e) { }
                             }
 
-                            List<hsuratjalan> data8 = (from r in db.hsuratjalans
-                                                       where r.project.status == 0
-                                                       select r).ToList();
-                            foreach (hsuratjalan item in data8)
+                            List<project> data8 = (from r in db.projects
+                                                   where r.status == 0 && r.status1.suratjalan == 1
+                                                   select r).ToList();
+                            foreach (project item in data8)
                             {
                                 try {
-                                    projects.Add(new AdminLTE1.Helpers.ActiveProject(item.id, item.project.name, item.project.customer.name, "Surat Jalan", item.description, "SuratJalan"));
+                                    projects.Add(new AdminLTE1.Helpers.ActiveProject(0, item.id, item.name, item.customer.name, "Surat Jalan", item.description, "SuratJalan"));
                                 }
                                 catch (Exception e) { }
                             }
 
-                            List<hsalesinvoice> data9 = (from r in db.hsalesinvoices
-                                                         where r.project.status == 0
-                                                         select r).ToList();
-                            foreach (hsalesinvoice item in data9)
+                            List<project> data9 = (from r in db.projects
+                                                   where r.status == 0 && r.status1.salesinvoice == 1
+                                                   select r).ToList();
+                            foreach (project item in data9)
                             {
                                 try {
-                                    projects.Add(new AdminLTE1.Helpers.ActiveProject(item.id, item.project.name, item.project.customer.name, "Sales Invoice", item.description, "SalesInvoice"));
+                                    projects.Add(new AdminLTE1.Helpers.ActiveProject(0, item.id, item.name, item.customer.name, "Sales Invoice", item.description, "SalesInvoice"));
                                 }
                                 catch (Exception e) { }
                             }
 
-                            List<hsalespayment> data10 = (from r in db.hsalespayments
-                                                          where r.project.status == 0
-                                                          select r).ToList();
-                            foreach (hsalespayment item in data10)
+                            List<project> data10 = (from r in db.projects
+                                                   where r.status == 0 && r.status1.salespayment == 1
+                                                   select r).ToList();
+                            foreach (project item in data10)
                             {
                                 try {
-                                    projects.Add(new AdminLTE1.Helpers.ActiveProject(item.id, item.project.name, item.project.customer.name, "Sales Payment", item.description, "SalesPayment"));
+                                    projects.Add(new AdminLTE1.Helpers.ActiveProject(0, item.id, item.name, item.customer.name, "Sales Payment", item.description, "SalesPayment"));
                                 }
                                 catch (Exception e) { }
                             }
@@ -161,7 +161,7 @@
                                     <td>@item.status</td>
                                     <td>@item.project</td>
                                     <td>@item.desc</td>
-                                    <td><a href="@Url.Action("index",item.link)?id=@item.projectid"><button type="button" class="btn btn-info">Detail</button></a></td>
+                                    <td class="text-center"><a href="@Url.Action("move","Project")?controller=@item.link&projid=@item.projectid&id=@item.id"><button type="button" class="btn btn-info">Detail</button></a></td>
                                 </tr>
                             }
                         }

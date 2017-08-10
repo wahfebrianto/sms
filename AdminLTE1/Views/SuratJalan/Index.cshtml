@@ -1,38 +1,63 @@
 ﻿@{
-    ViewBag.Title = "List Of Delivery Order";
+    String concat_title = "";
+    using (var db = new dbsmsEntities())
+    {
+        try
+        {
+            concat_title = db.projects.Find(Convert.ToInt64(Session["project"] ?? 0)).name;
+        }
+        catch { }
+    }
+    ViewBag.Title = "List Of Delivery Order - " + concat_title ?? "";
+    System.Globalization.CultureInfo indonesia = new System.Globalization.CultureInfo("id-ID");
+    Int64 projid = Convert.ToInt64(Session["project"]);
 }
 
 <div class="row">
     <div class="col-lg-12 col-md-12 col-sm-12">
         <div class="box box-default panel-body">
-            <table id="myTable1" class="table table-hover table-bordered">
+            <table id="myTable1" class="table table-hover table-bordered table-responsive">
                 <thead>
                     <tr>
-                        <th>No</th>
-                        <th>Delivery No</th>
-                        <th>Delivery Date</th>
-                        <th>Ship To</th>
-                        <th>Action</th>
+                        <th class="text-center">Delivery No</th>
+                        <th class="text-center">Delivery Date</th>
+                        <th class="text-center">Ship To</th>
+                        <th class="text-center">Action</th>
                     </tr>
                 </thead>
                 <tbody>
-                    <tr>
-                        <td>1</td>
-                        <td>D001</td>
-                        <td>24 Feb 2017</td>
-                        <td>CV Mitra</td>
-                        <td><a style="margin-left:2%" href="SuratJalan/Transaksi"><button class="btn btn-warning col-md-5 pull-left">Edit</button></a><button style="margin-left:2%" class="col-md-5 btn btn-default pull-right">Print</button></td>
-                    </tr>
+                    @{
+                        using (var db = new dbsmsEntities())
+                        {
+
+                            foreach (hsuratjalan item in db.hsuratjalans.Where(x => x.projectid == projid))
+                            {
+                                <tr>
+                                    <td>@item.number</td>
+                                    <td>@item.date.ToString("dd MMMM yyyy")</td>
+                                    <td>@item.project.customer.name</td>
+                                    <td >
+                                        <a href="SuratJalan/History?id=@item.id"><button style="margin-left:30%" class="btn btn-warning col-md-5 pull-left">Detail</button></a>
+                                    </td>
+                                </tr>
+                            }
+                        }
+                    }
                 </tbody>
             </table>
-            <div class="col-md-12"><a href="SuratJalan/Transaksi"><button id="btnAdd" class="btn btn-success col-md-1 pull-right" data-toggle="modal" data-target="#myModal">Add</button></a></div>
+@if (AdminLTE1.Helpers.GlobalFunction.has_privilege(Session["user"].ToString(), "insert", "surat_jalan"))
+{
+            <div class="col-md-12"><a href="SuratJalan/Transaksi"><button id="btnAdd" class="btn btn-success col-md-1 pull-right">Add</button></a></div>
+}
         </div>
     </div>
 </div>
 <script type="text/javascript">
     $(document).ready(function () {
 
-        var s = $("#myTable1").DataTable();
+        var s = $("#myTable1").DataTable({
+           "bPaginate" : false
+        });
         s.columns.adjust().draw();
     });
 </script>

@@ -18,7 +18,6 @@ namespace AdminLTE1
         public hsuratjalan()
         {
             this.dsuratjalans = new HashSet<dsuratjalan>();
-            this.suratjalannotes = new HashSet<suratjalannote>();
         }
     
         public long id { get; set; }
@@ -31,7 +30,5 @@ namespace AdminLTE1
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<dsuratjalan> dsuratjalans { get; set; }
         public virtual project project { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<suratjalannote> suratjalannotes { get; set; }
     }
 }

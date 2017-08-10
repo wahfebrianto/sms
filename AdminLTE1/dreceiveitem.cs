@@ -15,10 +15,10 @@ namespace AdminLTE1
     public partial class dreceiveitem
     {
         public long id { get; set; }
-        public Nullable<long> receiveitemid { get; set; }
-        public Nullable<long> itemcategoryid { get; set; }
+        public long receiveitemid { get; set; }
+        public long itemcategoryid { get; set; }
         public string itemdescription { get; set; }
-        public Nullable<long> qty { get; set; }
+        public long qty { get; set; }
     
         public virtual hreceiveitem hreceiveitem { get; set; }
         public virtual item_category item_category { get; set; }

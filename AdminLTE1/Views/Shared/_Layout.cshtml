@@ -1,10 +1,23 @@
 ﻿@using System.Web.Optimization
 @{
+
     if (Session["user"] == null || Session["user"].ToString() == "" ){
         Response.Redirect(Url.Action("Index","Login"));
     }
     ViewBag.GlobalTitle = AdminLTE1.App_Start.GlobalVariables.WebsiteName;
-    }
+    //bool isDebug = false;
+    //if (isDebug)
+    //{
+    //    Session["project"] = 26;
+    //}
+    Int64 projid = Convert.ToInt64(Session["project"]);
+    int count = 0;
+    //else
+    //{
+    //    Session["project"] = null;
+    //}
+
+}
 <!DOCTYPE html>
 <html>
 <head>
@@ -69,7 +82,64 @@
             </div>
         </div>
     </div>
-
+    <div class="modal inmodal fade" id="finishModal" tabindex="-1" role="dialog">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title">Finish Project</h4>
+                </div>
+                <div class="modal-body">
+                    <label class="text-center">Are you sure want to finish this project ?</label>
+                    <ul class="list-group">
+                        @if (!AdminLTE1.Helpers.GlobalFunction.has_finished(Convert.ToInt64(Session["project"]), "FindPrices"))
+                        {
+                            <li class="list-group-item list-group-item-danger">You haven't found any supplier</li>
+                        }
+                        @if (!AdminLTE1.Helpers.GlobalFunction.has_finished(Convert.ToInt64(Session["project"]), "Penawaran"))
+                        {
+                            <li class="list-group-item list-group-item-danger">You haven't made any quotation</li>
+                        }
+                        @if (!AdminLTE1.Helpers.GlobalFunction.has_finished(Convert.ToInt64(Session["project"]), "SalesOrder"))
+                        {
+                            <li class="list-group-item list-group-item-danger">You haven't made any sales order</li>
+                        }
+                        @if (!AdminLTE1.Helpers.GlobalFunction.has_finished(Convert.ToInt64(Session["project"]), "PurchaseOrder"))
+                        {
+                            <li class="list-group-item list-group-item-danger">There are some uncommited purchase order</li>
+                        }
+                        @if (!AdminLTE1.Helpers.GlobalFunction.has_finished(Convert.ToInt64(Session["project"]), "ReceiveItem"))
+                        {
+                            <li class="list-group-item list-group-item-danger">Some item haven't received yet</li>
+                        }
+                        @if (!AdminLTE1.Helpers.GlobalFunction.has_finished(Convert.ToInt64(Session["project"]), "PurchaseInvoice"))
+                        {
+                            <li class="list-group-item list-group-item-danger">Some purchase order haven't got their invoice</li>
+                        }
+                        @if (!AdminLTE1.Helpers.GlobalFunction.has_finished(Convert.ToInt64(Session["project"]), "PurchasePayment"))
+                        {
+                            <li class="list-group-item list-group-item-danger">There are unpaid purchase invoice</li>
+                        }
+                        @if (!AdminLTE1.Helpers.GlobalFunction.has_finished(Convert.ToInt64(Session["project"]), "SuratJalan"))
+                        {
+                            <li class="list-group-item list-group-item-danger">You haven't sent all item to customer</li>
+                        }
+                        @if (!AdminLTE1.Helpers.GlobalFunction.has_finished(Convert.ToInt64(Session["project"]), "SalesInvoice"))
+                        {
+                            <li class="list-group-item list-group-item-danger">There are some miscalculation with sales invoice</li>
+                        }
+                        @if (!AdminLTE1.Helpers.GlobalFunction.has_finished(Convert.ToInt64(Session["project"]), "SalesPayment"))
+                        {
+                            <li class="list-group-item list-group-item-danger">There are unpaid sales invoice</li>
+                        }
+                    </ul>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-white" data-dismiss="modal" id="no_finish">No</button>
+                    <button type="button" class="btn btn-primary" id="yes_finish">Yes</button>
+                </div>
+                </div>
+        </div>
+    </div>
     <div class="wrapper no-padding" >
         @Html.Partial("_Header")
         @Html.Partial("_Sidebar")
@@ -79,6 +149,11 @@
             <section class="content-header">
                 <h1>
                     @ViewBag.Title
+
+                    @if (Session["project"] != null && ViewContext.RouteData.Values["Controller"].ToString() != "Project" && ViewContext.RouteData.Values["Controller"].ToString() != "Role" && ViewContext.RouteData.Values["Controller"].ToString() != "Home" && ViewContext.RouteData.Values["Controller"].ToString() != "Master" && AdminLTE1.Helpers.GlobalFunction.has_privilege(Session["user"].ToString(), "finish", "project"))
+                    {
+                    <button class="btn btn-primary pull-right" style="margin-right:1%; margin-bottom:1%" type="button" id="finish_this" data-toggle="modal" data-target="#finishModal">Finish This Project</button>
+                    }
                     <small>@ViewBag.Description</small>
                 </h1>
             </section>
@@ -92,73 +167,226 @@
     </div>
 
     @*  INI KODINGAN CHATBOX  *@
-    @if (Session["project"] != null && ViewContext.RouteData.Values["Controller"].ToString() != "Project" && ViewContext.RouteData.Values["Controller"].ToString() != "Role" && ViewContext.RouteData.Values["Controller"].ToString() != "Home" && ViewContext.RouteData.Values["Controller"].ToString() != "Master")
+    @if ((Session["project"] != null && ViewContext.RouteData.Values["Controller"].ToString() != "Project" && ViewContext.RouteData.Values["Controller"].ToString() != "Role" && ViewContext.RouteData.Values["Controller"].ToString() != "Home" && ViewContext.RouteData.Values["Controller"].ToString() != "Master" ))
     {
     <div class="small-chat-box fadeInRight animated" style="z-index:1000000000">
         <div class="heading" draggable="true">
             Notes
         </div>
-        <div class="content">
-            <div class="left">
-                <div class="author-name">
-                    Monica Jackson <small class="chat-date">
-                        27 Juni 2017
-                    </small>
-                </div>
-                <div class="chat-message">
-                    Lorem Ipsum is simply dummy text input.
-                </div>
-            </div>
-            <div class="left">
-                <div class="author-name">
-                    Mick Smith
-                    <small class="chat-date">
-                        27 Juni 2017
-                    </small>
-                </div>
-                <div class="chat-message">
-                    Lorem Ipsum is simpl.
-                </div>
-            </div>
-            <div class="left">
-                <div class="author-name">
-                    Alice Novak
-                    <small class="chat-date">
-                        27 Juni 2017
-                    </small>
-                </div>
-                <div class="chat-message">
-                    Check this stock char.
-                </div>
-            </div>
-            <div class="left">
-                <div class="author-name">
-                    Anna Lamson
-                    <small class="chat-date">
-                        27 Juni 2017
-                    </small>
-                </div>
-                <div class="chat-message">
-                    The standard chunk of Lorem Ipsum
-                </div>
-            </div>
-            <div class="left">
-                <div class="author-name">
-                    Mick Lane
-                    <small class="chat-date">
-                        27 Juni 2017
-                    </small>
-                </div>
-                <div class="chat-message">
-                    I belive that. Lorem Ipsum is simply dummy text.
-                </div>
-            </div>
+        <div class="content" id="isinote">
+            @{
+                    //var sql = string.Format("SELECT * FROM [{0}]", tablename);
+                    //var query = db.Database.SqlQuery<R1>(sql);
+                    using (var db = new dbsmsEntities())
+                    {
 
+                        String table = ViewContext.RouteData.Values["Controller"].ToString().ToLower();
+                        var database = db.projects.Find(Convert.ToInt64(Session["project"]));
+                        if (table == "rfq")
+                        {
+                            foreach (var item in database.rfqnotes)
+                            {
+                            count++;
+                            <div class="left">
+                                <div class="author-name">
+                                    @item.username
+                                    <small class="chat-date">
+                                        @item.date.ToString("dd MMMM yyyy")
+                                    </small>
+                                </div>
+                                <div class="chat-message">
+                                    @item.text
+                                </div>
+                            </div>
+                        }
+                }
+                    else if (table == "findprices")
+                    {
+                        foreach (findpricesnote item in database.findpricesnotes)
+                        {
+                            count++;
+                            <div class="left">
+                                <div class="author-name">
+                                    @item.username
+                                    <small class="chat-date">
+                                        @item.date.ToString("dd MMMM yyyy")
+                                    </small>
+                                </div>
+                                <div class="chat-message">
+                                    @item.text
+                                </div>
+                            </div>
+                        }
+                    }
+                    else if (table == "penawaran")
+                    {
+                        foreach (penawarannote item in database.penawarannotes)
+                        {
+                            count++;
+                            <div class="left">
+                                <div class="author-name">
+                                    @item.username
+                                    <small class="chat-date">
+                                        @item.date.ToString("dd MMMM yyyy")
+                                    </small>
+                                </div>
+                                <div class="chat-message">
+                                    @item.text
+                                </div>
+                            </div>
+                        }
+                    }
+                    else if (table == "salesorder")
+                    {
+                        foreach (salesordernote item in database.salesordernotes)
+                        {
+                            count++;
+                            <div class="left">
+                                <div class="author-name">
+                                    @item.username
+                                    <small class="chat-date">
+                                        @item.date.ToString("dd MMMM yyyy")
+                                    </small>
+                                </div>
+                                <div class="chat-message">
+                                    @item.text
+                                </div>
+                            </div>
+                        }
+                    }
+                    else if (table == "purchaseorder")
+                    {
+                        foreach (ponote item in database.ponotes)
+                        {
+                            count++;
+                            <div class="left">
+                                <div class="author-name">
+                                    @item.username
+                                    <small class="chat-date">
+                                        @item.date.ToString("dd MMMM yyyy")
+                                    </small>
+                                </div>
+                                <div class="chat-message">
+                                    @item.text
+                                </div>
+                            </div>
+                        }
+                    }
+                    else if (table == "receiveitem")
+                    {
+                        foreach (receiveitemnote item in database.receiveitemnotes)
+                        {
+                            count++;
+                            <div class="left">
+                                <div class="author-name">
+                                    @item.username
+                                    <small class="chat-date">
+                                        @item.date.ToString("dd MMMM yyyy")
+                                    </small>
+                                </div>
+                                <div class="chat-message">
+                                    @item.text
+                                </div>
+                            </div>
+                        }
+                    }
+                    else if (table == "purchaseinvoice")
+                    {
+                        foreach (purchaseinvoicenote item in database.purchaseinvoicenotes)
+                        {
+                            count++;
+                            <div class="left">
+                                <div class="author-name">
+                                    @item.username
+                                    <small class="chat-date">
+                                        @item.date.ToString("dd MMMM yyyy")
+                                    </small>
+                                </div>
+                                <div class="chat-message">
+                                    @item.text
+                                </div>
+                            </div>
+                        }
+                    }
+                    else if (table == "purchasepayment")
+                    {
+                        foreach (purchasepaymentnote item in database.purchasepaymentnotes)
+                        {
+                            count++;
+                            <div class="left">
+                                <div class="author-name">
+                                    @item.username
+                                    <small class="chat-date">
+                                        @item.date.ToString("dd MMMM yyyy")
+                                    </small>
+                                </div>
+                                <div class="chat-message">
+                                    @item.text
+                                </div>
+                            </div>
+                        }
+                    }
+                    else if (table == "suratjalan")
+                    {
+                        foreach (suratjalannote item in database.suratjalannotes)
+                        {
+                            count++;
+                            <div class="left">
+                                <div class="author-name">
+                                    @item.username
+                                    <small class="chat-date">
+                                        &nbsp;@item.date.ToString("dd MMMM yyyy")
+                                    </small>
+                                </div>
+                                <div class="chat-message">
+                                    @item.text
+                                </div>
+                            </div>
+                        }
+                    }
+                    else if (table == "salesinvoice")
+                    {
+                        foreach (salesinvoicenote item in database.salesinvoicenotes)
+                        {
+                            count++;
+                            <div class="left">
+                                <div class="author-name">
+                                    @item.username
+                                    <small class="chat-date">
+                                        @item.date.ToString("dd MMMM yyyy")
+                                    </small>
+                                </div>
+                                <div class="chat-message">
+                                    @item.text
+                                </div>
+                            </div>
+                        }
+                    }
+                    else if (table == "salespayment")
+                    {
+                        foreach (salespaymentnote item in database.salespaymentnotes)
+                        {
+                            count++;
+                            <div class="left">
+                                <div class="author-name">
+                                    @item.username
+                                    <small class="chat-date">
+                                        @item.date.ToString("dd MMMM yyyy")
+                                    </small>
+                                </div>
+                                <div class="chat-message">
+                                    @item.text
+                                </div>
+                            </div>
+                        }
+                    }
+                }
+            }
         </div>
         <div class="form-chat">
             <div class="input-group input-group-sm">
-                <input type="text" class="form-control"> <span class="input-group-btn">
-                    <button class="btn btn-primary" type="button">
+                <input type="text" class="form-control" id="txtNote"><span class="input-group-btn">
+                    <button class="btn btn-primary" type="button" id="add_note">
                         Add
                     </button>
                 </span>
@@ -167,7 +395,7 @@
     </div>
 
     <div id="small-chat" >
-        <span class="badge badge-warning pull-right">5</span>
+        <span class="badge badge-warning pull-right">@count</span>
         <a class="open-small-chat">
             <i class="fa fa-comments"></i>
         </a>
@@ -181,28 +409,71 @@
     <script src="@RouteJs.RouteJsHandler.HandlerUrl"></script>
     <script>
         $(document).ready(function () {
-            
+            $("#yes_finish").click(function () {
+                swal({
+                    title: "Finished!",
+                    text: "Your project has been finished.",
+                    type: "success"
+                }, function () {
+                    window.location = '@Url.Action("FinishProject","Home")';
+                });
+            });
             //$("#myTable").DataTable();
             $("#changepass_").click(function () {
                 $("#oldPassword").val("");
                 $("#newPassword").val("");
                 $("#confirmNewPassword").val("");
             });
+            $("#add_note").click(function () {
+                var note = $("#txtNote").val();
+                if (note == "") { return false;}
+                var controller = "@ViewContext.RouteData.Values["Controller"].ToString().ToLower()";
+                var user = "@Session["user"].ToString()";
+                var date = "@DateTime.Now.ToString("dd MMMM yyyy")";
+                //add_note(String text,String controller)
+                $.ajax({
+                    type: "POST",
+                    url: "@Url.Action("add_note", "Home")",
+                    data: { text:note,controller:controller},
+                    success: function (data) {
+                        if (data == "success") {
+                            $("#isinote").append("<div class='left'><div class='author-name'>" + user + "<small class='chat-date'> " + date + "</small></div><div class='chat-message'>" + note + "</div></div>");
+                            $("#txtNote").val("");
+                            @*<div class="left">
+                                <div class="author-name">
+                                    @item.username
+                                    <small class="chat-date">
+                                        @item.date.ToString("dd MMMM yyyy")
+                                    </small>
+                                </div>
+                                <div class="chat-message">
+                                    @item.text
+                                </div>
+                            </div>*@
+
+                        }
+                    },
+                    error: function (xhr, status, error) {
+                        alert(xhr.responseText);
+                    }
+                });
+
+            });
             $("#changepassbtn").click(function () {
                 var oldpass = $("#oldPassword").val();
                 var newpass = $("#newPassword").val();
                 var confnewpass = $("#confirmNewPassword").val();
                 if (oldpass == "" || newpass == "" || confnewpass == "") {
-                    
+
                 }
                 else if (newpass != confnewpass  ) {
                     swal("Failed!", "Password confirmation doesn't match Password", "error");
                 }
                 else {
                     $.ajax({
-                            type: "POST",
-                            url: "@Url.Action("change_password","Home")",
-                            data: { oldPassword: oldpass, newPassword : newpass},
+                        type: "POST",
+                        url: "@Url.Action("change_password","Home")",
+                        data: { oldPassword: oldpass, newPassword : newpass},
                         success: function (data) {
                             if (data == "1") {
                                 swal("Success!", "Password Changed", "success");

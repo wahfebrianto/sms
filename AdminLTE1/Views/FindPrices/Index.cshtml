@@ -89,7 +89,10 @@
                             }
                         </select>
                     </div>
+@if (AdminLTE1.Helpers.GlobalFunction.has_privilege(Session["user"].ToString(), "insert", "master_supplier"))
+{
                     <button type="button" class="col-md-2 btn btn-dropbox pull-right" data-toggle="modal" data-target="#myModal" id="btn-tambah-supp">Tambah</button>
+}
                 </div>
                 <div class="form-group">
                     <label class="col-md-3 control-label"></label>
@@ -106,7 +109,7 @@
                                 {
                                     foreach (drfq item in db.projects.Find(Session["project"]).hrfqs.First().drfqs)
                                     {
-                                        <option id="i-@item.id" value="@item.id" >@item.itemdescription</option>
+                                        <option id="i-@item.id" value="@item.id" itemdesc ="@item.itemdescription">@item.itemdescription - @item.qty Unit</option>
                                     }
                                 }
                             }
@@ -144,13 +147,21 @@
                         <textarea id="txtdesc" class="form-control col-md-5" cols="1" rows="4"></textarea>
                     </div>
                 </div>
+@if (AdminLTE1.Helpers.GlobalFunction.has_privilege(Session["user"].ToString(), "insert", "find_price"))
+            {
                 <div class="form-group">
+
                     <span id="spanAdd" class="pull-right col-md-3"><button id="btnAdd" class="btn btn-success col-md-12">Add</button></span>
-                    <span id="spanUpdate" class="pull-right col-md-3""><button id="btnUpdate" class="btn btn-success col-md-12" disabled>Update</button></span>
+                    <span id="spanUpdate" class="pull-right col-md-3"><button id="btnUpdate" class="btn btn-success col-md-12" disabled>Update</button></span>
                     <span id="spanNew" class="pull-right col-md-3" onclick="reset()" hidden><button id="btnNew" class="btn btn-success col-md-12">New</button></span>
+                  
                 </div>
+}
             </div>
+@if (AdminLTE1.Helpers.GlobalFunction.has_privilege(Session["user"].ToString(), "insert", "find_price"))
+{
             <span id="spanSave" class="pull-right col-md-3"><button id="btnSave" class="btn btn-lg btn-primary col-md-12">Save</button></span>
+}
         </div>
     </div>
 </div>
@@ -177,7 +188,9 @@
     $(document).ready(function () {
         $("select").select2();
 
-        var t = $("#myTable").DataTable();
+        var t = $("#myTable").DataTable({
+            "bPaginate": false
+        });
         t.columns.adjust().draw();
 
         var selected = $("#cbsupplier").val();
@@ -188,7 +201,7 @@
             var suppid = $("#cbsupplier").val();
             var supp = $("#s-" + suppid).html();
             var itemid = $("#cbitem").val();
-            var item = $("#i-" + itemid).html();
+            var item = $("#i-" + itemid).attr("itemdesc");
             var qty = $("#txtqty").val();
             var unitprice = $("#txtprice").val();
             var time = $("#timeneeded").val();
@@ -226,7 +239,7 @@
             var suppid = $("#cbsupplier").val();
             var supp = $("#s-" + suppid).html();
             var itemid = $("#cbitem").val();
-            var item = $("#i-" + itemid).html();
+            var item = $("#i-" + itemid).attr("itemdesc");
             var qty = $("#txtqty").val();
             var unitprice = $("#txtprice").val();
             var time = $("#timeneeded").val();

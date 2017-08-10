@@ -15,11 +15,11 @@ namespace AdminLTE1
     public partial class suratjalannote
     {
         public long id { get; set; }
-        public long suratjalanid { get; set; }
+        public long projectid { get; set; }
         public string username { get; set; }
         public System.DateTime date { get; set; }
         public string text { get; set; }
     
-        public virtual hsuratjalan hsuratjalan { get; set; }
+        public virtual project project { get; set; }
     }
 }

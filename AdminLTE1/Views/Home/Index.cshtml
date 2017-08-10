@@ -4,67 +4,129 @@
 <div class="row">
     <div class="col-xs-12 col-md-12 col-lg-12">
         <div class="box box-default panel-body">
+            <div class="modal inmodal fade" id="myModal" tabindex="-1" role="dialog" data-backdrop="static" data-keyboard="false">
+                <div class="modal-dialog modal-lg">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h4 class="modal-title">Edit Description</h4>
+                            <small class="font-bold"></small>
+                        </div>
+                        <form method="POST">
+                            <div class="modal-body">
+                                <input type="hidden" id="projectid"/>
+                                <div class="form-group">
+                                    <label>Description : </label>
+                                    <textarea id="txtDesc" class="form-control" rows="5"></textarea>
+                                </div>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-white" data-dismiss="modal" id="btn-cancel">Cancel</button>
+                                <button type="button" class="btn btn-primary" id="save_desc">Save</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+@if (AdminLTE1.Helpers.GlobalFunction.has_privilege(Session["user"].ToString(), "insert", "project"))
+{
+            <a href="@Url.Action("Index", "RFQ")"><button class="btn btn-success">Add New Project</button></a>
+}
             <a href="@Url.Action("History","Home")"><button class="btn btn-warning">Lihat History</button></a>
             <br /><br />
-            <table id="myTable" class="table table-hover">
+            <table id="myTable" class="table table-hover table-responsive table-bordered table-striped">
                 <thead>
                     <tr>
-                        <td>No</td>
-                        <td>Project</td>
-                        <td>Supplier</td>
-                        <td>Penawaran</td>
-                        <td>Accept</td>
-                        <td>Design</td>
-                        <td>Kirim Supplier</td>
-                        <td>Kirim Customer</td>
-                        <td>Keterangan</td>
-                        <td>Action</td>
+                        <th class="text-center">No</th>
+                        <th class="text-center">Project</th>
+                        <th class="text-center">Supplier</th>
+                        <th class="text-center">Penawaran</th>
+                        <th class="text-center">Accept</th>
+                        <th class="text-center">Design</th>
+                        <th class="text-center">Kirim Supplier</th>
+                        <th class="text-center">Kirim Customer</th>
+                        <th class="text-center">Keterangan</th>
+@if (AdminLTE1.Helpers.GlobalFunction.has_privilege(Session["user"].ToString(), "update", "project") || AdminLTE1.Helpers.GlobalFunction.has_privilege(Session["user"].ToString(), "delete", "project"))
+{
+                        <th class="text-center">Action</th>
+}
                     </tr>
                 </thead>
                 <tbody>
-                    <tr>
-                        <td>1</td>
-                        <td>Kaos Alola 60pcs</td>
-                        <td><i class="fa fa-check-circle-o" aria-hidden="true"></td>
-                        <td>24 Feb 2017</td>
-                        <td>24 Feb 2017</td>
-                        <td>24 Feb 2017</td>
-                        <td>24 Feb 2017</td>
-                        <td>24 Feb 2017</td>
-                        <td>Tunggu Info Harga</td>
-                        <td><a href="#"><button class="btn btn-danger btn-del">Delete</button></a></td>
-                    </tr>
-                    <tr>
-                        <td>2</td>
-                        <td>Kaos Alola 60pcs 2</td>
-                        <td></td>
-                        <td>15 Feb 2017</td>
-                        <td>23 Feb 2017</td>
-                        <td></td>
-                        <td style="color:red;">23 Feb 2017</td>
-                        <td>02 Nov 2017</td>
-                        <td>Tunggu Info Harga Juga</td>
-                        <td><a href="#"><button class="btn btn-danger btn-del">Delete</button></a></td>
-                    </tr>
-                    <tr>
-                        <td>3</td>
-                        <td>Kaos Alola 60pcs 3</td>
-                        <td><i class="fa fa-check-circle-o" aria-hidden="true"></i></td>
-                        <td>24 Mar 2017</td>
-                        <td></td>
-                        <td>24 Feb 2017</td>
-                        <td style="color:green;">24 Feb 2017</td>
-                        <td>24 Sep 2017</td>
-                        <td>Test123</td>
-                        <td><a href="#"><button class="btn btn-danger btn-del">Delete</button></a></td>
-                    </tr>
+                    @{
+                        using (var db = new dbsmsEntities())
+                        {
+                            int i = 1;
+                            foreach (project item in db.projects.Where(x=>x.status == 0))
+                            {
+                                <tr projid="@item.id">
+                                    <td class="text-center">@i</td>
+                                    <td class="text-left">@item.name</td>
+                                    <td class="text-center">
+                                        @if(item.status1.findprices == 1)
+                                        { 
+                                            <i class="fa fa-check-circle-o" aria-hidden="true"/>
+                                        }
+                                    </td>
+                                    <td class="text-center">
+                                        @if (item.status1.penawaran == 1 && item.hpenawarans.Count > 0)
+                                        {
+                                            @item.hpenawarans.First().date.ToString("dd MMMM yyyy")
+                                        }
+                                    </td>
+                                    <td class="text-center">
+                                        @if (item.status1.salesorder == 1 && item.hsalesorders.Count > 0)
+                                        {
+                                            @item.hsalesorders.First().date.ToString("dd MMMM yyyy")
+                                        }
+                                    </td>
+                                    <td class="text-center">
+                                        @if (item.status1.salesorder == 1 && item.hsalesorders.Count > 0 && item.hsalesorders.First().designdate != null)
+                                        {
+                                            @((item.hsalesorders.First().designdate??DateTime.Now).ToString("dd MMMM yyyy"))
+                                        }
+                                    </td>
+                                    <td class="text-center">
+                                        @if (item.status1.purchaseorder == 1 && item.hpoes.Count > 0)
+                                        {
+                                            DateTime dt = item.hpoes.Max(x => x.expecteddate);
+                                            <span @((dt>DateTime.Now && item.status1.receiveitem == 0)?"style='color:red'":"")@((item.status1.receiveitem == 1)?"style='color:green'" : "")>@dt.ToString("dd MMMM yyyy")</span>
+                                        }
+                                    </td>
+                                    <td class="text-center">
+                                        @if (item.status1.salesorder == 1 && item.hsalesorders.Count > 0)
+                                        {
+                                            DateTime dt = item.hsalesorders.Max(x => x.expecteddate);
+                                            <span @((dt>DateTime.Now && item.status1.suratjalan == 0)?"style='color:red'":"")@((item.status1.suratjalan == 1)?"style='color:green'":"")>@item.hsalesorders.First().expecteddate.ToString("dd MMMM yyyy")</span>
+                                        }
+                                    </td>
+                                    <td class="text-left">@item.description</td>
+@if (AdminLTE1.Helpers.GlobalFunction.has_privilege(Session["user"].ToString(), "update", "project") || AdminLTE1.Helpers.GlobalFunction.has_privilege(Session["user"].ToString(), "delete", "project"))
+{
+                                    <td class="text-center action">
+@if (AdminLTE1.Helpers.GlobalFunction.has_privilege(Session["user"].ToString(), "update", "project"))
+{
+                                    <button type="button" class="btn btn-success btn-edit" data-toggle="modal" data-target="#myModal" style="margin-right:5px"><span class="fa fa-pencil" /></button>
+}
+@if (AdminLTE1.Helpers.GlobalFunction.has_privilege(Session["user"].ToString(), "delete", "project"))
+{
+<button type="button" class="btn btn-danger btn-del">Delete</button>}
+                                    </td>
+}
+                                </tr>
+                                i++;
+                            }
+                        }
+                    }
                 </tbody>
             </table>
-            <a href="@Url.Action("Index","RFQ")"><button class="btn btn-success">Add New Project</button></a>
 </div>
     </div>
 </div>
 <script type="text/javascript">
+    var t = $("#myTable").DataTable({
+        "bPaginate": false
+    });
+    t.columns.adjust().draw();
     $(".btn-del").click(function () {
         swal({
             title: "Are you sure?",
@@ -76,6 +138,81 @@
             closeOnConfirm: false
         }, function () {
             swal("Deleted!", "Your data has been deleted.", "success");
+        });
+    });
+    $("#myTable tr td:not(.action)").click(function () {
+        window.location = "@Url.Action("Jump","Home")?id="+$(this).parent().attr("projid");
+    });
+    $(".btn-edit").click(function () {
+        $("#txtDesc").val($(this).parent().parent().children().eq(8).html().trim());
+        $("#projectid").val($(this).parent().parent().attr("projid"));
+    });
+    $(".btn-del").click(function () {
+        var projid = $(this).parent().parent().attr("projid");
+        swal({
+            title: "Are you sure?",
+            text: "You will not be able to recover this project!",
+            type: "warning",
+            showCancelButton: true,
+            confirmButtonColor: "#DD6B55",
+            confirmButtonText: "Yes, delete it!",
+            closeOnConfirm: false
+        }, function () {
+            $.ajax({
+                    type: "POST",
+                    url: "@Url.Action("delete_project", "Home")",
+                    data: { projid:projid },
+                success: function (data) {
+                    if (data == "success") {
+                        swal({
+                            title: "Success!",
+                            text: "Your project has been deleted!",
+                            type: "success"
+                        }, function () {
+                            location.reload();
+                        });
+                    }
+                    else {
+                        swal({
+                            title: "Failed!",
+                            text: "Failed to delete!",
+                            type: "failed"
+                        }, function () {
+                            location.reload();
+                        });
+                    }
+                },
+                error: function (xhr, status, error) {
+                    alert("2"+xhr.responseText);
+                }
+            });
+        });
+    });
+    $("#save_desc").click(function () {
+        //public ActionResult edit_desc(Int64 projid,String desc)
+        var projid = $("#projectid").val();
+        var desc = $("#txtDesc").val();
+        $.ajax({
+            type: "POST",
+            url: "@Url.Action("edit_desc", "Home")",
+            data: { projid:projid,desc:desc },
+            success: function (data) {
+                if (data == "success") {
+                    swal({
+                        title: "Success!",
+                        text: "Your description has been edited!",
+                        type: "success"
+                    }, function () {
+                        location.reload();
+                    });
+                }
+                else {
+                    swal("Failed!","Failed to Edit!","error");
+                }
+            },
+            error: function (xhr, status, error) {
+                alert("2"+xhr.responseText);
+            }
         });
     });
 </script>

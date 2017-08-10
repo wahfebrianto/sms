@@ -1,5 +1,16 @@
 ﻿@{
-    ViewBag.Title = "List Of Purchase Invoice";
+    String concat_title = "";
+    using (var db = new dbsmsEntities())
+    {
+        try
+        {
+            concat_title = db.projects.Find(Convert.ToInt64(Session["project"] ?? 0)).name;
+        }
+        catch { }
+    }
+    ViewBag.Title = "Purchase Payment - " + concat_title ?? "";
+    System.Globalization.CultureInfo indonesia = new System.Globalization.CultureInfo("id-ID");
+    Int64 projid = Convert.ToInt64(Session["project"]);
 }
 
 <div class="row">
@@ -16,24 +27,24 @@
                         <div class="modal-body">
                             <div class="form-group">
                                 <label>Payment Date : </label>
-                                <input type="date" class="form-control"/>
+                                <input type="date" class="form-control" id="paymentdate"/>
                             </div>
                             <div class="form-group">
                                 <label>Payment Type : </label>
-                                <select class="form-control">
-                                    <option value="">Transfer</option>
-                                    <option value="">Tunai</option>
+                                <select class="form-control" id="paymenttype">
+                                    <option value="C.O.D">C.O.D</option>
+                                    <option value="Transfer">Transfer</option>
                                 </select>
                                 
                             </div>
                             <div class="form-group">
                                 <label>Note : </label>
-                                <textarea class="form-control"></textarea>
+                                <textarea class="form-control" id="paymentnote" rows="5"></textarea>
                             </div>
                         </div>
                         <div class="modal-footer">
-                            <button type="button" class="btn btn-white" data-dismiss="modal">Cancel</button>
-                            <button type="button" class="btn btn-primary">Save changes</button>
+                            <button type="button" class="btn btn-white" data-dismiss="modal" id="btn_payment_cancel">Cancel</button>
+                            <button type="button" class="btn btn-primary" id="btn_payment_save">Save changes</button>
                         </div>
                     </div>
                 </div>
@@ -49,62 +60,70 @@
                         <div class="modal-body">
                             <div class="form-group">
                                 <label>Payment Date : </label>
-                                <input type="date" class="form-control" readonly/>
+                                <input type="date" class="form-control" readonly id="paymentdate1"/>
                             </div>
                             <div class="form-group">
                                 <label>Payment Type : </label>
-                                <select class="form-control" disabled>
-                                    <option value="">Transfer</option>
-                                    <option value="">Tunai</option>
+                                <select class="form-control" disabled id="paymenttype1">
+                                    <option value="C.O.D">C.O.D</option>
+                                    <option value="Transfer">Transfer</option>
                                 </select>
 
                             </div>
                             <div class="form-group">
                                 <label>Note : </label>
-                                <textarea class="form-control" readonly></textarea>
+                                <textarea class="form-control" readonly id="paymentnote1" rows="5"></textarea>
                             </div>
                             
                         </div>
                         <div class="modal-footer">
-
-                            <button style="margin-right:2%" type="button" class="btn btn-default pull-right" data-dismiss="modal"><span>Close</span></button>
-                            <button style="margin-right:2%" class="btn btn-default pull-right">Print</button>
+                            <button type="button" style="margin-right:2%" type="button" class="btn btn-default pull-right" data-dismiss="modal" id="btn_payment_close"><span>Close</span></button>
+                            <a href=""><button type="button" style="margin-right:2%" class="btn btn-default pull-right" id="btn_payment_print">Print</button></a>
                         </div>
                         
                     </div>
                 </div>
             </div>
-            <table id="myTable1" class="table table-hover table-bordered">
+            <table id="myTable1" class="table table-hover table-bordered table-responsive">
                 <thead>
                     <tr>
-                        <th>No</th>
-                        <th>Invoice No</th>
-                        <th>Invoice Date</th>
-                        <th>Supplier</th>
-                        <th>Total</th>
-                        <th>Description</th>
-                        <th>Action</th>
+                        <th class="col-md-3 text-center">Invoice No</th>
+                        <th class="col-md-2 text-center">Invoice Date</th>
+                        <th class="col-md-2 text-center">Supplier</th>
+                        <th class="col-md-2 text-center">Total</th>
+                        <th class="col-md-3 text-center">Action</th>
                     </tr>
                 </thead>
                 <tbody>
-                    <tr>
-                        <td>1</td>
-                        <td>JS-17-03-023233</td>
-                        <td>24 Feb 2017</td>
-                        <td>CV Mitra</td>
-                        <td>Rp 200.000</td>
-                        <td>Lorem ipsum dolor sit amet, consectetuer adipiscing elit. </td>
-                        <td><button class="btn btn-dropbox" data-toggle="modal" data-target="#myModal">Bayar</button></td>
-                    </tr>
-                    <tr>
-                        <td>2</td>
-                        <td>JS-67-03-023233</td>
-                        <td>24 Feb 2017</td>
-                        <td>CV Mitra</td>
-                        <td>Rp 200.000</td>
-                        <td>Lorem ipsum dolor sit amet, consectetuer adipiscing elit. </td>
-                        <td><span class="label label-success " style="padding:7% 17%">Paid</span> <button class="btn btn-dropbox" data-toggle="modal" data-target="#myModal1">Info</button></td>
-                    </tr>
+                    @{
+                        using (var db = new dbsmsEntities())
+                        {
+
+                            foreach (hpurchaseinvoice item in db.hpurchaseinvoices.Where(x => x.projectid == projid))
+                            {
+                                <tr>
+                                    <td>@item.number@if (item.status == 1)
+                                    {
+                                        <span class="label label-success pull-right" style="font-size:100%">Paid</span>
+                                    }</td>
+                                    <td>@item.date.ToString("dd MMMM yyyy")</td>
+                                    <td>@item.supplier.name</td>
+                                    <td class="text-right">@item.grandtotal.ToString("C2", indonesia)</td>
+                                    @if (item.status == 0)
+                                    {
+                                        <td class="text-center">@if (AdminLTE1.Helpers.GlobalFunction.has_privilege(Session["user"].ToString(), "insert", "purchase_payment"))
+                                        {<button class="btn btn-dropbox btn_bayar" data-toggle="modal" data-target="#myModal" invid="@item.id">Bayar</button>}</td>
+                                    }
+                                    else
+                                    {
+                                        purchasepayment pp = db.purchasepayments.Where(x => x.purchaseinvoiceid == @item.id).First();
+
+                                        <td class="text-center"><button class="btn btn-info btn_lihat" data-toggle="modal" data-target="#myModal1" ppdate="@pp.date.ToString("yyyy-MM-dd")" pptype="@pp.type" ppnote="@pp.note" ppid="@pp.id">Info</button></td>
+                                    }
+                                </tr>
+                            }
+                        }
+                    }
                 </tbody>
             </table>
         </div>
@@ -112,8 +131,74 @@
 </div>
 <script type="text/javascript">
     $(document).ready(function () {
-
-        var s = $("#myTable1").DataTable();
+        var invid = "";
+        Date.prototype.toDateInputValue = (function () {
+            var local = new Date(this);
+            local.setMinutes(this.getMinutes() - this.getTimezoneOffset());
+            return local.toJSON().slice(0, 10);
+        });
+        var s = $("#myTable1").DataTable({
+            "bPaginate" : false
+        });
         s.columns.adjust().draw();
+
+        $(".btn_bayar").click(function () {
+            $('#paymentdate').val(new Date().toDateInputValue());
+            $("#paymenttype").val($("#paymenttype").children().eq(0).val()).trigger("change");
+            $("#paymentnote").val("");
+            invid = $(this).attr("invid");
+        });
+
+        $(".btn_lihat").click(function () {
+            $('#paymentdate1').val($(this).attr("ppdate"));
+            $("#paymenttype1").val($(this).attr("pptype"));
+            $("#paymentnote1").val($(this).attr("ppnote"));
+            $("#btn_payment_print").parent().attr("href", "@Url.Action("History","PurchasePayment")?id=" + $(this).attr("ppid"));
+        });
+
+        $("#btn_payment_save").click(function () {
+            //header
+            @if (Session["project"] != null) {
+                <text>
+                var pdate = $("#paymentdate").val();
+                var ptype = $("#paymenttype").val();
+                var pnote = $("#paymentnote").val();
+                var pinvid = invid;
+                
+                    swal({
+                        title: "Are you sure to save it?",
+                        text: "You can't edit it later",
+                        type: "warning",
+                        showCancelButton: true,
+                        confirmButtonColor: "success",
+                        confirmButtonText: "Yes, Save It!",
+                        closeOnConfirm: false
+                    }, function () {
+                        $.ajax({
+                            type: "POST",
+                            url: "@Url.Action("save_it","PurchasePayment")",
+                            data: { pdate: pdate, ptype: ptype, pnote: pnote, pinvid: pinvid},
+                        success: function (data) {
+                            if(data == "success"){
+                                swal({
+                                    title: "Saved!",
+                                    text: "Your data has been saved.",
+                                    type: "success"
+                                }, function () {
+                                    location.reload();
+                                });
+                            }
+                            else{
+                                swal("Failed!", "Something went wrong!", "error");
+                            }
+                        },
+                        error: function (xhr, status, error) {
+                            alert(xhr.responseText);
+                        }
+                    });
+                });
+            </text>
+        }
+        });
     });
 </script>

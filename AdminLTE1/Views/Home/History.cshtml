@@ -4,62 +4,147 @@
 <div class="row">
     <div class="col-xs-12 col-md-12 col-lg-12">
         <div class="box box-default panel-body">
+            <div class="modal inmodal fade" id="myModal" tabindex="-1" role="dialog">
+                <div class="modal-dialog modal-lg">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h4 class="modal-title">Repeat Order</h4>
+                            <small class="font-bold"></small>
+                        </div>
+                        <form method="POST">
+                            <div class="modal-body">
+                                <div class="form-group">
+                                    <label>Project Name : </label>
+                                    <input name="projectName" type="text" class="form-control" id="projectName" required />
+                                </div>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-white" data-dismiss="modal" id="cancel_project">Cancel</button>
+                                <button type="submit" class="btn btn-primary" id="save_project_name">Save</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
             <a href="@Url.Action("Index","Home")"><button class="btn btn-warning">Back</button></a>
             <br /><br />
-            <table id="myTable" class="table table-hover">
+            <table id="myTable" class="table table-hover table-responsive table-bordered table-striped">
                 <thead>
                     <tr>
-                        <td>No</td>
-                        <td>Project</td>
-                        <td>Supplier</td>
-                        <td>Penawaran</td>
-                        <td>Accept</td>
-                        <td>Design</td>
-                        <td>Kirim Supplier</td>
-                        <td>Kirim Customer</td>
-                        <td>Keterangan</td>
-                        <td class="col-md-2">Action</td>
+                        <th class="text-center">No</th>
+                        <th class="text-center">Project</th>
+                        <th class="text-center">Supplier</th>
+                        <th class="text-center">Penawaran</th>
+                        <th class="text-center">Accept</th>
+                        <th class="text-center">Design</th>
+                        <th class="text-center">Kirim Supplier</th>
+                        <th class="text-center">Kirim Customer</th>
+                        <th class="text-center">Keterangan</th>
+                        <th class="text-center">Action</th>
                     </tr>
                 </thead>
                 <tbody>
-                    <tr>
-                        <td>1</td>
-                        <td>Kaos Alola 60pcs</td>
-                        <td><i class="fa fa-check-circle-o" aria-hidden="true"></td>
-                        <td>24 Feb 2017</td>
-                        <td>24 Feb 2017</td>
-                        <td>24 Feb 2017</td>
-                        <td>24 Feb 2017</td>
-                        <td>24 Feb 2017</td>
-                        <td>Tunggu Info Harga</td>
-                        <td><a href="#"><button class="btn btn-default">Print</button></a><a href="#"><button class="btn btn-github pull-right">Repeat Order</button></a></td>
-                    </tr>
-                    <tr>
-                        <td>2</td>
-                        <td>Kaos Alola 60pcs 2</td>
-                        <td></td>
-                        <td>15 Feb 2017</td>
-                        <td>23 Feb 2017</td>
-                        <td></td>
-                        <td>23 Feb 2017</td>
-                        <td>02 Nov 2017</td>
-                        <td>Tunggu Info Harga Juga</td>
-                        <td><a href="#"><button class="btn btn-default">Print</button><a href="#"><button class="btn btn-github pull-right">Repeat Order</button></a></a></td>
-                    </tr>
-                    <tr>
-                        <td>3</td>
-                        <td>Kaos Alola 60pcs 3</td>
-                        <td><i class="fa fa-check-circle-o" aria-hidden="true"></i></td>
-                        <td>24 Mar 2017</td>
-                        <td></td>
-                        <td>24 Feb 2017</td>
-                        <td>24 Feb 2017</td>
-                        <td>24 Sep 2017</td>
-                        <td>Test123</td>
-                        <td><a href="#"><button class="btn btn-default">Print</button></a><a href="#"><button class="btn btn-github pull-right">Repeat Order</button></a></td>
-                    </tr>
+                    @{
+                        using (var db = new dbsmsEntities())
+                        {
+                            int i = 1;
+                            foreach (project item in db.projects.Where(x => x.status == 1))
+                            {
+                                <tr projid="@item.id">
+                                    <td class="text-center">@i</td>
+                                    <td class="text-left">@item.name</td>
+                                    <td class="text-center">
+                                        @if (item.status1.findprices == 1)
+                                        {
+                                            <i class="fa fa-check-circle-o" aria-hidden="true" />
+                                        }
+                                    </td>
+                                    <td class="text-center">
+                                        @if (item.status1.penawaran == 1 && item.hpenawarans.Count > 0)
+                                        {
+                                            @item.hpenawarans.First().date.ToString("dd MMMM yyyy")
+                                        }
+                                    </td>
+                                    <td class="text-center">
+                                        @if (item.status1.salesorder == 1 && item.hsalesorders.Count > 0)
+                                        {
+                                            @item.hsalesorders.First().date.ToString("dd MMMM yyyy")
+                                        }
+                                    </td>
+                                    <td class="text-center">
+                                        @if (item.status1.salesorder == 1 && item.hsalesorders.Count > 0 && item.hsalesorders.First().designdate != null)
+                                        {
+                                            @((item.hsalesorders.First().designdate ?? DateTime.Now).ToString("dd MMMM yyyy"))
+                                        }
+                                    </td>
+                                    <td class="text-center">
+                                        @if (item.status1.purchaseorder == 1 && item.hpoes.Count > 0)
+                                        {
+                                            DateTime dt = item.hpoes.Max(x => x.expecteddate);
+                                            <span @((dt > DateTime.Now && item.status1.receiveitem == 0) ? "style='color:red'" : "") @((item.status1.receiveitem == 1) ? "style='color:green'" : "")>@dt.ToString("dd MMMM yyyy")</span>
+                                        }
+                                    </td>
+                                    <td class="text-center">
+                                        @if (item.status1.salesorder == 1 && item.hsalesorders.Count > 0)
+                                        {
+                                            DateTime dt = item.hsalesorders.Max(x => x.expecteddate);
+                                            <span @((dt > DateTime.Now && item.status1.suratjalan == 0) ? "style='color:red'" : "") @((item.status1.suratjalan == 1) ? "style='color:green'" : "")>@item.hsalesorders.First().expecteddate.ToString("dd MMMM yyyy")</span>
+                                        }
+                                    </td>
+                                    <td class="text-left">@item.description</td>
+                                    <td class="text-center action"><button type="button" class="btn btn-github btn-repeat" style="margin-right:5px" data-toggle="modal" data-target="#myModal">Repeat Order</button></td>
+                                </tr>
+                                i++;
+                            }
+                        }
+                    }
                 </tbody>
             </table>
         </div>
     </div>
 </div>
+<script type="text/javascript">
+    var t = $("#myTable").DataTable({
+        "bPaginate": false
+    });
+    t.columns.adjust().draw();
+    $(".btn-repeat").click(function () {
+        var idproj = $(this).parent().parent().attr("projid");
+        var namaproj = $(this).parent().parent().children().eq(1).html();
+        $("#projectName").val(namaproj);
+        $("#save_project_name").attr("idproj", idproj);
+    });
+    $("#save_project_name").click(function () {
+        var idproj = $(this).attr("idproj");
+        var namaproj = $("#projectName").val();
+        $.ajax({
+            type: "POST",
+            url: "@Url.Action("repeat_project", "Home")",
+            data: { projid: idproj, projname: namaproj },
+            success: function (data) {
+                if (data != "fail") {
+                    swal({
+                        title: "Success!",
+                        text: "Repeat order success",
+                        type: "success"
+                    }, function () {
+                        $("#cancel_project").click();
+                        window.location = "@Url.Action("Index","SalesOrder")";
+                    });
+                }
+                else {
+                    swal({
+                        title: "Failed!",
+                        text: "Repeat order failed!",
+                        type: "failed"
+                    }, function () {
+                    });
+                }
+            },
+            error: function (xhr, status, error) {
+                alert("2"+xhr.responseText);
+            }
+        });
+        return false;
+    });
+</script>

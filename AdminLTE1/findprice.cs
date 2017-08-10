@@ -14,12 +14,6 @@ namespace AdminLTE1
     
     public partial class findprice
     {
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public findprice()
-        {
-            this.findpricesnotes = new HashSet<findpricesnote>();
-        }
-    
         public long id { get; set; }
         public long projectid { get; set; }
         public long supplierid { get; set; }
@@ -32,8 +26,6 @@ namespace AdminLTE1
         public long qty { get; set; }
     
         public virtual supplier supplier { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<findpricesnote> findpricesnotes { get; set; }
         public virtual project project { get; set; }
     }
 }

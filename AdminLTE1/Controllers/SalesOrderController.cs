@@ -12,6 +12,11 @@ namespace AdminLTE1.Controllers
         // GET: SalesOrder
         public ActionResult Index()
         {
+            if (!GlobalFunction.has_privilege(Session["user"].ToString(), "select", "sales_order"))
+            {
+                TempData["back_url"] = Request.UrlReferrer.ToString();
+                return Redirect(Url.Action("error403", "Error"));
+            }
             using (var db = new dbsmsEntities())
             {
                 if (Session["project"] != null && db.projects.Find(Session["project"]).status1.salesorder == 1)
@@ -79,6 +84,7 @@ namespace AdminLTE1.Controllers
                             newdata1.customerid = tcustomer;
                             newdata1.description = "Down payment untuk SO : " + newSOnum;
                             newdata1.total = dp;
+                            newdata1.grandtotal = dp;
                             db1.hsalesinvoices.Add(newdata1);
                             dsalesinvoice newdata2 = new dsalesinvoice();
                             newdata2.itemcategoryid = 2;
@@ -87,11 +93,44 @@ namespace AdminLTE1.Controllers
                             newdata2.unitprice = dp;
                             newdata2.subtotal = dp;
                             db1.dsalesinvoices.Add(newdata2);
+                            db1.hsalesinvoices.Find(GlobalFunction.get_max_id("hsalesinvoice")).project.status1.salesinvoice = 1;
                             db1.SaveChanges();
                         }
                     }
                     using (var db1 = new dbsmsEntities())
                     {
+                        foreach (Int64 item in db.projects.Find(Convert.ToInt64(Session["project"])).hpenawarans.First().dpenawarans.Select(x=>x.supplierid).Distinct())
+                        {
+                            String newponumb = GlobalFunction.generate_code("PO");
+                            Int64 total_ = 0;
+                            hpo newhpo = new hpo();
+                            newhpo.date = datenow;
+                            newhpo.projectid = Convert.ToInt64(Session["project"]);
+                            newhpo.number = newponumb;
+                            newhpo.supplierid = item;
+                            newhpo.terms = "C.O.D";
+                            newhpo.to = "";
+                            db1.hpoes.Add(newhpo);
+                            Int64 maxday = 0;
+                            foreach (dpenawaran item2 in db.projects.Find(Convert.ToInt64(Session["project"])).hpenawarans.First().dpenawarans.Where(x=>x.supplierid==item))
+                            {
+                                dpo newdpo = new dpo();
+                                newdpo.itemcategoryid = item2.itemcategoryid;
+                                newdpo.itemdescription = item2.itemdescription;
+                                newdpo.qty = item2.qty;
+                                newdpo.unitprice = item2.hpenawaran.project.findprices.Where(x => x.supplierid == item && x.itemdescription == item2.itemdescription).First().unitprice;
+                                newdpo.subtotal = newdpo.qty * newdpo.unitprice;
+                                if (item2.hpenawaran.project.findprices.Where(x => x.supplierid == item && item2.itemdescription == x.itemdescription).First().timeneeded > maxday) maxday = item2.hpenawaran.project.findprices.Where(x => x.supplierid == item && item2.itemdescription == x.itemdescription).First().timeneeded;
+                                total_ += newdpo.subtotal;
+                                db1.dpoes.Add(newdpo);
+                            }
+                            newhpo.total = total_;
+                            newhpo.dp = 0;
+                            newhpo.discount = 0;
+                            newhpo.grandtotal = total_;
+                            newhpo.expecteddate = datenow.AddDays(maxday);
+                            db1.SaveChanges();
+                        }
                         db1.hsalesorders.Find(GlobalFunction.get_max_id("hsalesorder")).project.status1.salesorder = 1;
                         db1.SaveChanges();
                         return "success";

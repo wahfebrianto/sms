@@ -18,7 +18,6 @@ namespace AdminLTE1
         public hpenawaran()
         {
             this.dpenawarans = new HashSet<dpenawaran>();
-            this.penawarannotes = new HashSet<penawarannote>();
         }
     
         public long id { get; set; }
@@ -36,7 +35,5 @@ namespace AdminLTE1
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<dpenawaran> dpenawarans { get; set; }
         public virtual project project { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<penawarannote> penawarannotes { get; set; }
     }
 }

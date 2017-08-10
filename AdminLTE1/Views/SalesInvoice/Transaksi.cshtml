@@ -1,7 +1,24 @@
 ﻿
 @{
-    ViewBag.Title = "Sales Invoice";
-}
+    String concat_title = "";
+    using (var db = new dbsmsEntities())
+    {
+        try
+        {
+            concat_title = db.projects.Find(Convert.ToInt64(Session["project"] ?? 0)).name;
+        }
+        catch { }
+        ViewBag.Title = "Sales Invoice - " + concat_title ?? "";
+        hsalesinvoice hsi;
+        List<dsalesinvoice> dsi;
+        Int64 projid = Convert.ToInt64(Session["project"]);
+        System.Globalization.CultureInfo indonesia = new System.Globalization.CultureInfo("id-ID");
+        if (Request.QueryString["id"] != null)
+        {
+            ViewBag.Title += " (" + db.hsalesinvoices.Find(Convert.ToInt64(Request.QueryString["id"])).number + ")";
+            hsi = db.hsalesinvoices.Find(Convert.ToInt64(Request.QueryString["id"]));
+            dsi = hsi.dsalesinvoices.ToList();
+        }
 <div class="row">
     <div class="col-md-12 col-lg-12 col-sm-12">
         <div class="box box-default panel-body">
@@ -16,66 +33,67 @@
                         <div class="modal-body">
                             <div class="form-group">
                                 <label>Item : </label>
-                                <select class="form-control">
-                                    <option value="a">J030</option>
-                                    <option value="b">J031</option>
-                                </select>
+                                <input type="text" class="form-control" id="itemcat" disabled/>
                             </div>
                             <div class="form-group">
                                 <label>Description : </label>
-                                <textarea class="form-control" disabled></textarea>
+                                <textarea class="form-control" disabled id="itemdesc"></textarea>
                             </div>
                             <div class="form-group">
                                 <label>Qty : </label>
-                                <input type="number" min="0" class="form-control" />
+                                <input type="number" min="1" class="form-control" id="itemqty" />
                             </div>
                             <div class="form-group">
                                 <label>Unit Price : </label>
                                 <div class="input-group">
                                     <span class="input-group-addon">Rp</span>
-                                    <input type="number" min="0" class="form-control" />
+                                    <input type="number" min="0" class="form-control" id="unitprice" step="100"/>
                                 </div>
-
                             </div>
                             <div class="form-group">
                                 <label>Sub Total : </label>
                                 <div class="input-group">
                                     <span class="input-group-addon">Rp</span>
-                                    <input type="number" min="0" class="form-control" disabled />
+                                    <input type="number" min="0" class="form-control" disabled id="subtotal"/>
                                 </div>
                             </div>
                         </div>
                         <div class="modal-footer">
-                            <button type="button" class="btn btn-white" data-dismiss="modal">Cancel</button>
-                            <button type="button" class="btn btn-primary">Save changes</button>
+                            <button type="button" class="btn btn-white" data-dismiss="modal" id="btn_cancel_item">Cancel</button>
+                            <button type="button" class="btn btn-primary" id="btn_save_item">Save changes</button>
                         </div>
                     </div>
                 </div>
             </div>
             <form>
                 <div class="row">
-                    <div class="form-group col-md-6">
+                    @*<div class="form-group col-md-6">
                         <label for="InvoiceNo">Invoice No: </label>
                         <input name="InvoiceNo" type="text" class="form-control" />
-                    </div>
+                    </div>*@
                     <div class="form-group  col-md-6">
                         <label>Invoice Date : </label>
-                        <input type="date" class="form-control" />
+                        <input type="date" class="form-control" id="invoiceDate"/>
                     </div>
-                    <div class="form-group col-md-12">
+                    <div class="form-group col-md-6">
                         <label>Terms : </label>
-                        <select class="form-control">
-                            <option value="1">COD</option>
-                            <option value="2">Transfer</option>
+                        <select class="form-control" id="terms">
+                            <option value="C.O.D">C.O.D</option>
+                            <option value="Transfer">Transfer</option>
                         </select>
                     </div>
                     <div class="form-group col-md-6">
                         <label>Bill To : </label>
-                        <textarea class="form-control" readonly rows="4"></textarea>
+                        <textarea class="form-control" readonly rows="5" id="billTo">
+@db.projects.Find(projid).hsalesorders.First().customer.name
+@db.projects.Find(projid).hsalesorders.First().customer.address
+@db.projects.Find(projid).hsalesorders.First().customer.city
+@db.projects.Find(projid).hsalesorders.First().customer.phone
+                        </textarea>
                     </div>
                     <div class="form-group col-md-6">
                         <label>Description : </label>
-                        <textarea class="form-control" rows="4"></textarea>
+                        <textarea class="form-control" rows="5" id="description"></textarea>
                     </div>
                 </div>
                 <div class="row">
@@ -85,48 +103,66 @@
                         <table id="myTable" class="table table-hover table-bordered">
                             <thead>
                                 <tr>
-                                    <th class="col-md-2">Item</th>
-                                    <th class="col-md-2">Description</th>
-                                    <th class="col-md-2">Qty</th>
-                                    <th class="col-md-2">Unit Price</th>
-                                    <th class="col-md-2">Sub Total</th>
-                                    <th class="col-md-2">Action</th>
+                                    <th class="text-center hidden">Id</th>
+                                    <th class="text-center hidden">CatId</th>
+                                    <th class="text-center col-md-2">Item</th>
+                                    <th class="text-center col-md-3">Description</th>
+                                    <th class="text-center col-md-1">Qty</th>
+                                    <th class="text-center hidden">RealUnitPrice</th>
+                                    <th class="text-center col-md-2">Unit Price</th>
+                                    <th class="text-center hidden">Real Sub Total</th>
+                                    <th class="text-center col-md-2">Sub Total</th>
+                                    <th class="text-center col-md-2">Action</th>
                                 </tr>
                             </thead>
                             <tfoot>
                                 <tr>
                                     <th colspan="4" style="text-align:right">Total Order:</th>
-                                    <th colspan="2"></th>
+                                    <th colspan="2">Rp<span id="total1"></span>,00</th>
+                                </tr>
+                                <tr>
+                                    <th colspan="4" style="text-align:right">Down Payment:</th>
+                                    <th colspan="2">Rp<span id="dp">@db.projects.Find(projid).hsalesorders.First().dp</span>,00</th>
                                 </tr>
                                 <tr>
                                     <th colspan="4" style="text-align:right">Discount:</th>
-                                    <th colspan="2"><input class="text-left" type="number" value="0" id="discount" /></th>
-                                </tr>
-                                <tr>
-                                    <th colspan="4" style="text-align:right">Ship Fee:</th>
-                                    <th colspan="2"><input class="text-left" type="number" value="0" id="shipfee" /></th>
+                                    <th colspan="2"><input class="text-left" type="number" value="0" min="0" step="100" id="discount" onchange="calculateAgain()" onkeyup="calculateAgain()" /></th>
                                 </tr>
                                 <tr>
                                     <th colspan="4" style="text-align:right">Grand Total:</th>
-                                    <th colspan="2" id="grandtotal"></th>
-</tfoot>
-                            <tbody>
-                                <tr>
-                                    <td>J030</td>
-                                    <td>Brosur A4 AP150 2 sisi</td>
-                                    <td>10000</td>
-                                    <td>280.3</td>
-                                    <td>Rp. 170750</td>
-                                    <td><button type="button" class="btn btn-warning btn_edit" data-toggle="modal" data-target="#myModal">Edit</button> <button type="button" class="btn btn-danger">Delete</button></td>
+                                    <th colspan="2">Rp<span id="total2"></span>,00</th>
                                 </tr>
+                            </tfoot>
+                            <tbody>
+                                @*[id, catid, catname, itemdesc, qtynya, unitpricenya, "Rp" + unitpricenya.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".") + ",00",subtotal, "Rp" + subtotal.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".") + ",00", "
+<button type='button' class='btn btn-info col-md-3 edititem' data-toggle='modal' data-target='#myModal' style='margin-right:5px'>Edit</button>
+<button type='button' class='btn btn-danger col-md-4 deleteitem'>Delete</button>"]*@
+                                @{
+                                    hsalesorder hso = db.projects.Find(projid).hsalesorders.First();
+                                    foreach (dsalesorder item in hso.dsalesorders)
+                                    {
+                                        <tr>
+                                            <td class="hidden">@item.id</td>
+                                            <td class="hidden">@item.itemcategoryid</td>
+                                            <td>@item.item_category.name</td>
+                                            <td>@item.itemdescription</td>
+                                            <td style="text-align:right">@item.qty</td>
+                                            <td class="hidden">@item.unitprice</td>
+                                            <td style="text-align:right">@item.unitprice.ToString("C2",indonesia)</td>
+                                            <td class="hidden subtotal">@item.subtotal</td>
+                                            <td style="text-align:right">@item.subtotal.ToString("C2", indonesia)</td>
+                                            <td style="text-align:center"><button type='button' class='btn btn-info col-md-3 edititem' data-toggle='modal' data-target='#myModal' style='margin-right:5px;margin-left:20%'>Edit</button><button type='button' class='btn btn-danger col-md-4 deleteitem'>Delete</button></td>
+                                        </tr>
+                                    }
+                                }
                             </tbody>
                         </table>
-                        <button type="button" class="btn btn-warning btn-primary pull-right" data-toggle="modal" data-target="#myModal">Add Item</button>
+                        <button type="button" class="btn btn-warning btn-primary pull-right" id="btn_reset">Reset</button>
                     </div>
                     <div class="col-md-12">
                         <br />
-                        <a href="@Url.Action("Index","PurchaseOrder")"><button class="btn btn-lg btn-success pull-right" style="margin-left:10px;">Save</button></a>
-                        <a href="@Url.Action("Index","PurchaseOrder")"><button class="btn btn-lg btn-default pull-right">Cancel</button></a>
+                        <button type="button" class="btn btn-lg btn-success pull-right" style="margin-left:10px;" id="btn_save">Save</button>
+                        <a href="@Url.Action("Index","SalesInvoice")"><button class="btn btn-lg btn-default pull-right">Cancel</button></a>
                     </div>
                 </div>
             </form>
@@ -136,53 +172,150 @@
 </div>
 
 <script type="text/javascript">
+    var dp = 0;
+    function hitungulang() {
+        var qtynya = $("#itemqty").val();
+        var unitpricenya = $("#unitprice").val();
+        var subtotal = qtynya * unitpricenya;
+        $("#subtotal").val(subtotal);
+    }
+    function calculateAgain() {
+        var elements = $(".subtotal");
+        var total = 0;
+        for (var i = 0; i < elements.length; i++) {
+            total += parseInt($(elements[i]).html());
+        }
+        $("#total1").html(total.toString().replace(/\B(?=(\d{3})+(?!\d))/g, "."));
+        var disc = $("#discount").val();
+        $("#dp").html($("#dp").html().toString().replace(/\B(?=(\d{3})+(?!\d))/g, "."));
+        total -= disc;
+        total -= dp;
+        $("#total2").html(total.toString().replace(/\B(?=(\d{3})+(?!\d))/g, "."));
+    }
     $(document).ready(function () {
+        dp = $("#dp").html();
+        calculateAgain();
+        Date.prototype.toDateInputValue = (function () {
+            var local = new Date(this);
+            local.setMinutes(this.getMinutes() - this.getTimezoneOffset());
+            return local.toJSON().slice(0, 10);
+        });
+        $('#invoiceDate').val(new Date().toDateInputValue());
         $('.btn_edit').click(function () {
             $('#myModal h4').html('Edit Item');
         });
         $('#btn_add').click(function () {
             $('#myModal h4').html('Add Item');
         });
-        $('#myTable').DataTable({
-            "footerCallback": function (row, data, start, end, display) {
-                var api = this.api(), data;
+        var t = $('#myTable').DataTable({
+            "bPaginate":false
+        });
+        $("#btn_reset").click(function () { location.reload(); });
+        $('#myTable tbody').on('click', ".deleteitem", function () {
+            t.row($(this).parents('tr')).remove().draw();
+            calculateAgain();
+        });
+        $('#myTable tbody').on('click', ".edititem", function () {
+            $('#myModal h4').html('Edit Item');
+            var itemcat = $(this).parent().parent().children().eq(2).html();
+            var itemdesc = $(this).parent().parent().children().eq(3).html();
+            var qtynya = $(this).parent().parent().children().eq(4).html();
+            var unitpricenya = $(this).parent().parent().children().eq(5).html();
+            $("#itemcat").val(itemcat);
+            $("#itemdesc").val(itemdesc);
+            $("#itemqty").val(qtynya);
+            $("#unitprice").val(unitpricenya);
+            hitungulang();
+            barisklik = $(this).parent().parent();
+        });
+        $("#btn_cancel_item").click(function () {
+            barisklik = "";
+        });
+        $("#itemqty").change(function () {
+            hitungulang();
+        });
+        $("#unitprice").change(function () {
+            hitungulang();
+        });
+        $("#itemqty").keydown(function () {
+            hitungulang();
+        });
+        $("#unitprice").keydown(function () {
+            hitungulang();
+        });
+        $("#btn_save_item").click(function () {
 
-                // Remove the formatting to get integer data for summation
-                var intVal = function (i) {
-                    return typeof i === 'string' ?
-                        i.replace('Rp. ', '') * 1 :
-                        typeof i === 'number' ?
-                        i : 0;
-                };
+            var qtynya = $("#itemqty").val();
+            var unitpricenya = $("#unitprice").val();
+            var subtotal = qtynya * unitpricenya;
+            $(barisklik).children().eq(4).html(qtynya);
+            $(barisklik).children().eq(5).html(unitpricenya);
+            $(barisklik).children().eq(6).html("Rp" + unitpricenya.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".") + ",00");
+            $(barisklik).children().eq(7).html(subtotal);
+            $(barisklik).children().eq(8).html("Rp" + subtotal.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".") + ",00");
 
-                // Total over all pages
-                total = api
-                    .column(4)
-                    .data()
-                    .reduce(function (a, b) {
-                        return intVal(a) + intVal(b);
-                    }, 0);
-
-                dp = $('#discount').val();
-                sf = $('#shipfee').val();
-
-                //// Total over this page
-                //pageTotal = api
-                //    .column(4, { page: 'current' })
-                //    .data()
-                //    .reduce(function (a, b) {
-                //        return intVal(a) + intVal(b);
-                //    }, 0);
-
-                // Update footer
-                $(api.column(4).footer()).html(
-                    'Rp. ' + total
-                );
-
-                grandtotal = intVal(total) + intVal(sf) - dp;
-
-                $('#grandtotal').html('Rp. ' + grandtotal);
+            calculateAgain();
+            $("#btn_cancel_item").click();
+        });
+        $('#btn_save').click(function() {
+            //header
+            @if (Session["project"] != null) {
+                <text>
+                var sidate = $("#invoicedate").val();
+                var terms = $("#terms").val();
+                var desc = $("#description").val();
+                var disc = $("#discount").val();
+                var elements = $("#myTable tbody tr");
+                if($(elements).children().length > 1){
+                    var detail = "";
+                    for(var i=0;i<elements.length;i++){
+                        var itemcatid = $(elements[i]).children().eq(1).html();
+                        var itemdescription = $(elements[i]).children().eq(3).html();
+                        var qty = $(elements[i]).children().eq(4).html();
+                        var unitprice = $(elements[i]).children().eq(5).html();
+                        detail += itemcatid + "Ё" + itemdescription + "Ё" + qty + "Ё" + unitprice;
+                        detail += "ѥ";
+                    }
+                    swal({
+                        title: "Are you sure to save it?",
+                        text: "You can't edit it later",
+                        type: "warning",
+                        showCancelButton: true,
+                        confirmButtonColor: "success",
+                        confirmButtonText: "Yes, Save It!",
+                        closeOnConfirm: false
+                    }, function () {
+                        $.ajax({
+                            type: "POST",
+                            url: "@Url.Action("save_it","SalesInvoice")",
+                            data: { sidate: sidate, terms:terms, disc:disc, desc: desc, detail: detail },
+                        success: function (data) {
+                            if(data == "success"){
+                                swal({
+                                    title: "Saved!",
+                                    text: "Your data has been saved.",
+                                    type: "success"
+                                }, function () {
+                                    window.location = '@Url.Action("Index","SalesInvoice")';
+                                });
+                            }
+                            else{
+                                swal("Failed!", "Something went wrong!", "error");
+                            }
+                        },
+                        error: function (xhr, status, error) {
+                            alert(xhr.responseText);
+                        }
+                    });
+                });
             }
+            else{
+                swal("Failed!", "Detail must not be empty", "error");
+            }
+            </text>
+        }
         });
     });
 </script>
+        }
+    }

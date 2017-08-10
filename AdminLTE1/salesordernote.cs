@@ -15,11 +15,11 @@ namespace AdminLTE1
     public partial class salesordernote
     {
         public long id { get; set; }
-        public long salesorderid { get; set; }
+        public long projectid { get; set; }
         public string username { get; set; }
         public System.DateTime date { get; set; }
         public string text { get; set; }
     
-        public virtual hsalesorder hsalesorder { get; set; }
+        public virtual project project { get; set; }
     }
 }

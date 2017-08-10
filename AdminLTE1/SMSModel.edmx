@@ -59,10 +59,10 @@
             <PropertyRef Name="id" />
           </Key>
           <Property Name="id" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="receiveitemid" Type="bigint" />
-          <Property Name="itemcategoryid" Type="bigint" />
-          <Property Name="itemdescription" Type="text" />
-          <Property Name="qty" Type="bigint" />
+          <Property Name="receiveitemid" Type="bigint" Nullable="false" />
+          <Property Name="itemcategoryid" Type="bigint" Nullable="false" />
+          <Property Name="itemdescription" Type="text" Nullable="false" />
+          <Property Name="qty" Type="bigint" Nullable="false" />
         </EntityType>
         <EntityType Name="drfq">
           <Key>
@@ -83,7 +83,7 @@
           <Property Name="id" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="salesinvoiceid" Type="bigint" Nullable="false" />
           <Property Name="itemcategoryid" Type="bigint" Nullable="false" />
-          <Property Name="itemdescription" Type="text" Nullable="false" />
+          <Property Name="itemdescription" Type="varchar(max)" Nullable="false" />
           <Property Name="qty" Type="bigint" Nullable="false" />
           <Property Name="unitprice" Type="bigint" Nullable="false" />
           <Property Name="subtotal" Type="bigint" Nullable="false" />
@@ -95,7 +95,7 @@
           <Property Name="id" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="salesorderid" Type="bigint" Nullable="false" />
           <Property Name="itemcategoryid" Type="bigint" Nullable="false" />
-          <Property Name="itemdescription" Type="text" Nullable="false" />
+          <Property Name="itemdescription" Type="varchar(max)" Nullable="false" />
           <Property Name="qty" Type="bigint" Nullable="false" />
           <Property Name="unitprice" Type="bigint" Nullable="false" />
           <Property Name="subtotal" Type="bigint" Nullable="false" />
@@ -107,7 +107,7 @@
           <Property Name="id" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="suratjalanid" Type="bigint" Nullable="false" />
           <Property Name="itemcategoryid" Type="bigint" Nullable="false" />
-          <Property Name="itemdescription" Type="text" Nullable="false" />
+          <Property Name="itemdescription" Type="varchar(max)" Nullable="false" />
           <Property Name="qty" Type="bigint" Nullable="false" />
         </EntityType>
         <EntityType Name="findprices">
@@ -130,7 +130,7 @@
             <PropertyRef Name="id" />
           </Key>
           <Property Name="id" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="findpricesid" Type="bigint" Nullable="false" />
+          <Property Name="projectid" Type="bigint" Nullable="false" />
           <Property Name="username" Type="text" Nullable="false" />
           <Property Name="date" Type="date" Nullable="false" />
           <Property Name="text" Type="text" Nullable="false" />
@@ -170,8 +170,12 @@
           <Property Name="terms" Type="text" Nullable="false" />
           <Property Name="to" Type="text" Nullable="false" />
           <Property Name="expecteddate" Type="date" Nullable="false" />
+          <Property Name="total" Type="bigint" Nullable="false" />
+          <Property Name="dp" Type="bigint" Nullable="false" />
+          <Property Name="discount" Type="bigint" Nullable="false" />
           <Property Name="grandtotal" Type="bigint" Nullable="false" />
           <Property Name="description" Type="text" />
+          <Property Name="status" Type="tinyint" Nullable="false" />
         </EntityType>
         <EntityType Name="hpurchaseinvoice">
           <Key>
@@ -181,11 +185,14 @@
           <Property Name="projectid" Type="bigint" Nullable="false" />
           <Property Name="number" Type="text" Nullable="false" />
           <Property Name="date" Type="date" Nullable="false" />
+          <Property Name="terms" Type="text" Nullable="false" />
           <Property Name="poid" Type="bigint" Nullable="false" />
           <Property Name="supplierid" Type="bigint" Nullable="false" />
-          <Property Name="diskon" Type="bigint" Nullable="false" />
           <Property Name="total" Type="bigint" Nullable="false" />
+          <Property Name="diskon" Type="bigint" Nullable="false" />
+          <Property Name="grandtotal" Type="bigint" Nullable="false" />
           <Property Name="description" Type="text" />
+          <Property Name="status" Type="tinyint" Nullable="false" />
         </EntityType>
         <EntityType Name="hreceiveitem">
           <Key>
@@ -223,6 +230,9 @@
           <Property Name="terms" Type="text" Nullable="false" />
           <Property Name="total" Type="bigint" Nullable="false" />
           <Property Name="description" Type="text" />
+          <Property Name="diskon" Type="bigint" Nullable="false" />
+          <Property Name="grandtotal" Type="bigint" Nullable="false" />
+          <Property Name="status" Type="tinyint" Nullable="false" />
         </EntityType>
         <EntityType Name="hsalesorder">
           <Key>
@@ -240,20 +250,6 @@
           <Property Name="total" Type="bigint" Nullable="false" />
           <Property Name="dp" Type="bigint" Nullable="false" />
           <Property Name="grandtotal" Type="bigint" Nullable="false" />
-        </EntityType>
-        <EntityType Name="hsalespayment">
-          <Key>
-            <PropertyRef Name="id" />
-          </Key>
-          <Property Name="id" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="projectid" Type="bigint" Nullable="false" />
-          <Property Name="number" Type="text" Nullable="false" />
-          <Property Name="date" Type="date" Nullable="false" />
-          <Property Name="to" Type="text" Nullable="false" />
-          <Property Name="total" Type="bigint" Nullable="false" />
-          <Property Name="description" Type="text" />
-          <Property Name="type" Type="text" Nullable="false" />
-          <Property Name="note" Type="text" />
         </EntityType>
         <EntityType Name="hsuratjalan">
           <Key>
@@ -280,7 +276,7 @@
             <PropertyRef Name="id" />
           </Key>
           <Property Name="id" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="penawaranid" Type="bigint" Nullable="false" />
+          <Property Name="projectid" Type="bigint" Nullable="false" />
           <Property Name="username" Type="text" Nullable="false" />
           <Property Name="date" Type="date" Nullable="false" />
           <Property Name="text" Type="text" Nullable="false" />
@@ -290,7 +286,7 @@
             <PropertyRef Name="id" />
           </Key>
           <Property Name="id" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="poid" Type="bigint" Nullable="false" />
+          <Property Name="projectid" Type="bigint" Nullable="false" />
           <Property Name="username" Type="text" Nullable="false" />
           <Property Name="date" Type="date" Nullable="false" />
           <Property Name="text" Type="text" Nullable="false" />
@@ -319,7 +315,7 @@
             <PropertyRef Name="id" />
           </Key>
           <Property Name="id" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="purchaseinvoiceid" Type="bigint" Nullable="false" />
+          <Property Name="projectid" Type="bigint" Nullable="false" />
           <Property Name="username" Type="text" Nullable="false" />
           <Property Name="date" Type="date" Nullable="false" />
           <Property Name="text" Type="text" Nullable="false" />
@@ -344,7 +340,7 @@
             <PropertyRef Name="id" />
           </Key>
           <Property Name="id" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="purchasepaymentid" Type="bigint" Nullable="false" />
+          <Property Name="projectid" Type="bigint" Nullable="false" />
           <Property Name="username" Type="text" Nullable="false" />
           <Property Name="date" Type="date" Nullable="false" />
           <Property Name="text" Type="text" Nullable="false" />
@@ -354,7 +350,7 @@
             <PropertyRef Name="id" />
           </Key>
           <Property Name="id" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="receiveitemid" Type="bigint" Nullable="false" />
+          <Property Name="projectid" Type="bigint" Nullable="false" />
           <Property Name="username" Type="text" Nullable="false" />
           <Property Name="date" Type="date" Nullable="false" />
           <Property Name="text" Type="text" Nullable="false" />
@@ -364,7 +360,7 @@
             <PropertyRef Name="id" />
           </Key>
           <Property Name="id" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="rfqid" Type="bigint" Nullable="false" />
+          <Property Name="projectid" Type="bigint" Nullable="false" />
           <Property Name="username" Type="text" Nullable="false" />
           <Property Name="date" Type="date" Nullable="false" />
           <Property Name="text" Type="text" Nullable="false" />
@@ -390,7 +386,7 @@
             <PropertyRef Name="id" />
           </Key>
           <Property Name="id" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="salesinvoiceid" Type="bigint" Nullable="false" />
+          <Property Name="projectid" Type="bigint" Nullable="false" />
           <Property Name="username" Type="text" Nullable="false" />
           <Property Name="date" Type="date" Nullable="false" />
           <Property Name="text" Type="text" Nullable="false" />
@@ -400,20 +396,35 @@
             <PropertyRef Name="id" />
           </Key>
           <Property Name="id" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="salesorderid" Type="bigint" Nullable="false" />
+          <Property Name="projectid" Type="bigint" Nullable="false" />
           <Property Name="username" Type="text" Nullable="false" />
           <Property Name="date" Type="date" Nullable="false" />
           <Property Name="text" Type="text" Nullable="false" />
+        </EntityType>
+        <EntityType Name="salespayment">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="projectid" Type="bigint" Nullable="false" />
+          <Property Name="number" Type="text" Nullable="false" />
+          <Property Name="salesinvoiceid" Type="bigint" Nullable="false" />
+          <Property Name="date" Type="date" Nullable="false" />
+          <Property Name="to" Type="text" Nullable="false" />
+          <Property Name="total" Type="bigint" Nullable="false" />
+          <Property Name="description" Type="text" />
+          <Property Name="type" Type="text" Nullable="false" />
+          <Property Name="note" Type="text" />
         </EntityType>
         <EntityType Name="salespaymentnote">
           <Key>
             <PropertyRef Name="id" />
           </Key>
           <Property Name="id" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="salespaymentid" Type="bigint" />
-          <Property Name="username" Type="text" />
-          <Property Name="date" Type="date" />
-          <Property Name="text" Type="text" />
+          <Property Name="projectid" Type="bigint" Nullable="false" />
+          <Property Name="username" Type="text" Nullable="false" />
+          <Property Name="date" Type="date" Nullable="false" />
+          <Property Name="text" Type="text" Nullable="false" />
         </EntityType>
         <EntityType Name="status">
           <Key>
@@ -449,7 +460,7 @@
             <PropertyRef Name="id" />
           </Key>
           <Property Name="id" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="suratjalanid" Type="bigint" Nullable="false" />
+          <Property Name="projectid" Type="bigint" Nullable="false" />
           <Property Name="username" Type="text" Nullable="false" />
           <Property Name="date" Type="date" Nullable="false" />
           <Property Name="text" Type="text" Nullable="false" />
@@ -558,7 +569,7 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_dreceiveitem_hreceiveitem">
-          <End Role="hreceiveitem" Type="Self.hreceiveitem" Multiplicity="0..1" />
+          <End Role="hreceiveitem" Type="Self.hreceiveitem" Multiplicity="1" />
           <End Role="dreceiveitem" Type="Self.dreceiveitem" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="hreceiveitem">
@@ -570,7 +581,7 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_dreceiveitem_item_category">
-          <End Role="item_category" Type="Self.item_category" Multiplicity="0..1" />
+          <End Role="item_category" Type="Self.item_category" Multiplicity="1" />
           <End Role="dreceiveitem" Type="Self.dreceiveitem" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="item_category">
@@ -701,15 +712,15 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_findpricesnote_findprices">
-          <End Role="findprices" Type="Self.findprices" Multiplicity="1" />
+        <Association Name="FK_findpricesnote_projects">
+          <End Role="projects" Type="Self.projects" Multiplicity="1" />
           <End Role="findpricesnote" Type="Self.findpricesnote" Multiplicity="*" />
           <ReferentialConstraint>
-            <Principal Role="findprices">
+            <Principal Role="projects">
               <PropertyRef Name="id" />
             </Principal>
             <Dependent Role="findpricesnote">
-              <PropertyRef Name="findpricesid" />
+              <PropertyRef Name="projectid" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -907,12 +918,12 @@
         </Association>
         <Association Name="FK_hsalespayment_projects">
           <End Role="projects" Type="Self.projects" Multiplicity="1" />
-          <End Role="hsalespayment" Type="Self.hsalespayment" Multiplicity="*" />
+          <End Role="salespayment" Type="Self.salespayment" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="projects">
               <PropertyRef Name="id" />
             </Principal>
-            <Dependent Role="hsalespayment">
+            <Dependent Role="salespayment">
               <PropertyRef Name="projectid" />
             </Dependent>
           </ReferentialConstraint>
@@ -929,27 +940,27 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_penawarannote_hpenawaran">
-          <End Role="hpenawaran" Type="Self.hpenawaran" Multiplicity="1" />
+        <Association Name="FK_penawarannote_projects">
+          <End Role="projects" Type="Self.projects" Multiplicity="1" />
           <End Role="penawarannote" Type="Self.penawarannote" Multiplicity="*" />
           <ReferentialConstraint>
-            <Principal Role="hpenawaran">
+            <Principal Role="projects">
               <PropertyRef Name="id" />
             </Principal>
             <Dependent Role="penawarannote">
-              <PropertyRef Name="penawaranid" />
+              <PropertyRef Name="projectid" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_ponote_hpo">
-          <End Role="hpo" Type="Self.hpo" Multiplicity="1" />
+        <Association Name="FK_ponote_projects">
+          <End Role="projects" Type="Self.projects" Multiplicity="1" />
           <End Role="ponote" Type="Self.ponote" Multiplicity="*" />
           <ReferentialConstraint>
-            <Principal Role="hpo">
+            <Principal Role="projects">
               <PropertyRef Name="id" />
             </Principal>
             <Dependent Role="ponote">
-              <PropertyRef Name="poid" />
+              <PropertyRef Name="projectid" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -1013,51 +1024,51 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_purchaseinvoicenote_hpurchaseinvoice">
-          <End Role="hpurchaseinvoice" Type="Self.hpurchaseinvoice" Multiplicity="1" />
+        <Association Name="FK_purchaseinvoicenote_projects">
+          <End Role="projects" Type="Self.projects" Multiplicity="1" />
           <End Role="purchaseinvoicenote" Type="Self.purchaseinvoicenote" Multiplicity="*" />
           <ReferentialConstraint>
-            <Principal Role="hpurchaseinvoice">
+            <Principal Role="projects">
               <PropertyRef Name="id" />
             </Principal>
             <Dependent Role="purchaseinvoicenote">
-              <PropertyRef Name="purchaseinvoiceid" />
+              <PropertyRef Name="projectid" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_purchasepaymentnote_purchasepayment">
-          <End Role="purchasepayment" Type="Self.purchasepayment" Multiplicity="1" />
+        <Association Name="FK_purchasepaymentnote_projects">
+          <End Role="projects" Type="Self.projects" Multiplicity="1" />
           <End Role="purchasepaymentnote" Type="Self.purchasepaymentnote" Multiplicity="*" />
           <ReferentialConstraint>
-            <Principal Role="purchasepayment">
+            <Principal Role="projects">
               <PropertyRef Name="id" />
             </Principal>
             <Dependent Role="purchasepaymentnote">
-              <PropertyRef Name="purchasepaymentid" />
+              <PropertyRef Name="projectid" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_receiveitemnote_hreceiveitem">
-          <End Role="hreceiveitem" Type="Self.hreceiveitem" Multiplicity="1" />
+        <Association Name="FK_receiveitemnote_projects">
+          <End Role="projects" Type="Self.projects" Multiplicity="1" />
           <End Role="receiveitemnote" Type="Self.receiveitemnote" Multiplicity="*" />
           <ReferentialConstraint>
-            <Principal Role="hreceiveitem">
+            <Principal Role="projects">
               <PropertyRef Name="id" />
             </Principal>
             <Dependent Role="receiveitemnote">
-              <PropertyRef Name="receiveitemid" />
+              <PropertyRef Name="projectid" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_rfqnote_hrfq">
-          <End Role="hrfq" Type="Self.hrfq" Multiplicity="1" />
+        <Association Name="FK_rfqnote_projects">
+          <End Role="projects" Type="Self.projects" Multiplicity="1" />
           <End Role="rfqnote" Type="Self.rfqnote" Multiplicity="*" />
           <ReferentialConstraint>
-            <Principal Role="hrfq">
+            <Principal Role="projects">
               <PropertyRef Name="id" />
             </Principal>
             <Dependent Role="rfqnote">
-              <PropertyRef Name="rfqid" />
+              <PropertyRef Name="projectid" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -1085,51 +1096,63 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_salesinvoicenote_hsalesinvoice">
-          <End Role="hsalesinvoice" Type="Self.hsalesinvoice" Multiplicity="1" />
+        <Association Name="FK_salesinvoicenote_projects">
+          <End Role="projects" Type="Self.projects" Multiplicity="1" />
           <End Role="salesinvoicenote" Type="Self.salesinvoicenote" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="projects">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="salesinvoicenote">
+              <PropertyRef Name="projectid" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_salesordernote_projects">
+          <End Role="projects" Type="Self.projects" Multiplicity="1" />
+          <End Role="salesordernote" Type="Self.salesordernote" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="projects">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="salesordernote">
+              <PropertyRef Name="projectid" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_salespayment_hsalesinvoice">
+          <End Role="hsalesinvoice" Type="Self.hsalesinvoice" Multiplicity="1" />
+          <End Role="salespayment" Type="Self.salespayment" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="hsalesinvoice">
               <PropertyRef Name="id" />
             </Principal>
-            <Dependent Role="salesinvoicenote">
+            <Dependent Role="salespayment">
               <PropertyRef Name="salesinvoiceid" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_salesordernote_hsalesorder">
-          <End Role="hsalesorder" Type="Self.hsalesorder" Multiplicity="1" />
-          <End Role="salesordernote" Type="Self.salesordernote" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="hsalesorder">
-              <PropertyRef Name="id" />
-            </Principal>
-            <Dependent Role="salesordernote">
-              <PropertyRef Name="salesorderid" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_salespaymentnote_hsalespayment">
-          <End Role="hsalespayment" Type="Self.hsalespayment" Multiplicity="0..1" />
+        <Association Name="FK_salespaymentnote_projects">
+          <End Role="projects" Type="Self.projects" Multiplicity="1" />
           <End Role="salespaymentnote" Type="Self.salespaymentnote" Multiplicity="*" />
           <ReferentialConstraint>
-            <Principal Role="hsalespayment">
+            <Principal Role="projects">
               <PropertyRef Name="id" />
             </Principal>
             <Dependent Role="salespaymentnote">
-              <PropertyRef Name="salespaymentid" />
+              <PropertyRef Name="projectid" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_suratjalannote_hsuratjalan">
-          <End Role="hsuratjalan" Type="Self.hsuratjalan" Multiplicity="1" />
+        <Association Name="FK_suratjalannote_projects">
+          <End Role="projects" Type="Self.projects" Multiplicity="1" />
           <End Role="suratjalannote" Type="Self.suratjalannote" Multiplicity="*" />
           <ReferentialConstraint>
-            <Principal Role="hsuratjalan">
+            <Principal Role="projects">
               <PropertyRef Name="id" />
             </Principal>
             <Dependent Role="suratjalannote">
-              <PropertyRef Name="suratjalanid" />
+              <PropertyRef Name="projectid" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -1177,7 +1200,6 @@
           <EntitySet Name="hrfq" EntityType="Self.hrfq" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="hsalesinvoice" EntityType="Self.hsalesinvoice" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="hsalesorder" EntityType="Self.hsalesorder" Schema="dbo" store:Type="Tables" />
-          <EntitySet Name="hsalespayment" EntityType="Self.hsalespayment" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="hsuratjalan" EntityType="Self.hsuratjalan" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="item_category" EntityType="Self.item_category" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="penawarannote" EntityType="Self.penawarannote" Schema="dbo" store:Type="Tables" />
@@ -1193,6 +1215,7 @@
           <EntitySet Name="roles" EntityType="Self.roles" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="salesinvoicenote" EntityType="Self.salesinvoicenote" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="salesordernote" EntityType="Self.salesordernote" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="salespayment" EntityType="Self.salespayment" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="salespaymentnote" EntityType="Self.salespaymentnote" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="status" EntityType="Self.status" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="suppliers" EntityType="Self.suppliers" Schema="dbo" store:Type="Tables" />
@@ -1275,8 +1298,8 @@
             <End Role="suppliers" EntitySet="suppliers" />
             <End Role="findprices" EntitySet="findprices" />
           </AssociationSet>
-          <AssociationSet Name="FK_findpricesnote_findprices" Association="Self.FK_findpricesnote_findprices">
-            <End Role="findprices" EntitySet="findprices" />
+          <AssociationSet Name="FK_findpricesnote_projects" Association="Self.FK_findpricesnote_projects">
+            <End Role="projects" EntitySet="projects" />
             <End Role="findpricesnote" EntitySet="findpricesnote" />
           </AssociationSet>
           <AssociationSet Name="FK_hpenawaran_customers" Association="Self.FK_hpenawaran_customers">
@@ -1345,18 +1368,18 @@
           </AssociationSet>
           <AssociationSet Name="FK_hsalespayment_projects" Association="Self.FK_hsalespayment_projects">
             <End Role="projects" EntitySet="projects" />
-            <End Role="hsalespayment" EntitySet="hsalespayment" />
+            <End Role="salespayment" EntitySet="salespayment" />
           </AssociationSet>
           <AssociationSet Name="FK_hsuratjalan_projects" Association="Self.FK_hsuratjalan_projects">
             <End Role="projects" EntitySet="projects" />
             <End Role="hsuratjalan" EntitySet="hsuratjalan" />
           </AssociationSet>
-          <AssociationSet Name="FK_penawarannote_hpenawaran" Association="Self.FK_penawarannote_hpenawaran">
-            <End Role="hpenawaran" EntitySet="hpenawaran" />
+          <AssociationSet Name="FK_penawarannote_projects" Association="Self.FK_penawarannote_projects">
+            <End Role="projects" EntitySet="projects" />
             <End Role="penawarannote" EntitySet="penawarannote" />
           </AssociationSet>
-          <AssociationSet Name="FK_ponote_hpo" Association="Self.FK_ponote_hpo">
-            <End Role="hpo" EntitySet="hpo" />
+          <AssociationSet Name="FK_ponote_projects" Association="Self.FK_ponote_projects">
+            <End Role="projects" EntitySet="projects" />
             <End Role="ponote" EntitySet="ponote" />
           </AssociationSet>
           <AssociationSet Name="FK_projects_customers" Association="Self.FK_projects_customers">
@@ -1379,20 +1402,20 @@
             <End Role="suppliers" EntitySet="suppliers" />
             <End Role="hpurchaseinvoice" EntitySet="hpurchaseinvoice" />
           </AssociationSet>
-          <AssociationSet Name="FK_purchaseinvoicenote_hpurchaseinvoice" Association="Self.FK_purchaseinvoicenote_hpurchaseinvoice">
-            <End Role="hpurchaseinvoice" EntitySet="hpurchaseinvoice" />
+          <AssociationSet Name="FK_purchaseinvoicenote_projects" Association="Self.FK_purchaseinvoicenote_projects">
+            <End Role="projects" EntitySet="projects" />
             <End Role="purchaseinvoicenote" EntitySet="purchaseinvoicenote" />
           </AssociationSet>
-          <AssociationSet Name="FK_purchasepaymentnote_purchasepayment" Association="Self.FK_purchasepaymentnote_purchasepayment">
-            <End Role="purchasepayment" EntitySet="purchasepayment" />
+          <AssociationSet Name="FK_purchasepaymentnote_projects" Association="Self.FK_purchasepaymentnote_projects">
+            <End Role="projects" EntitySet="projects" />
             <End Role="purchasepaymentnote" EntitySet="purchasepaymentnote" />
           </AssociationSet>
-          <AssociationSet Name="FK_receiveitemnote_hreceiveitem" Association="Self.FK_receiveitemnote_hreceiveitem">
-            <End Role="hreceiveitem" EntitySet="hreceiveitem" />
+          <AssociationSet Name="FK_receiveitemnote_projects" Association="Self.FK_receiveitemnote_projects">
+            <End Role="projects" EntitySet="projects" />
             <End Role="receiveitemnote" EntitySet="receiveitemnote" />
           </AssociationSet>
-          <AssociationSet Name="FK_rfqnote_hrfq" Association="Self.FK_rfqnote_hrfq">
-            <End Role="hrfq" EntitySet="hrfq" />
+          <AssociationSet Name="FK_rfqnote_projects" Association="Self.FK_rfqnote_projects">
+            <End Role="projects" EntitySet="projects" />
             <End Role="rfqnote" EntitySet="rfqnote" />
           </AssociationSet>
           <AssociationSet Name="FK_role_privilege_privilege" Association="Self.FK_role_privilege_privilege">
@@ -1403,20 +1426,24 @@
             <End Role="roles" EntitySet="roles" />
             <End Role="role_privilege" EntitySet="role_privilege" />
           </AssociationSet>
-          <AssociationSet Name="FK_salesinvoicenote_hsalesinvoice" Association="Self.FK_salesinvoicenote_hsalesinvoice">
-            <End Role="hsalesinvoice" EntitySet="hsalesinvoice" />
+          <AssociationSet Name="FK_salesinvoicenote_projects" Association="Self.FK_salesinvoicenote_projects">
+            <End Role="projects" EntitySet="projects" />
             <End Role="salesinvoicenote" EntitySet="salesinvoicenote" />
           </AssociationSet>
-          <AssociationSet Name="FK_salesordernote_hsalesorder" Association="Self.FK_salesordernote_hsalesorder">
-            <End Role="hsalesorder" EntitySet="hsalesorder" />
+          <AssociationSet Name="FK_salesordernote_projects" Association="Self.FK_salesordernote_projects">
+            <End Role="projects" EntitySet="projects" />
             <End Role="salesordernote" EntitySet="salesordernote" />
           </AssociationSet>
-          <AssociationSet Name="FK_salespaymentnote_hsalespayment" Association="Self.FK_salespaymentnote_hsalespayment">
-            <End Role="hsalespayment" EntitySet="hsalespayment" />
+          <AssociationSet Name="FK_salespayment_hsalesinvoice" Association="Self.FK_salespayment_hsalesinvoice">
+            <End Role="hsalesinvoice" EntitySet="hsalesinvoice" />
+            <End Role="salespayment" EntitySet="salespayment" />
+          </AssociationSet>
+          <AssociationSet Name="FK_salespaymentnote_projects" Association="Self.FK_salespaymentnote_projects">
+            <End Role="projects" EntitySet="projects" />
             <End Role="salespaymentnote" EntitySet="salespaymentnote" />
           </AssociationSet>
-          <AssociationSet Name="FK_suratjalannote_hsuratjalan" Association="Self.FK_suratjalannote_hsuratjalan">
-            <End Role="hsuratjalan" EntitySet="hsuratjalan" />
+          <AssociationSet Name="FK_suratjalannote_projects" Association="Self.FK_suratjalannote_projects">
+            <End Role="projects" EntitySet="projects" />
             <End Role="suratjalannote" EntitySet="suratjalannote" />
           </AssociationSet>
           <AssociationSet Name="FK_user_role_roles" Association="Self.FK_user_role_roles">
@@ -1498,10 +1525,10 @@
             <PropertyRef Name="id" />
           </Key>
           <Property Name="id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="receiveitemid" Type="Int64" />
-          <Property Name="itemcategoryid" Type="Int64" />
-          <Property Name="itemdescription" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
-          <Property Name="qty" Type="Int64" />
+          <Property Name="receiveitemid" Type="Int64" Nullable="false" />
+          <Property Name="itemcategoryid" Type="Int64" Nullable="false" />
+          <Property Name="itemdescription" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="qty" Type="Int64" Nullable="false" />
           <NavigationProperty Name="hreceiveitem" Relationship="Self.FK_dreceiveitem_hreceiveitem" FromRole="dreceiveitem" ToRole="hreceiveitem" />
           <NavigationProperty Name="item_category" Relationship="Self.FK_dreceiveitem_item_category" FromRole="dreceiveitem" ToRole="item_category" />
         </EntityType>
@@ -1572,21 +1599,9 @@
           <Property Name="timeneeded" Type="Int64" Nullable="false" />
           <Property Name="description" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
           <NavigationProperty Name="supplier" Relationship="Self.FK_findprices_projects" FromRole="findprices" ToRole="suppliers" />
-          <NavigationProperty Name="findpricesnotes" Relationship="Self.FK_findpricesnote_findprices" FromRole="findprices" ToRole="findpricesnote" />
           <Property Name="status" Type="Byte" Nullable="false" />
           <NavigationProperty Name="project" Relationship="dbsmsModel.FK_findprices_projects1" FromRole="findprice" ToRole="project" />
           <Property Name="qty" Type="Int64" Nullable="false" />
-        </EntityType>
-        <EntityType Name="findpricesnote">
-          <Key>
-            <PropertyRef Name="id" />
-          </Key>
-          <Property Name="id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="findpricesid" Type="Int64" Nullable="false" />
-          <Property Name="username" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" Nullable="false" />
-          <Property Name="date" Type="DateTime" Nullable="false" Precision="0" />
-          <Property Name="text" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" Nullable="false" />
-          <NavigationProperty Name="findprice" Relationship="Self.FK_findpricesnote_findprices" FromRole="findpricesnote" ToRole="findprices" />
         </EntityType>
         <EntityType Name="helper">
           <Key>
@@ -1610,7 +1625,6 @@
           <NavigationProperty Name="customer" Relationship="Self.FK_hpenawaran_customers" FromRole="hpenawaran" ToRole="customers" />
           <NavigationProperty Name="dpenawarans" Relationship="Self.FK_dpenawaran_hpenawaran" FromRole="hpenawaran" ToRole="dpenawaran" />
           <NavigationProperty Name="project" Relationship="Self.FK_hpenawaran_projects1" FromRole="hpenawaran" ToRole="projects" />
-          <NavigationProperty Name="penawarannotes" Relationship="Self.FK_penawarannote_hpenawaran" FromRole="hpenawaran" ToRole="penawarannote" />
           <Property Name="total" Type="Int64" Nullable="false" />
           <Property Name="disc" Type="Int64" Nullable="false" />
           <Property Name="grandtotal" Type="Int64" Nullable="false" />
@@ -1633,8 +1647,11 @@
           <NavigationProperty Name="project" Relationship="Self.FK_hpo_projects" FromRole="hpo" ToRole="projects" />
           <NavigationProperty Name="supplier" Relationship="Self.FK_hpo_suppliers" FromRole="hpo" ToRole="suppliers" />
           <NavigationProperty Name="hreceiveitems" Relationship="Self.FK_hreceiveitem_hpo" FromRole="hpo" ToRole="hreceiveitem" />
-          <NavigationProperty Name="ponotes" Relationship="Self.FK_ponote_hpo" FromRole="hpo" ToRole="ponote" />
           <NavigationProperty Name="hpurchaseinvoices" Relationship="Self.FK_purchaseinvoice_hpo" FromRole="hpo" ToRole="hpurchaseinvoice" />
+          <Property Name="total" Type="Int64" Nullable="false" />
+          <Property Name="dp" Type="Int64" Nullable="false" />
+          <Property Name="discount" Type="Int64" Nullable="false" />
+          <Property Name="status" Type="Byte" Nullable="false" />
         </EntityType>
         <EntityType Name="hpurchaseinvoice">
           <Key>
@@ -1654,7 +1671,9 @@
           <NavigationProperty Name="purchasepayments" Relationship="Self.FK_hpurchasepayment_hpurchaseinvoice" FromRole="hpurchaseinvoice" ToRole="purchasepayment" />
           <NavigationProperty Name="project" Relationship="Self.FK_purchaseinvoice_projects" FromRole="hpurchaseinvoice" ToRole="projects" />
           <NavigationProperty Name="supplier" Relationship="Self.FK_purchaseinvoice_suppliers" FromRole="hpurchaseinvoice" ToRole="suppliers" />
-          <NavigationProperty Name="purchaseinvoicenotes" Relationship="Self.FK_purchaseinvoicenote_hpurchaseinvoice" FromRole="hpurchaseinvoice" ToRole="purchaseinvoicenote" />
+          <Property Name="terms" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="grandtotal" Type="Int64" Nullable="false" />
+          <Property Name="status" Type="Byte" Nullable="false" />
         </EntityType>
         <EntityType Name="hreceiveitem">
           <Key>
@@ -1671,7 +1690,6 @@
           <NavigationProperty Name="hpo" Relationship="Self.FK_hreceiveitem_hpo" FromRole="hreceiveitem" ToRole="hpo" />
           <NavigationProperty Name="project" Relationship="Self.FK_hreceiveitem_projects" FromRole="hreceiveitem" ToRole="projects" />
           <NavigationProperty Name="supplier" Relationship="Self.FK_hreceiveitem_suppliers" FromRole="hreceiveitem" ToRole="suppliers" />
-          <NavigationProperty Name="receiveitemnotes" Relationship="Self.FK_receiveitemnote_hreceiveitem" FromRole="hreceiveitem" ToRole="receiveitemnote" />
         </EntityType>
         <EntityType Name="hrfq">
           <Key>
@@ -1687,7 +1705,6 @@
           <NavigationProperty Name="customer" Relationship="Self.FK_hrfq_customers" FromRole="hrfq" ToRole="customers" />
           <NavigationProperty Name="drfqs" Relationship="Self.FK_drfq_hrfq" FromRole="hrfq" ToRole="drfq" />
           <NavigationProperty Name="project" Relationship="Self.FK_hrfq_projects" FromRole="hrfq" ToRole="projects" />
-          <NavigationProperty Name="rfqnotes" Relationship="Self.FK_rfqnote_hrfq" FromRole="hrfq" ToRole="rfqnote" />
         </EntityType>
         <EntityType Name="hsalesinvoice">
           <Key>
@@ -1702,9 +1719,12 @@
           <Property Name="description" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
           <NavigationProperty Name="dsalesinvoices" Relationship="Self.FK_dsalesinvoice_hsalesinvoice" FromRole="hsalesinvoice" ToRole="dsalesinvoice" />
           <NavigationProperty Name="project" Relationship="Self.FK_hsalesinvoice_projects" FromRole="hsalesinvoice" ToRole="projects" />
-          <NavigationProperty Name="salesinvoicenotes" Relationship="Self.FK_salesinvoicenote_hsalesinvoice" FromRole="hsalesinvoice" ToRole="salesinvoicenote" />
           <Property Name="customerid" Type="Int64" Nullable="false" />
           <NavigationProperty Name="customer" Relationship="dbsmsModel.FK_hsalesinvoice_customers" FromRole="hsalesinvoice" ToRole="customer" />
+          <Property Name="diskon" Type="Int64" Nullable="false" />
+          <Property Name="grandtotal" Type="Int64" Nullable="false" />
+          <NavigationProperty Name="salespayments" Relationship="dbsmsModel.FK_salespayment_hsalesinvoice" FromRole="hsalesinvoice" ToRole="salespayment" />
+          <Property Name="status" Type="Byte" Nullable="false" />
         </EntityType>
         <EntityType Name="hsalesorder">
           <Key>
@@ -1722,26 +1742,9 @@
           <NavigationProperty Name="customer" Relationship="Self.FK_hsalesorder_customers" FromRole="hsalesorder" ToRole="customers" />
           <NavigationProperty Name="dsalesorders" Relationship="Self.FK_dsalesorder_hsalesorder" FromRole="hsalesorder" ToRole="dsalesorder" />
           <NavigationProperty Name="project" Relationship="Self.FK_hsalesorder_projects" FromRole="hsalesorder" ToRole="projects" />
-          <NavigationProperty Name="salesordernotes" Relationship="Self.FK_salesordernote_hsalesorder" FromRole="hsalesorder" ToRole="salesordernote" />
           <Property Name="designdate" Type="DateTime" Precision="0" />
           <Property Name="total" Type="Int64" Nullable="false" />
           <Property Name="dp" Type="Int64" Nullable="false" />
-        </EntityType>
-        <EntityType Name="hsalespayment">
-          <Key>
-            <PropertyRef Name="id" />
-          </Key>
-          <Property Name="id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="projectid" Type="Int64" Nullable="false" />
-          <Property Name="number" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" Nullable="false" />
-          <Property Name="date" Type="DateTime" Nullable="false" Precision="0" />
-          <Property Name="to" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" Nullable="false" />
-          <Property Name="total" Type="Int64" Nullable="false" />
-          <Property Name="description" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
-          <Property Name="type" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" Nullable="false" />
-          <Property Name="note" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
-          <NavigationProperty Name="project" Relationship="Self.FK_hsalespayment_projects" FromRole="hsalespayment" ToRole="projects" />
-          <NavigationProperty Name="salespaymentnotes" Relationship="Self.FK_salespaymentnote_hsalespayment" FromRole="hsalespayment" ToRole="salespaymentnote" />
         </EntityType>
         <EntityType Name="hsuratjalan">
           <Key>
@@ -1755,7 +1758,6 @@
           <Property Name="description" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
           <NavigationProperty Name="dsuratjalans" Relationship="Self.FK_dsuratjalan_hsuratjalan" FromRole="hsuratjalan" ToRole="dsuratjalan" />
           <NavigationProperty Name="project" Relationship="Self.FK_hsuratjalan_projects" FromRole="hsuratjalan" ToRole="projects" />
-          <NavigationProperty Name="suratjalannotes" Relationship="Self.FK_suratjalannote_hsuratjalan" FromRole="hsuratjalan" ToRole="suratjalannote" />
         </EntityType>
         <EntityType Name="item_category">
           <Key>
@@ -1773,28 +1775,6 @@
           <NavigationProperty Name="dsalesorders" Relationship="Self.FK_dsalesorder_item_category" FromRole="item_category" ToRole="dsalesorder" />
           <NavigationProperty Name="dsuratjalans" Relationship="Self.FK_dsuratjalan_item_category" FromRole="item_category" ToRole="dsuratjalan" />
           <Property Name="status" Type="Byte" Nullable="false" />
-        </EntityType>
-        <EntityType Name="penawarannote">
-          <Key>
-            <PropertyRef Name="id" />
-          </Key>
-          <Property Name="id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="penawaranid" Type="Int64" Nullable="false" />
-          <Property Name="username" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" Nullable="false" />
-          <Property Name="date" Type="DateTime" Nullable="false" Precision="0" />
-          <Property Name="text" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" Nullable="false" />
-          <NavigationProperty Name="hpenawaran" Relationship="Self.FK_penawarannote_hpenawaran" FromRole="penawarannote" ToRole="hpenawaran" />
-        </EntityType>
-        <EntityType Name="ponote">
-          <Key>
-            <PropertyRef Name="id" />
-          </Key>
-          <Property Name="id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="poid" Type="Int64" Nullable="false" />
-          <Property Name="username" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" Nullable="false" />
-          <Property Name="date" Type="DateTime" Nullable="false" Precision="0" />
-          <Property Name="text" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" Nullable="false" />
-          <NavigationProperty Name="hpo" Relationship="Self.FK_ponote_hpo" FromRole="ponote" ToRole="hpo" />
         </EntityType>
         <EntityType Name="privilege">
           <Key>
@@ -1823,22 +1803,22 @@
           <NavigationProperty Name="hrfqs" Relationship="Self.FK_hrfq_projects" FromRole="projects" ToRole="hrfq" />
           <NavigationProperty Name="hsalesinvoices" Relationship="Self.FK_hsalesinvoice_projects" FromRole="projects" ToRole="hsalesinvoice" />
           <NavigationProperty Name="hsalesorders" Relationship="Self.FK_hsalesorder_projects" FromRole="projects" ToRole="hsalesorder" />
-          <NavigationProperty Name="hsalespayments" Relationship="Self.FK_hsalespayment_projects" FromRole="projects" ToRole="hsalespayment" />
           <NavigationProperty Name="hsuratjalans" Relationship="Self.FK_hsuratjalan_projects" FromRole="projects" ToRole="hsuratjalan" />
           <NavigationProperty Name="purchasepayments" Relationship="Self.FK_hpurchasepayment_projects" FromRole="projects" ToRole="purchasepayment" />
           <NavigationProperty Name="status1" Relationship="Self.FK_projects_status" FromRole="projects" ToRole="status" />
           <NavigationProperty Name="findprices" Relationship="dbsmsModel.FK_findprices_projects1" FromRole="project" ToRole="findprice" />
-        </EntityType>
-        <EntityType Name="purchaseinvoicenote">
-          <Key>
-            <PropertyRef Name="id" />
-          </Key>
-          <Property Name="id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="purchaseinvoiceid" Type="Int64" Nullable="false" />
-          <Property Name="username" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" Nullable="false" />
-          <Property Name="date" Type="DateTime" Nullable="false" Precision="0" />
-          <Property Name="text" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" Nullable="false" />
-          <NavigationProperty Name="hpurchaseinvoice" Relationship="Self.FK_purchaseinvoicenote_hpurchaseinvoice" FromRole="purchaseinvoicenote" ToRole="hpurchaseinvoice" />
+          <NavigationProperty Name="salespayments" Relationship="dbsmsModel.FK_hsalespayment_projects" FromRole="project" ToRole="salespayment" />
+          <NavigationProperty Name="findpricesnotes" Relationship="dbsmsModel.FK_findpricesnote_projects" FromRole="project" ToRole="findpricesnote" />
+          <NavigationProperty Name="penawarannotes" Relationship="dbsmsModel.FK_penawarannote_projects" FromRole="project" ToRole="penawarannote" />
+          <NavigationProperty Name="purchaseinvoicenotes" Relationship="dbsmsModel.FK_purchaseinvoicenote_projects" FromRole="project" ToRole="purchaseinvoicenote" />
+          <NavigationProperty Name="purchasepaymentnotes" Relationship="dbsmsModel.FK_purchasepaymentnote_projects" FromRole="project" ToRole="purchasepaymentnote" />
+          <NavigationProperty Name="receiveitemnotes" Relationship="dbsmsModel.FK_receiveitemnote_projects" FromRole="project" ToRole="receiveitemnote" />
+          <NavigationProperty Name="rfqnotes" Relationship="dbsmsModel.FK_rfqnote_projects" FromRole="project" ToRole="rfqnote" />
+          <NavigationProperty Name="salesinvoicenotes" Relationship="dbsmsModel.FK_salesinvoicenote_projects" FromRole="project" ToRole="salesinvoicenote" />
+          <NavigationProperty Name="salesordernotes" Relationship="dbsmsModel.FK_salesordernote_projects" FromRole="project" ToRole="salesordernote" />
+          <NavigationProperty Name="salespaymentnotes" Relationship="dbsmsModel.FK_salespaymentnote_projects" FromRole="project" ToRole="salespaymentnote" />
+          <NavigationProperty Name="suratjalannotes" Relationship="dbsmsModel.FK_suratjalannote_projects" FromRole="project" ToRole="suratjalannote" />
+          <NavigationProperty Name="ponotes" Relationship="dbsmsModel.FK_ponote_projects" FromRole="project" ToRole="ponote" />
         </EntityType>
         <EntityType Name="purchasepayment">
           <Key>
@@ -1857,40 +1837,6 @@
           <NavigationProperty Name="hpurchaseinvoice" Relationship="Self.FK_hpurchasepayment_hpurchaseinvoice" FromRole="purchasepayment" ToRole="hpurchaseinvoice" />
           <NavigationProperty Name="project" Relationship="Self.FK_hpurchasepayment_projects" FromRole="purchasepayment" ToRole="projects" />
           <NavigationProperty Name="supplier" Relationship="Self.FK_hpurchasepayment_suppliers" FromRole="purchasepayment" ToRole="suppliers" />
-          <NavigationProperty Name="purchasepaymentnotes" Relationship="Self.FK_purchasepaymentnote_purchasepayment" FromRole="purchasepayment" ToRole="purchasepaymentnote" />
-        </EntityType>
-        <EntityType Name="purchasepaymentnote">
-          <Key>
-            <PropertyRef Name="id" />
-          </Key>
-          <Property Name="id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="purchasepaymentid" Type="Int64" Nullable="false" />
-          <Property Name="username" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" Nullable="false" />
-          <Property Name="date" Type="DateTime" Nullable="false" Precision="0" />
-          <Property Name="text" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" Nullable="false" />
-          <NavigationProperty Name="purchasepayment" Relationship="Self.FK_purchasepaymentnote_purchasepayment" FromRole="purchasepaymentnote" ToRole="purchasepayment" />
-        </EntityType>
-        <EntityType Name="receiveitemnote">
-          <Key>
-            <PropertyRef Name="id" />
-          </Key>
-          <Property Name="id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="receiveitemid" Type="Int64" Nullable="false" />
-          <Property Name="username" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" Nullable="false" />
-          <Property Name="date" Type="DateTime" Nullable="false" Precision="0" />
-          <Property Name="text" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" Nullable="false" />
-          <NavigationProperty Name="hreceiveitem" Relationship="Self.FK_receiveitemnote_hreceiveitem" FromRole="receiveitemnote" ToRole="hreceiveitem" />
-        </EntityType>
-        <EntityType Name="rfqnote">
-          <Key>
-            <PropertyRef Name="id" />
-          </Key>
-          <Property Name="id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="rfqid" Type="Int64" Nullable="false" />
-          <Property Name="username" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" Nullable="false" />
-          <Property Name="date" Type="DateTime" Nullable="false" Precision="0" />
-          <Property Name="text" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" Nullable="false" />
-          <NavigationProperty Name="hrfq" Relationship="Self.FK_rfqnote_hrfq" FromRole="rfqnote" ToRole="hrfq" />
         </EntityType>
         <EntityType Name="role">
           <Key>
@@ -1901,39 +1847,6 @@
           <Property Name="description" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
           <NavigationProperty Name="privileges" Relationship="Self.role_privilege" FromRole="roles" ToRole="privileges" />
           <NavigationProperty Name="users" Relationship="Self.user_role" FromRole="roles" ToRole="users" />
-        </EntityType>
-        <EntityType Name="salesinvoicenote">
-          <Key>
-            <PropertyRef Name="id" />
-          </Key>
-          <Property Name="id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="salesinvoiceid" Type="Int64" Nullable="false" />
-          <Property Name="username" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" Nullable="false" />
-          <Property Name="date" Type="DateTime" Nullable="false" Precision="0" />
-          <Property Name="text" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" Nullable="false" />
-          <NavigationProperty Name="hsalesinvoice" Relationship="Self.FK_salesinvoicenote_hsalesinvoice" FromRole="salesinvoicenote" ToRole="hsalesinvoice" />
-        </EntityType>
-        <EntityType Name="salesordernote">
-          <Key>
-            <PropertyRef Name="id" />
-          </Key>
-          <Property Name="id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="salesorderid" Type="Int64" Nullable="false" />
-          <Property Name="username" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" Nullable="false" />
-          <Property Name="date" Type="DateTime" Nullable="false" Precision="0" />
-          <Property Name="text" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" Nullable="false" />
-          <NavigationProperty Name="hsalesorder" Relationship="Self.FK_salesordernote_hsalesorder" FromRole="salesordernote" ToRole="hsalesorder" />
-        </EntityType>
-        <EntityType Name="salespaymentnote">
-          <Key>
-            <PropertyRef Name="id" />
-          </Key>
-          <Property Name="id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="salespaymentid" Type="Int64" />
-          <Property Name="username" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
-          <Property Name="date" Type="DateTime" Precision="0" />
-          <Property Name="text" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
-          <NavigationProperty Name="hsalespayment" Relationship="Self.FK_salespaymentnote_hsalespayment" FromRole="salespaymentnote" ToRole="hsalespayment" />
         </EntityType>
         <EntityType Name="status">
           <Key>
@@ -1970,17 +1883,6 @@
           <NavigationProperty Name="hreceiveitems" Relationship="Self.FK_hreceiveitem_suppliers" FromRole="suppliers" ToRole="hreceiveitem" />
           <NavigationProperty Name="purchasepayments" Relationship="Self.FK_hpurchasepayment_suppliers" FromRole="suppliers" ToRole="purchasepayment" />
           <Property Name="status" Type="Byte" Nullable="false" />
-        </EntityType>
-        <EntityType Name="suratjalannote">
-          <Key>
-            <PropertyRef Name="id" />
-          </Key>
-          <Property Name="id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="suratjalanid" Type="Int64" Nullable="false" />
-          <Property Name="username" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" Nullable="false" />
-          <Property Name="date" Type="DateTime" Nullable="false" Precision="0" />
-          <Property Name="text" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" Nullable="false" />
-          <NavigationProperty Name="hsuratjalan" Relationship="Self.FK_suratjalannote_hsuratjalan" FromRole="suratjalannote" ToRole="hsuratjalan" />
         </EntityType>
         <EntityType Name="user">
           <Key>
@@ -2127,7 +2029,7 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_dreceiveitem_hreceiveitem">
-          <End Role="hreceiveitem" Type="Self.hreceiveitem" Multiplicity="0..1" />
+          <End Role="hreceiveitem" Type="Self.hreceiveitem" Multiplicity="1" />
           <End Role="dreceiveitem" Type="Self.dreceiveitem" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="hreceiveitem">
@@ -2139,7 +2041,7 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_dreceiveitem_item_category">
-          <End Role="item_category" Type="Self.item_category" Multiplicity="0..1" />
+          <End Role="item_category" Type="Self.item_category" Multiplicity="1" />
           <End Role="dreceiveitem" Type="Self.dreceiveitem" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="item_category">
@@ -2258,18 +2160,6 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_findpricesnote_findprices">
-          <End Role="findprices" Type="Self.findprice" Multiplicity="1" />
-          <End Role="findpricesnote" Type="Self.findpricesnote" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="findprices">
-              <PropertyRef Name="id" />
-            </Principal>
-            <Dependent Role="findpricesnote">
-              <PropertyRef Name="findpricesid" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <Association Name="FK_hpenawaran_projects1">
           <End Role="projects" Type="Self.project" Multiplicity="1" />
           <End Role="hpenawaran" Type="Self.hpenawaran" Multiplicity="*" />
@@ -2279,18 +2169,6 @@
             </Principal>
             <Dependent Role="hpenawaran">
               <PropertyRef Name="projectid" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_penawarannote_hpenawaran">
-          <End Role="hpenawaran" Type="Self.hpenawaran" Multiplicity="1" />
-          <End Role="penawarannote" Type="Self.penawarannote" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="hpenawaran">
-              <PropertyRef Name="id" />
-            </Principal>
-            <Dependent Role="penawarannote">
-              <PropertyRef Name="penawaranid" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -2326,18 +2204,6 @@
               <PropertyRef Name="id" />
             </Principal>
             <Dependent Role="hreceiveitem">
-              <PropertyRef Name="poid" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_ponote_hpo">
-          <End Role="hpo" Type="Self.hpo" Multiplicity="1" />
-          <End Role="ponote" Type="Self.ponote" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="hpo">
-              <PropertyRef Name="id" />
-            </Principal>
-            <Dependent Role="ponote">
               <PropertyRef Name="poid" />
             </Dependent>
           </ReferentialConstraint>
@@ -2390,18 +2256,6 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_purchaseinvoicenote_hpurchaseinvoice">
-          <End Role="hpurchaseinvoice" Type="Self.hpurchaseinvoice" Multiplicity="1" />
-          <End Role="purchaseinvoicenote" Type="Self.purchaseinvoicenote" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="hpurchaseinvoice">
-              <PropertyRef Name="id" />
-            </Principal>
-            <Dependent Role="purchaseinvoicenote">
-              <PropertyRef Name="purchaseinvoiceid" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <Association Name="FK_hreceiveitem_projects">
           <End Role="projects" Type="Self.project" Multiplicity="1" />
           <End Role="hreceiveitem" Type="Self.hreceiveitem" Multiplicity="*" />
@@ -2426,18 +2280,6 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_receiveitemnote_hreceiveitem">
-          <End Role="hreceiveitem" Type="Self.hreceiveitem" Multiplicity="1" />
-          <End Role="receiveitemnote" Type="Self.receiveitemnote" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="hreceiveitem">
-              <PropertyRef Name="id" />
-            </Principal>
-            <Dependent Role="receiveitemnote">
-              <PropertyRef Name="receiveitemid" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <Association Name="FK_hrfq_projects">
           <End Role="projects" Type="Self.project" Multiplicity="1" />
           <End Role="hrfq" Type="Self.hrfq" Multiplicity="*" />
@@ -2447,18 +2289,6 @@
             </Principal>
             <Dependent Role="hrfq">
               <PropertyRef Name="projectid" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_rfqnote_hrfq">
-          <End Role="hrfq" Type="Self.hrfq" Multiplicity="1" />
-          <End Role="rfqnote" Type="Self.rfqnote" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="hrfq">
-              <PropertyRef Name="id" />
-            </Principal>
-            <Dependent Role="rfqnote">
-              <PropertyRef Name="rfqid" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -2474,18 +2304,6 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_salesinvoicenote_hsalesinvoice">
-          <End Role="hsalesinvoice" Type="Self.hsalesinvoice" Multiplicity="1" />
-          <End Role="salesinvoicenote" Type="Self.salesinvoicenote" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="hsalesinvoice">
-              <PropertyRef Name="id" />
-            </Principal>
-            <Dependent Role="salesinvoicenote">
-              <PropertyRef Name="salesinvoiceid" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <Association Name="FK_hsalesorder_projects">
           <End Role="projects" Type="Self.project" Multiplicity="1" />
           <End Role="hsalesorder" Type="Self.hsalesorder" Multiplicity="*" />
@@ -2498,42 +2316,6 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_salesordernote_hsalesorder">
-          <End Role="hsalesorder" Type="Self.hsalesorder" Multiplicity="1" />
-          <End Role="salesordernote" Type="Self.salesordernote" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="hsalesorder">
-              <PropertyRef Name="id" />
-            </Principal>
-            <Dependent Role="salesordernote">
-              <PropertyRef Name="salesorderid" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_hsalespayment_projects">
-          <End Role="projects" Type="Self.project" Multiplicity="1" />
-          <End Role="hsalespayment" Type="Self.hsalespayment" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="projects">
-              <PropertyRef Name="id" />
-            </Principal>
-            <Dependent Role="hsalespayment">
-              <PropertyRef Name="projectid" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_salespaymentnote_hsalespayment">
-          <End Role="hsalespayment" Type="Self.hsalespayment" Multiplicity="0..1" />
-          <End Role="salespaymentnote" Type="Self.salespaymentnote" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="hsalespayment">
-              <PropertyRef Name="id" />
-            </Principal>
-            <Dependent Role="salespaymentnote">
-              <PropertyRef Name="salespaymentid" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <Association Name="FK_hsuratjalan_projects">
           <End Role="projects" Type="Self.project" Multiplicity="1" />
           <End Role="hsuratjalan" Type="Self.hsuratjalan" Multiplicity="*" />
@@ -2543,18 +2325,6 @@
             </Principal>
             <Dependent Role="hsuratjalan">
               <PropertyRef Name="projectid" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_suratjalannote_hsuratjalan">
-          <End Role="hsuratjalan" Type="Self.hsuratjalan" Multiplicity="1" />
-          <End Role="suratjalannote" Type="Self.suratjalannote" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="hsuratjalan">
-              <PropertyRef Name="id" />
-            </Principal>
-            <Dependent Role="suratjalannote">
-              <PropertyRef Name="suratjalanid" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -2594,18 +2364,6 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_purchasepaymentnote_purchasepayment">
-          <End Role="purchasepayment" Type="Self.purchasepayment" Multiplicity="1" />
-          <End Role="purchasepaymentnote" Type="Self.purchasepaymentnote" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="purchasepayment">
-              <PropertyRef Name="id" />
-            </Principal>
-            <Dependent Role="purchasepaymentnote">
-              <PropertyRef Name="purchasepaymentid" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <Association Name="role_privilege">
           <End Role="privileges" Type="Self.privilege" Multiplicity="*" />
           <End Role="roles" Type="Self.role" Multiplicity="*" />
@@ -2625,7 +2383,6 @@
           <EntitySet Name="dsalesorders" EntityType="Self.dsalesorder" />
           <EntitySet Name="dsuratjalans" EntityType="Self.dsuratjalan" />
           <EntitySet Name="findprices" EntityType="Self.findprice" />
-          <EntitySet Name="findpricesnotes" EntityType="Self.findpricesnote" />
           <EntitySet Name="helpers" EntityType="Self.helper" />
           <EntitySet Name="hpenawarans" EntityType="Self.hpenawaran" />
           <EntitySet Name="hpoes" EntityType="Self.hpo" />
@@ -2634,25 +2391,14 @@
           <EntitySet Name="hrfqs" EntityType="Self.hrfq" />
           <EntitySet Name="hsalesinvoices" EntityType="Self.hsalesinvoice" />
           <EntitySet Name="hsalesorders" EntityType="Self.hsalesorder" />
-          <EntitySet Name="hsalespayments" EntityType="Self.hsalespayment" />
           <EntitySet Name="hsuratjalans" EntityType="Self.hsuratjalan" />
           <EntitySet Name="item_category" EntityType="Self.item_category" />
-          <EntitySet Name="penawarannotes" EntityType="Self.penawarannote" />
-          <EntitySet Name="ponotes" EntityType="Self.ponote" />
           <EntitySet Name="privileges" EntityType="Self.privilege" />
           <EntitySet Name="projects" EntityType="Self.project" />
-          <EntitySet Name="purchaseinvoicenotes" EntityType="Self.purchaseinvoicenote" />
           <EntitySet Name="purchasepayments" EntityType="Self.purchasepayment" />
-          <EntitySet Name="purchasepaymentnotes" EntityType="Self.purchasepaymentnote" />
-          <EntitySet Name="receiveitemnotes" EntityType="Self.receiveitemnote" />
-          <EntitySet Name="rfqnotes" EntityType="Self.rfqnote" />
           <EntitySet Name="roles" EntityType="Self.role" />
-          <EntitySet Name="salesinvoicenotes" EntityType="Self.salesinvoicenote" />
-          <EntitySet Name="salesordernotes" EntityType="Self.salesordernote" />
-          <EntitySet Name="salespaymentnotes" EntityType="Self.salespaymentnote" />
           <EntitySet Name="status" EntityType="Self.status" />
           <EntitySet Name="suppliers" EntityType="Self.supplier" />
-          <EntitySet Name="suratjalannotes" EntityType="Self.suratjalannote" />
           <EntitySet Name="users" EntityType="Self.user" />
           <AssociationSet Name="FK_hpenawaran_customers" Association="Self.FK_hpenawaran_customers">
             <End Role="customers" EntitySet="customers" />
@@ -2742,17 +2488,9 @@
             <End Role="suppliers" EntitySet="suppliers" />
             <End Role="findprices" EntitySet="findprices" />
           </AssociationSet>
-          <AssociationSet Name="FK_findpricesnote_findprices" Association="Self.FK_findpricesnote_findprices">
-            <End Role="findprices" EntitySet="findprices" />
-            <End Role="findpricesnote" EntitySet="findpricesnotes" />
-          </AssociationSet>
           <AssociationSet Name="FK_hpenawaran_projects1" Association="Self.FK_hpenawaran_projects1">
             <End Role="projects" EntitySet="projects" />
             <End Role="hpenawaran" EntitySet="hpenawarans" />
-          </AssociationSet>
-          <AssociationSet Name="FK_penawarannote_hpenawaran" Association="Self.FK_penawarannote_hpenawaran">
-            <End Role="hpenawaran" EntitySet="hpenawarans" />
-            <End Role="penawarannote" EntitySet="penawarannotes" />
           </AssociationSet>
           <AssociationSet Name="FK_hpo_projects" Association="Self.FK_hpo_projects">
             <End Role="projects" EntitySet="projects" />
@@ -2765,10 +2503,6 @@
           <AssociationSet Name="FK_hreceiveitem_hpo" Association="Self.FK_hreceiveitem_hpo">
             <End Role="hpo" EntitySet="hpoes" />
             <End Role="hreceiveitem" EntitySet="hreceiveitems" />
-          </AssociationSet>
-          <AssociationSet Name="FK_ponote_hpo" Association="Self.FK_ponote_hpo">
-            <End Role="hpo" EntitySet="hpoes" />
-            <End Role="ponote" EntitySet="ponotes" />
           </AssociationSet>
           <AssociationSet Name="FK_purchaseinvoice_hpo" Association="Self.FK_purchaseinvoice_hpo">
             <End Role="hpo" EntitySet="hpoes" />
@@ -2786,10 +2520,6 @@
             <End Role="suppliers" EntitySet="suppliers" />
             <End Role="hpurchaseinvoice" EntitySet="hpurchaseinvoices" />
           </AssociationSet>
-          <AssociationSet Name="FK_purchaseinvoicenote_hpurchaseinvoice" Association="Self.FK_purchaseinvoicenote_hpurchaseinvoice">
-            <End Role="hpurchaseinvoice" EntitySet="hpurchaseinvoices" />
-            <End Role="purchaseinvoicenote" EntitySet="purchaseinvoicenotes" />
-          </AssociationSet>
           <AssociationSet Name="FK_hreceiveitem_projects" Association="Self.FK_hreceiveitem_projects">
             <End Role="projects" EntitySet="projects" />
             <End Role="hreceiveitem" EntitySet="hreceiveitems" />
@@ -2798,49 +2528,21 @@
             <End Role="suppliers" EntitySet="suppliers" />
             <End Role="hreceiveitem" EntitySet="hreceiveitems" />
           </AssociationSet>
-          <AssociationSet Name="FK_receiveitemnote_hreceiveitem" Association="Self.FK_receiveitemnote_hreceiveitem">
-            <End Role="hreceiveitem" EntitySet="hreceiveitems" />
-            <End Role="receiveitemnote" EntitySet="receiveitemnotes" />
-          </AssociationSet>
           <AssociationSet Name="FK_hrfq_projects" Association="Self.FK_hrfq_projects">
             <End Role="projects" EntitySet="projects" />
             <End Role="hrfq" EntitySet="hrfqs" />
-          </AssociationSet>
-          <AssociationSet Name="FK_rfqnote_hrfq" Association="Self.FK_rfqnote_hrfq">
-            <End Role="hrfq" EntitySet="hrfqs" />
-            <End Role="rfqnote" EntitySet="rfqnotes" />
           </AssociationSet>
           <AssociationSet Name="FK_hsalesinvoice_projects" Association="Self.FK_hsalesinvoice_projects">
             <End Role="projects" EntitySet="projects" />
             <End Role="hsalesinvoice" EntitySet="hsalesinvoices" />
           </AssociationSet>
-          <AssociationSet Name="FK_salesinvoicenote_hsalesinvoice" Association="Self.FK_salesinvoicenote_hsalesinvoice">
-            <End Role="hsalesinvoice" EntitySet="hsalesinvoices" />
-            <End Role="salesinvoicenote" EntitySet="salesinvoicenotes" />
-          </AssociationSet>
           <AssociationSet Name="FK_hsalesorder_projects" Association="Self.FK_hsalesorder_projects">
             <End Role="projects" EntitySet="projects" />
             <End Role="hsalesorder" EntitySet="hsalesorders" />
           </AssociationSet>
-          <AssociationSet Name="FK_salesordernote_hsalesorder" Association="Self.FK_salesordernote_hsalesorder">
-            <End Role="hsalesorder" EntitySet="hsalesorders" />
-            <End Role="salesordernote" EntitySet="salesordernotes" />
-          </AssociationSet>
-          <AssociationSet Name="FK_hsalespayment_projects" Association="Self.FK_hsalespayment_projects">
-            <End Role="projects" EntitySet="projects" />
-            <End Role="hsalespayment" EntitySet="hsalespayments" />
-          </AssociationSet>
-          <AssociationSet Name="FK_salespaymentnote_hsalespayment" Association="Self.FK_salespaymentnote_hsalespayment">
-            <End Role="hsalespayment" EntitySet="hsalespayments" />
-            <End Role="salespaymentnote" EntitySet="salespaymentnotes" />
-          </AssociationSet>
           <AssociationSet Name="FK_hsuratjalan_projects" Association="Self.FK_hsuratjalan_projects">
             <End Role="projects" EntitySet="projects" />
             <End Role="hsuratjalan" EntitySet="hsuratjalans" />
-          </AssociationSet>
-          <AssociationSet Name="FK_suratjalannote_hsuratjalan" Association="Self.FK_suratjalannote_hsuratjalan">
-            <End Role="hsuratjalan" EntitySet="hsuratjalans" />
-            <End Role="suratjalannote" EntitySet="suratjalannotes" />
           </AssociationSet>
           <AssociationSet Name="FK_hpurchasepayment_projects" Association="Self.FK_hpurchasepayment_projects">
             <End Role="projects" EntitySet="projects" />
@@ -2853,10 +2555,6 @@
           <AssociationSet Name="FK_hpurchasepayment_suppliers" Association="Self.FK_hpurchasepayment_suppliers">
             <End Role="suppliers" EntitySet="suppliers" />
             <End Role="purchasepayment" EntitySet="purchasepayments" />
-          </AssociationSet>
-          <AssociationSet Name="FK_purchasepaymentnote_purchasepayment" Association="Self.FK_purchasepaymentnote_purchasepayment">
-            <End Role="purchasepayment" EntitySet="purchasepayments" />
-            <End Role="purchasepaymentnote" EntitySet="purchasepaymentnotes" />
           </AssociationSet>
           <AssociationSet Name="role_privilege" Association="Self.role_privilege">
             <End Role="privileges" EntitySet="privileges" />
@@ -2874,7 +2572,71 @@
             <End Role="customer" EntitySet="customers" />
             <End Role="hsalesinvoice" EntitySet="hsalesinvoices" />
           </AssociationSet>
-        </EntityContainer>
+          <EntitySet Name="salespayments" EntityType="dbsmsModel.salespayment" />
+          <AssociationSet Name="FK_salespayment_hsalesinvoice" Association="dbsmsModel.FK_salespayment_hsalesinvoice">
+            <End Role="hsalesinvoice" EntitySet="hsalesinvoices" />
+            <End Role="salespayment" EntitySet="salespayments" />
+          </AssociationSet>
+          <AssociationSet Name="FK_hsalespayment_projects" Association="dbsmsModel.FK_hsalespayment_projects">
+            <End Role="project" EntitySet="projects" />
+            <End Role="salespayment" EntitySet="salespayments" />
+          </AssociationSet>
+          <EntitySet Name="findpricesnotes" EntityType="dbsmsModel.findpricesnote" />
+          <EntitySet Name="penawarannotes" EntityType="dbsmsModel.penawarannote" />
+          <EntitySet Name="purchaseinvoicenotes" EntityType="dbsmsModel.purchaseinvoicenote" />
+          <EntitySet Name="purchasepaymentnotes" EntityType="dbsmsModel.purchasepaymentnote" />
+          <EntitySet Name="receiveitemnotes" EntityType="dbsmsModel.receiveitemnote" />
+          <EntitySet Name="rfqnotes" EntityType="dbsmsModel.rfqnote" />
+          <EntitySet Name="salesinvoicenotes" EntityType="dbsmsModel.salesinvoicenote" />
+          <EntitySet Name="salesordernotes" EntityType="dbsmsModel.salesordernote" />
+          <EntitySet Name="salespaymentnotes" EntityType="dbsmsModel.salespaymentnote" />
+          <EntitySet Name="suratjalannotes" EntityType="dbsmsModel.suratjalannote" />
+          <AssociationSet Name="FK_findpricesnote_projects" Association="dbsmsModel.FK_findpricesnote_projects">
+            <End Role="project" EntitySet="projects" />
+            <End Role="findpricesnote" EntitySet="findpricesnotes" />
+          </AssociationSet>
+          <AssociationSet Name="FK_penawarannote_projects" Association="dbsmsModel.FK_penawarannote_projects">
+            <End Role="project" EntitySet="projects" />
+            <End Role="penawarannote" EntitySet="penawarannotes" />
+          </AssociationSet>
+          <AssociationSet Name="FK_purchaseinvoicenote_projects" Association="dbsmsModel.FK_purchaseinvoicenote_projects">
+            <End Role="project" EntitySet="projects" />
+            <End Role="purchaseinvoicenote" EntitySet="purchaseinvoicenotes" />
+          </AssociationSet>
+          <AssociationSet Name="FK_purchasepaymentnote_projects" Association="dbsmsModel.FK_purchasepaymentnote_projects">
+            <End Role="project" EntitySet="projects" />
+            <End Role="purchasepaymentnote" EntitySet="purchasepaymentnotes" />
+          </AssociationSet>
+          <AssociationSet Name="FK_receiveitemnote_projects" Association="dbsmsModel.FK_receiveitemnote_projects">
+            <End Role="project" EntitySet="projects" />
+            <End Role="receiveitemnote" EntitySet="receiveitemnotes" />
+          </AssociationSet>
+          <AssociationSet Name="FK_rfqnote_projects" Association="dbsmsModel.FK_rfqnote_projects">
+            <End Role="project" EntitySet="projects" />
+            <End Role="rfqnote" EntitySet="rfqnotes" />
+          </AssociationSet>
+          <AssociationSet Name="FK_salesinvoicenote_projects" Association="dbsmsModel.FK_salesinvoicenote_projects">
+            <End Role="project" EntitySet="projects" />
+            <End Role="salesinvoicenote" EntitySet="salesinvoicenotes" />
+          </AssociationSet>
+          <AssociationSet Name="FK_salesordernote_projects" Association="dbsmsModel.FK_salesordernote_projects">
+            <End Role="project" EntitySet="projects" />
+            <End Role="salesordernote" EntitySet="salesordernotes" />
+          </AssociationSet>
+          <AssociationSet Name="FK_salespaymentnote_projects" Association="dbsmsModel.FK_salespaymentnote_projects">
+            <End Role="project" EntitySet="projects" />
+            <End Role="salespaymentnote" EntitySet="salespaymentnotes" />
+          </AssociationSet>
+          <AssociationSet Name="FK_suratjalannote_projects" Association="dbsmsModel.FK_suratjalannote_projects">
+            <End Role="project" EntitySet="projects" />
+            <End Role="suratjalannote" EntitySet="suratjalannotes" />
+          </AssociationSet>
+          <EntitySet Name="ponotes" EntityType="dbsmsModel.ponote" />
+          <AssociationSet Name="FK_ponote_projects" Association="dbsmsModel.FK_ponote_projects">
+            <End Role="project" EntitySet="projects" />
+            <End Role="ponote" EntitySet="ponotes" />
+          </AssociationSet>
+          </EntityContainer>
         <Association Name="FK_findprices_projects1">
           <End Type="dbsmsModel.project" Role="project" Multiplicity="1" />
           <End Type="dbsmsModel.findprice" Role="findprice" Multiplicity="*" />
@@ -2899,7 +2661,301 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-      </Schema>
+        <EntityType Name="salespayment">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="projectid" Type="Int64" Nullable="false" />
+          <Property Name="number" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="salesinvoiceid" Type="Int64" Nullable="false" />
+          <Property Name="date" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="to" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="total" Type="Int64" Nullable="false" />
+          <Property Name="description" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="type" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="note" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="hsalesinvoice" Relationship="dbsmsModel.FK_salespayment_hsalesinvoice" FromRole="salespayment" ToRole="hsalesinvoice" />
+          <NavigationProperty Name="project" Relationship="dbsmsModel.FK_hsalespayment_projects" FromRole="salespayment" ToRole="project" />
+        </EntityType>
+        <Association Name="FK_salespayment_hsalesinvoice">
+          <End Type="dbsmsModel.hsalesinvoice" Role="hsalesinvoice" Multiplicity="1" />
+          <End Type="dbsmsModel.salespayment" Role="salespayment" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="hsalesinvoice">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="salespayment">
+              <PropertyRef Name="salesinvoiceid" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_hsalespayment_projects">
+          <End Type="dbsmsModel.project" Role="project" Multiplicity="1" />
+          <End Type="dbsmsModel.salespayment" Role="salespayment" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="project">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="salespayment">
+              <PropertyRef Name="projectid" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="findpricesnote">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="projectid" Type="Int64" Nullable="false" />
+          <Property Name="username" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="date" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="text" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="project" Relationship="dbsmsModel.FK_findpricesnote_projects" FromRole="findpricesnote" ToRole="project" />
+        </EntityType>
+        <EntityType Name="penawarannote">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="projectid" Type="Int64" Nullable="false" />
+          <Property Name="username" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="date" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="text" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="project" Relationship="dbsmsModel.FK_penawarannote_projects" FromRole="penawarannote" ToRole="project" />
+        </EntityType>
+        <EntityType Name="purchaseinvoicenote">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="projectid" Type="Int64" Nullable="false" />
+          <Property Name="username" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="date" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="text" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="project" Relationship="dbsmsModel.FK_purchaseinvoicenote_projects" FromRole="purchaseinvoicenote" ToRole="project" />
+        </EntityType>
+        <EntityType Name="purchasepaymentnote">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="projectid" Type="Int64" Nullable="false" />
+          <Property Name="username" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="date" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="text" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="project" Relationship="dbsmsModel.FK_purchasepaymentnote_projects" FromRole="purchasepaymentnote" ToRole="project" />
+        </EntityType>
+        <EntityType Name="receiveitemnote">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="projectid" Type="Int64" Nullable="false" />
+          <Property Name="username" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="date" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="text" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="project" Relationship="dbsmsModel.FK_receiveitemnote_projects" FromRole="receiveitemnote" ToRole="project" />
+        </EntityType>
+        <EntityType Name="rfqnote">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="projectid" Type="Int64" Nullable="false" />
+          <Property Name="username" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="date" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="text" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="project" Relationship="dbsmsModel.FK_rfqnote_projects" FromRole="rfqnote" ToRole="project" />
+        </EntityType>
+        <EntityType Name="salesinvoicenote">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="projectid" Type="Int64" Nullable="false" />
+          <Property Name="username" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="date" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="text" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="project" Relationship="dbsmsModel.FK_salesinvoicenote_projects" FromRole="salesinvoicenote" ToRole="project" />
+        </EntityType>
+        <EntityType Name="salesordernote">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="projectid" Type="Int64" Nullable="false" />
+          <Property Name="username" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="date" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="text" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="project" Relationship="dbsmsModel.FK_salesordernote_projects" FromRole="salesordernote" ToRole="project" />
+        </EntityType>
+        <EntityType Name="salespaymentnote">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="projectid" Type="Int64" Nullable="false" />
+          <Property Name="username" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="date" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="text" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="project" Relationship="dbsmsModel.FK_salespaymentnote_projects" FromRole="salespaymentnote" ToRole="project" />
+        </EntityType>
+        <EntityType Name="suratjalannote">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="projectid" Type="Int64" Nullable="false" />
+          <Property Name="username" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="date" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="text" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="project" Relationship="dbsmsModel.FK_suratjalannote_projects" FromRole="suratjalannote" ToRole="project" />
+        </EntityType>
+        <Association Name="FK_findpricesnote_projects">
+          <End Type="dbsmsModel.project" Role="project" Multiplicity="1" />
+          <End Type="dbsmsModel.findpricesnote" Role="findpricesnote" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="project">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="findpricesnote">
+              <PropertyRef Name="projectid" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_penawarannote_projects">
+          <End Type="dbsmsModel.project" Role="project" Multiplicity="1" />
+          <End Type="dbsmsModel.penawarannote" Role="penawarannote" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="project">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="penawarannote">
+              <PropertyRef Name="projectid" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_purchaseinvoicenote_projects">
+          <End Type="dbsmsModel.project" Role="project" Multiplicity="1" />
+          <End Type="dbsmsModel.purchaseinvoicenote" Role="purchaseinvoicenote" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="project">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="purchaseinvoicenote">
+              <PropertyRef Name="projectid" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_purchasepaymentnote_projects">
+          <End Type="dbsmsModel.project" Role="project" Multiplicity="1" />
+          <End Type="dbsmsModel.purchasepaymentnote" Role="purchasepaymentnote" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="project">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="purchasepaymentnote">
+              <PropertyRef Name="projectid" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_receiveitemnote_projects">
+          <End Type="dbsmsModel.project" Role="project" Multiplicity="1" />
+          <End Type="dbsmsModel.receiveitemnote" Role="receiveitemnote" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="project">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="receiveitemnote">
+              <PropertyRef Name="projectid" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_rfqnote_projects">
+          <End Type="dbsmsModel.project" Role="project" Multiplicity="1" />
+          <End Type="dbsmsModel.rfqnote" Role="rfqnote" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="project">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="rfqnote">
+              <PropertyRef Name="projectid" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_salesinvoicenote_projects">
+          <End Type="dbsmsModel.project" Role="project" Multiplicity="1" />
+          <End Type="dbsmsModel.salesinvoicenote" Role="salesinvoicenote" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="project">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="salesinvoicenote">
+              <PropertyRef Name="projectid" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_salesordernote_projects">
+          <End Type="dbsmsModel.project" Role="project" Multiplicity="1" />
+          <End Type="dbsmsModel.salesordernote" Role="salesordernote" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="project">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="salesordernote">
+              <PropertyRef Name="projectid" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_salespaymentnote_projects">
+          <End Type="dbsmsModel.project" Role="project" Multiplicity="1" />
+          <End Type="dbsmsModel.salespaymentnote" Role="salespaymentnote" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="project">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="salespaymentnote">
+              <PropertyRef Name="projectid" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_suratjalannote_projects">
+          <End Type="dbsmsModel.project" Role="project" Multiplicity="1" />
+          <End Type="dbsmsModel.suratjalannote" Role="suratjalannote" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="project">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="suratjalannote">
+              <PropertyRef Name="projectid" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="ponote">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="projectid" Type="Int64" Nullable="false" />
+          <Property Name="username" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="date" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="text" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="project" Relationship="dbsmsModel.FK_ponote_projects" FromRole="ponote" ToRole="project" />
+        </EntityType>
+        <Association Name="FK_ponote_projects">
+          <End Type="dbsmsModel.project" Role="project" Multiplicity="1" />
+          <End Type="dbsmsModel.ponote" Role="ponote" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="project">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="ponote">
+              <PropertyRef Name="projectid" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
     <edmx:Mappings>
@@ -3035,17 +3091,6 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="findpricesnotes">
-            <EntityTypeMapping TypeName="dbsmsModel.findpricesnote">
-              <MappingFragment StoreEntitySet="findpricesnote">
-                <ScalarProperty Name="id" ColumnName="id" />
-                <ScalarProperty Name="findpricesid" ColumnName="findpricesid" />
-                <ScalarProperty Name="username" ColumnName="username" />
-                <ScalarProperty Name="date" ColumnName="date" />
-                <ScalarProperty Name="text" ColumnName="text" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
           <EntitySetMapping Name="helpers">
             <EntityTypeMapping TypeName="dbsmsModel.helper">
               <MappingFragment StoreEntitySet="helper">
@@ -3074,6 +3119,10 @@
           <EntitySetMapping Name="hpoes">
             <EntityTypeMapping TypeName="dbsmsModel.hpo">
               <MappingFragment StoreEntitySet="hpo">
+                <ScalarProperty Name="status" ColumnName="status" />
+                <ScalarProperty Name="discount" ColumnName="discount" />
+                <ScalarProperty Name="dp" ColumnName="dp" />
+                <ScalarProperty Name="total" ColumnName="total" />
                 <ScalarProperty Name="id" ColumnName="id" />
                 <ScalarProperty Name="projectid" ColumnName="projectid" />
                 <ScalarProperty Name="number" ColumnName="number" />
@@ -3090,6 +3139,9 @@
           <EntitySetMapping Name="hpurchaseinvoices">
             <EntityTypeMapping TypeName="dbsmsModel.hpurchaseinvoice">
               <MappingFragment StoreEntitySet="hpurchaseinvoice">
+                <ScalarProperty Name="status" ColumnName="status" />
+                <ScalarProperty Name="grandtotal" ColumnName="grandtotal" />
+                <ScalarProperty Name="terms" ColumnName="terms" />
                 <ScalarProperty Name="id" ColumnName="id" />
                 <ScalarProperty Name="projectid" ColumnName="projectid" />
                 <ScalarProperty Name="number" ColumnName="number" />
@@ -3131,6 +3183,9 @@
           <EntitySetMapping Name="hsalesinvoices">
             <EntityTypeMapping TypeName="dbsmsModel.hsalesinvoice">
               <MappingFragment StoreEntitySet="hsalesinvoice">
+                <ScalarProperty Name="status" ColumnName="status" />
+                <ScalarProperty Name="grandtotal" ColumnName="grandtotal" />
+                <ScalarProperty Name="diskon" ColumnName="diskon" />
                 <ScalarProperty Name="customerid" ColumnName="customerid" />
                 <ScalarProperty Name="id" ColumnName="id" />
                 <ScalarProperty Name="projectid" ColumnName="projectid" />
@@ -3160,21 +3215,6 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="hsalespayments">
-            <EntityTypeMapping TypeName="dbsmsModel.hsalespayment">
-              <MappingFragment StoreEntitySet="hsalespayment">
-                <ScalarProperty Name="id" ColumnName="id" />
-                <ScalarProperty Name="projectid" ColumnName="projectid" />
-                <ScalarProperty Name="number" ColumnName="number" />
-                <ScalarProperty Name="date" ColumnName="date" />
-                <ScalarProperty Name="to" ColumnName="to" />
-                <ScalarProperty Name="total" ColumnName="total" />
-                <ScalarProperty Name="description" ColumnName="description" />
-                <ScalarProperty Name="type" ColumnName="type" />
-                <ScalarProperty Name="note" ColumnName="note" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
           <EntitySetMapping Name="hsuratjalans">
             <EntityTypeMapping TypeName="dbsmsModel.hsuratjalan">
               <MappingFragment StoreEntitySet="hsuratjalan">
@@ -3194,28 +3234,6 @@
                 <ScalarProperty Name="id" ColumnName="id" />
                 <ScalarProperty Name="name" ColumnName="name" />
                 <ScalarProperty Name="description" ColumnName="description" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="penawarannotes">
-            <EntityTypeMapping TypeName="dbsmsModel.penawarannote">
-              <MappingFragment StoreEntitySet="penawarannote">
-                <ScalarProperty Name="id" ColumnName="id" />
-                <ScalarProperty Name="penawaranid" ColumnName="penawaranid" />
-                <ScalarProperty Name="username" ColumnName="username" />
-                <ScalarProperty Name="date" ColumnName="date" />
-                <ScalarProperty Name="text" ColumnName="text" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="ponotes">
-            <EntityTypeMapping TypeName="dbsmsModel.ponote">
-              <MappingFragment StoreEntitySet="ponote">
-                <ScalarProperty Name="id" ColumnName="id" />
-                <ScalarProperty Name="poid" ColumnName="poid" />
-                <ScalarProperty Name="username" ColumnName="username" />
-                <ScalarProperty Name="date" ColumnName="date" />
-                <ScalarProperty Name="text" ColumnName="text" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -3240,17 +3258,6 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="purchaseinvoicenotes">
-            <EntityTypeMapping TypeName="dbsmsModel.purchaseinvoicenote">
-              <MappingFragment StoreEntitySet="purchaseinvoicenote">
-                <ScalarProperty Name="id" ColumnName="id" />
-                <ScalarProperty Name="purchaseinvoiceid" ColumnName="purchaseinvoiceid" />
-                <ScalarProperty Name="username" ColumnName="username" />
-                <ScalarProperty Name="date" ColumnName="date" />
-                <ScalarProperty Name="text" ColumnName="text" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
           <EntitySetMapping Name="purchasepayments">
             <EntityTypeMapping TypeName="dbsmsModel.purchasepayment">
               <MappingFragment StoreEntitySet="purchasepayment">
@@ -3267,78 +3274,12 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="purchasepaymentnotes">
-            <EntityTypeMapping TypeName="dbsmsModel.purchasepaymentnote">
-              <MappingFragment StoreEntitySet="purchasepaymentnote">
-                <ScalarProperty Name="id" ColumnName="id" />
-                <ScalarProperty Name="purchasepaymentid" ColumnName="purchasepaymentid" />
-                <ScalarProperty Name="username" ColumnName="username" />
-                <ScalarProperty Name="date" ColumnName="date" />
-                <ScalarProperty Name="text" ColumnName="text" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="receiveitemnotes">
-            <EntityTypeMapping TypeName="dbsmsModel.receiveitemnote">
-              <MappingFragment StoreEntitySet="receiveitemnote">
-                <ScalarProperty Name="id" ColumnName="id" />
-                <ScalarProperty Name="receiveitemid" ColumnName="receiveitemid" />
-                <ScalarProperty Name="username" ColumnName="username" />
-                <ScalarProperty Name="date" ColumnName="date" />
-                <ScalarProperty Name="text" ColumnName="text" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="rfqnotes">
-            <EntityTypeMapping TypeName="dbsmsModel.rfqnote">
-              <MappingFragment StoreEntitySet="rfqnote">
-                <ScalarProperty Name="id" ColumnName="id" />
-                <ScalarProperty Name="rfqid" ColumnName="rfqid" />
-                <ScalarProperty Name="username" ColumnName="username" />
-                <ScalarProperty Name="date" ColumnName="date" />
-                <ScalarProperty Name="text" ColumnName="text" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
           <EntitySetMapping Name="roles">
             <EntityTypeMapping TypeName="dbsmsModel.role">
               <MappingFragment StoreEntitySet="roles">
                 <ScalarProperty Name="id" ColumnName="id" />
                 <ScalarProperty Name="name" ColumnName="name" />
                 <ScalarProperty Name="description" ColumnName="description" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="salesinvoicenotes">
-            <EntityTypeMapping TypeName="dbsmsModel.salesinvoicenote">
-              <MappingFragment StoreEntitySet="salesinvoicenote">
-                <ScalarProperty Name="id" ColumnName="id" />
-                <ScalarProperty Name="salesinvoiceid" ColumnName="salesinvoiceid" />
-                <ScalarProperty Name="username" ColumnName="username" />
-                <ScalarProperty Name="date" ColumnName="date" />
-                <ScalarProperty Name="text" ColumnName="text" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="salesordernotes">
-            <EntityTypeMapping TypeName="dbsmsModel.salesordernote">
-              <MappingFragment StoreEntitySet="salesordernote">
-                <ScalarProperty Name="id" ColumnName="id" />
-                <ScalarProperty Name="salesorderid" ColumnName="salesorderid" />
-                <ScalarProperty Name="username" ColumnName="username" />
-                <ScalarProperty Name="date" ColumnName="date" />
-                <ScalarProperty Name="text" ColumnName="text" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="salespaymentnotes">
-            <EntityTypeMapping TypeName="dbsmsModel.salespaymentnote">
-              <MappingFragment StoreEntitySet="salespaymentnote">
-                <ScalarProperty Name="id" ColumnName="id" />
-                <ScalarProperty Name="salespaymentid" ColumnName="salespaymentid" />
-                <ScalarProperty Name="username" ColumnName="username" />
-                <ScalarProperty Name="date" ColumnName="date" />
-                <ScalarProperty Name="text" ColumnName="text" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -3373,17 +3314,6 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="suratjalannotes">
-            <EntityTypeMapping TypeName="dbsmsModel.suratjalannote">
-              <MappingFragment StoreEntitySet="suratjalannote">
-                <ScalarProperty Name="id" ColumnName="id" />
-                <ScalarProperty Name="suratjalanid" ColumnName="suratjalanid" />
-                <ScalarProperty Name="username" ColumnName="username" />
-                <ScalarProperty Name="date" ColumnName="date" />
-                <ScalarProperty Name="text" ColumnName="text" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
           <EntitySetMapping Name="users">
             <EntityTypeMapping TypeName="dbsmsModel.user">
               <MappingFragment StoreEntitySet="users">
@@ -3412,6 +3342,143 @@
               <ScalarProperty Name="id" ColumnName="userid" />
             </EndProperty>
           </AssociationSetMapping>
+          <EntitySetMapping Name="salespayments">
+            <EntityTypeMapping TypeName="dbsmsModel.salespayment">
+              <MappingFragment StoreEntitySet="salespayment">
+                <ScalarProperty Name="note" ColumnName="note" />
+                <ScalarProperty Name="type" ColumnName="type" />
+                <ScalarProperty Name="description" ColumnName="description" />
+                <ScalarProperty Name="total" ColumnName="total" />
+                <ScalarProperty Name="to" ColumnName="to" />
+                <ScalarProperty Name="date" ColumnName="date" />
+                <ScalarProperty Name="salesinvoiceid" ColumnName="salesinvoiceid" />
+                <ScalarProperty Name="number" ColumnName="number" />
+                <ScalarProperty Name="projectid" ColumnName="projectid" />
+                <ScalarProperty Name="id" ColumnName="id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="findpricesnotes">
+            <EntityTypeMapping TypeName="dbsmsModel.findpricesnote">
+              <MappingFragment StoreEntitySet="findpricesnote">
+                <ScalarProperty Name="text" ColumnName="text" />
+                <ScalarProperty Name="date" ColumnName="date" />
+                <ScalarProperty Name="username" ColumnName="username" />
+                <ScalarProperty Name="projectid" ColumnName="projectid" />
+                <ScalarProperty Name="id" ColumnName="id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="penawarannotes">
+            <EntityTypeMapping TypeName="dbsmsModel.penawarannote">
+              <MappingFragment StoreEntitySet="penawarannote">
+                <ScalarProperty Name="text" ColumnName="text" />
+                <ScalarProperty Name="date" ColumnName="date" />
+                <ScalarProperty Name="username" ColumnName="username" />
+                <ScalarProperty Name="projectid" ColumnName="projectid" />
+                <ScalarProperty Name="id" ColumnName="id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="purchaseinvoicenotes">
+            <EntityTypeMapping TypeName="dbsmsModel.purchaseinvoicenote">
+              <MappingFragment StoreEntitySet="purchaseinvoicenote">
+                <ScalarProperty Name="text" ColumnName="text" />
+                <ScalarProperty Name="date" ColumnName="date" />
+                <ScalarProperty Name="username" ColumnName="username" />
+                <ScalarProperty Name="projectid" ColumnName="projectid" />
+                <ScalarProperty Name="id" ColumnName="id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="purchasepaymentnotes">
+            <EntityTypeMapping TypeName="dbsmsModel.purchasepaymentnote">
+              <MappingFragment StoreEntitySet="purchasepaymentnote">
+                <ScalarProperty Name="text" ColumnName="text" />
+                <ScalarProperty Name="date" ColumnName="date" />
+                <ScalarProperty Name="username" ColumnName="username" />
+                <ScalarProperty Name="projectid" ColumnName="projectid" />
+                <ScalarProperty Name="id" ColumnName="id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="receiveitemnotes">
+            <EntityTypeMapping TypeName="dbsmsModel.receiveitemnote">
+              <MappingFragment StoreEntitySet="receiveitemnote">
+                <ScalarProperty Name="text" ColumnName="text" />
+                <ScalarProperty Name="date" ColumnName="date" />
+                <ScalarProperty Name="username" ColumnName="username" />
+                <ScalarProperty Name="projectid" ColumnName="projectid" />
+                <ScalarProperty Name="id" ColumnName="id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="rfqnotes">
+            <EntityTypeMapping TypeName="dbsmsModel.rfqnote">
+              <MappingFragment StoreEntitySet="rfqnote">
+                <ScalarProperty Name="text" ColumnName="text" />
+                <ScalarProperty Name="date" ColumnName="date" />
+                <ScalarProperty Name="username" ColumnName="username" />
+                <ScalarProperty Name="projectid" ColumnName="projectid" />
+                <ScalarProperty Name="id" ColumnName="id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="salesinvoicenotes">
+            <EntityTypeMapping TypeName="dbsmsModel.salesinvoicenote">
+              <MappingFragment StoreEntitySet="salesinvoicenote">
+                <ScalarProperty Name="text" ColumnName="text" />
+                <ScalarProperty Name="date" ColumnName="date" />
+                <ScalarProperty Name="username" ColumnName="username" />
+                <ScalarProperty Name="projectid" ColumnName="projectid" />
+                <ScalarProperty Name="id" ColumnName="id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="salesordernotes">
+            <EntityTypeMapping TypeName="dbsmsModel.salesordernote">
+              <MappingFragment StoreEntitySet="salesordernote">
+                <ScalarProperty Name="text" ColumnName="text" />
+                <ScalarProperty Name="date" ColumnName="date" />
+                <ScalarProperty Name="username" ColumnName="username" />
+                <ScalarProperty Name="projectid" ColumnName="projectid" />
+                <ScalarProperty Name="id" ColumnName="id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="salespaymentnotes">
+            <EntityTypeMapping TypeName="dbsmsModel.salespaymentnote">
+              <MappingFragment StoreEntitySet="salespaymentnote">
+                <ScalarProperty Name="text" ColumnName="text" />
+                <ScalarProperty Name="date" ColumnName="date" />
+                <ScalarProperty Name="username" ColumnName="username" />
+                <ScalarProperty Name="projectid" ColumnName="projectid" />
+                <ScalarProperty Name="id" ColumnName="id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="suratjalannotes">
+            <EntityTypeMapping TypeName="dbsmsModel.suratjalannote">
+              <MappingFragment StoreEntitySet="suratjalannote">
+                <ScalarProperty Name="text" ColumnName="text" />
+                <ScalarProperty Name="date" ColumnName="date" />
+                <ScalarProperty Name="username" ColumnName="username" />
+                <ScalarProperty Name="projectid" ColumnName="projectid" />
+                <ScalarProperty Name="id" ColumnName="id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ponotes">
+            <EntityTypeMapping TypeName="dbsmsModel.ponote">
+              <MappingFragment StoreEntitySet="ponote">
+                <ScalarProperty Name="text" ColumnName="text" />
+                <ScalarProperty Name="date" ColumnName="date" />
+                <ScalarProperty Name="username" ColumnName="username" />
+                <ScalarProperty Name="projectid" ColumnName="projectid" />
+                <ScalarProperty Name="id" ColumnName="id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
         </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>

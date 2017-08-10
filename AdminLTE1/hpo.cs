@@ -19,7 +19,6 @@ namespace AdminLTE1
         {
             this.dpoes = new HashSet<dpo>();
             this.hreceiveitems = new HashSet<hreceiveitem>();
-            this.ponotes = new HashSet<ponote>();
             this.hpurchaseinvoices = new HashSet<hpurchaseinvoice>();
         }
     
@@ -33,6 +32,10 @@ namespace AdminLTE1
         public System.DateTime expecteddate { get; set; }
         public long grandtotal { get; set; }
         public string description { get; set; }
+        public long total { get; set; }
+        public long dp { get; set; }
+        public long discount { get; set; }
+        public byte status { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<dpo> dpoes { get; set; }
@@ -40,8 +43,6 @@ namespace AdminLTE1
         public virtual supplier supplier { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<hreceiveitem> hreceiveitems { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<ponote> ponotes { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<hpurchaseinvoice> hpurchaseinvoices { get; set; }
     }

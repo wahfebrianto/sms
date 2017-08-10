@@ -1,5 +1,15 @@
 ﻿@{
-    ViewBag.Title = "List Of Purchase Order";
+    String concat_title = "";
+    using (var db = new dbsmsEntities())
+    {
+        try
+        {
+            concat_title = db.projects.Find(Convert.ToInt64(Session["project"] ?? 0)).name;
+        }
+        catch { }
+    }
+    ViewBag.Title = "List Of Purchase Order - " + concat_title ?? "";
+    System.Globalization.CultureInfo indonesia = new System.Globalization.CultureInfo("id-ID");
 }
 
 <div class="row">
@@ -8,29 +18,43 @@
             <table id="myTable1" class="table table-hover table-bordered">
                 <thead>
                     <tr>
-                        <th>No</th>
-                        <th>PO No</th>
-                        <th>PO Date</th>
-                        <th>Supplier</th>
-                        <th>Terms</th>
-                        <th>Expected Date</th>
-                        <th>Total</th>
-                        <th>Description</th>
-                        <th>Action</th>
+                        <th class="text-center">PO No</th>
+                        <th class="text-center">PO Date</th>
+                        <th class="text-center">Supplier</th>
+                        <th class="text-center">Terms</th>
+                        <th class="text-center">Expected Date</th>
+                        <th class="text-center">Total</th>
+                        <th class="text-center">Description</th>
+                        <th class="text-center">Action</th>
                     </tr>
                 </thead>
                 <tbody>
-                    <tr>
-                        <td>1</td>
-                        <td>PO001</td>
-                        <td>24 Feb 2017</td>
-                        <td>CV Mitra</td>
-                        <td>COD</td>
-                        <td>29 Feb 2017</td>
-                        <td>Rp 200.000</td>
-                        <td>Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec quam felis, ultricies nec, pellentesque eu, pretium quis, sem. Nulla consequat massa quis enim. Donec pede justo, fringilla vel, aliquet nec, vulputate eget, arcu. In enim justo, rhoncus ut, imperdiet a, venenatis vitae, justo. Nullam dictum felis eu pede mollis pretium.</td>
-                        <td><a href="PurchaseOrder/Transaksi"><button class="btn btn-warning">Edit</button></a> <button class="btn btn-default">Print</button></td>
-                    </tr>
+                    @{ 
+                        using (var db = new dbsmsEntities())
+                        {
+                            Int64 projid = Convert.ToInt64(Session["project"]);
+                            foreach (hpo item in db.hpoes.Where(x => x.projectid == projid).ToList())
+                            {
+                                <tr>
+                                    <td>@item.number</td>
+                                    <td>@item.date.ToString("dd MMMM yyyy")</td>
+                                    <td>@item.supplier.name</td>
+                                    <td>@item.terms</td>
+                                    <td>@item.expecteddate.ToString("dd MMMM yyyy")</td>
+                                    <td class="text-right">@item.grandtotal.ToString("C2", indonesia)</td>
+                                    <td>@item.description</td>
+                                    @if (@item.status >= 1)
+                                    {
+                                        <td class="text-center"><a href="@Url.Action("History","PurchaseOrder")?id=@item.id"><button class="btn btn-primary btn_detail" poid="@item.id">Detail</button></a></td>
+                                    }
+                                    else
+                                    {
+                                        <td class="text-center"><a href="@Url.Action("Transaksi","PurchaseOrder")?id=@item.id"><button class="btn btn-warning btn_edit" poid="@item.id">Edit</button></a></td>
+                                    }
+                                </tr>
+                            }
+                        }
+                    }
                 </tbody>
             </table>        
         </div>
@@ -39,7 +63,9 @@
 <script type="text/javascript">
     $(document).ready(function () {
         
-        var s = $("#myTable1").DataTable();
+        var s = $("#myTable1").DataTable({
+            "bPaginate": false
+        });
         s.columns.adjust().draw();
     });
 </script>

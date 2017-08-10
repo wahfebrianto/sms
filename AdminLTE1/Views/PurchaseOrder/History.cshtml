@@ -1,0 +1,127 @@
+﻿@{
+    String concat_title = "";
+    hpo hpo_ = null;
+    List<dpo> dpo_ = null;
+    System.Globalization.CultureInfo indonesia = new System.Globalization.CultureInfo("id-ID");
+    using (var db = new dbsmsEntities())
+    {
+        try
+        {
+            concat_title = db.projects.Find(Convert.ToInt64(Session["project"] ?? 0)).name;
+            hpo_ = db.hpoes.Find(Convert.ToInt64(Request.QueryString["id"]));
+            dpo_ = hpo_.dpoes.ToList();
+        }
+        catch { }
+        <div class="row" style="margin-bottom:10px;">
+            <div class="col-xs-12 col-md-12 col-lg-12 animated fadeInRight">
+                <div class="ibox-content">
+                    <div class="row">
+                        <button class="pull-right btn btn-default" style="margin-right:2%">Print</button>
+                        <button class="pull-right btn btn-success" style="margin-right:15px">Edit</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-xs-12 col-md-12 col-lg-12 animated fadeInRight">
+                <div class="ibox-content p-xl">
+                    <div class="row">
+                        <div class="col-sm-6">
+                            <h5>Vendor:</h5>
+                            <address>
+                                <strong>@hpo_.supplier.name</strong><br>
+                                @hpo_.supplier.address<br>
+                                @hpo_.supplier.city<br>
+                                <abbr title="Phone">P:</abbr> @hpo_.supplier.phone
+                            </address>
+                            <h5>Ship To:</h5>
+                            <address>
+                                @Html.Raw(hpo_.to.Replace("\n", "<br>"))
+                            </address>
+                        </div>
+                        <div class="col-sm-6 text-right">
+                            <h1 class="text-navy">Purchase Order</h1>
+                            <br />
+                            <span></span>
+                            <address>
+                                <strong>UD Sarana Mitra Sinergi</strong><br>
+                                Jl. Gayungsari I/30<br>
+                                Surabaya, Jawa Timur 60235<br>
+                                @*<abbr title="Phone">P:</abbr> (120) 9000-4321*@
+                            </address>
+                            <p>
+                                <span><strong>PO Number:</strong> @hpo_.number</span>
+                            </p>
+                            <p>
+                                <span><strong>PO Date:</strong> @hpo_.date.ToString("dd MMM yyyy")</span>
+                            </p>
+                            <p>
+                                <span><strong>PO Expected Date:</strong> @hpo_.expecteddate.ToString("dd MMM yyyy")</span>
+                            </p>
+                        </div>
+                    </div>
+                    <div class="table-responsive m-t">
+                        <table class="table invoice-table table-bordered">
+                            <thead>
+                                <tr>
+                                    <th style="text-align:center">Item</th>
+                                    <th style="text-align:center">Description</th>
+                                    <th style="text-align:center">Qty</th>
+                                    <th style="text-align:center">Unit Price</th>
+                                    <th style="text-align:center">Subtotal</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @{
+                                    foreach (dpo item in dpo_)
+                                    {
+                                        <tr>
+                                            <td>@item.item_category.name</td>
+                                            <td style="text-align:left">@item.itemdescription</td>
+                                            <td>@item.qty</td>
+                                            <td>@item.unitprice.ToString("C2", indonesia)</td>
+                                            <td>@item.subtotal.ToString("C2", indonesia)</td>
+                                        </tr>
+                                    }
+                                }
+                            </tbody>
+                        </table>
+                    </div><!-- /table-responsive -->
+                    <div class="well col-md-6">
+                        <strong>Description: <br /></strong>
+                        @hpo_.description
+                    </div>
+                    <table class="table invoice-total">
+                        <tbody>
+                            <tr>
+                                <td><strong>Total :</strong></td>
+                                <td>@hpo_.total.ToString("C2", indonesia)</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Down Payment :</strong></td>
+                                <td>@hpo_.dp.ToString("C2", indonesia)</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Discount :</strong></td>
+                                <td>@hpo_.discount.ToString("C2", indonesia)</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Remaining Payment :</strong></td>
+                                <td>@hpo_.grandtotal.ToString("C2", indonesia)</td>
+                            </tr>
+                        </tbody>
+                    </table>
+
+                </div>
+            </div>
+        </div>
+                                    }
+                                    ViewBag.Title = "Purchase Order - " + concat_title ?? "";
+}
+<script type="text/javascript">
+    $(document).ready(function () {
+        var t = $("#myTable").DataTable();
+        t.columns.adjust().draw();
+    });
+</script>

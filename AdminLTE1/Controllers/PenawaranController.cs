@@ -12,6 +12,11 @@ namespace AdminLTE1.Controllers
         // GET: Penawaran
         public ActionResult Index()
         {
+            if (!GlobalFunction.has_privilege(Session["user"].ToString(), "select", "penawaran"))
+            {
+                TempData["back_url"] = Request.UrlReferrer.ToString();
+                return Redirect(Url.Action("error403", "Error"));
+            }
             using (var db = new dbsmsEntities())
             {
                 if (Session["project"] != null && db.projects.Find(Session["project"]).status1.penawaran == 1)

@@ -15,11 +15,11 @@ namespace AdminLTE1
     public partial class salespaymentnote
     {
         public long id { get; set; }
-        public Nullable<long> salespaymentid { get; set; }
+        public long projectid { get; set; }
         public string username { get; set; }
-        public Nullable<System.DateTime> date { get; set; }
+        public System.DateTime date { get; set; }
         public string text { get; set; }
     
-        public virtual hsalespayment hsalespayment { get; set; }
+        public virtual project project { get; set; }
     }
 }

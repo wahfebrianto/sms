@@ -71,6 +71,15 @@ namespace AdminLTE1.Helpers
                                   select p.number.Substring(13, 3)).Max();
                     }
                 }
+                else if (mode.ToUpper() == "DP")
+                {
+                    using (var db = new dbsmsEntities())
+                    {
+                        urutan = (from p in db.hreceiveitems
+                                  where p.number.Substring(0, 13) == code
+                                  select p.number.Substring(13, 3)).Max();
+                    }
+                }
             }
             catch
             {
@@ -98,6 +107,7 @@ namespace AdminLTE1.Helpers
                 else if (destination == "salesorder" && projStatus.penawaran == 1) return true;
                 else if (destination == "penawaran" && projStatus.findprices == 1) return true;
                 else if (destination == "findprices" && projStatus.rfq == 1) return true;
+                else if (destination == "suratjalan" && projStatus.receiveitem == 1) return true;
                 else return false;
             }
         }
@@ -114,13 +124,83 @@ namespace AdminLTE1.Helpers
                 if (status_.salesorder == value) { elements.Add("salesorder"); }
                 if (status_.purchaseorder == value) { elements.Add("purchaseorder"); }
                 if (status_.receiveitem == value) { elements.Add("receiveitem"); }
+                if (status_.purchaseinvoice == value) { elements.Add("purchaseinvoice"); }
+                if (status_.purchasepayment == value) { elements.Add("purchasepayment"); }
                 if (status_.suratjalan == value) { elements.Add("suratjalan"); }
                 if (status_.salesinvoice == value) { elements.Add("salesinvoice"); }
                 if (status_.salespayment == value) { elements.Add("salespayment"); }
-                if (status_.purchaseinvoice == value) { elements.Add("purchaseinvoice"); }
-                if (status_.purchasepayment == value) { elements.Add("purchasepayment"); }
             }
             return elements;
+        }
+
+        public static Boolean has_finished(Int64 projectId, String controller)
+        {
+            using (var db = new dbsmsEntities())
+            {
+                Boolean result = true;
+                try
+                {
+                    project p = db.projects.Find(projectId);
+                    if (controller == "FindPrices")
+                    {
+                        result = p.status1.findprices == 1;
+                    }
+                    else if (controller == "Penawaran")
+                    {
+                        result = p.status1.penawaran == 1;
+                    }
+                    else if (controller == "SalesOrder")
+                    {
+                        result = p.status1.findprices == 1;
+                    }
+                    else if (controller == "PurchaseOrder")
+                    {
+                        int count = p.hpoes.Where(x => x.status == 0).Count();
+                        result = count <= 0;
+                    }
+                    else if (controller == "ReceiveItem")
+                    {
+                        int count = p.hpoes.Where(x => x.status <= 1).Count();
+                        result = count <= 0;
+                    }
+                    else if (controller == "PurchaseInvoice")
+                    {
+                        int count = p.hpurchaseinvoices.Select(x => x.hpo.number).Distinct().Intersect(p.hpoes.Select(x => x.number)).Count();
+                        result = count == p.hpoes.Count();
+                    }
+                    else if (controller == "PurchasePayment")
+                    {
+                        int count = p.hpurchaseinvoices.Where(x => x.status == 0).Count();
+                        result = count <= 0;
+                    }
+                    else if (controller == "SuratJalan")
+                    {
+                        int count = p.hsalesorders.First().dsalesorders
+                            .Select(x => x.itemcategoryid+x.itemdescription+x.qty )
+                            .Intersect(
+                                db.dsuratjalans.Where(x => x.hsuratjalan.projectid == p.id)
+                                .GroupBy(x => new { x.itemcategoryid, x.itemdescription })
+                                .Select(x =>x.Key.itemcategoryid + x.Key.itemdescription+ x.Sum(a => a.qty) )
+                            ).Count();
+
+                        result = count == p.hsalesorders.First().dsalesorders.Count();
+                    }
+                    else if (controller == "SalesInvoice")
+                    {
+                        result = p.hsalesorders.First().total == p.hsalesinvoices.Sum(x => x.grandtotal) || p.hsalesorders.First().total == p.hsalesinvoices.Sum(x => x.grandtotal) + p.hsalesinvoices.Sum(x => x.diskon);
+                    }
+                    else if (controller == "SalesPayment")
+                    {
+                        int count = p.hsalesinvoices.Where(x => x.status == 0).Count();
+                        result = count <= 0;
+                    }
+                }
+                catch(Exception e)
+                {
+                    result = false;
+                }
+                return result;
+            }
         }
 
         public static Boolean has_privilege(String username, String action, String table)
@@ -139,7 +219,7 @@ namespace AdminLTE1.Helpers
                     {
                         foreach (privilege item in x.privileges)
                         {
-                            if (item.action == action && item.tablename == table)
+                            if (item.action.Contains(action) && item.tablename.Replace("_","") == table.Replace("_", ""))
                                 result = true;
                         }
                     });
@@ -171,6 +251,15 @@ namespace AdminLTE1.Helpers
                           select i.id).Max();
                 else if (tableName == "hsalesorder")
                     id = (from i in db.hsalesorders
+                          select i.id).Max();
+                else if (tableName == "hpurchaseinvoice")
+                    id = (from i in db.hpurchaseinvoices
+                          select i.id).Max();
+                else if (tableName == "hsalesinvoice")
+                    id = (from i in db.hsalesinvoices
+                          select i.id).Max();
+                else if (tableName == "project")
+                    id = (from i in db.projects
                           select i.id).Max();
             }
             return id;

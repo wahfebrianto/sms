@@ -35,7 +35,6 @@ namespace AdminLTE1
         public virtual DbSet<dsalesorder> dsalesorders { get; set; }
         public virtual DbSet<dsuratjalan> dsuratjalans { get; set; }
         public virtual DbSet<findprice> findprices { get; set; }
-        public virtual DbSet<findpricesnote> findpricesnotes { get; set; }
         public virtual DbSet<helper> helpers { get; set; }
         public virtual DbSet<hpenawaran> hpenawarans { get; set; }
         public virtual DbSet<hpo> hpoes { get; set; }
@@ -44,25 +43,26 @@ namespace AdminLTE1
         public virtual DbSet<hrfq> hrfqs { get; set; }
         public virtual DbSet<hsalesinvoice> hsalesinvoices { get; set; }
         public virtual DbSet<hsalesorder> hsalesorders { get; set; }
-        public virtual DbSet<hsalespayment> hsalespayments { get; set; }
         public virtual DbSet<hsuratjalan> hsuratjalans { get; set; }
         public virtual DbSet<item_category> item_category { get; set; }
-        public virtual DbSet<penawarannote> penawarannotes { get; set; }
-        public virtual DbSet<ponote> ponotes { get; set; }
         public virtual DbSet<privilege> privileges { get; set; }
         public virtual DbSet<project> projects { get; set; }
-        public virtual DbSet<purchaseinvoicenote> purchaseinvoicenotes { get; set; }
         public virtual DbSet<purchasepayment> purchasepayments { get; set; }
+        public virtual DbSet<role> roles { get; set; }
+        public virtual DbSet<status> status { get; set; }
+        public virtual DbSet<supplier> suppliers { get; set; }
+        public virtual DbSet<user> users { get; set; }
+        public virtual DbSet<salespayment> salespayments { get; set; }
+        public virtual DbSet<findpricesnote> findpricesnotes { get; set; }
+        public virtual DbSet<penawarannote> penawarannotes { get; set; }
+        public virtual DbSet<purchaseinvoicenote> purchaseinvoicenotes { get; set; }
         public virtual DbSet<purchasepaymentnote> purchasepaymentnotes { get; set; }
         public virtual DbSet<receiveitemnote> receiveitemnotes { get; set; }
         public virtual DbSet<rfqnote> rfqnotes { get; set; }
-        public virtual DbSet<role> roles { get; set; }
         public virtual DbSet<salesinvoicenote> salesinvoicenotes { get; set; }
         public virtual DbSet<salesordernote> salesordernotes { get; set; }
         public virtual DbSet<salespaymentnote> salespaymentnotes { get; set; }
-        public virtual DbSet<status> status { get; set; }
-        public virtual DbSet<supplier> suppliers { get; set; }
         public virtual DbSet<suratjalannote> suratjalannotes { get; set; }
-        public virtual DbSet<user> users { get; set; }
+        public virtual DbSet<ponote> ponotes { get; set; }
     }
 }

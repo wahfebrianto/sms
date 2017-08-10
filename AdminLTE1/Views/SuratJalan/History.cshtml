@@ -1,0 +1,141 @@
+﻿@{
+    String concat_title = "";
+    hsuratjalan hsj = null;
+    List<dsuratjalan> dsj = null;
+    System.Globalization.CultureInfo indonesia = new System.Globalization.CultureInfo("id-ID");
+    using (var db = new dbsmsEntities())
+    {
+        try
+        {
+            concat_title = db.projects.Find(Convert.ToInt64(Session["project"] ?? 0)).name;
+            hsj = db.hsuratjalans.Find(Convert.ToInt64(Request.QueryString["id"]));
+            dsj = hsj.dsuratjalans.ToList();
+        }
+        catch { }
+        <div class="row" style="margin-bottom:10px;">
+            <div class="col-xs-12 col-md-12 col-lg-12 animated fadeInRight">
+                <div class="ibox-content">
+                    <div class="row">
+                        <button class="pull-right btn btn-danger" style="margin-right:2%" id="btn_delete">Delete</button>
+                        <button class="pull-right btn btn-default" style="margin-right:15px">Print</button>
+                        <button class="pull-right btn btn-success" style="margin-right:15px">Edit</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-xs-12 col-md-12 col-lg-12 animated fadeInRight">
+                <div class="ibox-content p-xl">
+                    <div class="row">
+                        <div class="col-sm-6">
+                            <h5>Bill To:</h5>
+                            <address>
+                                <strong>@hsj.project.customer.name</strong><br>
+                                @hsj.project.customer.address<br>
+                                @hsj.project.customer.city<br>
+                                <abbr title="Phone">P:</abbr> @hsj.project.customer.phone
+                            </address>
+                            @*<h5>Ship To:</h5>
+                                <address>
+                                    @Html.Raw(hri.to.Replace("\n", "<br>"))
+                                </address>*@
+                        </div>
+                        <div class="col-sm-6 text-right">
+                            <h1 class="text-navy">Delivery Order</h1>
+                            <br />
+                            <span></span>
+                            <address>
+                                <strong>UD Sarana Mitra Sinergi</strong><br>
+                                Jl. Gayungsari I/30<br>
+                                Surabaya, Jawa Timur 60235<br>
+                                @*<abbr title="Phone">P:</abbr> (120) 9000-4321*@
+                            </address>
+                            <p>
+                                <span><strong>Delivery Number:</strong> @hsj.number</span>
+                            </p>
+                            <p>
+                                <span><strong>Delivery Date:</strong> @hsj.date.ToString("dd MMM yyyy")</span>
+                            </p>
+                        </div>
+                    </div>
+                    <div class="table-responsive m-t">
+                        <table class="table invoice-table table-bordered">
+                            <thead>
+                                <tr>
+                                    <th style="text-align:center" class="col-md-2">No</th>
+                                    <th style="text-align:center" class="col-md-8">Description</th>
+                                    <th style="text-align:center" class="col-md-2">Qty</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @{
+                                    int no = 1;
+                                    foreach (dsuratjalan item in dsj)
+                                    {
+                                        <tr>
+                                            <td class="text-center">@no</td>
+                                            <td style="text-align:left">@item.itemdescription</td>
+                                            <td class="text-center" style="text-align:center">@item.qty</td>
+                                        </tr>
+                                        no += 1;
+                                    }
+                                }
+                            </tbody>
+                        </table>
+                    </div><!-- /table-responsive -->
+                    <div class="well col-md-6">
+                        <strong>Description: <br /></strong>
+                        @hsj.description
+                    </div>
+                    <table class="table invoice-total" style="margin-bottom:4%">
+                        <tbody></tbody>
+                    </table>
+
+                </div>
+            </div>
+        </div>
+                                    }
+                                    ViewBag.Title = "Delivery Order - " + concat_title ?? "";
+}
+<script type="text/javascript">
+    $(document).ready(function () {
+        var t = $("#myTable").DataTable();
+        t.columns.adjust().draw();
+        $("#btn_delete").click(function(){
+            var id = @Request.QueryString["id"];
+            swal({
+                title: "Are you sure want to delete it?",
+                text: "You can't restore it later",
+                type: "warning",
+                showCancelButton: true,
+                confirmButtonColor: "danger",
+                confirmButtonText: "Yes, Delete It!",
+                closeOnConfirm: false
+            }, function () {
+                $.ajax({
+                    type: "POST",
+                    url: "@Url.Action("delete_it","SuratJalan")",
+                    data: { id:id },
+                success: function (data) {
+                    if(data == "success"){
+                        swal({
+                            title: "Deleted!",
+                            text: "Your data has been deleted.",
+                            type: "success"
+                        }, function () {
+                            window.location = "@Url.Action("Index", "SuratJalan")";
+                        });
+                    }
+                    else{
+                        swal("Failed!", "Something went wrong!", "error");
+                    }
+                },
+                error: function (xhr, status, error) {
+                    alert(xhr.responseText);
+                }
+            });
+        });
+    });
+    });
+</script>
