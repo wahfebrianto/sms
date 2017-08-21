@@ -19,7 +19,7 @@ namespace AdminLTE1.Controllers
             }
             using (var db = new dbsmsEntities())
             {
-                if (Session["project"] != null && db.projects.Find(Session["project"]).status1.findprices == 1)
+                if (Session["project"] != null && db.projects.Find(Session["project"]).status1.findprices == 1 && Request.QueryString["action"] == null)
                 {
                     return View("History");
                 }
@@ -40,6 +40,11 @@ namespace AdminLTE1.Controllers
             {
                 using (var db = new dbsmsEntities())
                 {
+                    Int64 projid = Convert.ToInt64(Session["project"]);
+                    List<findprice> deleted = db.projects.Find(projid).findprices.ToList();
+                    if(deleted.Count > 0)
+                        db.findprices.RemoveRange(deleted);
+                    db.SaveChanges();
                     String[] res = detail.Split('ѥ');
                     for (int i = 0; i < res.Length - 1; i++)
                     {

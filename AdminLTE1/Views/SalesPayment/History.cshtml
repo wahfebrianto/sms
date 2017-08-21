@@ -12,38 +12,30 @@
             hsi = sp.hsalesinvoice;
         }
         catch { }
-        @*<div class="row" style="margin-bottom:10px;">
+        <div class="row" style="margin-bottom:10px;">
                 <div class="col-xs-12 col-md-12 col-lg-12 animated fadeInRight">
                     <div class="ibox-content">
                         <div class="row">
+                            <a href="@Request.UrlReferrer.ToString()"><button class="btn btn-twitter pull-left" style="margin-left:2%">Back</button></a>
+                            @if (AdminLTE1.Helpers.GlobalFunction.has_privilege(Session["user"].ToString(), "delete", "sales_payment"))
+                            {
+                                <button class="pull-right btn btn-danger" style="margin-right:2%" id="btn_delete">Delete</button>
+                            }
                             <button class="pull-right btn btn-default" style="margin-right:15px">Print</button>
-                            <button class="pull-right btn btn-success" style="margin-right:15px">Edit</button>
                         </div>
                     </div>
                 </div>
-            </div>*@
+            </div>
 
         <div class="row">
             <div class="col-xs-12 col-md-12 col-lg-12 animated fadeInRight">
                 <div class="ibox-content p-xl">
                     <div class="row">
                         <div class="col-sm-6">
-                            <h5>Received From:</h5>
-                            <address>
-                                <strong>@hsi.customer.name</strong><br>
-                                @hsi.customer.address<br>
-                                @hsi.customer.city<br>
-                                <abbr title="Phone">P:</abbr> @hsi.customer.phone
-                            </address>
-                            @*<h5>Ship To:</h5>
-                                <address>
-                                    @Html.Raw(hsi.to.Replace("\n", "<br>"))
-                                </address>*@
-                        </div>
-                        <div class="col-sm-6 text-right">
-                            <h1 class="text-navy">Customer Receipt</h1>
                             <br />
-                            <span></span>
+                            <img src="~/Content/img/logo.png" alt="LOGO" width="80" />
+                            <br />
+                            <br />
                             <address>
                                 <strong>UD Sarana Mitra Sinergi</strong><br>
                                 Jl. Gayungsari I/30<br>
@@ -57,6 +49,22 @@
                                 <span><strong>Payment Type:</strong> @sp.type</span>
                             </p>
                         </div>
+                        <div class="col-sm-6 text-right">
+                            <h1 class="text-navy">Customer Receipt</h1>
+                            <br /><br /><br />
+                            <h5>Received From:</h5>
+                            <address>
+                                <strong>@hsi.customer.name</strong><br>
+                                @hsi.customer.address<br>
+                                @hsi.customer.city<br>
+                                <abbr title="Phone">P:</abbr> @hsi.customer.phone
+                            </address>
+                            @*<h5>Ship To:</h5>
+                            <address>
+                                @Html.Raw(hsi.to.Replace("\n", "<br>"))
+                            </address>*@
+                        </div>
+                        
                     </div>
                     <div class="table-responsive m-t">
                         <table class="table invoice-table table-bordered">
@@ -109,5 +117,40 @@
     $(document).ready(function () {
         var t = $("#myTable").DataTable();
         t.columns.adjust().draw();
+        $("#btn_delete").click(function(){
+            var id = @Request.QueryString["id"];
+            swal({
+                title: "Are you sure want to delete it?",
+                text: "You can't restore it later",
+                type: "warning",
+                showCancelButton: true,
+                confirmButtonColor: "danger",
+                confirmButtonText: "Yes, Delete It!",
+                closeOnConfirm: false
+            }, function () {
+                $.ajax({
+                    type: "POST",
+                    url: "@Url.Action("delete_it","SalesPayment")",
+                    data: { id:id },
+                success: function (data) {
+                    if(data == "success"){
+                        swal({
+                            title: "Deleted!",
+                            text: "Your data has been deleted.",
+                            type: "success"
+                        }, function () {
+                            window.location = "@Url.Action("Index", "SalesPayment")";
+                        });
+                    }
+                    else{
+                        swal("Failed!", "Something went wrong!", "error");
+                    }
+                },
+                error: function (xhr, status, error) {
+                    alert(xhr.responseText);
+                }
+            });
+        });
+    });
     });
 </script>

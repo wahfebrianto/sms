@@ -13,5 +13,9 @@ namespace AdminLTE1.Controllers
         {
             return View();
         }
+        public ActionResult error404()
+        {
+            return View();
+        }
     }
 }

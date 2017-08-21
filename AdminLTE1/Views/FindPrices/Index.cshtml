@@ -9,6 +9,7 @@
         catch { }
     }
     ViewBag.Title = "Find Prices - " + concat_title ?? "";
+    System.Globalization.CultureInfo indonesia = new System.Globalization.CultureInfo("id-ID");
 }
 <div class="row">
     <div class="col-xs-12 col-md-12 col-lg-12">
@@ -71,6 +72,28 @@
                     </tr>
                 </thead>
                 <tbody>
+                    @{ 
+                        using (var db = new dbsmsEntities())
+                        {
+                            Int64 projid = Convert.ToInt64(Session["project"]);
+                            foreach(findprice p in db.findprices.Where(x=>x.projectid == projid))
+                            {
+                                <tr>
+                                    <td class="hidden">@p.supplierid</td>
+                                    <td>@p.supplier.name</td>
+                                    <td class="hidden">@p.project.hrfqs.First().drfqs.Where(x => x.itemdescription == p.itemdescription).First().id</td>
+                                    <td>@p.itemdescription</td>
+                                    <td>@p.qty</td>
+                                    <td class="hidden">@p.unitprice</td>
+                                    <td>@p.unitprice.ToString("C2", indonesia)</td>
+                                    <td class="hidden">@p.timeneeded</td>
+                                    <td>@p.timeneeded Days</td>
+                                    <td>@p.description</td>
+                                    <td><button class='btn btn-info col-md-5 editfindprice'>Edit</button><button class='btn btn-danger col-md-6 pull-right deletefindprice'>Delete</button></td>
+                                </tr>
+                            }
+                        }
+                    }
                 </tbody>
             </table>
             <div class="form-horizontal col-md-6">
@@ -127,7 +150,7 @@
                     <div class="col-md-9">
                         <div class="input-group">
                             <span class="input-group-addon">Rp</span>
-                            <input id="txtprice" type="number" class="form-control" value="0" min="0" step="1000">
+                            <input id="txtprice" type="number" class="form-control" value="0" min="0" step="100">
                             <span class="input-group-addon">.00</span>
                         </div>
                     </div>
@@ -207,7 +230,7 @@
             var time = $("#timeneeded").val();
             var desc = $("#txtdesc").val();
 
-            var h = t.row.add([suppid, supp, itemid, item, qty, unitprice, "Rp " + unitprice.toString().replace(/(\d)(?=(\d\d\d)+(?!\d))/g, "$1,"), time, time + " Days", desc, "<button class='btn btn-info col-md-5 editfindprice'>Edit</button><button class='btn btn-danger col-md-6 pull-right deletefindprice'>Delete</button>"]).draw(false);
+            var h = t.row.add([suppid, supp, itemid, item, qty, unitprice, "Rp" + unitprice.toString().replace(/\B(?=(\d{3})+(?!\d))/g, "."), time, time + " Days", desc, "<button class='btn btn-info col-md-5 editfindprice'>Edit</button><button class='btn btn-danger col-md-6 pull-right deletefindprice'>Delete</button>"]).draw(false);
             t.rows().every(function (rowIdx, tableLoop, rowLoop) {
                 $(this.node().cells[0]).addClass("hidden");
                 $(this.node().cells[2]).addClass("hidden");
@@ -292,7 +315,7 @@
                                 text: "Your data has been saved.",
                                 type: "success"
                             }, function () {
-                                location.reload();
+                                window.location = "@Url.Action("Index","FindPrices")";
                             });
                         }
                         else{

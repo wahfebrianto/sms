@@ -23,8 +23,8 @@ namespace AdminLTE1.App_Start
                 .Include("~/Content/css/bootstrap-datetimepicker.css")
                 .Include("~/Content/css/custom.css")
                 .Include("~/Content/plugins/bootstrap-tagsinput/bootstrap-tagsinput.css")
-                .Include("~/Content/plugins/bootstrap-tagsinput/bootstrap-tagsinput.css"));
-
+                .Include("~/Content/css/print.min.css"));
+            bundles.Add(new StyleBundle("~/Bundles/cssprint").Include("~/Content/css/bootstrap.css"));
             bundles.Add(new ScriptBundle("~/Bundles/js")
                 .Include("~/Content/js/plugins/jquery/jquery-2.2.4.js")
                 //.Include("~/Content/js/plugins/bootstrap/bootstrap.js")
@@ -47,7 +47,8 @@ namespace AdminLTE1.App_Start
                 .Include("~/Content/js/plugins/datepicker/bootstrap-datetimepicker.min.js")
                 .Include("~/Content/js/main.js")
                 .Include("~/Scripts/plugins/dualListbox/jquery.bootstrap-duallistbox.js")
-                .Include("~/Scripts/plugins/bootstrap-tagsinput/bootstrap-tagsinput.js"));
+                .Include("~/Scripts/plugins/bootstrap-tagsinput/bootstrap-tagsinput.js")
+                .Include("~/Content/js/print.min.js"));
 
 #if DEBUG
             BundleTable.EnableOptimizations = false;

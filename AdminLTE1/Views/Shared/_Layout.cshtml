@@ -31,10 +31,15 @@
     </title>
     <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
     <META HTTP-EQUIV="CACHE-CONTROL" CONTENT="NO-CACHE">
+    <link href="~/Content/img/logo.png" rel="shortcut icon">
     <link href="~/Content/css/font-awesome.min.css" rel="stylesheet">
     <link href="~/Content/css/icheck/blue.min.css" rel="stylesheet">
-    @Styles.Render("~/Bundles/css")
+    @*@Styles.Render("~/Bundles/css")*@
+    @Styles.RenderFormat(@"<link href=""{0}"" rel=""stylesheet"" type=""text/css"" media=""screen"" />", "~/Bundles/css")
+    
+    @Styles.RenderFormat(@"<link href=""{0}"" rel=""stylesheet"" type=""text/css"" media=""print"" />", "~/Bundles/cssprint")
     @Scripts.Render("~/Bundles/js")
+    
     <!--[if lt IE 9]>
     <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
     <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
@@ -47,6 +52,90 @@
         #mytableactiveproj tr.group:hover {
             background-color: #ddd !important;
         }
+        @@media print {
+            body > *, body > * > *, body > * > * > *, body > * > * > * > *{
+                position:absolute;
+                width:100%;
+                visibility:hidden;
+            }
+            .invoice-table{
+                background-color:transparent !important;
+            }
+            .invoice-table td, .invoice-table th {
+                padding-top:2px !important;
+                padding-bottom:1px !important;
+                background-color:transparent !important;
+                
+            }
+            .invoice-table tr, .invoice-table td {
+                border-top:none !important;
+                border-bottom:none !important;
+                background-color:transparent !important;
+            }
+            .well{
+                padding:5px !important;
+                height:80px;
+                background-color:transparent !important;
+            }
+            
+            .invoice-table tbody > tr > td:last-child,
+        .invoice-table tbody > tr > td:nth-child(4),
+        .invoice-table tbody > tr > td:nth-child(3),
+        .invoice-table tbody > tr > td:nth-child(2) {
+            text-align: right;
+        }
+        .invoice-table thead > tr > th:last-child,
+        .invoice-table thead > tr > th:nth-child(4),
+        .invoice-table thead > tr > th:nth-child(3),
+        .invoice-table thead > tr > th:nth-child(2) {
+            text-align: right;
+        }
+        .invoice-total {
+	        width: 50%;
+                background-color:transparent !important;
+        }
+        .invoice-total > tbody > tr > td:first-child {
+            text-align: right;
+        }
+        .invoice-total > tbody > tr > td {
+            border: 0 none;
+                background-color:transparent !important;
+        }
+        .invoice-total > tbody > tr > td:last-child {
+            border-bottom: 1px solid #DDDDDD;
+            text-align: right;
+            width: 50%;
+        }
+        #findpricearea{
+            font-size:2em;
+        }
+           
+        #printarea, #printarea *  {
+            visibility:visible !important;
+            font-family : "open sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
+            
+        }
+
+        #printarea:not(h1){
+            font-size:0.7em;
+        }
+        h1{
+            color:#001f3f !important;
+        }
+        #printarea {
+            position:relative;
+            margin:0;
+            padding:30px;
+        }
+        
+        @@page{
+            margin-left:0px;
+            margin-right:-30px;
+            margin-top:-20px;
+            padding:0;
+            float:right;
+        }
+    }
     </style>
 </head>
 <body class="hold-transition skin-blue sidebar-mini">
@@ -490,6 +579,34 @@
                 }
 
                 return false;
+            });
+            $(".p-xl").attr("id", "printarea");
+            $(".p-xl .col-sm-6").addClass("col-xs-6");
+            $(".p-xl .col-md-6").addClass("col-xs-6");
+            $("button:contains('Print')").attr("id", "btn_print");
+            $("#btn_print").click(function () {
+                //<img class="visible-print" align="middle" style="position:fixed; z-index:-9999;opacity:0.4;" src="~/Content/img/logo.png" />
+                $("#printarea").prepend('<img id="inibg" class="visible-print" align="middle" style="position:fixed; z-index:-9999;opacity:0.4;" src="~/Content/img/logo.png" />');
+
+                var jumlahtr = $(".invoice-table tbody").children();
+                var jumlahbarisharusnya = 7;
+                if (jumlahtr > jumlahbarisharusnya) {
+                    jumlahbarisharusnya = 40;
+                    $("#inibg").css('margin','auto');
+                }
+                jumlahbarisharusnya += @((ViewContext.RouteData.Values["Controller"].ToString().ToLower() == "receiveitem" || ViewContext.RouteData.Values["Controller"].ToString().ToLower() == "suratjalan" || ViewContext.RouteData.Values["Controller"].ToString().ToLower() == "purchasepayment" || ViewContext.RouteData.Values["Controller"].ToString().ToLower() == "salespayment") ?4:0 );
+                jumlahbarisharusnya += @((ViewContext.RouteData.Values["Controller"].ToString().ToLower() == "purchaseinvoice" || ViewContext.RouteData.Values["Controller"].ToString().ToLower() == "salesinvoice" || ViewContext.RouteData.Values["Controller"].ToString().ToLower() == "rfq") ?2:0 );
+                var jumlahtd = $(".invoice-table tbody tr").first().children().length;
+                for (var i = 0; i < jumlahbarisharusnya - jumlahtr.length; i++) {
+                    var string = "<tr class='visible-print'>";
+
+                    for (var j = 0; j < jumlahtd; j++) {
+                        string += "<td>&nbsp</td>";
+                    }
+                    string += "</tr>";
+                    $(".invoice-table tbody").append(string);
+                }
+                window.print();
             });
         });
     </script>

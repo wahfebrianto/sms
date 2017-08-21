@@ -47,7 +47,7 @@
                                     {
                                         <td class="text-center"><a href="@Url.Action("History","PurchaseOrder")?id=@item.id"><button class="btn btn-primary btn_detail" poid="@item.id">Detail</button></a></td>
                                     }
-                                    else
+                                    else if (AdminLTE1.Helpers.GlobalFunction.has_privilege(Session["user"].ToString(), "insert", "purchase_order") || AdminLTE1.Helpers.GlobalFunction.has_privilege(Session["user"].ToString(), "update", "purchase_order"))
                                     {
                                         <td class="text-center"><a href="@Url.Action("Transaksi","PurchaseOrder")?id=@item.id"><button class="btn btn-warning btn_edit" poid="@item.id">Edit</button></a></td>
                                     }

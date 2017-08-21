@@ -19,7 +19,7 @@ namespace AdminLTE1.Controllers
             }
             using (var db = new dbsmsEntities())
             {
-                if (Session["project"] != null && db.projects.Find(Session["project"]).status1.salesorder == 1)
+                if (Session["project"] != null && db.projects.Find(Session["project"]).status1.salesorder == 1 && Request.QueryString["action"] == null)
                 {
                     return View("History");
                 }
@@ -33,7 +33,7 @@ namespace AdminLTE1.Controllers
                 }
             }
         }
-        public String save_all(String sodate, String expecteddate, String designdate, String terms, Int64 tcustomer, String usedesign, Int64 projectid, String desc, Int64 total, Int64 dp, Int64 remainingpayment, String detail)
+        public String save_all(String sodate, String expecteddate, String designdate, String terms, Int64 tcustomer, String usedesign, Int64 projectid, String desc, Int64 total, Int64 dp, Int64 remainingpayment, String detail, Boolean edit = false)
         {
             try
             {
@@ -44,19 +44,27 @@ namespace AdminLTE1.Controllers
                 using (var db = new dbsmsEntities())
                 {
                     hsalesorder newdata = new hsalesorder();
+                    if (edit) newdata = db.projects.Find(projectid).hsalesorders.First();
                     newdata.date = datenow;
                     newdata.expecteddate = datenow1;
                     if (usedesign == "true")
                         newdata.designdate = datenow2;
+                    else
+                        newdata.designdate = null;
                     newdata.terms = terms;
                     newdata.customerid = tcustomer;
                     newdata.projectid = projectid;
                     newdata.description = desc;
-                    newdata.number = newSOnum;
+                    if (!edit) newdata.number = newSOnum;
                     newdata.dp = dp;
                     newdata.total = total;
                     newdata.grandtotal = remainingpayment;
-                    db.hsalesorders.Add(newdata);
+                    if (!edit) db.hsalesorders.Add(newdata);
+                    if(edit)
+                    {
+                        List<dsalesorder> dpn = newdata.dsalesorders.ToList();
+                        db.dsalesorders.RemoveRange(dpn);
+                    }
                     String[] res = detail.Split('ѥ');
                     for (int i = 0; i < res.Length - 1; i++)
                     {
@@ -69,9 +77,11 @@ namespace AdminLTE1.Controllers
                         data.unitprice = Convert.ToInt32(result[3]);
                         data.subtotal = data.qty * data.unitprice;
                         //data.penawaranid = GlobalFunction.get_max_id("hpenawaran");
+                        if (edit) data.hsalesorder = newdata;
                         db.dsalesorders.Add(data);
                     }
                     db.SaveChanges();
+                    if (edit) return "success";
                     if (dp > 0)
                     {
                         using (var db1 = new dbsmsEntities())

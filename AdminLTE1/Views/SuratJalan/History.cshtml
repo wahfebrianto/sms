@@ -16,9 +16,12 @@
             <div class="col-xs-12 col-md-12 col-lg-12 animated fadeInRight">
                 <div class="ibox-content">
                     <div class="row">
+                        <a href="@Request.UrlReferrer.ToString()"><button class="btn btn-twitter pull-left" style="margin-left:2%">Back</button></a>
+@if (AdminLTE1.Helpers.GlobalFunction.has_privilege(Session["user"].ToString(), "delete", "surat_jalan"))
+{
                         <button class="pull-right btn btn-danger" style="margin-right:2%" id="btn_delete">Delete</button>
+}
                         <button class="pull-right btn btn-default" style="margin-right:15px">Print</button>
-                        <button class="pull-right btn btn-success" style="margin-right:15px">Edit</button>
                     </div>
                 </div>
             </div>
@@ -29,22 +32,10 @@
                 <div class="ibox-content p-xl">
                     <div class="row">
                         <div class="col-sm-6">
-                            <h5>Bill To:</h5>
-                            <address>
-                                <strong>@hsj.project.customer.name</strong><br>
-                                @hsj.project.customer.address<br>
-                                @hsj.project.customer.city<br>
-                                <abbr title="Phone">P:</abbr> @hsj.project.customer.phone
-                            </address>
-                            @*<h5>Ship To:</h5>
-                                <address>
-                                    @Html.Raw(hri.to.Replace("\n", "<br>"))
-                                </address>*@
-                        </div>
-                        <div class="col-sm-6 text-right">
-                            <h1 class="text-navy">Delivery Order</h1>
                             <br />
-                            <span></span>
+                            <img src="~/Content/img/logo.png" alt="LOGO" width="80" />
+                            <br />
+                            <br />
                             <address>
                                 <strong>UD Sarana Mitra Sinergi</strong><br>
                                 Jl. Gayungsari I/30<br>
@@ -57,6 +48,21 @@
                             <p>
                                 <span><strong>Delivery Date:</strong> @hsj.date.ToString("dd MMM yyyy")</span>
                             </p>
+                        </div>
+                        <div class="col-sm-6 text-right">
+                            <h1 class="text-navy">Delivery Order</h1>
+                            <br /><br /><br />
+                            <h5>Bill To:</h5>
+                            <address>
+                                <strong>@hsj.project.customer.name</strong><br>
+                                @hsj.project.customer.address<br>
+                                @hsj.project.customer.city<br>
+                                <abbr title="Phone">P:</abbr> @hsj.project.customer.phone
+                            </address>
+                            @*<h5>Ship To:</h5>
+                            <address>
+                                @Html.Raw(hri.to.Replace("\n", "<br>"))
+                            </address>*@    
                         </div>
                     </div>
                     <div class="table-responsive m-t">

@@ -184,6 +184,7 @@
     <Content Include="Content\css\icheck\red.min.css" />
     <Content Include="Content\css\icheck\yellow.css" />
     <Content Include="Content\css\icheck\yellow.min.css" />
+    <Content Include="Content\css\print.min.css" />
     <Content Include="Content\css\select2.css" />
     <Content Include="Content\css\select2.min.css" />
     <Content Include="Content\css\skins\skin-black-light.css" />
@@ -261,6 +262,7 @@
     <Content Include="Content\js\plugins\slimscroll\jquery.slimscroll.min.js" />
     <Content Include="Content\js\plugins\validator\validator.js" />
     <Content Include="Content\js\plugins\validator\validator.min.js" />
+    <Content Include="Content\js\print.min.js" />
     <Content Include="Global.asax" />
     <Content Include="SMSModel.Context.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
@@ -506,6 +508,7 @@
     <Content Include="Views\PurchasePayment\History.cshtml" />
     <Content Include="Views\SuratJalan\History.cshtml" />
     <Content Include="Views\SalesPayment\History.cshtml" />
+    <Content Include="Views\Error\error404.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

@@ -17,8 +17,8 @@
                 <div class="ibox-content">
                     <div class="row">
                         <button class="pull-right btn btn-default" style="margin-right:2%">Print</button>
-                        <button class="pull-right btn btn-success" style="margin-right:15px">Edit</button>
-                    </div>
+                        <a href="@Url.Action("Index","SalesOrder")?action=edit"><button class="pull-right btn btn-success" style="margin-right:15px">Edit</button></a>
+</div>
                 </div>
             </div>
         </div>
@@ -28,22 +28,10 @@
                 <div class="ibox-content p-xl">
                     <div class="row">
                         <div class="col-sm-6">
-                            <h5>Order By:</h5>
-                            <address>
-                                <strong>@hsalesorder_.customer.name</strong><br>
-                                @hsalesorder_.customer.address<br>
-                                @hsalesorder_.customer.city<br>
-                                <abbr title="Phone">P:</abbr> @hsalesorder_.customer.phone
-                            </address>
-                            <h5>Quote To:</h5>
-                            <address>
-                                @Html.Raw(hsalesorder_.project.hpenawarans.First().to.Replace("\n", "<br>"))
-                            </address>
-                        </div>
-                        <div class="col-sm-6 text-right">
-                            <h1 class="text-navy">Sales Order</h1>
                             <br />
-                            <span></span>
+                            <img src="~/Content/img/logo.png" alt="LOGO" width="80"/>
+                            <br />
+                            <br />
                             <address>
                                 <strong>UD Sarana Mitra Sinergi</strong><br>
                                 Jl. Gayungsari I/30<br>
@@ -66,6 +54,20 @@
                                 }
                                 <span><strong>SO Design Date:</strong> @apasih</span>
                             </p>
+                        </div>
+                        <div class="col-sm-6 text-right">
+                            <h1 class="text-navy">Sales Order</h1>
+                            <h5>Order By:</h5>
+                            <address>
+                                <strong>@hsalesorder_.customer.name</strong><br>
+                                @hsalesorder_.customer.address<br>
+                                @hsalesorder_.customer.city<br>
+                                <abbr title="Phone">P:</abbr> @hsalesorder_.customer.phone
+                            </address>
+                            <h5>Quote To:</h5>
+                            <address>
+                                @Html.Raw(hsalesorder_.project.hpenawarans.First().to.Replace("\n", "<br>"))
+                            </address>
                         </div>
                     </div>
                     <div class="table-responsive m-t">

@@ -11,7 +11,7 @@ namespace AdminLTE1.Controllers
     {
         // GET: Penawaran
         public ActionResult Index()
-        {
+        { 
             if (!GlobalFunction.has_privilege(Session["user"].ToString(), "select", "penawaran"))
             {
                 TempData["back_url"] = Request.UrlReferrer.ToString();
@@ -19,7 +19,7 @@ namespace AdminLTE1.Controllers
             }
             using (var db = new dbsmsEntities())
             {
-                if (Session["project"] != null && db.projects.Find(Session["project"]).status1.penawaran == 1)
+                if (Session["project"] != null && db.projects.Find(Session["project"]).status1.penawaran == 1 && Request.QueryString["action"] == null)
                 {
                     return View("History");
                 }
@@ -34,7 +34,7 @@ namespace AdminLTE1.Controllers
             }
         }
 
-        public String save_all(String quotedate, String quoteto, Int64 projectid,String desc, Int64 total, Int64 disc, Int64 grandtotal,String detail)
+        public String save_all(String quotedate, String quoteto, Int64 projectid,String desc, Int64 total, Int64 disc, Int64 grandtotal,String detail, Boolean edit = false)
         {
             try
             {
@@ -42,16 +42,22 @@ namespace AdminLTE1.Controllers
                 using (var db = new dbsmsEntities())
                 {
                     hpenawaran newdata = new hpenawaran();
+                    if (edit) newdata = db.projects.Find(projectid).hpenawarans.First();
                     newdata.date = datenow;
                     newdata.projectid = projectid;
-                    newdata.number = GlobalFunction.generate_code("PNW");
+                    if (!edit) newdata.number = GlobalFunction.generate_code("PNW");
                     newdata.customerid = db.projects.Find(projectid).customer.id;
                     newdata.to = quoteto;
                     newdata.description = desc;
                     newdata.disc = disc;
                     newdata.total = total;
                     newdata.grandtotal = grandtotal;
-                    db.hpenawarans.Add(newdata);
+                    if (!edit) db.hpenawarans.Add(newdata);
+                    if (edit)
+                    {
+                        List<dpenawaran> dpn = newdata.dpenawarans.ToList();
+                        db.dpenawarans.RemoveRange(dpn);
+                    }
                     String[] res = detail.Split('ѥ');
                     for (int i = 0; i < res.Length - 1; i++)
                     {
@@ -64,13 +70,14 @@ namespace AdminLTE1.Controllers
                         data.qty = Convert.ToInt32(result[3]);
                         data.unitprice = Convert.ToInt32(result[4]);
                         data.subtotal = data.qty * data.unitprice;
+                        data.hpenawaran = newdata;
                         //data.penawaranid = GlobalFunction.get_max_id("hpenawaran");
                         db.dpenawarans.Add(data);
                     }
                     db.SaveChanges();
                     using (var db1 = new dbsmsEntities())
                     {
-                        db1.hpenawarans.Find(GlobalFunction.get_max_id("hpenawaran")).project.status1.penawaran = 1;
+                        if(!edit) db1.hpenawarans.Find(GlobalFunction.get_max_id("hpenawaran")).project.status1.penawaran = 1;
                         db1.SaveChanges();
                         return "success";
                     }

@@ -28,6 +28,23 @@
             <div class="ibox-content p-xl">
                 <div class="row">
                     <div class="col-sm-6">
+                        <br />
+                        <img src="~/Content/img/logo.png" alt="LOGO" width="80" />
+                        <br />
+                        <br />
+                        <address>
+                            <strong>UD Sarana Mitra Sinergi</strong><br>
+                            Jl. Gayungsari I/30<br>
+                            Surabaya, Jawa Timur 60235<br>
+                            @*<abbr title="Phone">P:</abbr> (120) 9000-4321*@
+                        </address>
+                        <br /><br /><br /><br /><br /><br />
+                        <p>
+                            <span><strong>Request Date:</strong> @hrfq_.date.ToString("dd MMM yyyy")</span>
+                        </p>
+                    </div>
+                    <div class="col-sm-6 text-right">
+                        <h1 class="text-navy">Quotation Request</h1>
                         <h5>Order By:</h5>
                         <address>
                             <strong>@hrfq_.customer.name</strong><br>
@@ -37,23 +54,10 @@
                         </address>
                         <h5>Quote To:</h5>
                         <address>
-                            @Html.Raw(hrfq_.to.Replace("\n","<br>"))
+                            @Html.Raw(hrfq_.to.Replace("\n", "<br>"))
                         </address>
                     </div>
-                    <div class="col-sm-6 text-right">
-                        <h1 class="text-navy">Quotation Request</h1>
-                        <br />
-                        @*<span>To:</span>
-                        <address>
-                            <strong>Corporate, Inc.</strong><br>
-                            112 Street Avenu, 1080<br>
-                            Miami, CT 445611<br>
-                            <abbr title="Phone">P:</abbr> (120) 9000-4321
-                        </address>*@
-                        <p>
-                            <span><strong>Request Date:</strong> @hrfq_.date.ToString("dd MMM yyyy")</span>
-                        </p>
-                    </div>
+                    
                 </div>
                 <div class="table-responsive m-t">
                     <table class="table invoice-table table-bordered">

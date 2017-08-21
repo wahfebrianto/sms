@@ -16,7 +16,7 @@
 <div class="row">
     <div class="col-md-12 col-lg-12 col-sm-12">
         <div class="box box-default panel-body">
-            <div class="modal inmodal fade" id="myModal" tabindex="-1" role="dialog" aria-hidden="true">
+            @*<div class="modal inmodal fade" id="myModal" tabindex="-1" role="dialog" aria-hidden="true">
                 <div class="modal-dialog modal-lg">
                     <div class="modal-content">
                         <div class="modal-header">
@@ -62,7 +62,7 @@
                         </div>
                     </div>
                 </div>
-            </div>
+            </div>*@
             <form>
                 <div class="row">
                     @*<div class="form-group col-md-6">
@@ -162,8 +162,11 @@ Surabaya, Jawa Timur 60235
                         </table>
                     </div>
                     <div class="col-md-12">
+                        @if (AdminLTE1.Helpers.GlobalFunction.has_privilege(Session["user"].ToString(), "update", "purchase_order"))
+                        {
                         <button type="button" class="btn btn-lg btn-success pull-right" style="margin-left:10px;" id="btn_save">Save</button>
                         <button type="button" class="btn btn-lg btn-default pull-right" id="btn_cancel">Cancel</button>
+                        }
                     </div>
                 </div>
             </form>
@@ -226,7 +229,14 @@ Surabaya, Jawa Timur 60235
                         $.ajax({
                             type: "POST",
                             url: "@Url.Action("save_it","PurchaseOrder")",
-                            data: { podate:podate,expecteddate:expecteddate,dp:dp,discount:discount,terms:terms,poid:poid,projectid:projectid,desc:desc,shipto:shipto,remainingpayment:remainingpayment,detail:detail },
+                            data: { podate:podate,expecteddate:expecteddate,dp:dp,discount:discount,terms:terms,poid:poid,projectid:projectid,desc:desc,shipto:shipto,remainingpayment:remainingpayment,detail:detail 
+                            @if(Request.QueryString["action"]!=null)
+                        {
+                            <text>
+                                ,edit:true
+                            </text>
+                        }
+                            },
                             success: function (data) {
                             if(data == "success"){
                                 swal({
@@ -234,7 +244,7 @@ Surabaya, Jawa Timur 60235
                                     text: "Your data has been saved.",
                                     type: "success"
                                 }, function () {
-                                    location.reload();
+                                    window.location = "@Url.Action("History","PurchaseOrder")?id=@Request.QueryString["id"]";
                                 });
                             }
                             else{

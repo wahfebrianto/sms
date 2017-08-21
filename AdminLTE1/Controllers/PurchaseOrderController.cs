@@ -30,7 +30,7 @@ namespace AdminLTE1.Controllers
             {
                 Int64 id = Convert.ToInt64(Request.QueryString["id"]);
                 Byte status = db.hpoes.Find(id).status;
-                if (status == 1) return Redirect(Url.Action("History", "PurchaseOrder") + "?id=" + id);
+                if (status == 1 && Request.QueryString["action"]=="null") return Redirect(Url.Action("History", "PurchaseOrder") + "?id=" + id);
             }
             return View();
         }
@@ -49,7 +49,7 @@ namespace AdminLTE1.Controllers
             }
             return View();
         }
-        public String save_it(String podate, Int64 poid, String expecteddate, String shipto, String terms, Int64 projectid, String desc, Int64 dp, Int64 discount, Int64 remainingpayment, String detail)
+        public String save_it(String podate, Int64 poid, String expecteddate, String shipto, String terms, Int64 projectid, String desc, Int64 dp, Int64 discount, Int64 remainingpayment, String detail, Boolean edit = false)
         {
             try
             {
@@ -68,7 +68,7 @@ namespace AdminLTE1.Controllers
                     newdata.to = shipto;
                     newdata.status = 1;
                     db.SaveChanges();
-                    if (dp > 0)
+                    if (dp > 0 && !edit)
                     {
                         using (var db1 = new dbsmsEntities())
                         {

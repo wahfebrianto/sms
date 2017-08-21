@@ -38,6 +38,27 @@ namespace AdminLTE1.Controllers
             }
             return View();
         }
+        public String delete_it(Int64 id)
+        {
+            try
+            {
+                using (var db = new dbsmsEntities())
+                {
+
+                    hpurchaseinvoice data = db.hpurchaseinvoices.Find(id);
+                    List<dpurchaseinvoice> ddata = data.dpurchaseinvoices.ToList();
+                    db.dpurchaseinvoices.RemoveRange(ddata);
+                    db.hpurchaseinvoices.Remove(data);
+                    db.SaveChanges();
+                    return "success";
+                }
+            }
+            catch
+            {
+                return "fail";
+            }
+        }
+
         //data: { pino: pino, pidate: pidate, poid: poid, desc: desc, detail: detail, disc:disc },
         public String save_it(String pino, String pidate, Int64 poid, Int64 disc, String desc, String detail)
         {

@@ -29,6 +29,26 @@ namespace AdminLTE1.Controllers
             return View();
         }
 
+        public String delete_it(Int64 id)
+        {
+            try
+            {
+                using (var db = new dbsmsEntities())
+                {
+
+                    salespayment data = db.salespayments.Find(id);
+                    data.hsalesinvoice.status = 0;
+                    db.salespayments.Remove(data);
+                    db.SaveChanges();
+                    return "success";
+                }
+            }
+            catch
+            {
+                return "fail";
+            }
+        }
+
         //data: { pdate: pdate, ptype: ptype, pnote: pnote, pinvid: pinvid},
         public String save_it(String pdate, String ptype, Int64 pinvid, String pnote)
         {

@@ -24,15 +24,18 @@
     <div class="middle-box text-center loginscreen  animated fadeInDown">
         <div>
             <div>
-                <h1 class="logo-name">403</h1>
+                <h1 class="logo-name">404</h1>
             </div>
-            <h3>Forbidden</h3>
-            <p class="m-t alert alert-danger"> <small>Insufficient Privilege to Access This Page
-                </br>
-                Please Contact Your Web Administrator
-                </br>
-                <a href="@TempData["back_url"]">Go Back</a>
-                </small> </p>
+            <h3>Page Not Found</h3>
+            <p class="m-t alert alert-danger">
+                <small>
+                    Page That You Requested Is Not Found
+                    </br>
+                    Please Contact Your Web Administrator
+                    </br>
+                    <a href="@Url.Action("Index","Home")">Go Home</a>
+                </small>
+            </p>
         </div>
     </div>
 </body>
