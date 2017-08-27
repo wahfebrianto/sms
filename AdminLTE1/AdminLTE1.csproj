@@ -509,6 +509,7 @@
     <Content Include="Views\SuratJalan\History.cshtml" />
     <Content Include="Views\SalesPayment\History.cshtml" />
     <Content Include="Views\Error\error404.cshtml" />
+    <None Include="Properties\PublishProfiles\sms.pubxml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

@@ -228,10 +228,12 @@
         @{
             using (var db = new dbsmsEntities())
             {
-                hpenawaran hpennow = db.projects.Find(projid).hpenawarans.First();
-                dpen = hpennow.dpenawarans.ToList();
-                foreach (dpenawaran item in dpen)
+                if (Request.QueryString["action"] != null)
                 {
+                    hpenawaran hpennow = db.projects.Find(projid).hpenawarans.First();
+                    dpen = hpennow.dpenawarans.ToList();
+                    foreach (dpenawaran item in dpen)
+                    {
                 <text>
         t.row.add(['@item.itemcategoryid', '@item.item_category.name', '@item.itemdescription', '@item.qty', "<div class='input-group'><span class='input-group-addon'>Rp</span><input onchange='ubahprice(event)' id='txtprice' type='number' min=0 step=100 class='form-control text-right' value='@item.unitprice'><span class='input-group-addon'>.00</span></div>", '@item.supplierid', '@item.supplier.name', '@(item.qty * item.unitprice)', '@((item.qty * item.unitprice).ToString("C2", indonesia))', "<button class='btn btn-danger'>Delete</button>"]).draw(false);
                 t.rows().every(function (rowIdx, tableLoop, rowLoop) {
@@ -242,6 +244,7 @@
                 });
                 total0 += @(item.qty * item.unitprice);
                 </text>
+                        }
                     }
                 }
             }

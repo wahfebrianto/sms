@@ -158,10 +158,10 @@
                 closeOnConfirm: false
             }, function () {
                 @{ string temp = Path.GetDirectoryName(HttpContext.Current.Request.Url.OriginalString);}
-                var temp = '@temp';
+                var temp = '@temp.Replace(@"\",@"\\")';
                 temp = temp.replace('\\', '/');
                 temp = temp.replace(':/', '://');
-                window.location = '/Role/delete_role?roleId=' + obj;
+                window.location = '/udsms/Role/delete_role?roleId=' + obj;
             });
 
         });

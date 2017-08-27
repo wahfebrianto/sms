@@ -71,7 +71,7 @@
                         <th class="col-md-2">
                             DESCRIPTION
                         </th>
-@if (AdminLTE1.Helpers.GlobalFunction.has_privilege(Session["user"].ToString(), "update and delete", "master_customer"))
+@if (AdminLTE1.Helpers.GlobalFunction.has_privilege(Session["user"].ToString(), "update_or_delete", "master_customer"))
 {
                         <th class="col-md-2"></th>
 }
@@ -111,7 +111,7 @@
                                     <td>
                                         @item.description
                                     </td>
-@if (AdminLTE1.Helpers.GlobalFunction.has_privilege(Session["user"].ToString(), "update and delete", "master_customer"))
+@if (AdminLTE1.Helpers.GlobalFunction.has_privilege(Session["user"].ToString(), "update_or_delete", "master_customer"))
 {
                                     <td class="text-center">
                                         <button class="btn btn-success btn_edit" style="margin-right:10px;" data-toggle="modal" data-target="#myModal">Edit</button>
@@ -149,10 +149,10 @@
                 closeOnConfirm: false
             }, function () {
                 @{ string temp = Path.GetDirectoryName(HttpContext.Current.Request.Url.OriginalString);}
-                var temp = '@temp';
+                var temp = '@temp.Replace(@"\",@"\\")';
                 temp = temp.replace('\\', '/');
                 temp = temp.replace(':/', '://');
-                window.location = '/Master/delete_customer?custId=' + obj;
+                window.location = '/udsms/Master/delete_customer?custId=' + obj;
             });
 
         });

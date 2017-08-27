@@ -98,7 +98,7 @@
                         <th class="col-md-4">
                             DESCRIPTION
                         </th>
-@if (AdminLTE1.Helpers.GlobalFunction.has_privilege(Session["user"].ToString(), "update and delete", "master_user"))
+@if (AdminLTE1.Helpers.GlobalFunction.has_privilege(Session["user"].ToString(), "update_or_delete", "master_user"))
 {
                         <th class="col-md-3"></th>
 }
@@ -132,7 +132,7 @@
                                     <td>
                                         @item.description
                                     </td>
-@if (AdminLTE1.Helpers.GlobalFunction.has_privilege(Session["user"].ToString(), "update and delete", "master_user"))
+@if (AdminLTE1.Helpers.GlobalFunction.has_privilege(Session["user"].ToString(), "update_or_delete", "master_user"))
 {
                                     <td class="text-center">
                                         <button class="btn btn-github btn_reset" style="margin-right:10px;">Reset Password</button>
@@ -172,10 +172,10 @@
                 closeOnConfirm: false
             }, function () {
                 @{ string temp = Path.GetDirectoryName(HttpContext.Current.Request.Url.OriginalString);}
-                var temp = '@temp';
+                var temp = '@temp.Replace(@"\",@"\\")';
                 temp = temp.replace('\\', '/');
                 temp = temp.replace(':/', '://');
-                window.location = '/Master/delete_user?userId=' + obj;
+                window.location = '/udsms/Master/delete_user?userId=' + obj;
             });
 
         });
@@ -308,7 +308,7 @@
                                 text: "Your data has been saved.",
                                 type: "success"
                             }, function () {
-                                window.location = '/Master/Master_User';
+                                window.location = '/udsms/Master/Master_User';
                             });
                         }
                         else {

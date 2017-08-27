@@ -103,8 +103,13 @@ namespace AdminLTE1.Controllers
                             newdata2.unitprice = dp;
                             newdata2.subtotal = dp;
                             db1.dsalesinvoices.Add(newdata2);
-                            db1.hsalesinvoices.Find(GlobalFunction.get_max_id("hsalesinvoice")).project.status1.salesinvoice = 1;
                             db1.SaveChanges();
+                            using(var db2 =new dbsmsEntities())
+                            {
+
+                                db2.hsalesinvoices.Find(GlobalFunction.get_max_id("hsalesinvoice")).project.status1.salesinvoice = 1;
+                                db2.SaveChanges();
+                            }
                         }
                     }
                     using (var db1 = new dbsmsEntities())
