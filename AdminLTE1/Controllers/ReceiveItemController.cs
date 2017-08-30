@@ -59,7 +59,7 @@ namespace AdminLTE1.Controllers
             }
         }
         //data: { ridate: ridate, poid: poid, desc: desc, detail: detail },
-        public String save_it(String ridate, Int64 poid, String desc, String detail)
+        public String save_it(String rinum, String ridate, Int64 poid, String desc, String detail)
         {
             try
             {
@@ -72,7 +72,7 @@ namespace AdminLTE1.Controllers
                     newdata.poid = poid;
                     newdata.supplierid = db.hpoes.Find(poid).supplierid;
                     newdata.projectid = Convert.ToInt64(Session["project"]);
-                    newdata.number = GlobalFunction.generate_code("RI");
+                    newdata.number = rinum;
                     db.hreceiveitems.Add(newdata);
                     String[] res = detail.Split('ѥ');
                     for (int i = 0; i < res.Length - 1; i++)

@@ -80,6 +80,7 @@ namespace AdminLTE1.Controllers
                             newdata1.supplierid = newdata.supplierid;
                             newdata1.description = "Down payment untuk PO : " + newdata.number;
                             newdata1.total = dp;
+                            newdata1.grandtotal = dp;
                             newdata1.poid = poid;
                             newdata1.diskon = 0;
                             db1.hpurchaseinvoices.Add(newdata1);

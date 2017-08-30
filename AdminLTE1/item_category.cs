@@ -25,6 +25,7 @@ namespace AdminLTE1
             this.dsalesinvoices = new HashSet<dsalesinvoice>();
             this.dsalesorders = new HashSet<dsalesorder>();
             this.dsuratjalans = new HashSet<dsuratjalan>();
+            this.findprices = new HashSet<findprice>();
         }
     
         public long id { get; set; }
@@ -48,5 +49,7 @@ namespace AdminLTE1
         public virtual ICollection<dsalesorder> dsalesorders { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<dsuratjalan> dsuratjalans { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<findprice> findprices { get; set; }
     }
 }

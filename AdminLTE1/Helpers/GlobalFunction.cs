@@ -35,6 +35,15 @@ namespace AdminLTE1.Helpers
                                   select p.number.Substring(14, 3)).Max();
                     }
                 }
+                else if (mode.ToUpper() == "RFQ")
+                {
+                    using (var db = new dbsmsEntities())
+                    {
+                        urutan = (from p in db.hrfqs
+                                  where p.number.Substring(0, 14) == code
+                                  select p.number.Substring(14, 3)).Max();
+                    }
+                }
                 else if (mode.ToUpper() == "PO")
                 {
                     using (var db = new dbsmsEntities())
@@ -141,39 +150,39 @@ namespace AdminLTE1.Helpers
                 try
                 {
                     project p = db.projects.Find(projectId);
-                    if (controller == "FindPrices")
+                    if (controller.ToLower() == "FindPrices".ToLower())
                     {
                         result = p.status1.findprices == 1;
                     }
-                    else if (controller == "Penawaran")
+                    else if (controller.ToLower() == "Penawaran".ToLower())
                     {
                         result = p.status1.penawaran == 1;
                     }
-                    else if (controller == "SalesOrder")
+                    else if (controller.ToLower() == "SalesOrder".ToLower())
                     {
-                        result = p.status1.findprices == 1;
+                        result = p.status1.salesorder == 1;
                     }
-                    else if (controller == "PurchaseOrder")
+                    else if (controller.ToLower() == "PurchaseOrder".ToLower())
                     {
                         int count = p.hpoes.Where(x => x.status == 0).Count();
                         result = count <= 0;
                     }
-                    else if (controller == "ReceiveItem")
+                    else if (controller.ToLower() == "ReceiveItem".ToLower())
                     {
                         int count = p.hpoes.Where(x => x.status <= 1).Count();
                         result = count <= 0;
                     }
-                    else if (controller == "PurchaseInvoice")
+                    else if (controller.ToLower() == "PurchaseInvoice".ToLower())
                     {
                         int count = p.hpurchaseinvoices.Select(x => x.hpo.number).Distinct().Intersect(p.hpoes.Select(x => x.number)).Count();
                         result = count == p.hpoes.Count();
                     }
-                    else if (controller == "PurchasePayment")
+                    else if (controller.ToLower() == "PurchasePayment".ToLower())
                     {
                         int count = p.hpurchaseinvoices.Where(x => x.status == 0).Count();
                         result = count <= 0;
                     }
-                    else if (controller == "SuratJalan")
+                    else if (controller.ToLower() == "SuratJalan".ToLower())
                     {
                         int count = p.hsalesorders.First().dsalesorders
                             .Select(x => x.itemcategoryid+x.itemdescription+x.qty )
@@ -185,11 +194,11 @@ namespace AdminLTE1.Helpers
 
                         result = count == p.hsalesorders.First().dsalesorders.Count();
                     }
-                    else if (controller == "SalesInvoice")
+                    else if (controller.ToLower() == "SalesInvoice".ToLower())
                     {
                         result = p.hsalesorders.First().total == p.hsalesinvoices.Sum(x => x.grandtotal) || p.hsalesorders.First().total == p.hsalesinvoices.Sum(x => x.grandtotal) + p.hsalesinvoices.Sum(x => x.diskon);
                     }
-                    else if (controller == "SalesPayment")
+                    else if (controller.ToLower() == "SalesPayment".ToLower())
                     {
                         int count = p.hsalesinvoices.Where(x => x.status == 0).Count();
                         result = count <= 0;
@@ -260,6 +269,12 @@ namespace AdminLTE1.Helpers
                           select i.id).Max();
                 else if (tableName == "project")
                     id = (from i in db.projects
+                          select i.id).Max();
+                else if (tableName == "purchasepayment")
+                    id = (from i in db.purchasepayments
+                          select i.id).Max();
+                else if (tableName == "salespayment")
+                    id = (from i in db.salespayments
                           select i.id).Max();
             }
             return id;

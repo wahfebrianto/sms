@@ -406,5 +406,62 @@ namespace AdminLTE1.Controllers
                 return "fail";
             }
         }
+
+        public String get_unpaid(Int64 projid)
+        {
+            try
+            {
+                using (var db = new dbsmsEntities())
+                {
+                    List<hpurchaseinvoice> hpi = db.hpurchaseinvoices.Where(x => x.projectid == projid && x.status != 1).ToList();
+                    List<hsalesinvoice> hsi = db.hsalesinvoices.Where(x => x.projectid == projid && x.status != 1).ToList();
+                    String hpirow = "<table class='table table-hover table-bordered'>" +
+                        "<caption class='text-center text-bold'>Unpaid Purchase Invoice</caption><thead>" +
+                        "<tr>" +
+                            "<th class='col-md-3 text-center'>Invoice Number</th>" +
+                            "<th class='col-md-3 text-center'>Supplier Name</th>" +
+                        "</tr></thead><tbody>" ;
+                    foreach (hpurchaseinvoice item in hpi)
+                    {
+                        hpirow += "<tr>" +
+                            "<td><a href='"+ Url.Action("move","Project") +"?controller=PurchasePayment&projid="+projid+"&id=0'>" + item.number + "</a></td>" +
+                            "<td>" + item.supplier.name + "</td>" +
+                        "</tr>";
+                    }
+                    hpirow += "</tbody></table>";
+                    if(hpi.Count <= 0)
+                    {
+                        hpirow = "All purchase invoices have been paid";
+                    }
+                    String hsirow = "<table class='table table-hover table-bordered'>" +
+                        "<caption class='text-center text-bold'>Unpaid Sales Invoice</caption><thead>" +
+                        "<tr>" +
+                            "<th class='col-md-6 text-center'>Invoice Number</th>" +
+                            "<th class='col-md-6 text-center'>Customer Name</th>" +
+                        "</tr></thead><tbody>";
+                    foreach (hsalesinvoice item in hsi)
+                    {
+                        hsirow += "<tr>" +
+                            "<td><a href='" + Url.Action("move", "Project") + "?controller=SalesPayment&projid=" + projid + "&id=0'>" + item.number + "</a></td>" +
+                            "<td>" + item.customer.name + "</td>" +
+                        "</tr>";
+                    }
+                    hsirow += "</tbody></table>";
+                    if (hsi.Count <= 0)
+                    {
+                        hsirow = "All sales invoices have been paid";
+                    }
+                    return "<div class='col-md-5'>" +
+                        hpirow +
+                    "<br/>" +
+                        hsirow +
+                    "</div>";
+                }
+            }
+            catch
+            {
+                return "undefined";
+            }
+        }
     }
 }

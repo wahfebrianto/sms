@@ -1,0 +1,258 @@
+﻿
+@{
+    String concat_title = "";
+    using (var db = new dbsmsEntities())
+    {
+        try
+        {
+            concat_title = db.projects.Find(Convert.ToInt64(Session["project"] ?? 0)).name;
+        }
+        catch { }
+        ViewBag.Title = "Surat Jalan - " + concat_title ?? "";
+        hsuratjalan hsj;
+        List<dsuratjalan> dsj;
+        Int64 projid = Convert.ToInt64(Session["project"]);
+        System.Globalization.CultureInfo indonesia = new System.Globalization.CultureInfo("id-ID");
+        if (Request.QueryString["id"] != null)
+        {
+            ViewBag.Title += " (" + db.hsuratjalans.Find(Convert.ToInt64(Request.QueryString["id"])).number + ")";
+            hsj = db.hsuratjalans.Find(Convert.ToInt64(Request.QueryString["id"]));
+            dsj = hsj.dsuratjalans.ToList();
+        }
+        else
+        {
+            ViewBag.Title += " (" + AdminLTE1.Helpers.GlobalFunction.generate_code("SJ") + ")";
+        }
+<div class="row">
+    <div class="col-md-12 col-lg-12 col-sm-12">
+        <div class="box box-default panel-body">
+            <div class="modal inmodal fade" id="myModal" tabindex="-1" role="dialog" aria-hidden="true">
+                <div class="modal-dialog modal-lg">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Cancel</span></button>
+                            <h4 class="modal-title">Add Item</h4>
+                            <small class="font-bold"></small>
+                        </div>
+                        <div class="modal-body">
+                            <div class="form-group">
+                                <label>Item : </label>
+                                <select class="form-control" id="listitem" style="width:100%">
+                                    @{ 
+                                        hsalesorder hso = db.hsalesorders.Where(x => x.projectid == projid).First();
+                                        foreach(dsalesorder dso in hso.dsalesorders)
+                                        {
+                                            <option value="@dso.id" itemcatid="@dso.itemcategoryid" itemcatname="@dso.item_category.name" itemdesc ="@dso.itemdescription">@dso.item_category.name - @dso.itemdescription</option>
+                                        }
+                                    }
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label>Description : </label>
+                                <textarea class="form-control" disabled id="listitemdesc"></textarea>
+                            </div>
+                            <div class="form-group">
+                                <label>Qty : </label>
+                                <input type="number" min="1" class="form-control" id="qty" />
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-white" data-dismiss="modal" id="btn_cancel_item">Cancel</button>
+                            <button type="button" class="btn btn-primary" id="btn_save_item">Save changes</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <form>
+                <div class="row">
+                    @*<div class="form-group col-md-6">
+                        <label for="DeliveryNo">Delivery No: </label>
+                        <input name="DeliveryNo" type="text" class="form-control" />
+                    </div>*@
+                    <div class="form-group col-md-6">
+                        <label>Delivery Date : </label>
+                        <input type="date" class="form-control" id="deliveryDate" />
+                    </div>
+                    <div class="form-group col-md-6" style="clear:both">
+                        <label>Ship To : </label>
+                        <textarea class="form-control" id="shipTo" rows="5">
+@db.projects.Find(projid).hsalesorders.First().customer.name
+@db.projects.Find(projid).hsalesorders.First().customer.address
+@db.projects.Find(projid).hsalesorders.First().customer.city
+@db.projects.Find(projid).hsalesorders.First().customer.phone
+                        </textarea>
+                    </div>
+
+                    <div class="form-group col-md-6">
+                        <label>Description : </label>
+                        <textarea class="form-control" rows="5" id="description"></textarea>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12 col-lg-12 col-sm-12">
+                        <center><h3>Detail Surat Jalan</h3></center>
+                        <hr />
+                        <table id="myTable" class="table table-hover table-bordered table-responsive">
+                            <thead>
+                                <tr>
+                                    <th class="hidden">Id</th>
+                                    <th class="hidden">CatId</th>
+                                    <th class="col-md-3 text-center">Item</th>
+                                    <th class="col-md-5 text-center">Description</th>
+                                    <th class="col-md-2 text-center">Qty</th>
+                                    <th class="col-md-2 text-center">Action</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @*<tr>
+                                    <td>J030</td>
+                                    <td>Brosur A4 AP150 2 sisi</td>
+                                    <td>10000</td>
+                                    <td class="text-center"><button type="button" class="btn btn-warning btn_edit col-md-5 pull-left" data-toggle="modal" data-target="#myModal">Edit</button> <button type="button" class="btn btn-danger col-md-5 pull-right">Delete</button></td>
+                                </tr>*@
+                            </tbody>
+                        </table>
+                        <button type="button" class="btn btn-warning btn-primary pull-right" data-toggle="modal" data-target="#myModal" id="btn_add_item">Add Item</button>
+                    </div>
+                    <div class="col-md-12">
+                        <br />
+                        <button type="button" class="btn btn-lg btn-success pull-right" style="margin-left:10px;" id="btn_save">Save</button>
+                        <a href="@Url.Action("index", "SuratJalan")"><button type="button" class="btn btn-lg btn-default pull-right" id="btn_cancel">Cancel</button></a>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+
+</div>
+        
+<script type="text/javascript">
+    $(document).ready(function () {
+        function init() {
+            $("#listitem").val($("#listitem").children().eq(0).val()).trigger("change");
+            $("#qty").val(1);
+        }
+        var barisklik = "";
+        Date.prototype.toDateInputValue = (function () {
+            var local = new Date(this);
+            local.setMinutes(this.getMinutes() - this.getTimezoneOffset());
+            return local.toJSON().slice(0, 10);
+        });
+        $('#deliveryDate').val(new Date().toDateInputValue());
+        $('.btn_edit').click(function () {
+            $('#myModal h4').html('Edit Item');
+        });
+        $('#btn_add').click(function () {
+            $('#myModal h4').html('Add Item');
+        });
+        var t = $('#myTable').DataTable({
+            "bPaginate" : false
+        });
+        $("#listitem").change(function () {
+            $("#listitemdesc").val($("#listitem option[value=" + $("#listitem").val() + "]").attr("itemdesc"));
+            //$("#qty").val(1);
+        });
+        init();
+        $("#btn_save_item").click(function () {
+            if (barisklik == "") {
+                var id = $("#listitem option[value=" + $("#listitem").val() + "]").val();
+                var catid = $("#listitem option[value=" + $("#listitem").val() + "]").attr("itemcatid");
+                var catname = $("#listitem option[value=" + $("#listitem").val() + "]").attr("itemcatname");
+                var itemdesc = $("#listitem option[value=" + $("#listitem").val() + "]").attr("itemdesc");
+                var qtynya = $("#qty").val();
+                var h = t.row.add([id, catid, catname, itemdesc, qtynya, "<button type='button' class='btn btn-warning btn_edit col-md-5 pull-left edititem' data-toggle='modal' data-target='#myModal'>Edit</button> <button type='button' class='btn btn-danger col-md-5 pull-right deleteitem'>Delete</button>"]).draw(false);
+                t.rows().every(function (rowIdx, tableLoop, rowLoop) {
+                    $(this.node().cells[0]).addClass("hidden");
+                    $(this.node().cells[1]).addClass("hidden");
+                    $(this.node().cells[4]).addClass("text-right");
+                });
+            }
+            else {
+                var id = $("#listitem option[value=" + $("#listitem").val() + "]").val();
+                var catid = $("#listitem option[value=" + $("#listitem").val() + "]").attr("itemcatid");
+                var catname = $("#listitem option[value=" + $("#listitem").val() + "]").attr("itemcatname");
+                var itemdesc = $("#listitem option[value=" + $("#listitem").val() + "]").attr("itemdesc");
+                var qtynya = $("#qty").val();
+                $(barisklik).children().eq(0).html(id);
+                $(barisklik).children().eq(1).html(catid);
+                $(barisklik).children().eq(2).html(catname);
+                $(barisklik).children().eq(3).html(itemdesc);
+                $(barisklik).children().eq(4).html(qtynya);
+            }
+            $("#btn_cancel_item").click();
+        });
+        $("#btn_add_item").click(function () {
+            init();
+        });
+
+        $('#myTable tbody').on('click', ".deleteitem", function () {
+            t.row($(this).parents('tr')).remove().draw();
+        });
+        $('#myTable tbody').on('click', ".edititem", function () {
+            $('#myModal h4').html('Edit Item');
+            var idnya = $(this).parent().parent().children().eq(0).html();
+            var qtynya = $(this).parent().parent().children().eq(4).html();
+            $("#listitem").val(idnya).trigger("change");
+            $("#qty").val(qtynya);
+            barisklik = $(this).parent().parent();
+        });
+        $('#btn_save').click(function() {
+            //header
+            @if (Session["project"] != null) {
+                <text>
+                var sjdate = $("#deliveryDate").val();
+                var desc = $("#description").val();
+                var elements = $("#myTable tbody tr");
+                var shipto = $("#shipTo").val();
+                if($(elements).children().length > 1){
+                    var detail = "";
+                    for(var i=0;i<elements.length;i++){
+                        var itemcatid = $(elements[i]).children().eq(1).html();
+                        var itemdescription = $(elements[i]).children().eq(3).html();
+                        var qty = $(elements[i]).children().eq(4).html();
+                        detail += itemcatid+"Ё"+itemdescription+"Ё"+qty;
+                        detail += "ѥ";
+                    }
+                    swal({
+                        title: "Are you sure to save it?",
+                        text: "You can't edit it later",
+                        type: "warning",
+                        showCancelButton: true,
+                        confirmButtonColor: "success",
+                        confirmButtonText: "Yes, Save It!",
+                        closeOnConfirm: false
+                    }, function () {
+                        $.ajax({
+                            type: "POST",
+                            url: "@Url.Action("save_it","SuratJalan")",
+                            data: { sjdate: sjdate, desc: desc, shipto:shipto , detail: detail },
+                        success: function (data) {
+                            if(data == "success"){
+                                swal({
+                                    title: "Saved!",
+                                    text: "Your data has been saved.",
+                                    type: "success"
+                                }, function () {
+                                    window.location = '@Url.Action("Index","SuratJalan")';
+                                });
+                            }
+                            else{
+                                swal("Failed!", "Something went wrong!", "error");
+                            }
+                        },
+                        error: function (xhr, status, error) {
+                            alert(xhr.responseText);
+                        }
+                    });
+                });
+            }
+            else{
+                swal("Failed!", "Detail must not be empty", "error");
+            }
+            </text>
+        }
+        });
+    });
+</script>
+    }
+}

@@ -1,0 +1,147 @@
+﻿@{
+    String concat_title = "";
+    hreceiveitem hri = null;
+    List<dreceiveitem> dri = null;
+    System.Globalization.CultureInfo indonesia = new System.Globalization.CultureInfo("id-ID");
+    using (var db = new dbsmsEntities())
+    {
+        try
+        {
+            concat_title = db.projects.Find(Convert.ToInt64(Session["project"] ?? 0)).name;
+            hri = db.hreceiveitems.Find(Convert.ToInt64(Request.QueryString["id"]));
+            dri = hri.dreceiveitems.ToList();
+        }
+        catch { }
+        <div class="row" style="margin-bottom:10px;">
+            <div class="col-xs-12 col-md-12 col-lg-12 animated fadeInRight">
+                <div class="ibox-content">
+                    <div class="row">
+                        <a href="@Request.UrlReferrer.ToString()"><button class="btn btn-twitter pull-left" style="margin-left:2%">Back</button></a>
+                        @if (AdminLTE1.Helpers.GlobalFunction.has_privilege(Session["user"].ToString(), "delete", "receive_item"))
+                        {
+                            <button class="pull-right btn btn-danger" style="margin-right:2%" id="btn_delete">Delete</button>
+                        }
+                        <button class="pull-right btn btn-default" style="margin-right:15px">Print</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-xs-12 col-md-12 col-lg-12 animated fadeInRight">
+                <div class="ibox-content p-xl">
+                    <div class="row">
+                        <div class="col-sm-6">
+                            <br />
+                            <img src="~/Content/img/logo.png" alt="LOGO" width="80" />
+                            <br />
+                            <br />
+                            <address>
+                                <strong>UD Sarana Mitra Sinergi</strong><br>
+                                Jl. Gayungsari I/30<br>
+                                Surabaya, Jawa Timur 60235<br>
+                                @*<abbr title="Phone">P:</abbr> (120) 9000-4321*@
+                            </address>
+                            <p>
+                                <span><strong>Receipt Number:</strong> @hri.number</span>
+                            </p>
+                            <p>
+                                <span><strong>Receive Date:</strong> @hri.date.ToString("dd MMM yyyy")</span>
+                            </p>
+                        </div>
+                        <div class="col-sm-6 text-right">
+                            <h1 class="text-navy">Receive Item</h1>
+                            <br /><br /><br />
+                            <h5>Vendor:</h5>
+                            <address>
+                                <strong>@hri.supplier.name</strong><br>
+                                @hri.supplier.address<br>
+                                @hri.supplier.city<br>
+                                <abbr title="Phone">P:</abbr> @hri.supplier.phone
+                            </address>
+                            @*<h5>Ship To:</h5>
+                            <address>
+                                @Html.Raw(hri.to.Replace("\n", "<br>"))
+                            </address>*@
+                        </div>
+                        
+                    </div>
+                    <div class="table-responsive m-t">
+                        <table class="table invoice-table table-bordered">
+                            <thead>
+                                <tr>
+                                    <th style="text-align:center">Item</th>
+                                    <th style="text-align:center">Description</th>
+                                    <th style="text-align:center">Qty</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @{
+                                    foreach (dreceiveitem item in dri)
+                                    {
+                                        <tr>
+                                            <td>@item.item_category.name</td>
+                                            <td style="text-align:left">@item.itemdescription</td>
+                                            <td>@item.qty</td>
+                                        </tr>
+                                    }
+                                }
+                            </tbody>
+                        </table>
+                    </div><!-- /table-responsive -->
+                    <div class="well col-md-6">
+                        <strong>Description: <br /></strong>
+                        @hri.description
+                    </div>
+                    <table class="table invoice-total" style="margin-bottom:4%">
+                        <tbody>
+                        </tbody>
+                    </table>
+
+                </div>
+            </div>
+        </div>
+                                    }
+                                    ViewBag.Title = "Receive Item - " + concat_title ?? "";
+}
+<script type="text/javascript">
+    $(document).ready(function () {
+        var t = $("#myTable").DataTable();
+        t.columns.adjust().draw();
+        $("#btn_delete").click(function(){
+            var id = @Request.QueryString["id"];
+            swal({
+                title: "Are you sure want to delete it?",
+                text: "You can't restore it later",
+                type: "warning",
+                showCancelButton: true,
+                confirmButtonColor: "danger",
+                confirmButtonText: "Yes, Delete It!",
+                closeOnConfirm: false
+            }, function () {
+                $.ajax({
+                    type: "POST",
+                    url: "@Url.Action("delete_it","ReceiveItem")",
+                    data: { id:id },
+                success: function (data) {
+                    if(data == "success"){
+                        swal({
+                            title: "Deleted!",
+                            text: "Your data has been deleted.",
+                            type: "success"
+                        }, function () {
+                            window.location = "@Url.Action("Index", "ReceiveItem")";
+                        });
+                    }
+                    else{
+                        swal("Failed!", "Something went wrong!", "error");
+                    }
+                },
+                error: function (xhr, status, error) {
+                    alert(xhr.responseText);
+                }
+            });
+        });
+    });
+    });
+</script>

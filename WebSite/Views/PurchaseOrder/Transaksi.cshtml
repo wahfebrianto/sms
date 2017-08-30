@@ -1,0 +1,269 @@
+﻿@{
+        String concat_title = "";
+        using (var db = new dbsmsEntities())
+        {
+            try
+            {
+                concat_title = db.projects.Find(Convert.ToInt64(Session["project"] ?? 0)).name;
+            }
+            catch { }
+            ViewBag.Title = "Purchase Order - " + concat_title ?? "";
+            ViewBag.Title += " (" + db.hpoes.Find(Convert.ToInt64(Request.QueryString["id"])).number + ")";
+            System.Globalization.CultureInfo indonesia = new System.Globalization.CultureInfo("id-ID");
+            hpo thishpo = db.hpoes.Find(Convert.ToInt64(Request.QueryString["id"]));
+            List<dpo> thisdpo = thishpo.dpoes.ToList();
+
+<div class="row">
+    <div class="col-md-12 col-lg-12 col-sm-12">
+        <div class="box box-default panel-body">
+            @*<div class="modal inmodal fade" id="myModal" tabindex="-1" role="dialog" aria-hidden="true">
+                <div class="modal-dialog modal-lg">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Cancel</span></button>
+                            <h4 class="modal-title">Add Item</h4>
+                            <small class="font-bold"></small>
+                        </div>
+                        <div class="modal-body">
+                            <div class="form-group">
+                                <label>Item : </label>
+                                <select class="form-control">
+                                    <option value="a">J030</option>
+                                    <option value="b">J031</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label>Description : </label>
+                                <textarea class="form-control" disabled></textarea>
+                            </div>
+                            <div class="form-group">
+                                <label>Qty : </label>
+                                <input type="number" min="0" class="form-control" />
+                            </div>
+                            <div class="form-group">
+                                <label>Unit Price : </label>
+                                <div class="input-group">
+                                    <span class="input-group-addon">Rp</span>
+                                    <input type="number" min="0" class="form-control" />
+                                </div>
+                                
+                            </div>
+                            <div class="form-group">
+                                <label>Sub Total : </label>
+                                <div class="input-group">
+                                    <span class="input-group-addon">Rp</span>
+                                    <input type="number" min="0" class="form-control" disabled />
+                                </div>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-white" data-dismiss="modal">Cancel</button>
+                            <button type="button" class="btn btn-primary">Save changes</button>
+                        </div>
+                    </div>
+                </div>
+            </div>*@
+            <form>
+                <div class="row">
+                    @*<div class="form-group col-md-6">
+                        <label for="PONumber">PO Number: </label>
+                        <input name="PONumber" type="text" class="form-control" />
+                    </div>*@
+                    <div class="form-group  col-md-6">
+                        <label>PO Date : </label>
+                        <input type="date" class="form-control" id="poDate" value="@thishpo.date.ToString("yyyy-MM-dd")"/>
+                    </div>
+                    <div class="form-group col-md-6">
+                        <label>Expected Date : </label>
+                        <input type="date" class="form-control" id="expectedDate" value="@thishpo.expecteddate.ToString("yyyy-MM-dd")" />
+                    </div>
+                    <div class="form-group col-md-6">
+                        <label>Vendor : </label>
+                        <textarea class="form-control" rows="5" readonly>
+@thishpo.supplier.name
+@thishpo.supplier.address
+@thishpo.supplier.city
+@thishpo.supplier.phone
+                        </textarea>
+                    </div>
+                    <div class="form-group col-md-6">
+                        <label>Ship To : </label>
+                        <textarea class="form-control" rows="5" id="shipTo">
+UD Sarana Mitra Sinergi
+Jl. Gayungsari I/30
+Surabaya, Jawa Timur 60235
+                        </textarea>
+                    </div>
+                    <div class="form-group col-md-6">
+                        <label>Terms : </label>
+                        <select class="form-control" id="terms">
+                            <option value="C.O.D">C.O.D</option>
+                            <option value="Transfer">Transfer</option>
+                        </select>
+                    </div>
+                    <div class="form-group col-md-6">
+                        <label>Description : </label>
+                        <textarea class="form-control" id="description">@thishpo.description</textarea>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12 col-lg-12 col-sm-12">
+                        <center><h3>Detail Purchase Order</h3></center>
+                        <hr />
+                        <table id="myTable" class="table table-hover table-bordered">
+                            <thead>
+                                <tr>
+                                    <th class="text-center hidden">Item Category Id</th>
+                                    <th class="text-center">Item</th>
+                                    <th class="text-center">Description</th>
+                                    <th class="text-center">Qty</th>
+                                    <th class="text-center hidden">Real Unit Price</th>
+                                    <th class="text-center">Unit Price</th>
+                                    <th class="text-center hidden">Real Sub Total</th>
+                                    <th class="text-center">Sub Total</th>
+                                    @*<th>Action</th>*@
+                                </tr>
+                            </thead>
+                            <tfoot>
+                                <tr>
+                                    <th colspan="4" style="text-align:right">Total Order:</th>
+                                    <th @*colspan="2"*@><span id="total1">@thishpo.total.ToString("C2",indonesia)</span></th>
+                                </tr>
+                                <tr>
+                                    <th colspan="4" style="text-align:right">Discount:</th>
+                                    <th @*colspan="2"*@><input class="text-left" type="number" min="0" step="100" value="@thishpo.discount" id="discount" onchange="hitungUlang()" onkeyup="hitungUlang()"/></th>
+                                </tr>
+                                <tr>
+                                    <th colspan="4" style="text-align:right">Down Payment:</th>
+                                    <th @*colspan="2"*@><input class="text-left" type="number" min="0" step="100" value="@thishpo.dp" id="downpayment" onchange="hitungUlang()" onkeyup="hitungUlang()"/></th>
+                                </tr>
+                                <tr>
+                                    <th colspan="4" style="text-align:right">Remaining Payment:</th>
+                                    <th @*colspan="2"*@>Rp<span id="total2">@thishpo.grandtotal</span>,00</th>
+                                </tr>
+                            </tfoot>
+                            <tbody>
+                                @{ 
+                                    foreach (dpo item in thisdpo)
+                                    {
+                                        <tr>
+                                            <td class="hidden">@item.item_category.id</td>
+                                            <td>@item.item_category.name</td>
+                                            <td>@item.itemdescription</td>
+                                            <td>@item.qty</td>
+                                            <td class="hidden">@item.unitprice</td>
+                                            <td>@item.unitprice.ToString("C2",indonesia)</td>
+                                            <td class="hidden">@item.subtotal</td>
+                                            <td>@item.subtotal.ToString("C2",indonesia)</td>
+                                        </tr>
+                                    }
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="col-md-12">
+                        @if (AdminLTE1.Helpers.GlobalFunction.has_privilege(Session["user"].ToString(), "update", "purchase_order"))
+                        {
+                        <button type="button" class="btn btn-lg btn-success pull-right" style="margin-left:10px;" id="btn_save">Save</button>
+                        <button type="button" class="btn btn-lg btn-default pull-right" id="btn_cancel">Cancel</button>
+                        }
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+    
+</div>
+<script type="text/javascript">
+    function hitungUlang()
+    {
+        var total = @thishpo.total;
+        var disc = $("#discount").val();
+        var dp = $("#downpayment").val();
+        $("#total2").html((total - disc - dp).toString().replace(/\B(?=(\d{3})+(?!\d))/g, "."));
+    }
+    $(document).ready(function () {
+        $("#terms").val("@thishpo.terms").trigger("change");
+        $("#total2").html($("#total2").html().toString().replace(/\B(?=(\d{3})+(?!\d))/g, "."));
+        $('#myTable').DataTable({
+            "bPaginate": false
+        });
+        $('#btn_cancel').click(function() {
+            window.location = "@Url.Action("Index", "PurchaseOrder")";
+        });
+        $('#btn_save').click(function() {
+            //header
+            @if (Session["project"] != null) {
+                <text>
+                var poid = @Convert.ToInt64(Request.QueryString["id"]);
+                var podate = $("#poDate").val();
+                var expecteddate = $("#expectedDate").val();
+                var projectid = @(Session["project"].ToString()??"");
+                var terms = $("#terms").val();
+                var shipto = $("#shipTo").val();
+                var desc = $("#description").val();
+                var dp = $("#downpayment").val();
+                var discount = $("#discount").val();
+                var remainingpayment = parseInt($("#total2").html().toString().replace(/\./g, ""));
+                var elements = $("#myTable tbody tr");
+                if($(elements).children().length > 1){
+                    var detail = "";
+                    for(var i=0;i<elements.length;i++){
+                        var itemcatid = $(elements[i]).children().eq(0).html();
+                        var itemdescription = $(elements[i]).children().eq(2).html();
+                        var qty = $(elements[i]).children().eq(3).html();
+                        var unitprice =$(elements[i]).children().eq(4).html();
+                        var subtotal = qty*unitprice;
+                        detail += itemcatid+"Ё"+itemdescription+"Ё"+qty+"Ё"+unitprice+"Ё"+subtotal;
+                        detail += "ѥ";
+                    }
+                    swal({
+                        title: "Are you sure to save it?",
+                        text: "You can't edit it later",
+                        type: "warning",
+                        showCancelButton: true,
+                        confirmButtonColor: "success",
+                        confirmButtonText: "Yes, Save It!",
+                        closeOnConfirm: false
+                    }, function () {
+                        $.ajax({
+                            type: "POST",
+                            url: "@Url.Action("save_it","PurchaseOrder")",
+                            data: { podate:podate,expecteddate:expecteddate,dp:dp,discount:discount,terms:terms,poid:poid,projectid:projectid,desc:desc,shipto:shipto,remainingpayment:remainingpayment,detail:detail 
+                            @if(Request.QueryString["action"]!=null)
+                        {
+                            <text>
+                                ,edit:true
+                            </text>
+                        }
+                            },
+                            success: function (data) {
+                            if(data == "success"){
+                                swal({
+                                    title: "Saved!",
+                                    text: "Your data has been saved.",
+                                    type: "success"
+                                }, function () {
+                                    window.location = "@Url.Action("History","PurchaseOrder")?id=@Request.QueryString["id"]";
+                                });
+                            }
+                            else{
+                                swal("Failed!", "Something went wrong!", "error");
+                            }
+                        },
+                        error: function (xhr, status, error) {
+                            alert(xhr.responseText);
+                        }
+                    });
+                });
+            }
+            else{
+                swal("Failed!", "Detail must not be empty", "error");
+            }
+            </text>
+        }
+        });
+    });
+</script>
+    }
+}

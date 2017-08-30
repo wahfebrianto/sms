@@ -1,0 +1,84 @@
+﻿@{
+    String concat_title = "";
+    List<findprice> findprice_ = null;
+    System.Globalization.CultureInfo indonesia = new System.Globalization.CultureInfo("id-ID");
+    using (var db = new dbsmsEntities())
+    {
+        try
+        {
+            concat_title = db.projects.Find(Convert.ToInt64(Session["project"] ?? 0)).name;
+            findprice_ = db.projects.Find(Convert.ToInt64(Session["project"] ?? 0)).findprices.ToList();
+        }
+        catch { }
+        <div class="row" style="margin-bottom:10px;">
+            <div class="col-xs-12 col-md-12 col-lg-12 animated fadeInRight">
+                <div class="ibox-content">
+                    <div class="row">
+                        <button class="pull-right btn btn-default" style="margin-right:2%" id="btn_print">Print</button>
+                        <a href="@Url.Action("Index","FindPrices")?action=edit"><button class="pull-right btn btn-success" style="margin-right:15px">Edit</button></a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row" id="findpricearea">
+            <div class="col-xs-12 col-md-12 col-lg-12 animated fadeInRight" id="printarea">
+                <div class="ibox-content p-xl">
+                    <div class="row">
+                        <div class="col-sm-6">
+                            <br />
+                            <img src="~/Content/img/logo.png" alt="LOGO" width="80" class="pull-left"/>
+                            <address class="pull-left" style="margin-left:14px; padding-top:7px">
+                                <strong>UD Sarana Mitra Sinergi</strong><br>
+                                Jl. Gayungsari I/30<br>
+                                Surabaya, Jawa Timur 60235<br>
+                                @*<abbr title="Phone">P:</abbr> (120) 9000-4321*@
+                            </address>
+                        </div>
+                        <div class="col-sm-6 text-right">
+                            <h1 class="text-navy">Find Prices</h1>
+                            <br />
+                        </div>
+                    </div><br />
+                    <div class="table-responsive m-t">
+                        <table class="table invoice-table table-bordered">
+                            <thead>
+                                <tr>
+                                    <th class="col-md-2" style="text-align:center">Supplier</th>
+                                    <th class="col-md-2" style="text-align:center">Item</th>
+                                    <th class="col-md-1" style="text-align:center">Qty</th>
+                                    <th class="col-md-2" style="text-align:center">Unit Price</th>
+                                    <th class="col-md-1" style="text-align:center">Time Needed</th>
+                                    <th class="col-md-4" style="text-align:center">Description</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @{
+                                    foreach (findprice item in findprice_)
+                                    {
+                                        <tr >
+                                            <td>@item.supplier.name</td>
+                                            <td style="text-align:left">@item.itemdescription</td>
+                                            <td>@item.qty</td>
+                                            <td>@item.unitprice.ToString("C2", indonesia)</td>
+                                            <td>@item.timeneeded Days</td>
+                                            <td style="text-align:left">@item.description</td>
+                                        </tr>
+                                    }
+                                }
+                            </tbody>
+                        </table>
+                    </div><!-- /table-responsive -->
+                    
+
+                </div>
+            </div>
+        </div>
+                                    }
+                                    ViewBag.Title = "Find Prices - " + concat_title ?? "";
+}
+<script type="text/javascript">
+    $(document).ready(function () {
+        var t = $("#myTable").DataTable();
+        t.columns.adjust().draw();
+    });
+</script>

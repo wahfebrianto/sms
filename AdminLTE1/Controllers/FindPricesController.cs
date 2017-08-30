@@ -52,11 +52,12 @@ namespace AdminLTE1.Controllers
                         findprice data = new findprice();
                         data.supplierid = Convert.ToInt64(result[0]);
                         data.address = "";
-                        data.itemdescription = result[1];
-                        data.qty = Convert.ToInt64(result[2]);
-                        data.unitprice = Convert.ToInt64(result[3]);
-                        data.timeneeded = Convert.ToInt64(result[4]);
-                        data.description = result[5];
+                        data.itemcategoryid = Convert.ToInt64(result[1]);
+                        data.itemdescription = result[2];
+                        data.qty = Convert.ToInt64(result[3]);
+                        data.unitprice = Convert.ToInt64(result[4]);
+                        data.timeneeded = Convert.ToInt64(result[5]);
+                        data.description = result[6];
                         data.status = 1;
                         data.projectid = Convert.ToInt64(Session["project"]);
                         db.findprices.Add(data);

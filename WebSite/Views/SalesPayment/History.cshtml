@@ -1,0 +1,156 @@
+﻿@{
+    String concat_title = "";
+    hsalesinvoice hsi = null;
+    salespayment sp = null;
+    System.Globalization.CultureInfo indonesia = new System.Globalization.CultureInfo("id-ID");
+    using (var db = new dbsmsEntities())
+    {
+        try
+        {
+            concat_title = db.projects.Find(Convert.ToInt64(Session["project"] ?? 0)).name;
+            sp = db.salespayments.Find(Convert.ToInt64(Request.QueryString["id"]));
+            hsi = sp.hsalesinvoice;
+        }
+        catch { }
+        <div class="row" style="margin-bottom:10px;">
+                <div class="col-xs-12 col-md-12 col-lg-12 animated fadeInRight">
+                    <div class="ibox-content">
+                        <div class="row">
+                            <a href="@Request.UrlReferrer.ToString()"><button class="btn btn-twitter pull-left" style="margin-left:2%">Back</button></a>
+                            @if (AdminLTE1.Helpers.GlobalFunction.has_privilege(Session["user"].ToString(), "delete", "sales_payment"))
+                            {
+                                <button class="pull-right btn btn-danger" style="margin-right:2%" id="btn_delete">Delete</button>
+                            }
+                            <button class="pull-right btn btn-default" style="margin-right:15px">Print</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        <div class="row">
+            <div class="col-xs-12 col-md-12 col-lg-12 animated fadeInRight">
+                <div class="ibox-content p-xl">
+                    <div class="row">
+                        <div class="col-sm-6">
+                            <br />
+                            <img src="~/Content/img/logo.png" alt="LOGO" width="80" />
+                            <br />
+                            <br />
+                            <address>
+                                <strong>UD Sarana Mitra Sinergi</strong><br>
+                                Jl. Gayungsari I/30<br>
+                                Surabaya, Jawa Timur 60235<br>
+                                @*<abbr title="Phone">P:</abbr> (120) 9000-4321*@
+                            </address>
+                            <p>
+                                <span><strong>Payment Date:</strong> @sp.date.ToString("dd MMMM yyyy")</span>
+                            </p>
+                            <p>
+                                <span><strong>Payment Type:</strong> @sp.type</span>
+                            </p>
+                        </div>
+                        <div class="col-sm-6 text-right">
+                            <h1 class="text-navy">Customer Receipt</h1>
+                            <br /><br /><br />
+                            <h5>Received From:</h5>
+                            <address>
+                                <strong>@hsi.customer.name</strong><br>
+                                @hsi.customer.address<br>
+                                @hsi.customer.city<br>
+                                <abbr title="Phone">P:</abbr> @hsi.customer.phone
+                            </address>
+                            @*<h5>Ship To:</h5>
+                            <address>
+                                @Html.Raw(hsi.to.Replace("\n", "<br>"))
+                            </address>*@
+                        </div>
+                        
+                    </div>
+                    <div class="table-responsive m-t">
+                        <table class="table invoice-table table-bordered">
+                            <thead>
+                                <tr>
+                                    <th style="text-align:center">Invoice No.</th>
+                                    <th style="text-align:center">Date</th>
+                                    <th style="text-align:center">Payment Amount</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @{
+                                    <tr>
+                                        <td>@hsi.number</td>
+                                        <td style="text-align:left">@sp.date.ToString("dd MMMM yyyy")</td>
+                                        <td>@sp.total.ToString("C2", indonesia)</td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    </div><!-- /table-responsive -->
+                    <div class="well col-md-6">
+                        <strong>Note: <br /></strong>
+                        @sp.note
+                    </div>
+                    <table class="table invoice-total">
+                        <tbody>
+                            <tr>
+                                <td><strong>Total Payment :</strong></td>
+                                <td>@sp.total.ToString("C2", indonesia)</td>
+                            </tr>
+                            @*<tr>
+                                    <td><strong>Discount :</strong></td>
+                                    <td>@hsi.diskon.ToString("C2", indonesia)</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Remaining Payment :</strong></td>
+                                    <td>@hsi.grandtotal.ToString("C2", indonesia)</td>
+                                </tr>*@
+                        </tbody>
+                    </table>
+
+                </div>
+            </div>
+        </div>
+                                    }
+                                    ViewBag.Title = "Sales Payment - " + concat_title ?? "";
+}
+<script type="text/javascript">
+    $(document).ready(function () {
+        var t = $("#myTable").DataTable();
+        t.columns.adjust().draw();
+        $("#btn_delete").click(function(){
+            var id = @Request.QueryString["id"];
+            swal({
+                title: "Are you sure want to delete it?",
+                text: "You can't restore it later",
+                type: "warning",
+                showCancelButton: true,
+                confirmButtonColor: "danger",
+                confirmButtonText: "Yes, Delete It!",
+                closeOnConfirm: false
+            }, function () {
+                $.ajax({
+                    type: "POST",
+                    url: "@Url.Action("delete_it","SalesPayment")",
+                    data: { id:id },
+                success: function (data) {
+                    if(data == "success"){
+                        swal({
+                            title: "Deleted!",
+                            text: "Your data has been deleted.",
+                            type: "success"
+                        }, function () {
+                            window.location = "@Url.Action("Index", "SalesPayment")";
+                        });
+                    }
+                    else{
+                        swal("Failed!", "Something went wrong!", "error");
+                    }
+                },
+                error: function (xhr, status, error) {
+                    alert(xhr.responseText);
+                }
+            });
+        });
+    });
+    });
+</script>

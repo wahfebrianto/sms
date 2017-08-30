@@ -118,6 +118,7 @@
           <Property Name="projectid" Type="bigint" Nullable="false" />
           <Property Name="supplierid" Type="bigint" Nullable="false" />
           <Property Name="address" Type="text" Nullable="false" />
+          <Property Name="itemcategoryid" Type="bigint" Nullable="false" />
           <Property Name="itemdescription" Type="text" Nullable="false" />
           <Property Name="qty" Type="bigint" Nullable="false" />
           <Property Name="unitprice" Type="bigint" Nullable="false" />
@@ -684,6 +685,18 @@
               <PropertyRef Name="id" />
             </Principal>
             <Dependent Role="dsuratjalan">
+              <PropertyRef Name="itemcategoryid" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_findprices_item_category">
+          <End Role="item_category" Type="Self.item_category" Multiplicity="1" />
+          <End Role="findprices" Type="Self.findprices" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="item_category">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="findprices">
               <PropertyRef Name="itemcategoryid" />
             </Dependent>
           </ReferentialConstraint>
@@ -1290,6 +1303,10 @@
             <End Role="item_category" EntitySet="item_category" />
             <End Role="dsuratjalan" EntitySet="dsuratjalan" />
           </AssociationSet>
+          <AssociationSet Name="FK_findprices_item_category" Association="Self.FK_findprices_item_category">
+            <End Role="item_category" EntitySet="item_category" />
+            <End Role="findprices" EntitySet="findprices" />
+          </AssociationSet>
           <AssociationSet Name="FK_findprices_projects1" Association="Self.FK_findprices_projects1">
             <End Role="projects" EntitySet="projects" />
             <End Role="findprices" EntitySet="findprices" />
@@ -1602,6 +1619,8 @@
           <Property Name="status" Type="Byte" Nullable="false" />
           <NavigationProperty Name="project" Relationship="dbsmsModel.FK_findprices_projects1" FromRole="findprice" ToRole="project" />
           <Property Name="qty" Type="Int64" Nullable="false" />
+          <Property Name="itemcategoryid" Type="Int64" Nullable="false" />
+          <NavigationProperty Name="item_category" Relationship="dbsmsModel.FK_findprices_item_category" FromRole="findprice" ToRole="item_category" />
         </EntityType>
         <EntityType Name="helper">
           <Key>
@@ -1775,6 +1794,7 @@
           <NavigationProperty Name="dsalesorders" Relationship="Self.FK_dsalesorder_item_category" FromRole="item_category" ToRole="dsalesorder" />
           <NavigationProperty Name="dsuratjalans" Relationship="Self.FK_dsuratjalan_item_category" FromRole="item_category" ToRole="dsuratjalan" />
           <Property Name="status" Type="Byte" Nullable="false" />
+          <NavigationProperty Name="findprices" Relationship="dbsmsModel.FK_findprices_item_category" FromRole="item_category" ToRole="findprice" />
         </EntityType>
         <EntityType Name="privilege">
           <Key>
@@ -2636,6 +2656,10 @@
             <End Role="project" EntitySet="projects" />
             <End Role="ponote" EntitySet="ponotes" />
           </AssociationSet>
+          <AssociationSet Name="FK_findprices_item_category" Association="dbsmsModel.FK_findprices_item_category">
+            <End Role="item_category" EntitySet="item_category" />
+            <End Role="findprice" EntitySet="findprices" />
+          </AssociationSet>
           </EntityContainer>
         <Association Name="FK_findprices_projects1">
           <End Type="dbsmsModel.project" Role="project" Multiplicity="1" />
@@ -2955,6 +2979,18 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_findprices_item_category">
+          <End Type="dbsmsModel.item_category" Role="item_category" Multiplicity="1" />
+          <End Type="dbsmsModel.findprice" Role="findprice" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="item_category">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="findprice">
+              <PropertyRef Name="itemcategoryid" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -3078,6 +3114,7 @@
           <EntitySetMapping Name="findprices">
             <EntityTypeMapping TypeName="dbsmsModel.findprice">
               <MappingFragment StoreEntitySet="findprices">
+                <ScalarProperty Name="itemcategoryid" ColumnName="itemcategoryid" />
                 <ScalarProperty Name="qty" ColumnName="qty" />
                 <ScalarProperty Name="status" ColumnName="status" />
                 <ScalarProperty Name="id" ColumnName="id" />

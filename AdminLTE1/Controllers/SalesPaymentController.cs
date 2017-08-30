@@ -71,7 +71,7 @@ namespace AdminLTE1.Controllers
                     db.salespayments.Add(newdata);
                     db.projects.Find(Convert.ToInt64(Session["project"])).status1.salespayment = 1;
                     db.SaveChanges();
-                    return "success";
+                    return GlobalFunction.get_max_id("salespayment").ToString();
                 }
             }
             catch (Exception e)

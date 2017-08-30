@@ -1,0 +1,126 @@
+﻿@{
+    String concat_title = "";
+    hpenawaran hpenawaran_= null;
+    List<dpenawaran> dpenawaran_ = null;
+    System.Globalization.CultureInfo indonesia = new System.Globalization.CultureInfo("id-ID");
+    using (var db = new dbsmsEntities())
+    {
+        try
+        {
+            concat_title = db.projects.Find(Convert.ToInt64(Session["project"] ?? 0)).name;
+            hpenawaran_ = db.projects.Find(Convert.ToInt64(Session["project"] ?? 0)).hpenawarans.First();
+            dpenawaran_ = hpenawaran_.dpenawarans.ToList();
+        }
+        catch { }
+        <div class="row" style="margin-bottom:10px;">
+            <div class="col-xs-12 col-md-12 col-lg-12 animated fadeInRight">
+            <div class="ibox-content">
+                <div class="row">
+            <button class="pull-right btn btn-default" style="margin-right:2%" id="btn_print">Print</button>
+                    <a href="@Url.Action("Index","Penawaran")?action=edit"><button class="pull-right btn btn-success" style="margin-right:15px">Edit</button></a>
+                </div>
+            </div>
+            </div>
+        </div>
+        
+        <div class="row">
+            <div class="col-xs-12 col-md-12 col-lg-12 animated fadeInRight">
+                <div class="ibox-content p-xl" id="printarea">
+                    <div class="row">
+                        <div class="col-sm-6">
+                            <br />
+                            <img src="~/Content/img/logo.png" alt="LOGO" width="80" />
+                            <br />
+                            <br />
+                            <address>
+                                <strong>UD Sarana Mitra Sinergi</strong><br>
+                                Jl. Gayungsari I/30<br>
+                                Surabaya, Jawa Timur 60235<br>
+                                @*<abbr title="Phone">P:</abbr> (120) 9000-4321*@
+                            </address>
+                            <br /><br /><br /><br />
+                            <p>
+                                <span><strong>Quote Number:</strong> @hpenawaran_.number</span>
+                            </p>
+                            <p>
+                                <span><strong>Quote Date:</strong> @hpenawaran_.date.ToString("dd MMM yyyy")</span>
+                            </p>
+                        </div>
+                        <div class="col-sm-6 text-right">
+                            <h1 class="text-navy">Sales Quotation</h1>
+                            <h5>Order By:</h5>
+                            <address>
+                                <strong>@hpenawaran_.customer.name</strong><br>
+                                @hpenawaran_.customer.address<br>
+                                @hpenawaran_.customer.city<br>
+                                <abbr title="Phone">P:</abbr> @hpenawaran_.customer.phone
+                            </address>
+                            <h5>Quote To:</h5>
+                            <address>
+                                @Html.Raw(hpenawaran_.to.Replace("\n", "<br>"))
+                            </address>
+                        </div>
+                        
+                       
+                    </div>
+                    <div class="table-responsive m-t">
+                        <table class="table invoice-table table-bordered">
+                            <thead>
+                                <tr>
+                                    <th style="text-align:center">Item</th>
+                                    <th style="text-align:center">Description</th>
+                                    <th style="text-align:center">Qty</th>
+                                    <th style="text-align:center">Unit Price</th>
+                                    <th style="text-align:center">Subtotal</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @{
+                                    foreach (dpenawaran item in dpenawaran_)
+                                    {
+                                        <tr>
+                                            <td>@item.item_category.name</td>
+                                            <td style="text-align:left">@item.itemdescription</td>
+                                            <td>@item.qty</td>
+                                            <td>@item.unitprice.ToString("C2", indonesia)</td>
+                                            <td>@item.subtotal.ToString("C2", indonesia)</td>
+                                        </tr>
+                                    }
+                                }
+                            </tbody>
+                        </table>
+                    </div><!-- /table-responsive -->
+                    <div class="well col-sm-6 col-xs-6">
+                        <strong>Description: <br /></strong>
+                        @hpenawaran_.description
+                    </div>
+                    <table class="table invoice-total">
+                        <tbody>
+                            <tr>
+                                <td><strong>Total :</strong></td>
+                                <td>@hpenawaran_.total.ToString("C2", indonesia)</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Discount :</strong></td>
+                                <td>@hpenawaran_.disc.ToString("C2", indonesia)</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Grand Total :</strong></td>
+                                <td>@hpenawaran_.grandtotal.ToString("C2", indonesia)</td>
+                            </tr>
+                        </tbody>
+                    </table>
+
+                </div>
+            </div>
+        </div>
+                                    }
+                                    ViewBag.Title = "Penawaran - " + concat_title ?? "";
+}
+<script type="text/javascript">
+    $(document).ready(function () {
+        var t = $("#myTable").DataTable();
+        t.columns.adjust().draw();
+        
+    });
+</script>

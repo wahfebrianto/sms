@@ -1,0 +1,402 @@
+﻿
+@{
+    String concat_title = "";
+    using (var db = new dbsmsEntities())
+    {
+        try
+        {
+            concat_title = db.projects.Find(Convert.ToInt64(Session["project"] ?? 0)).name;
+        }
+        catch { }
+    }
+    ViewBag.Title = "Sales Order - " + concat_title ?? "";
+    System.Globalization.CultureInfo indonesia = new System.Globalization.CultureInfo("id-ID");
+    hpenawaran hpenawaran_ = null;
+    List<dpenawaran> dpenawaran_ = null;
+    hsalesorder hso = null;
+    List<dsalesorder> dso = null;
+    using (var db = new dbsmsEntities())
+    {
+        hpenawaran_ = db.projects.Find(Convert.ToInt64(Session["project"])).hpenawarans.First();
+        dpenawaran_ = db.projects.Find(Convert.ToInt64(Session["project"])).hpenawarans.First().dpenawarans.ToList();
+        if (Request.QueryString["action"] != null)
+        {
+            hso = db.projects.Find(Convert.ToInt64(Session["project"])).hsalesorders.First();
+            dso = hso.dsalesorders.ToList();
+        }
+
+
+<div class="row">
+    <div class="col-md-12 col-lg-12 col-sm-12">
+        <div class="box box-default panel-body">
+            <div class="modal inmodal fade" id="myModal" tabindex="-1" role="dialog" aria-hidden="true">
+                <div class="modal-dialog modal-lg">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Cancel</span></button>
+                            <h4 class="modal-title">Edit Item</h4>
+                            <small class="font-bold"></small>
+                        </div>
+                        <div class="modal-body">
+                            <div class="form-group">
+                                <label>Item : </label>
+                                <input type="text" class="form-control" id="txtItem" readonly/>
+                            </div>
+                            <div class="form-group">
+                                <label>Description : </label>
+                                <textarea class="form-control" id="txtItemDesc" disabled></textarea>
+                            </div>
+                            <div class="form-group">
+                                <label>Qty : </label>
+                                <input type="number" min="0" id="txtQty" class="form-control" onchange="refreshSub()" onkeyup="refreshSub()"/>
+                            </div>
+                            <div class="form-group">
+                                <label>Unit Price : </label>
+                                <div class="input-group">
+                                    <span class="input-group-addon">Rp</span>
+                                    <input type="number" min="0" step="100" id="txtUnitPrice" class="form-control" onchange="refreshSub()" onkeyup="refreshSub()"/>
+                                </div>
+
+                            </div>
+                            <div class="form-group">
+                                <label>Sub Total : </label>
+                                <div class="input-group">
+                                    <span class="input-group-addon">Rp</span>
+                                    <input type="number" min="0" id="txtSubtotal" class="form-control" disabled />
+                                </div>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-white" data-dismiss="modal" id="btnEditCancel">Cancel</button>
+                            <button type="button" class="btn btn-primary" id="btnEditSave" data-dismiss="modal" >Save changes</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+                <div class="row">
+                    @*<div class="form-group col-md-6">
+                        <label for="SONumber">SO Number: </label>
+                        <input name="SONumber" type="text" class="form-control" />
+                    </div>*@
+                    <div class="form-group  col-md-6">
+                        <label>SO Date : </label>
+                        <input type="date" class="form-control" id="soDate" value="@((Request.QueryString["action"] != null)?hso.date.ToString("yyyy-MM-dd"):"")"/>
+                    </div>
+                    <div class="form-group col-md-6">
+                        <label>Terms : </label>
+                        <select class="form-control" id="terms" value="@((Request.QueryString["action"] != null)?hso.terms:"")">
+                            <option value="C.O.D">C.O.D</option>
+                            <option value="Transfer">Transfer</option>
+                        </select>
+                    </div>
+                    <div class="form-group col-md-6">
+                        <label>Expected Date : </label>
+                        <input type="date" class="form-control" id="expectedDate" value="@((Request.QueryString["action"] != null)?hso.expecteddate.ToString("yyyy-MM-dd"):"")"/>
+                    </div>
+                    <div class="form-group col-md-6">
+                        <label>Customer : </label>
+                        <input type="text" class="form-control" id="customer" readonly customerid ="@hpenawaran_.customerid" value="@hpenawaran_.customer.name"/>
+                    </div>
+                    <div class="form-group col-md-6">
+                        <label>Design : </label>
+                        <div class="input-group">
+                            <span class="input-group-addon"><input id="useDesign" type="checkbox"/></span>
+                            <input type="date" class="form-control" id="designDate" @((Request.QueryString["action"] != null)?(hso.designdate != null)?"":"disabled":"disabled") value="@((Request.QueryString["action"] != null)?(hso.designdate != null)?(hso.designdate??DateTime.Now).ToString("yyyy-MM-dd"):"":"")"/>
+                        </div>
+                    </div>
+                    <div class="form-group col-md-6">
+                        <label>Description : </label>
+                        <textarea class="form-control" id="description">@((Request.QueryString["action"] != null) ? hso.description : "")</textarea>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12 col-lg-12 col-sm-12">
+                        <center><h3>Detail Sales Order</h3></center>
+                        <hr />
+                        <table id="myTable" class="table table-hover table-bordered">
+                            <thead>
+                                <tr>
+                                    <th class="hidden">ItemCatId</th>
+                                    <th class="col-md-2">Item Category</th>
+                                    <th class="col-md-2">Description</th>
+                                    <th class="col-md-2">Qty</th>
+                                    <th class="hidden">Real Unit Price</th>
+                                    <th class="col-md-2">Unit Price</th>
+                                    <th class="hidden">Real Subtotal</th>
+                                    <th class="col-md-2">Sub Total</th>
+@if (AdminLTE1.Helpers.GlobalFunction.has_privilege(Session["user"].ToString(), "insert", "sales_order"))
+{
+                                    <th class="col-md-2">Action</th>
+}
+else if (Request.QueryString["action"] != null && AdminLTE1.Helpers.GlobalFunction.has_privilege(Session["user"].ToString(), "update", "sales_order"))
+{
+                                    <th class="col-md-2">Action</th>
+}
+                                </tr>
+                            </thead>
+                            <tfoot>
+                                <tr>
+                                    <th colspan="4" style="text-align:right">Total Order:</th>
+                                    <th colspan="2">Rp<span id="total1"></span>,00</th>
+                                </tr>
+                                <tr>
+                                    <th colspan="4" style="text-align:right">Down Payment:</th>
+                                    <th colspan="2"><input class="text-left" type="number" min="0" step="100" id="downpayment" onchange="calculateAgain()" onkeyup="calculateAgain()" value="@((Request.QueryString["action"] != null) ? hso.dp:0)"/></th>
+                                </tr>
+                                <tr>
+                                    <th colspan="4" style="text-align:right">Remaining Payment:</th>
+                                    <th colspan="2">Rp<span id="total2"></span>,00</th>
+                                </tr>
+                            </tfoot>
+                            <tbody>
+                                @{ 
+                                    if (Request.QueryString["action"] != null)
+                                    {
+                                        foreach (dsalesorder item in dso)
+                                        {
+                                            <tr>
+                                                <td class="hidden">@item.itemcategoryid</td>
+                                                <td>@item.item_category.name</td>
+                                                <td>@item.itemdescription</td>
+                                                <td>@item.qty</td>
+                                                <td class="hidden">@item.unitprice</td>
+                                                <td>@item.unitprice.ToString("C2", indonesia)</td>
+                                                <td class="hidden subtotal">@(item.qty * item.unitprice)</td>
+                                                <td>@((item.qty * item.unitprice).ToString("C2", indonesia))</td>
+@if (AdminLTE1.Helpers.GlobalFunction.has_privilege(Session["user"].ToString(), "update", "sales_order"))
+{
+                                                <td class="text-center"><button type="button" class="btn btn-warning btn_edit" data-toggle="modal" data-target="#myModal">Edit</button> <button type="button" class="btn btn-danger btn_delete">Delete</button></td>
+}
+                                            </tr>
+                                        }
+                                    }
+                                    else
+                                    {
+                                        foreach (dpenawaran item in db.projects.Find(Convert.ToInt64(Session["project"])).hpenawarans.First().dpenawarans.ToList())
+                                        {
+                                            <tr>
+                                                <td class="hidden">@item.itemcategoryid</td>
+                                                <td>@item.item_category.name</td>
+                                                <td>@item.itemdescription</td>
+                                                <td>@item.qty</td>
+                                                <td class="hidden">@item.unitprice</td>
+                                                <td>@item.unitprice.ToString("C2", indonesia)</td>
+                                                <td class="hidden subtotal">@(item.qty * item.unitprice)</td>
+                                                <td>@((item.qty * item.unitprice).ToString("C2", indonesia))</td>
+                                                @if (AdminLTE1.Helpers.GlobalFunction.has_privilege(Session["user"].ToString(), "insert", "sales_order"))
+                                                {
+                                                    <td class="text-center"><button type="button" class="btn btn-warning btn_edit" data-toggle="modal" data-target="#myModal">Edit</button> <button type="button" class="btn btn-danger btn_delete">Delete</button></td>
+                                                }
+                                            </tr>
+                                        }
+                                    }
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="col-md-12">
+@if (AdminLTE1.Helpers.GlobalFunction.has_privilege(Session["user"].ToString(), "insert", "sales_order"))
+{
+                        <button class="btn btn-lg btn-success pull-right" style="margin-left:10px;" id="btn_save">Save</button>
+                        <button class="btn btn-lg btn-primary pull-right" id="btn_reset">Reset</button>
+}
+else if (Request.QueryString["action"] != null && AdminLTE1.Helpers.GlobalFunction.has_privilege(Session["user"].ToString(), "update", "sales_order"))
+{
+    <button class="btn btn-lg btn-success pull-right" style="margin-left:10px;" id="btn_save">Save</button>
+    <button class="btn btn-lg btn-primary pull-right" id="btn_reset">Reset</button>
+}
+                    </div>
+                </div>
+        </div>
+    </div>
+
+</div>
+}
+}
+<script type="text/javascript">
+    function refreshSub() {
+        $('#txtSubtotal').val($('#txtQty').val() * $('#txtUnitPrice').val());
+    }
+    function calculateAgain() {
+        var elements = $(".subtotal");
+        var total = 0;
+        for (var i = 0; i < elements.length; i++) {
+            total += parseInt($(elements[i]).html());
+        }
+        $("#total1").html(total.toString().replace(/\B(?=(\d{3})+(?!\d))/g, "."));
+        var disc = $("#downpayment").val();
+        total -= disc;
+        $("#total2").html(total.toString().replace(/\B(?=(\d{3})+(?!\d))/g, "."));
+    }
+    $(document).ready(function () {
+        calculateAgain();
+        var nowEdit;
+
+        Date.prototype.toDateInputValue = (function () {
+            var local = new Date(this);
+            local.setMinutes(this.getMinutes() - this.getTimezoneOffset());
+            return local.toJSON().slice(0, 10);
+        });
+        @if((Request.QueryString["action"] == null) || (hso.designdate == null))
+        {
+            <text>
+            $('#designDate').val(new Date().toDateInputValue());
+            </text>
+        }
+        @if (Request.QueryString["action"] == null){
+            <text>
+        $('#soDate').val(new Date().toDateInputValue());
+        $('#expectedDate').val(new Date().toDateInputValue());
+        </text>
+            }
+        @if(Request.QueryString["action"] != null && hso.designdate != null){
+            <text>
+        $("#useDesign").parent().children().eq(1).click();
+            </text>
+        }
+        @if (Request.QueryString["action"] != null) { 
+            <text>
+            $("#terms").val("@hso.terms").trigger("change");
+            </text>
+        }
+        var t = $('#myTable').DataTable({
+            "bPaginate": false
+        });
+        $("#useDesign").parent().children().eq(1).click(function () {
+                if ($(this).parent().hasClass("checked")) {
+                $("#designDate").removeAttr("disabled");
+                }
+            else {
+                $("#designDate").attr("disabled", "disabled");
+                }
+            });
+        $('.btn_edit').click(function () {
+            $('#myModal h4').html('Edit Item');
+            });
+        $('#btn_add').click(function () {
+            $('#myModal h4').html('Add Item');
+            });
+        $('#btn_reset').click(function () {
+                location.reload();
+            });
+        $('.btn_edit').click(function () {
+                nowEdit = $(this).parent().parent();
+            $('#txtItem').val('');
+            $('#txtItem').attr('itemcatid', '');
+            $('#txtItemDesc').val('');
+            $('#txtQty').val(0);
+            $('#txtUnitPrice').val(0);
+            $('#txtSubtotal').val(0);
+                var itemcatid = $(this).parent().parent().children().eq(0).html();
+                var itemcatname = $(this).parent().parent().children().eq(1).html();
+                var itemdesc = $(this).parent().parent().children().eq(2).html();
+                var itemqty = $(this).parent().parent().children().eq(3).html();
+                var itemunitprice = $(this).parent().parent().children().eq(4).html();
+                var itemsubtotal = $(this).parent().parent().children().eq(6).html();
+            $('#txtItem').val(itemcatname);
+            $('#txtItem').attr('itemcatid', itemcatid);
+            $('#txtItemDesc').val(itemdesc);
+            $('#txtQty').val(itemqty);
+            $('#txtUnitPrice').val(itemunitprice);
+            $('#txtSubtotal').val(itemsubtotal);
+            });
+        $('#myTable tbody').on('click', ".btn_delete", function () {
+                var baris = $(this).parents('tr');
+                swal({
+                title: "Are you sure want to delete it?",
+                text: "You can't edit it later",
+                type: "warning",
+                showCancelButton: true,
+                confirmButtonColor: "danger",
+                confirmButtonText: "Yes, Delete It!",
+                closeOnConfirm: true
+                }, function () {
+                    t
+                    .row(baris)
+                    .remove()
+                    .draw();
+                    calculateAgain();
+                });
+            });
+        $('#btnEditSave').click(function () {
+                var itemqty = $('#txtQty').val();
+                var itemunitprice =  $('#txtUnitPrice').val();
+                var itemsubtotal = $('#txtSubtotal').val();
+            $(nowEdit).children().eq(3).html(itemqty);
+            $(nowEdit).children().eq(4).html(itemunitprice);
+            $(nowEdit).children().eq(5).html('Rp' + itemunitprice.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".") + ",00");
+            $(nowEdit).children().eq(6).html(itemsubtotal);
+            $(nowEdit).children().eq(7).html('Rp' + itemsubtotal.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".") + ",00");
+                calculateAgain();
+            });
+
+        $("#btn_save").click(function () {
+                //header
+                @if (Session["project"] != null) {
+                <text>
+                var sodate = $("#soDate").val();
+                    var expecteddate = $("#expectedDate").val();
+                    var designdate = $("#designDate").val();
+                    var projectid = @(Session["project"].ToString()??"");
+                    var terms = $("#terms").val();
+                    var desc = $("#description").val();
+                    var customer = $("#customer").attr('customerid');
+                    var usedesign = $('#useDesign').parent().attr('aria-checked');
+                    var total = parseInt($("#total1").html().toString().replace(/\./g, ""));
+                    var dp = $("#downpayment").val();
+                    var remainingpayment = parseInt($("#total2").html().toString().replace(/\./g, ""));
+                    var elements = $("#myTable tbody tr");
+                    if($(elements).children().length > 1){
+                        var detail = "";
+                        for(var i=0;i<elements.length;i++){
+                            var itemcatid = $(elements[i]).children().eq(0).html();
+                            var itemdescription = $(elements[i]).children().eq(2).html();
+                            var qty = $(elements[i]).children().eq(3).html();
+                            var unitprice =$(elements[i]).children().eq(4).html();
+                            var subtotal = qty*unitprice;
+                            detail += itemcatid+"Ё"+itemdescription+"Ё"+qty+"Ё"+unitprice+"Ё"+subtotal;
+                            detail += "ѥ";
+                        }
+                        swal({
+                        title: "Are you sure to save it?",
+                        text: "You can't edit it later",
+                        type: "warning",
+                        showCancelButton: true,
+                        confirmButtonColor: "success",
+                        confirmButtonText: "Yes, Save It!",
+                        closeOnConfirm: false
+                        }, function () {
+                        $.ajax({
+                            type: "POST",
+                            url: "@Url.Action("save_all","SalesOrder")",
+                            data: { sodate:sodate,expecteddate:expecteddate,dp:dp,designdate:designdate,terms:terms,tcustomer:customer,projectid:projectid,desc:desc,usedesign:usedesign,total:total,remainingpayment:remainingpayment,detail:detail, edit:@((Request.QueryString["action"] != null).ToString().ToLower())},
+                        success: function (data) {
+                                    if(data == "success"){
+                                        swal({
+                                        title: "Saved!",
+                                    text: "Your data has been saved.",
+                                    type: "success"
+                                        }, function () {
+                                            window.location = "@Url.Action("Index","SalesOrder")";
+                                        });
+                                    }
+                                    else{
+                                        swal("Failed!", "Something went wrong!", "error");
+                                    }
+                                },
+                        error: function (xhr, status, error) {
+                                    alert(xhr.responseText);
+                                }
+                            });
+                        });
+                    }
+            else{
+                        swal("Failed!", "Detail must not be empty", "error");
+                    }
+            </text>
+            }
+
+
+            });
+        });
+</script>

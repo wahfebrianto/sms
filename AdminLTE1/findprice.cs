@@ -24,8 +24,10 @@ namespace AdminLTE1
         public string description { get; set; }
         public byte status { get; set; }
         public long qty { get; set; }
+        public long itemcategoryid { get; set; }
     
         public virtual supplier supplier { get; set; }
         public virtual project project { get; set; }
+        public virtual item_category item_category { get; set; }
     }
 }

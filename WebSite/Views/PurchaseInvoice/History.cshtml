@@ -1,0 +1,178 @@
+﻿@{
+    String concat_title = "";
+    hpurchaseinvoice hpi = null;
+    List<dpurchaseinvoice> dpi = null;
+    System.Globalization.CultureInfo indonesia = new System.Globalization.CultureInfo("id-ID");
+    using (var db = new dbsmsEntities())
+    {
+        try
+        {
+            concat_title = db.projects.Find(Convert.ToInt64(Session["project"] ?? 0)).name;
+            hpi = db.hpurchaseinvoices.Find(Convert.ToInt64(Request.QueryString["id"]));
+            dpi = hpi.dpurchaseinvoices.ToList();
+        }
+        catch { }
+        <div class="row" style="margin-bottom:10px;">
+            <div class="col-xs-12 col-md-12 col-lg-12 animated fadeInRight">
+                <div class="ibox-content">
+                    <div class="row">
+                        <a href="@Request.UrlReferrer.ToString()"><button class="btn btn-twitter pull-left" style="margin-left:2%">Back</button></a>
+@if (AdminLTE1.Helpers.GlobalFunction.has_privilege(Session["user"].ToString(), "delete", "purchase_invoice"))
+{
+                        <button class="pull-right btn btn-danger" style="margin-right:2%" id="btn_delete">Delete</button>
+}
+                        <button class="pull-right btn btn-default" style="margin-right:15px">Print</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-xs-12 col-md-12 col-lg-12 animated fadeInRight">
+                <div class="ibox-content p-xl">
+                    <div class="row">
+                        <div class="col-sm-6">
+                            <br />
+                            <img src="~/Content/img/logo.png" alt="LOGO" width="80" />
+                            <br />
+                            <br />
+                            <address>
+                                <strong>UD Sarana Mitra Sinergi</strong><br>
+                                Jl. Gayungsari I/30<br>
+                                Surabaya, Jawa Timur 60235<br>
+                                @*<abbr title="Phone">P:</abbr> (120) 9000-4321*@
+                            </address>
+                            <p>
+                                <span><strong>Invoice Number:</strong> @hpi.number</span>
+                            </p>
+                            <p>
+                                <span><strong>Invoice Date:</strong> @hpi.date.ToString("dd MMM yyyy")</span>
+                            </p>
+                        </div>
+                        <div class="col-sm-6 text-right">
+                            <h1 class="text-navy">Purchase Invoice</h1>
+                            <br /><br /><br />
+                            <h5>Vendor:</h5>
+                            <address>
+                                <strong>@hpi.supplier.name</strong><br>
+                                @hpi.supplier.address<br>
+                                @hpi.supplier.city<br>
+                                <abbr title="Phone">P:</abbr> @hpi.supplier.phone
+                            </address>
+                            @*<h5>Ship To:</h5>
+                            <address>
+                                @Html.Raw(hpi.to.Replace("\n", "<br>"))
+                            </address>*@
+                        </div>
+                        
+                        
+                    </div>
+                    <div class="table-responsive m-t">
+                        <table class="table invoice-table table-bordered">
+                            <thead>
+                                <tr>
+                                    <th style="text-align:center">Item</th>
+                                    <th style="text-align:center">Description</th>
+                                    <th style="text-align:center">Qty</th>
+                                    <th style="text-align:center">Unit Price</th>
+                                    <th style="text-align:center">Subtotal</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @{
+                                    foreach (dpurchaseinvoice item in dpi)
+                                    {
+                                        <tr>
+                                            <td>@item.item_category.name</td>
+                                            <td style="text-align:left">@item.itemdescription</td>
+                                            <td>@item.qty</td>
+                                            <td>@item.unitprice.ToString("C2", indonesia)</td>
+                                            <td>@((item.qty * item.unitprice).ToString("C2", indonesia))</td>
+                                        </tr>
+                                    }
+                                }
+                            </tbody>
+                        </table>
+                    </div><!-- /table-responsive -->
+                    <div class="well col-md-6">
+                        <strong>Description: <br /></strong>
+                        @hpi.description
+                    </div>
+                    <table class="table invoice-total">
+                        <tbody>
+                            @if (!hpi.number.Contains("DP"))
+                            {
+                            <tr>
+                                <td><strong>Total :</strong></td>
+                                <td>@((hpi.total + hpi.hpo.dp).ToString("C2", indonesia))</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Down Payment :</strong></td>
+                                <td>@hpi.hpo.dp.ToString("C2", indonesia)</td>
+                            </tr>
+                            }
+                            else
+                            {
+                                <tr>
+                                    <td><strong>Total :</strong></td>
+                                    <td>@(hpi.total.ToString("C2", indonesia))</td>
+                                </tr>
+                            }
+                            <tr>
+                                <td><strong>Discount :</strong></td>
+                                <td>@hpi.diskon.ToString("C2", indonesia)</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Remaining Payment :</strong></td>
+                                <td>@hpi.grandtotal.ToString("C2", indonesia)</td>
+                            </tr>
+                        </tbody>
+                    </table>
+
+                </div>
+            </div>
+        </div>
+                                    }
+                                    ViewBag.Title = "Purchase invoice - " + concat_title ?? "";
+}
+<script type="text/javascript">
+    $(document).ready(function () {
+        var t = $("#myTable").DataTable();
+        t.columns.adjust().draw();
+        $("#btn_delete").click(function(){
+            var id = @Request.QueryString["id"];
+            swal({
+                title: "Are you sure want to delete it?",
+                text: "You can't restore it later",
+                type: "warning",
+                showCancelButton: true,
+                confirmButtonColor: "danger",
+                confirmButtonText: "Yes, Delete It!",
+                closeOnConfirm: false
+            }, function () {
+                $.ajax({
+                    type: "POST",
+                    url: "@Url.Action("delete_it","PurchaseInvoice")",
+                    data: { id:id },
+                success: function (data) {
+                    if(data == "success"){
+                        swal({
+                            title: "Deleted!",
+                            text: "Your data has been deleted.",
+                            type: "success"
+                        }, function () {
+                            window.location = "@Url.Action("Index", "PurchaseInvoice")";
+                        });
+                    }
+                    else{
+                        swal("Failed!", "Invoice has been paid!", "error");
+                    }
+                },
+                error: function (xhr, status, error) {
+                    alert(xhr.responseText);
+                }
+            });
+        });
+    });
+    });
+</script>

@@ -1,0 +1,181 @@
+﻿@{
+    ViewBag.Title = "Master Customer";
+    //ViewBag.Description = "List Page";
+}
+
+<div class="row">
+    <div class="col-xs-12 col-md-12 col-lg-12">
+        <div class="box box-default panel-body">
+            <div class="modal inmodal fade" id="myModal" tabindex="-1" role="dialog" aria-hidden="true">
+                <div class="modal-dialog modal-lg">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Cancel</span></button>
+                            <h4 class="modal-title"></h4>
+                            <small class="font-bold"></small>
+                        </div>
+                        @using (Html.BeginForm("save_customer", "Master", FormMethod.Post))
+                        {
+                            <input name="custId" type="hidden" class="form-control" id="custId" />
+                            <div class="modal-body">
+                                <div class="form-group">
+                                    <label>Customer Name : </label>
+                                    <input name="custName" type="text" class="form-control" id="custName" required />
+                                </div>
+                                <div class="form-group">
+                                    <label>Customer Address : </label>
+                                    <input name="custAddress" type="text" class="form-control" id="custAddress" required />
+                                </div>
+                                <div class="form-group">
+                                    <label>Customer City : </label>
+                                    <input name="custCity" type="text" class="form-control" id="custCity" required />
+                                </div>
+                                <div class="form-group">
+                                    <label>Customer Phone : </label>
+                                    <input name="custPhone" type="text" class="form-control" id="custPhone" required />
+                                </div>
+                                <div class="form-group">
+                                    <label>Customer Description : </label>
+                                    <textarea name="custDesc" class="form-control" id="custDesc"></textarea>
+                                </div>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-white" data-dismiss="modal">Cancel</button>
+                                <button type="submit" class="btn btn-primary">Save changes</button>
+                            </div>
+                        }
+                    </div>
+                </div>
+            </div>
+            <table class="table table-bordered table-hover table-responsive">
+                <thead>
+                    <tr>
+                        <th class="col-md-1">
+                            NO
+                        </th>
+                        <th class="col-md-1 hidden">
+                            ID
+                        </th>
+                        <th class="col-md-2">
+                            NAME
+                        </th>
+                        <th class="col-md-2">
+                            ADDRESS
+                        </th>
+                        <th class="col-md-1">
+                            CITY
+                        </th>
+                        <th class="col-md-2">
+                            PHONE
+                        </th>
+                        <th class="col-md-2">
+                            DESCRIPTION
+                        </th>
+@if (AdminLTE1.Helpers.GlobalFunction.has_privilege(Session["user"].ToString(), "update_or_delete", "master_customer"))
+{
+                        <th class="col-md-2"></th>
+}
+                    </tr>
+                </thead>
+                <tbody>
+                    @{
+                        using (var db = new dbsmsEntities())
+                        {
+                            List<customer> Model = (from ik in db.customers
+                                                    where ik.status==1
+                                                    select ik).ToList();
+
+                            int i = 0;
+                            foreach (customer item in Model)
+                            {
+                                <tr>
+                                    <td>
+                                        @{i++;}
+                                        @i
+                                    </td>
+                                    <td class="hidden">
+                                        @item.id
+                                    </td>
+                                    <td>
+                                        @item.name
+                                    </td>
+                                    <td>
+                                        @item.address
+                                    </td>
+                                    <td>
+                                        @item.city
+                                    </td>
+                                    <td>
+                                        @item.phone
+                                    </td>
+                                    <td>
+                                        @item.description
+                                    </td>
+@if (AdminLTE1.Helpers.GlobalFunction.has_privilege(Session["user"].ToString(), "update_or_delete", "master_customer"))
+{
+                                    <td class="text-center">
+                                        <button class="btn btn-success btn_edit" style="margin-right:10px;" data-toggle="modal" data-target="#myModal">Edit</button>
+                                        <button class="btn btn-danger btn_delete">Delete</button>
+                                    </td>
+}
+                                </tr>
+                                                }
+                                            }
+                    }
+                </tbody>
+            </table>
+@if (AdminLTE1.Helpers.GlobalFunction.has_privilege(Session["user"].ToString(), "insert", "master_customer"))
+{
+            <button class="btn btn-primary pull-right" id="btn_add" data-toggle="modal" data-target="#myModal">Add New Customer</button>
+}
+        </div>
+    </div>
+</div>
+<script type="text/javascript">
+    $(document).ready(function () {
+        @if (!String.IsNullOrEmpty(ViewBag.success))
+        {
+                <text>swal("Success!", "@ViewBag.success", "success");</text>
+        }
+        $(".btn_delete").click(function () {
+            var obj = $(this).parent().parent().children().eq(1).html().trim();
+            swal({
+                title: "Are you sure to delete it?",
+                text: "You can't edit it later",
+                type: "warning",
+                showCancelButton: true,
+                confirmButtonColor: "danger",
+                confirmButtonText: "Yes, Delete It!",
+                closeOnConfirm: false
+            }, function () {
+                @{ string temp = Path.GetDirectoryName(HttpContext.Current.Request.Url.OriginalString);}
+                var temp = '@temp.Replace(@"\",@"\\")';
+                temp = temp.replace('\\', '/');
+                temp = temp.replace(':/', '://');
+                window.location = '/udsms/Master/delete_customer?custId=' + obj;
+            });
+
+        });
+        $('.btn_edit').click(function () {
+            $('#myModal h4').html('Edit Customer');
+            var obj = $(this).parent().parent();
+            $('#myModal #custId').val(obj.children().eq(1).html().trim());
+            $('#myModal #custName').val(obj.children().eq(2).html().trim());
+            $('#myModal #custAddress').val(obj.children().eq(3).html().trim());
+            $('#myModal #custCity').val(obj.children().eq(4).html().trim());
+            $('#myModal #custPhone').val(obj.children().eq(5).html().trim());
+            $('#myModal #custDesc').val(obj.children().eq(6).html().trim());
+        });
+        $('#btn_add').click(function () {
+            $('#myModal h4').html('Add Customer');
+            $('#myModal #custId').val("");
+            $('#myModal #custName').val("");
+            $('#myModal #custAddress').val("");
+            $('#myModal #custCity').val("");
+            $('#myModal #custPhone').val("");
+            $('#myModal #custDesc').val("");
+        });
+
+        $("table").DataTable();
+    });
+</script>

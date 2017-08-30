@@ -31,7 +31,7 @@ namespace AdminLTE1.Controllers
                     Session["user"] = usr.username;
                     return RedirectToAction("Index", "Home");
                 }
-                catch (Exception)
+                catch (Exception e)
                 {
                     TempData["message"] = "Invalid Username or Password";
                 }

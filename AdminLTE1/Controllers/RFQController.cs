@@ -30,7 +30,7 @@ namespace AdminLTE1.Controllers
             }
         }
 
-        public String save_all(String date,long customerid,string to,string description, String projectName, string detail)
+        public String save_all(String number, String date,long customerid,string to,string description, String projectName, string detail)
         {
             try
             {
@@ -50,6 +50,7 @@ namespace AdminLTE1.Controllers
                 using (var db = new dbsmsEntities())
                 {
                     hrfq newdata = new hrfq();
+                    newdata.number = number;
                     newdata.date = datenow;
                     newdata.customerid = customerid;
                     newdata.to = to;
